@@ -17,9 +17,7 @@ before_install:
   - source activate gds
 
 script: 
-  - jupyter nbconvert --to script check_gds_stack.ipynb --output test
-  - cat test.py
-  - python2 test.py
+  - jupyter nbconvert --to notebook --execute check_gds_stack.ipynb --output tested.ipynb
 
 notifications:
     email:
