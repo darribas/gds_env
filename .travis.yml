@@ -14,10 +14,11 @@ before_install:
   - conda update --yes conda
   - conda install --yes psutil
   - chmod +x ./test.sh
+  - conda-env create -f install_gds_stack.yml
+  - source activate gds
 
 script: 
-  - echo "About to test notebook"
-  - ./test.sh
+  - jupyter nbconvert --to notebook --execute check_gds_stack.ipynb --output tested.ipynb
 
 notifications:
     email:
