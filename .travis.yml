@@ -13,7 +13,6 @@ before_install:
   - export PATH=`pwd`/miniconda/bin:$PATH
   - conda update --yes conda
   - conda install --yes psutil
-  - chmod +x ./test.sh
   - conda-env create -f install_gds_stack.yml
   - source activate gds
 
