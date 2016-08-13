@@ -20,7 +20,7 @@ script:
  #- jupyter nbconvert --to markdown --execute --allow-errors check_gds_stack.ipynb --stdout
  #- jupyter nbconvert --to markdown --execute check_gds_stack.ipynb --stdout
   - python tester.py
-  - ipython tester.py
+  - python -m IPython tester.py
 
 notifications:
     email:
