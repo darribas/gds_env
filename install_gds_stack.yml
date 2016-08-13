@@ -19,7 +19,7 @@ dependencies:
  #- qgrid
  #- rasterio
  #- scikit-learn
- #- seaborn
+  - seaborn
  #- statsmodels
  #- xlrd
  #- xlsxwriter
