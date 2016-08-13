@@ -3,25 +3,24 @@ name: gds
 channels:
   - conda-forge
 dependencies:
- #- bokeh
- #- cartopy
- #- clusterpy
- #- dask
+  - bokeh
+  - cartopy
+  - clusterpy
+  - dask
   - geopandas
-  - ipython=5.0
+  - ipython
   - ipywidgets
-  - jupyter=1.*
- #- mplleaflet
- #- networkx
- #- palettable
+  - jupyter
+  - mplleaflet
+  - networkx
+  - palettable
   - pip
   - python=2.7
- #- qgrid
- #- rasterio
- #- scikit-learn
- #- seaborn
- #- statsmodels
- #- xlrd
- #- xlsxwriter
-
+  - qgrid
+  - rasterio
+  - scikit-learn
+  - seaborn
+  - statsmodels
+  - xlrd
+  - xlsxwriter
 
