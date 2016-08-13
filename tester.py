@@ -7,27 +7,6 @@
 # 
 # A successful run of the notebook implies no errors returned in any cell *and* every cell beyond the first one returning a printout of `True`. This ensures a correct environment installed.
 
-# In[2]:
-
-get_ipython().system(u' which python')
-get_ipython().system(u' which jupyter')
-
-
-# In[3]:
-
-import numpy; print(numpy.__version__); print(numpy)
-
-
-# In[4]:
-
-import geopandas; print(geopandas.__version__); print(geopandas)
-
-
-# In[5]:
-
-import pandas; print(pandas.__version__); print(pandas)
-
-
 # ---
 
 # In[1]:
@@ -131,12 +110,11 @@ db.head()
 # In[16]:
 
 import matplotlib.pyplot as plt
-get_ipython().magic(u'matplotlib inline')
 f, ax = plt.subplots(1)
 for poly in db['geometry']:
     gpd.plotting.plot_multipolygon(ax, poly, facecolor='yellow', edgecolor='grey', linewidth=0.1)
 ax.set_axis_off()
-plt.show()
+#plt.show()
 
 
 # In[17]:
@@ -148,13 +126,13 @@ db.crs['init'] = 'epsg:26918'
 
 db_wgs84 = db.to_crs(epsg=4326)
 db_wgs84.plot()
-plt.show()
+#plt.show()
 
 
 # In[19]:
 
 db.plot(column='INC', scheme='fisher_jenks', cmap=plt.matplotlib.cm.Blues)
-plt.show()
+#plt.show()
 
 
 # import numpy as np
@@ -167,4 +145,3 @@ plt.show()
 #           source.bounds.bottom, source.bounds.top)
 # f = plt.figure(figsize=(6, 6))
 # ax = plt.imshow(pix, extent=bounds)
-
