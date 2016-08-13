@@ -17,11 +17,10 @@ before_install:
   - source activate gds
 
 script: 
-  - jupyter nbconvert --to markdown --execute --allow-errors check_gds_stack.ipynb --stdout
-  - jupyter nbconvert --to markdown --execute check_gds_stack.ipynb --stdout
-  - jupyter nbconvert --to script --execute check_gds_stack.ipynb --output auto_tester
-  - python auto_tester.py
+ #- jupyter nbconvert --to markdown --execute --allow-errors check_gds_stack.ipynb --stdout
+ #- jupyter nbconvert --to markdown --execute check_gds_stack.ipynb --stdout
   - python tester.py
+  - ipython tester.py
 
 notifications:
     email:

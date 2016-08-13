@@ -12,13 +12,13 @@
 # In[1]:
 
 import bokeh as bk
-float(bk.__version__[:4]) >= 0.12
+print(float(bk.__version__[:4]) >= 0.12)
 
 
 # In[2]:
 
 import matplotlib as mpl
-float(mpl.__version__[:3]) >= 1.5
+print(float(mpl.__version__[:3]) >= 1.5)
 
 
 # In[3]:
@@ -29,7 +29,7 @@ import mplleaflet as mpll
 # In[4]:
 
 import seaborn as sns
-float(sns.__version__[:3]) >= 0.6
+print(float(sns.__version__[:3]) >= 0.6)
 
 
 # ---
@@ -42,19 +42,19 @@ import qgrid
 # In[6]:
 
 import pandas as pd
-float(pd.__version__[:4]) >= 0.18
+print(float(pd.__version__[:4]) >= 0.18)
 
 
 # In[7]:
 
 import sklearn
-float(sklearn.__version__[:4]) >= 0.17
+print(float(sklearn.__version__[:4]) >= 0.17)
 
 
 # In[8]:
 
 import statsmodels.api as sm
-float(sm.version.version[:3]) >= 0.6
+print(float(sm.version.version[:3]) >= 0.6)
 
 
 # In[9]:
@@ -72,25 +72,25 @@ import xlsxwriter
 # In[11]:
 
 import clusterpy as cl
-float(cl.__version__[:3]) >= 1.0
+print(float(cl.__version__[:3]) >= 1.0)
 
 
 # In[12]:
 
 import fiona
-float(fiona.__version__[:3]) >= 1.7
+print(float(fiona.__version__[:3]) >= 1.7)
 
 
 # In[13]:
 
 import geopandas as gpd
-float(gpd.__version__[:3]) >= 0.2
+print(float(gpd.__version__[:3]) >= 0.2)
 
 
 # In[14]:
 
 import pysal as ps
-float(ps.version[:4]) >= 1.11
+print(float(ps.version[:4]) >= 1.11)
 
 
 # In[20]:
@@ -104,16 +104,15 @@ import rasterio as rio
 
 shp = ps.examples.get_path('columbus.shp')
 db = gpd.read_file(shp)
-db.head()
+print(db.head())
 
 
 # In[16]:
 
 import matplotlib.pyplot as plt
-f, ax = plt.subplots(1)
-for poly in db['geometry']:
-    gpd.plotting.plot_multipolygon(ax, poly, facecolor='yellow', edgecolor='grey', linewidth=0.1)
-ax.set_axis_off()
+#f, ax = plt.subplots(1)
+#db.plot(facefolor='yellow', edgecolor='grey', linewidth=0.1)
+#ax.set_axis_off()
 #plt.show()
 
 
@@ -125,13 +124,13 @@ db.crs['init'] = 'epsg:26918'
 # In[18]:
 
 db_wgs84 = db.to_crs(epsg=4326)
-db_wgs84.plot()
+#db_wgs84.plot()
 #plt.show()
 
 
 # In[19]:
 
-db.plot(column='INC', scheme='fisher_jenks', cmap=plt.matplotlib.cm.Blues)
+#db.plot(column='INC', scheme='fisher_jenks', cmap=plt.matplotlib.cm.Blues)
 #plt.show()
 
 
