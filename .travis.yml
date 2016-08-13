@@ -18,6 +18,9 @@ before_install:
 
 script: 
   - jupyter nbconvert --to markdown --execute --allow-errors check_gds_stack.ipynb --stdout
+  - jupyter nbconvert --to markdown --execute check_gds_stack.ipynb --stdout
+  - python -c 'import numpy; print(numpy.__version__)'
+  - python -c 'import pandas; print(pandas.__version__)'
 
 notifications:
     email:
