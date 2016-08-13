@@ -19,6 +19,8 @@ before_install:
 script: 
   - jupyter nbconvert --to markdown --execute --allow-errors check_gds_stack.ipynb --stdout
   - jupyter nbconvert --to markdown --execute check_gds_stack.ipynb --stdout
+  - jupyter nbconvert --to script --execute check_gds_stack.ipynb --output auto_tester
+  - python auto_tester.py
   - python tester.py
 
 notifications:
