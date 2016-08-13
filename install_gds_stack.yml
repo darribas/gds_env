@@ -20,7 +20,6 @@ dependencies:
  #- qgrid
  #- rasterio
  #- scikit-learn
-  - scipy
  #- seaborn
  #- statsmodels
  #- xlrd
