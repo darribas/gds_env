@@ -15,6 +15,7 @@ dependencies:
  #- networkx
  #- palettable
   - pip
+  - python=2.7
  #- qgrid
  #- rasterio
  #- scikit-learn
