@@ -26,6 +26,7 @@ script:
   - python -c 'import pysal; print(pysal.version);print(pysal)'
   - python -c 'import geopandas; print(geopandas.__version__);print(geopandas)'
   - conda list
+  - python tester.py
 
 notifications:
     email:
