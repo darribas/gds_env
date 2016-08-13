@@ -7,7 +7,7 @@ dependencies:
  #- cartopy
  #- clusterpy
  #- dask
- #- geopandas
+  - geopandas
   - ipython=5.0
   - ipywidgets
   - jupyter=1.*
@@ -15,7 +15,6 @@ dependencies:
  #- mplleaflet
  #- networkx
  #- palettable
-  - pandas
   - pip
   - python=2.7
  #- qgrid
