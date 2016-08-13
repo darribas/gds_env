@@ -8,15 +8,15 @@ dependencies:
  #- clusterpy
  #- dask
  #- geopandas
- #- ipython=5.0
- #- ipywidgets
- #- jupyter=1.*
+  - ipython=5.0
+  - ipywidgets
+  - jupyter=1.*
   - matplotlib
  #- mplleaflet
  #- networkx
  #- palettable
- #- pandas
- #- pip
+  - pandas
+  - pip
  #- qgrid
  #- rasterio
  #- scikit-learn
