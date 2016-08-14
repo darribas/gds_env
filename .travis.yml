@@ -1,4 +1,4 @@
-language: python
+language: objective-c
 sudo: false
 branches:
 only:
@@ -21,6 +21,7 @@ script:
  #- jupyter nbconvert --to markdown --execute check_gds_stack.ipynb --stdout
   - python tester.py
   - python -m IPython tester.py
+  - cat /home/travis/build/darribas/gds_env/miniconda/envs/gds/bin/ipython
 
 notifications:
     email:
