@@ -19,7 +19,7 @@ before_install:
 
 script: 
   - jupyter nbconvert --to markdown --execute --ExecutePreprocessor.timeout=120 --allow-errors check_gds_stack.ipynb --stdout
-  - jupyter nbconvert --to markdown --execute --ExecutePreprocessor.timeout=120 check_gds_stack.ipynb --stdout
+  - jupyter nbconvert --to markdown --execute --ExecutePreprocessor.timeout=120 check_gds_stack.ipynb
 
 notifications:
     email:
