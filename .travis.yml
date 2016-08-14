@@ -18,8 +18,8 @@ before_install:
   - source activate gds
 
 script: 
-  - jupyter nbconvert --to markdown --execute --allow-errors check_gds_stack.ipynb --stdout
-  - jupyter nbconvert --to markdown --execute check_gds_stack.ipynb --stdout
+  - jupyter nbconvert --to markdown --execute --ExecutePreprocessor.timeout=120 --allow-errors check_gds_stack.ipynb --stdout
+  - jupyter nbconvert --to markdown --execute --ExecutePreprocessor.timeout=120 check_gds_stack.ipynb --stdout
 
 notifications:
     email:
