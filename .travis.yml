@@ -17,11 +17,11 @@ before_install:
   - source activate gds
 
 script: 
- #- jupyter nbconvert --to markdown --execute --allow-errors check_gds_stack.ipynb --stdout
- #- jupyter nbconvert --to markdown --execute check_gds_stack.ipynb --stdout
-  - python tester.py
-  - python -m IPython tester.py
-  - cat /home/travis/build/darribas/gds_env/miniconda/envs/gds/bin/ipython
+  - jupyter nbconvert --to markdown --execute --allow-errors check_gds_stack.ipynb --stdout
+  - jupyter nbconvert --to markdown --execute check_gds_stack.ipynb --stdout
+ #- python tester.py
+ #- python -m IPython tester.py
+ #- cat /home/travis/build/darribas/gds_env/miniconda/envs/gds/bin/ipython
 
 notifications:
     email:
