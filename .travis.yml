@@ -25,7 +25,6 @@ notifications:
     email:
         recipients:
             - daniel.arribas.bel@gmail.com
-        on_success: always
         on_failure: always
 
 
