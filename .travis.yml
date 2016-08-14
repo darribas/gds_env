@@ -3,9 +3,9 @@ sudo: false
 branches:
 only:
   - master
-python:
-  - 2.7
-
+os:
+  - linux
+  - osx
 before_install:
   - wget https://repo.continuum.io/miniconda/Miniconda2-latest-Linux-x86_64.sh -O miniconda.sh
   - chmod +x miniconda.sh
@@ -19,9 +19,6 @@ before_install:
 script: 
   - jupyter nbconvert --to markdown --execute --allow-errors check_gds_stack.ipynb --stdout
   - jupyter nbconvert --to markdown --execute check_gds_stack.ipynb --stdout
- #- python tester.py
- #- python -m IPython tester.py
- #- cat /home/travis/build/darribas/gds_env/miniconda/envs/gds/bin/ipython
 
 notifications:
     email:
