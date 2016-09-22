@@ -17,7 +17,7 @@ install:
   - "conda-env create -f install_gds_stack.yml"
 
 test_script:
-  - activate gds
+  - activate gds_test
   - jupyter nbconvert --to markdown --execute --ExecutePreprocessor.timeout=120 --allow-errors check_gds_stack.ipynb --stdout
   - jupyter nbconvert --to markdown --execute --ExecutePreprocessor.timeout=120 check_gds_stack.ipynb
   - conda list --explicit
