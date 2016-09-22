@@ -18,7 +18,7 @@ before_install:
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then conda create -n gds_fixed -f gds_requirements_linux; fi
 
 script: 
-  - source activate gds
+  - source activate gds_test
     #- jupyter nbconvert --to markdown --execute --ExecutePreprocessor.timeout=120 --allow-errors check_gds_stack.ipynb --stdout
   - jupyter nbconvert --to markdown --execute --ExecutePreprocessor.timeout=120 check_gds_stack.ipynb
   - source activate gds_fixed
