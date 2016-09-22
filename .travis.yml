@@ -21,7 +21,8 @@ script:
   - source activate gds_test
     #- jupyter nbconvert --to markdown --execute --ExecutePreprocessor.timeout=120 --allow-errors check_gds_stack.ipynb --stdout
   - jupyter nbconvert --to markdown --execute --ExecutePreprocessor.timeout=120 check_gds_stack.ipynb
-  - source activate gds_fixed
+  - conda list --explicit
+    #- source activate gds_fixed
     #- jupyter nbconvert --to markdown --execute --ExecutePreprocessor.timeout=120 check_gds_stack.ipynb
 
 notifications:
