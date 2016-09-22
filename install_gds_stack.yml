@@ -18,7 +18,7 @@ dependencies:
   - palettable
   - PIL
   - pip:
-      contextily
+      - contextily
   - qgrid
   - rasterio
   - scikit-learn
