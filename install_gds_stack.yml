@@ -1,6 +1,7 @@
 # Run `conda-env create -f install_gds_stack.yml`
 name: gds_test
 channels:
+  - ioos
   - conda-forge
 dependencies:
   - python=2.7
