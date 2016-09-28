@@ -19,6 +19,7 @@ install:
   - conda update -q conda
   - conda info -a
     #- conda-env create -f install_gds_stack.yml
+  - echo gds_requirements_win-%PYTHON_ARCH%.txt
   - "conda create --name gds_fixed --file gds_requirements_win-%PYTHON_ARCH%.txt"
   - activate gds_fixed
   - pip install contextily
