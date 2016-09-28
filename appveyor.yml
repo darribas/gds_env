@@ -18,17 +18,15 @@ install:
   - conda config --set always_yes yes --set changeps1 no
   - conda update -q conda
   - conda info -a
-  - conda-env create -f install_gds_stack.yml
+    #- conda-env create -f install_gds_stack.yml
   - "conda create --name gds_fixed --file gds_requirements_win-%PYTHON_ARCH%.txt"
   - activate gds_fixed
   - pip install contextily
 
 test_script:
-  - activate gds_test
+    #- activate gds_test
     #- jupyter nbconvert --to markdown --execute --ExecutePreprocessor.timeout=120 --allow-errors check_gds_stack.ipynb --stdout
-  - jupyter nbconvert --execute --ExecutePreprocessor.timeout=120 check_gds_stack.ipynb
-  - conda list --explicit
-  - conda info -e
+    #- jupyter nbconvert --execute --ExecutePreprocessor.timeout=120 check_gds_stack.ipynb
   - activate gds_fixed
   - jupyter nbconvert --execute --ExecutePreprocessor.timeout=120 check_gds_stack.ipynb
 
