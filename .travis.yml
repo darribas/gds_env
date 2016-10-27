@@ -13,7 +13,7 @@ before_install:
   - ./miniconda.sh -b -p ./miniconda
   - export PATH=`pwd`/miniconda/bin:$PATH
   - conda update --yes conda
-  - conda install --yes psutil
+  - conda install --yes psutil yaml
   - conda-env create -f install_gds_stack.yml
     #- if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then conda create --name gds_fixed --file gds_requirements_linux-64.txt; fi
     #- if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then conda create --name gds_fixed --file gds_requirements_osx-64.txt; fi
