@@ -3,12 +3,14 @@ name: gds_test
 channels:
   - ioos
   - conda-forge
+  - bokeh
 dependencies:
   - python=2.7
   - pip
   - bokeh
   - cartopy
   - clusterpy
+  - datashader
   - dask
   - geopandas
   - ipython
