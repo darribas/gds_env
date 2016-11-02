@@ -2,6 +2,7 @@
 name: gds_test
 channels:
   - ioos
+  - defaults
   - conda-forge
   - bokeh
 dependencies:
