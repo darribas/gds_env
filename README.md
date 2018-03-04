@@ -22,5 +22,7 @@ Or built as a Docker container (for which you will need [Docker](https://www.doc
 | Windows | [![Build status](https://ci.appveyor.com/api/projects/status/9l1j8ku9pdq7j91f?svg=true)](https://ci.appveyor.com/project/darribas/gds-env) |
 -->
 
-![GDSL](gdsl.png)
+---
+
+[![GDSL](gdsl.png)](https://www.liverpool.ac.uk/geographic-data-science/)
 
