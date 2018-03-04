@@ -15,12 +15,10 @@ Or built as a Docker container (for which you will need [Docker](https://www.doc
 
 > `docker build -t gds .
 
-<!--
 | OS      | Status |
 | ------- | -----------------|
 | Linux & macOS   | [![Build Status](https://travis-ci.org/darribas/gds_env.svg?branch=master)](https://travis-ci.org/darribas/gds_env) |
 | Windows | [![Build status](https://ci.appveyor.com/api/projects/status/9l1j8ku9pdq7j91f?svg=true)](https://ci.appveyor.com/project/darribas/gds-env) |
--->
 
 ---
 

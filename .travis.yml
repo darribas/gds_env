@@ -7,21 +7,17 @@ os:
   - osx
   - linux
 before_install:
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then wget https://repo.continuum.io/miniconda/Miniconda2-latest-MacOSX-x86_64.sh -O miniconda.sh; fi
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then wget https://repo.continuum.io/miniconda/Miniconda2-latest-Linux-x86_64.sh -O miniconda.sh; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then wget https://repo.continuum.io/miniconda/Miniconda3-latest-MacOSX-x86_64.sh -O miniconda.sh; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh; fi
   - chmod +x miniconda.sh
   - ./miniconda.sh -b -p ./miniconda
   - export PATH=`pwd`/miniconda/bin:$PATH
   - conda update --yes conda
   - conda install --yes psutil yaml pyyaml
-  - conda-env create -f install_gds_stack.yml
-    #- if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then conda create --name gds_fixed --file gds_requirements_linux-64.txt; fi
-    #- if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then conda create --name gds_fixed --file gds_requirements_osx-64.txt; fi
-    #- source activate gds_fixed
-    #- pip install contextily
+  - conda-env create -f gds_stack.yml
 
 script: 
-  - source activate gds_test
+  - source activate gds
     #- jupyter nbconvert --to markdown --execute --ExecutePreprocessor.timeout=480 --allow-errors check_gds_stack.ipynb --stdout
   - jupyter nbconvert --to markdown --execute --ExecutePreprocessor.timeout=480 check_gds_stack.ipynb
     #- conda list --explicit

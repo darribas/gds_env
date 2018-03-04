@@ -4,11 +4,11 @@ build: false
 environment:
   matrix:
     - PYTHON: "C:\\Miniconda-x64"
-      PYTHON_VERSION: "2.7"
+      PYTHON_VERSION: "3.5"
       PYTHON_ARCH: "64"
     - PYTHON: "C:\\Miniconda"
       PYTHON_VERSION: "2.7"
-      PYTHON_ARCH: "32"
+      PYTHON_ARCH: "64"
 
 init:
   - "ECHO %PYTHON_VERSION% %MINICONDA%"
@@ -18,16 +18,10 @@ install:
   - conda config --set always_yes yes --set changeps1 no
   - conda update -q conda
   - conda info -a
-  - conda-env create -f install_gds_stack.yml
-    #- echo gds_requirements_win-%PYTHON_ARCH%.txt
-    #- "conda create --name gds_fixed --file gds_requirements_win-%PYTHON_ARCH%.txt"
-    #- activate gds_fixed
-    #- pip install contextily
+  - conda-env create -f gds_stack.yml
 
 test_script:
-  - activate gds_test
+  - activate gds
     #- jupyter nbconvert --to markdown --execute --ExecutePreprocessor.timeout=120 --allow-errors check_gds_stack.ipynb --stdout
   - jupyter nbconvert --execute --ExecutePreprocessor.timeout=120 check_gds_stack.ipynb
-    #- activate gds_fixed
-    #- jupyter nbconvert --execute --ExecutePreprocessor.timeout=120 check_gds_stack.ipynb
 
