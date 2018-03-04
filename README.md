@@ -24,5 +24,5 @@ Or built as a Docker container (for which you will need [Docker](https://www.doc
 
 ---
 
-[![GDSL](gdsl.png | width=100)](https://www.liverpool.ac.uk/geographic-data-science/)
+[<img src="gdsl.png" width="250">](https://www.liverpool.ac.uk/geographic-data-science/)
 
