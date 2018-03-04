@@ -1,9 +1,17 @@
-# Setup and testing of an environment for the GDS stack
+# The GDS stack
 
 * [Dani Arribas-Bel](http://darribas.org)
   [[@darribas](http://twitter.com/darribas)]
 
-This environment is being tested on Python-2 for the following OS architectures:
+This repository contains a `conda` environment with a comprehensive and
+opinionated list of Python and R packages for Geographic Data Science. The
+environment can be installed natively on a machine:
+
+> `conda-env create -f install_gds_stack.yml`
+
+Or built as a Docker container (for which you will need [Docker](https://www.docker.com)):
+
+> `docker build -t gds .
 
 | OS      | Status |
 | ------- | -----------------|
