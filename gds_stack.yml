@@ -1,33 +1,56 @@
 # Run `conda-env create -f install_gds_stack.yml`
-name: gds_test
+name: gds
 channels:
-  - ioos
-  - defaults
   - conda-forge
-  - bokeh
 dependencies:
-  - python=2.7
+  - python=3.5
   - pip
   - bokeh
-  - cartopy
-  - clusterpy
-  - datashader
   - dask
+  - feather-format
   - geopandas
   - ipython
   - ipywidgets
   - jupyter
-  - mplleaflet
+  - jupyterlab
+  - mkl-service
   - networkx
   - palettable
-  - PIL
+  - pillow
   - pip:
-      - contextily
-  - qgrid
+      - pystan
+      - bambi
+  - contextily
+  - pymc3
+  - pysal
   - rasterio
   - scikit-learn
   - seaborn
   - statsmodels
   - xlrd
   - xlsxwriter
-
+  # R
+  - r-base
+  - r-caret
+  - r-crayon
+  - r-devtools
+  - r-feather
+  - r-forecast
+  - r-ggmap
+  - r-gstat
+  - r-hexbin
+  - r-irkernel
+  - r-knitr
+  - r-lme4
+  - r-nycflights13
+  - r-plyr
+  - r-randomforest
+  - r-rmarkdown
+  - r-rcurl
+  - r-reshape2
+  - r-rgeos
+  - r-rsqlite
+  - r-sf
+  - r-shiny
+  - r-tidyverse
+  - rpy2
