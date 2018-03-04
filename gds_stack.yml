@@ -52,5 +52,6 @@ dependencies:
   - r-rsqlite
   - r-sf
   - r-shiny
+  - r-spdep
   - r-tidyverse
   - rpy2
