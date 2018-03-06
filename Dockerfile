@@ -28,10 +28,15 @@ RUN apt-get install -y curl grep sed dpkg && \
 
 RUN apt-get install -y g++
 
+#RUN apt-get install -y pandoc texlive-full
+
 ENV PATH /opt/conda/bin:$PATH
 
 RUN conda-env create -f gds_stack.yml
 RUN conda clean -tipsy
+
+RUN source activate gds && \
+    R CMD INSTALL tufte
 
 ENTRYPOINT [ "tini", "--" ]
 CMD [ "start.sh" ]

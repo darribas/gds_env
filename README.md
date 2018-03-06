@@ -28,3 +28,12 @@ The container can be run as:
 
 [<img src="gdsl.png" width="250">](https://www.liverpool.ac.uk/geographic-data-science/)
 
+---
+
+ToDo:
+
+- R packages to install:
+    - `tmap`
+    - `GISTools`
+- Update python check notebook
+- Create R check notebook
