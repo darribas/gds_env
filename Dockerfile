@@ -6,9 +6,9 @@ MAINTAINER Kamil Kwiek <kamil.kwiek@continuum.io>
 
 ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
 
-WORKDIR /mlm
+WORKDIR /gds
 
-ADD . /mlm
+ADD . /gds
 
 RUN apt-get update --fix-missing && apt-get install -y wget bzip2 ca-certificates \
     libglib2.0-0 libxext6 libsm6 libxrender1 \

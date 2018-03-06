@@ -15,6 +15,10 @@ Or built as a Docker container (for which you will need [Docker](https://www.doc
 
 > `docker build -t gds .
 
+The container can be run as:
+
+> `docker run --rm -p 8888:8888 -v /Users/dani/:/gds -i -t gds start.sh`
+
 | OS      | Status |
 | ------- | -----------------|
 | Linux & macOS   | [![Build Status](https://travis-ci.org/darribas/gds_env.svg?branch=master)](https://travis-ci.org/darribas/gds_env) |
