@@ -1,8 +1,8 @@
 # This is a slight modification from
 # https://github.com/ContinuumIO/docker-images/blob/master/miniconda3/Dockerfile
-FROM debian:8.5
+FROM rocker/geospatial:latest
 
-MAINTAINER Kamil Kwiek <kamil.kwiek@continuum.io>
+MAINTAINER Dani Arribas-Bel <D.Arribas-Bel@liverpool.ac.uk>
 
 ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
 
@@ -28,15 +28,12 @@ RUN apt-get install -y curl grep sed dpkg && \
 
 RUN apt-get install -y g++
 
-#RUN apt-get install -y pandoc texlive-full
+RUN apt-get install -y pandoc
 
 ENV PATH /opt/conda/bin:$PATH
 
 RUN conda-env create -f gds_stack.yml
 RUN conda clean -tipsy
-
-RUN source activate gds && \
-    R CMD INSTALL tufte
 
 ENTRYPOINT [ "tini", "--" ]
 CMD [ "start.sh" ]

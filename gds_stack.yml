@@ -30,36 +30,36 @@ dependencies:
   - xlrd
   - xlsxwriter
   # R
-  - r-arm
-  - r-base
-  - r-caret
-  - r-crayon
-  - r-data.table
-  - r-devtools
-  - r-feather
-  - r-forecast
-  - r-ggmap
-  - r-gstat
-  - r-hexbin
-  - r-igraph
+# - r-arm
+# - r-base
+# - r-caret
+# - r-crayon
+# - r-data.table
+# - r-devtools
+# - r-feather
+# - r-forecast
+# - r-ggmap
+# - r-gstat
+# - r-hexbin
+# - r-igraph
   - r-irkernel
-  - r-knitr
-  - r-lme4
-  - r-nlme
-  - r-nycflights13
-  - r-plyr
-  - r-randomforest
-  - r-raster
-  - r-rcurl
-  - r-reshape2
-  - r-rgeos
-  - r-rmarkdown
-  - r-rodbc
-  - r-rsqlite
-  - r-sf
-  - r-shiny
-  - r-spatstat
-  - r-spdep
-  - r-splancs
-  - r-tidyverse
+# - r-knitr
+# - r-lme4
+# - r-nlme
+# - r-nycflights13
+# - r-plyr
+# - r-randomforest
+# - r-raster
+# - r-rcurl
+# - r-reshape2
+# - r-rgeos
+# - r-rmarkdown
+# - r-rodbc
+# - r-rsqlite
+# - r-sf
+# - r-shiny
+# - r-spatstat
+# - r-spdep
+# - r-splancs
+# - r-tidyverse
   - rpy2
