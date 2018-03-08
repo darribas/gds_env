@@ -33,7 +33,8 @@ ADD . /gds
 # https://github.com/pdonorio/dockerizing/blob/master/python/py3dataconda/Dockerfile
 RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 
-RUN apt-get install -y g++ gcc
+RUN apt-get update && \
+    install -y g++ gcc libreadline-dev
 
 #RUN apt-get install -y pandoc texlive-full
 
@@ -44,12 +45,12 @@ RUN conda install -n base -c conda-forge jupyter_client
 
 RUN conda-env create -f gds_stack.yml
 
-RUN R -e "source('install.R')"
+#RUN R -e "source('install.R')"
 
-RUN source /opt/conda/bin/activate gds && \
-    R -e "devtools::install_github('IRkernel/IRkernel'); \
-          library(IRkernel); \
-          IRkernel::installspec();"
+#RUN source /opt/conda/bin/activate gds && \
+#    R -e "devtools::install_github('IRkernel/IRkernel'); \
+#          library(IRkernel); \
+#          IRkernel::installspec();"
 
 RUN conda clean -tipsy
 #---
