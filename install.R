@@ -1,0 +1,31 @@
+pkgs <- c('devtools',
+          'GISTools', 
+          'gstat', 
+          'hexbin', 
+          'igraph', 
+          'irkernel', 
+          'knitr', 
+          'lme4', 
+          'nlme', 
+          'plyr', 
+          'randomforest', 
+          'raster', 
+          'rcurl', 
+          'reshape2', 
+          'rgdal', 
+          'rgeos', 
+          'rmarkdown',
+          'rodbc', 
+          'rsqlite', 
+          'sf',
+          'shiny',
+          'spatstat',
+          'spdep',
+          'splancs',
+          'tidyverse',
+          'tmap',
+          'tufte')
+
+for(p in pkgs){
+    install.packages(p, dependencies=T, repos='http://cran.rstudio.com/') 
+}

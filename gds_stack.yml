@@ -3,7 +3,7 @@ name: gds
 channels:
   - conda-forge
 dependencies:
-# - python=3.5
+# - python=3
 # - pip
 # - bokeh
 # - dask
@@ -11,8 +11,9 @@ dependencies:
 # - geopandas
 # - ipython
 # - ipywidgets
-# - jupyter
-# - jupyterlab
+  - jupyter
+  - jupyterlab
+  - jupyter_client
 # - mkl-service
 # - networkx
 # - palettable
@@ -32,7 +33,7 @@ dependencies:
 # - xlsxwriter
 # # R
 # - r-arm
-  - r-base
+# - r-base
 # - r-caret
 # - r-crayon
 # - r-data.table
@@ -56,6 +57,7 @@ dependencies:
 # - r-rmarkdown
 # - r-rodbc
 # - r-rsqlite
+# - r-rstan
 # - r-sf
 # - r-shiny
 # - r-spatstat
