@@ -24,42 +24,37 @@ RUN chmod +x /usr/bin/tini
 
 ENV PATH /opt/conda/bin:$PATH
 #---
-
 WORKDIR /gds
 
 ADD . /gds
 
-# Force bash always
-# https://github.com/pdonorio/dockerizing/blob/master/python/py3dataconda/Dockerfile
-RUN rm /bin/sh && ln -s /bin/bash /bin/sh
-
 RUN apt-get update && \
-    install -y g++ gcc libreadline-dev
-
-#RUN apt-get install -y pandoc texlive-full
-
+    apt-get install -y g++ gcc libreadline-dev
 #---
 # Python
 RUN conda update -y conda
-RUN conda install -n base -c conda-forge jupyter_client
-
 RUN conda-env create -f gds_stack.yml
-
-#RUN R -e "source('install.R')"
-
-#RUN source /opt/conda/bin/activate gds && \
-#    R -e "devtools::install_github('IRkernel/IRkernel'); \
-#          library(IRkernel); \
-#          IRkernel::installspec();"
-
 RUN conda clean -tipsy
 #---
+# R
+
+RUN R -e "source('install.R')"
+RUN ln -s /opt/conda/envs/gds/bin/jupyter /usr/local/bin
+RUN R -e "install.packages('JuniperKernel'); \
+          library(JuniperKernel); \
+          JuniperKernel::installJuniper(prefix='/opt/conda/envs/gds/');"
+
+#---
+RUN chmod 777 start_jupyterlab
+RUN chmod 777 start_rstudio
+RUN chmod +x start_jupyterlab
+RUN chmod +x start_rstudio
 
 ENTRYPOINT [ "tini", "--" ]
-CMD [ "/bin/bash" ]
-#ENTRYPOINT [ "tini", "--" ]
-#CMD [ "start.sh" ]
+CMD [ "start.sh" ]
 
 # Add local files as late as possible to avoid cache busting
 COPY start.sh /usr/local/bin/
+COPY start_jupyterlab /usr/local/bin
+COPY start_rstudio /usr/local/bin
 
