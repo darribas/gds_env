@@ -3,32 +3,32 @@ name: gds
 channels:
   - conda-forge
 dependencies:
-# - python=3
-# - pip
-# - bokeh
-# - dask
-# - feather-format
-# - geopandas
-# - ipython
-# - ipywidgets
+  - python=3
+  - pip
+  - bokeh
+  - dask
+  - feather-format
+  - geopandas
+  - ipython
+  - ipywidgets
   - jupyter
   - jupyterlab
   - jupyter_client
-# - mkl-service
-# - networkx
-# - palettable
-# - pillow
-# - pip:
-#     - pystan
-#     - bambi
-#     - rpy2
-# - contextily
-# - pymc3
-# - pysal
-# - rasterio
-# - scikit-learn
-# - seaborn
-# - statsmodels
-# - xlrd
-# - xlsxwriter
+  - mkl-service
+  - networkx
+  - palettable
+  - pillow
+  - pip:
+      - pystan
+      - bambi
+      - rpy2
+  - contextily
+  - pymc3
+  - pysal
+  - rasterio
+  - scikit-learn
+  - seaborn
+  - statsmodels
+  - xlrd
+  - xlsxwriter
 
