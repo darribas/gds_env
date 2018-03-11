@@ -44,7 +44,7 @@ RUN R -e "library(devtools); \
           devtools::install_github('IRkernel/IRkernel'); \
           library(IRkernel); \
           IRkernel::installspec(prefix='/opt/conda/envs/gds/');"
-
+ENV LD_LIBRARY_PATH /usr/local/lib/R/lib/:${LD_LIBRARY_PATH}
 #---
 
 ENTRYPOINT [ "tini", "--" ]
