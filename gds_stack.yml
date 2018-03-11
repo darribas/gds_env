@@ -16,6 +16,7 @@ dependencies:
   - jupyter_client
   - mkl-service
   - networkx
+  - osmnx
   - palettable
   - pillow
   - pip:
