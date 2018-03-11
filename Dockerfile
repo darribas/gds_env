@@ -45,10 +45,6 @@ RUN R -e "install.packages('JuniperKernel'); \
           JuniperKernel::installJuniper(prefix='/opt/conda/envs/gds/');"
 
 #---
-RUN chmod 777 start_jupyterlab
-RUN chmod 777 start_rstudio
-RUN chmod +x start_jupyterlab
-RUN chmod +x start_rstudio
 
 ENTRYPOINT [ "tini", "--" ]
 CMD [ "start.sh" ]
@@ -57,4 +53,8 @@ CMD [ "start.sh" ]
 COPY start.sh /usr/local/bin/
 COPY start_jupyterlab /usr/local/bin
 COPY start_rstudio /usr/local/bin
+RUN chmod +x /usr/local/bin/start_jupyterlab
+RUN chmod +x /usr/local/bin/start_rstudio
+RUN chmod 777 /usr/local/bin/start_jupyterlab
+RUN chmod 777 /usr/local/bin/start_rstudio
 
