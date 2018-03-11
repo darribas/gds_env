@@ -71,7 +71,6 @@ Which is also a short for:
 
 Currently, both R and Python work as expected. However, the following issues are known:
 
-- `rpy2` does not load correctly in the notebook ([#2](https://github.com/darribas/gds_env/issues/2))
 - `JuniperKernel` does not display graphics ([#3](https://github.com/darribas/gds_env/issues/1)). This issue has been worked around by using `IRkernel`
 
 ---
