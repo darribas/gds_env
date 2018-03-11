@@ -7,7 +7,7 @@ This repository contains a `docker` container that includes:
 
 * A full Python stack ready for geospatial analysis (see `gds_stack.yml` for a detailed list).
 * A full R stack ready for geospatial analysis (see `install.R` for a detailed list).
-* Both the [`JuniperKernel`](https://github.com/JuniperKernel/JuniperKernel) and [`rpy2`](https://bitbucket.org/rpy2/rpy2) channels to interact with R through Python.
+* Both the [`IRkernel`](https://github.com/IRkernel/IRkernel) and [`rpy2`](https://bitbucket.org/rpy2/rpy2) channels to interact with R through Python.
 * A full LaTeX distribution.
 * Additional development utilities (e.g. `pandoc`, `git`, etc.).
 
@@ -72,7 +72,7 @@ Which is also a short for:
 Currently, both R and Python work as expected. However, the following issues are known:
 
 - `rpy2` does not load correctly in the notebook ([#2](https://github.com/darribas/gds_env/issues/2))
-- The `JuniperKernel` does not display graphics ([#3](https://github.com/darribas/gds_env/issues/1))
+- `JuniperKernel` does not display graphics ([#3](https://github.com/darribas/gds_env/issues/1)). This issue has been worked around by using `IRkernel`
 
 ---
 

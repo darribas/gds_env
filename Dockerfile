@@ -40,9 +40,10 @@ RUN conda clean -tipsy
 
 RUN R -e "source('install.R')"
 RUN ln -s /opt/conda/envs/gds/bin/jupyter /usr/local/bin
-RUN R -e "install.packages('JuniperKernel'); \
-          library(JuniperKernel); \
-          JuniperKernel::installJuniper(prefix='/opt/conda/envs/gds/');"
+RUN R -e "library(devtools); \
+          devtools::install_github('IRkernel/IRkernel'); \
+          library(IRkernel); \
+          IRkernel::installspec(prefix='/opt/conda/envs/gds/');"
 
 #---
 
