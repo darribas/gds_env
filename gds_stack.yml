@@ -20,8 +20,9 @@ dependencies:
   - palettable
   - pillow
   - pip:
-      - pystan
       - bambi
+      - pystan
+      - polyline
       - rpy2
   - contextily
   - pymc3
