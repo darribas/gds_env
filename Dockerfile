@@ -23,7 +23,7 @@ ENV PATH /opt/conda/bin:$PATH
 # https://github.com/jupyter/docker-stacks/blob/master/base-notebook/Dockerfile
 ENV CONDA_DIR=/opt/conda \
     SHELL=/bin/bash \
-    NB_USER=jovyan \
+    NB_USER=gdser \
     NB_UID=1001 \
     NB_GID=102 \
     LC_ALL=en_US.UTF-8 \
@@ -33,7 +33,7 @@ ENV PATH=$CONDA_DIR/bin:$PATH \
     HOME=/home/$NB_USER
 
 ADD fix-permissions /usr/local/bin/fix-permissions
-# Create jovyan user with UID=1000 and in the 'users' group
+# Create user with UID=1000 and in the 'users' group
 # and make sure these dirs are writable by the `users` group.
 RUN useradd -m -s /bin/bash -N -u $NB_UID $NB_USER && \
     mkdir -p $CONDA_DIR && \
@@ -42,12 +42,16 @@ RUN useradd -m -s /bin/bash -N -u $NB_UID $NB_USER && \
 #   fix-permissions $HOME && \
 #   fix-permissions $CONDA_DIR
 
+RUN addgroup $NB_USER staff
+RUN addgroup $NB_USER rstudio
+# User set up for RStudio
+RUN echo "gdser:gdser" | chpasswd
+RUN usermod -a -G staff $NB_USER
+RUN usermod -a -G rstudio $NB_USER
+
 USER $NB_UID
 
-# Setup work directory for backward-compatibility
-RUN mkdir /home/$NB_USER/work 
-#   fix-permissions /home/$NB_USER
-# Install conda as jovyan and check the md5 sum provided on the download site
+# Install conda as user and check the md5 sum provided on the download site
 ENV MINICONDA_VERSION 4.3.30
 RUN cd /tmp && \
     wget --quiet https://repo.continuum.io/miniconda/Miniconda3-${MINICONDA_VERSION}-Linux-x86_64.sh && \
@@ -65,12 +69,13 @@ RUN cd /tmp && \
 #---
 WORKDIR $HOME
 
-ADD . $HOME
+RUN mkdir $HOME/env
+ADD . $HOME/env
 
 #---
 # Python
 RUN conda update -y conda
-RUN conda-env create -f gds_stack.yml
+RUN conda-env create -f $HOME/env/gds_stack.yml
 RUN conda clean -tipsy
 #---
 # R
