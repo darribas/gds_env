@@ -23,33 +23,34 @@ ENV PATH /opt/conda/bin:$PATH
 # https://github.com/jupyter/docker-stacks/blob/master/base-notebook/Dockerfile
 ENV CONDA_DIR=/opt/conda \
     SHELL=/bin/bash \
-    NB_USER=gdser \
-    NB_UID=1001 \
-    NB_GID=102 \
+#   NB_USER=gdser \
+#   NB_UID=1001 \
+#   NB_GID=102 \
     LC_ALL=en_US.UTF-8 \
     LANG=en_US.UTF-8 \
     LANGUAGE=en_US.UTF-8
 ENV PATH=$CONDA_DIR/bin:$PATH \
-    HOME=/home/$NB_USER
+    HOME=/home/gds
+#   HOME=/home/$NB_USER
 
 ADD fix-permissions /usr/local/bin/fix-permissions
 # Create user with UID=1000 and in the 'users' group
 # and make sure these dirs are writable by the `users` group.
-RUN useradd -m -s /bin/bash -N -u $NB_UID $NB_USER && \
-    mkdir -p $CONDA_DIR && \
-    chown $NB_USER:$NB_GID $CONDA_DIR && \
-    chmod g+w /etc/passwd /etc/group 
+#RUN useradd -m -s /bin/bash -N -u $NB_UID $NB_USER && \
+#   mkdir -p $CONDA_DIR && \
+#   chown $NB_USER:$NB_GID $CONDA_DIR && \
+#   chmod g+w /etc/passwd /etc/group 
 #   fix-permissions $HOME && \
 #   fix-permissions $CONDA_DIR
 
-RUN addgroup $NB_USER staff
-RUN addgroup $NB_USER rstudio
+#RUN addgroup $NB_USER staff
+#RUN addgroup $NB_USER rstudio
 # User set up for RStudio
-RUN echo "gdser:gdser" | chpasswd
-RUN usermod -a -G staff $NB_USER
-RUN usermod -a -G rstudio $NB_USER
+#RUN echo "gdser:gdser" | chpasswd
+#RUN usermod -a -G staff $NB_USER
+#RUN usermod -a -G rstudio $NB_USER
 
-USER $NB_UID
+#USER $NB_UID
 
 # Install conda as user and check the md5 sum provided on the download site
 ENV MINICONDA_VERSION 4.3.30
@@ -63,7 +64,7 @@ RUN cd /tmp && \
     $CONDA_DIR/bin/conda config --system --set show_channel_urls true && \
     $CONDA_DIR/bin/conda update --all --quiet --yes && \
     conda clean -tipsy && \
-    rm -rf /home/$NB_USER/.cache/yarn 
+    rm -rf /home/gds/.cache/yarn 
 #   fix-permissions $CONDA_DIR && \
 #   fix-permissions /home/$NB_USER
 #---
@@ -106,4 +107,4 @@ RUN chmod +x /usr/local/bin/start_rstudio
 RUN chmod 777 /usr/local/bin/start_jupyterlab
 RUN chmod 777 /usr/local/bin/start_rstudio
 
-USER $NB_UID
+#USER $NB_UID
