@@ -2,8 +2,6 @@ FROM rocker/geospatial:latest
 
 MAINTAINER Dani Arribas-Bel <D.Arribas-Bel@liverpool.ac.uk>
 
-USER root
-
 #---
 # https://github.com/ContinuumIO/docker-images/blob/master/miniconda3/Dockerfile
 ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
@@ -23,34 +21,27 @@ ENV PATH /opt/conda/bin:$PATH
 # https://github.com/jupyter/docker-stacks/blob/master/base-notebook/Dockerfile
 ENV CONDA_DIR=/opt/conda \
     SHELL=/bin/bash \
-#   NB_USER=gdser \
-#   NB_UID=1001 \
-#   NB_GID=102 \
+    NB_USER=gdser \
+    NB_UID=1001 \
+    NB_GID=102 \
     LC_ALL=en_US.UTF-8 \
     LANG=en_US.UTF-8 \
-    LANGUAGE=en_US.UTF-8
+    LANGUAGE=en_US.UTF-8 \
+    TERM=xterm-color
 ENV PATH=$CONDA_DIR/bin:$PATH \
-    HOME=/home/gds
-#   HOME=/home/$NB_USER
+    HOME=/home/$NB_USER
 
-ADD fix-permissions /usr/local/bin/fix-permissions
 # Create user with UID=1000 and in the 'users' group
 # and make sure these dirs are writable by the `users` group.
-#RUN useradd -m -s /bin/bash -N -u $NB_UID $NB_USER && \
-#   mkdir -p $CONDA_DIR && \
-#   chown $NB_USER:$NB_GID $CONDA_DIR && \
-#   chmod g+w /etc/passwd /etc/group 
-#   fix-permissions $HOME && \
-#   fix-permissions $CONDA_DIR
+RUN useradd -m -s /bin/bash -N -u $NB_UID $NB_USER && \
+    mkdir -p $CONDA_DIR && \
+    chown $NB_USER:$NB_GID $CONDA_DIR && \
+    chmod g+w /etc/passwd /etc/group 
 
-#RUN addgroup $NB_USER staff
-#RUN addgroup $NB_USER rstudio
 # User set up for RStudio
-#RUN echo "gdser:gdser" | chpasswd
-#RUN usermod -a -G staff $NB_USER
-#RUN usermod -a -G rstudio $NB_USER
-
-#USER $NB_UID
+RUN echo "gdser:gdser" | chpasswd
+RUN usermod -a -G staff $NB_USER
+RUN usermod -a -G rstudio $NB_USER
 
 # Install conda as user and check the md5 sum provided on the download site
 ENV MINICONDA_VERSION 4.3.30
@@ -64,12 +55,8 @@ RUN cd /tmp && \
     $CONDA_DIR/bin/conda config --system --set show_channel_urls true && \
     $CONDA_DIR/bin/conda update --all --quiet --yes && \
     conda clean -tipsy && \
-    rm -rf /home/gds/.cache/yarn 
-#   fix-permissions $CONDA_DIR && \
-#   fix-permissions /home/$NB_USER
+    rm -rf $HOME/.cache/yarn 
 #---
-WORKDIR $HOME
-
 RUN mkdir $HOME/env
 ADD . $HOME/env
 
@@ -81,16 +68,33 @@ RUN conda clean -tipsy
 #---
 # R
 
-USER root
+WORKDIR $HOME
+RUN R -e "source('env/install.R')"
+RUN ln -s /opt/conda/envs/gds/bin/jupyter /usr/local/bin
+RUN R -e "library(devtools); \
+          devtools::install_github('IRkernel/IRkernel'); \
+          library(IRkernel); \
+          IRkernel::installspec(prefix='/opt/conda/envs/gds/');"
+ENV LD_LIBRARY_PATH /usr/local/lib/R/lib/:${LD_LIBRARY_PATH}
+#----------
+# Decktapte
+#----------
+RUN apt-get update --fix-missing && \
+    apt-get install -y gnupg gnupg2 gnupg1 && \
+    curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash - && \
+    apt-get install -y nodejs 
+RUN git clone https://github.com/astefanutti/decktape.git $HOME/decktape
+WORKDIR $HOME/decktape
 
-#   RUN R -e "source('install.R')"
-#   RUN ln -s /opt/conda/envs/gds/bin/jupyter /usr/local/bin
-#   RUN R -e "library(devtools); \
-#             devtools::install_github('IRkernel/IRkernel'); \
-#             library(IRkernel); \
-#             IRkernel::installspec(prefix='/opt/conda/envs/gds/');"
-#   ENV LD_LIBRARY_PATH /usr/local/lib/R/lib/:${LD_LIBRARY_PATH}
+RUN npm install && \
+    rm -rf node_modules/hummus/src && \
+    rm -rf node_modules/hummus/build
+RUN echo "\n #/bin/bash \
+          \n /usr/bin/node /usr/local/etc/decktape/decktape.js --no-sandbox --executablePath chromium-browser \
+          " >> /usr/local/bin/decktape && \
+    mv $HOME/decktape /usr/local/etc/
 #---
+
 
 EXPOSE 8787
 WORKDIR $HOME
@@ -104,7 +108,8 @@ COPY start_jupyterlab /usr/local/bin
 COPY start_rstudio /usr/local/bin
 RUN chmod +x /usr/local/bin/start_jupyterlab
 RUN chmod +x /usr/local/bin/start_rstudio
+RUN chmod +x /usr/local/bin/decktape
 RUN chmod 777 /usr/local/bin/start_jupyterlab
 RUN chmod 777 /usr/local/bin/start_rstudio
+RUN chmod 777 /usr/local/bin/decktape
 
-#USER $NB_UID
