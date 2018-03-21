@@ -9,7 +9,7 @@ This repository contains a `docker` container that includes:
 * A full R stack ready for geospatial analysis (see `install.R` for a detailed list).
 * Both the [`IRkernel`](https://github.com/IRkernel/IRkernel) and [`rpy2`](https://bitbucket.org/rpy2/rpy2) channels to interact with R through Python.
 * A full LaTeX distribution.
-* Additional development utilities (e.g. `pandoc`, `git`, etc.).
+* Additional development utilities (e.g. `pandoc`, `git`, `decktape`, etc.).
 
 It is rather heavy (around 10GB) but it is meant to provide a fully isolated environment that can be deployed in a wide array of contexts and encompass several situations.
 
@@ -33,7 +33,9 @@ And you should see one image with the name `gds`.
 
 The container can be run as:
 
-> `docker run --rm -p 8787:8787 -v `pwd`:/gds -it gds`
+```
+> docker run --rm -p 8787:8787 -v `pwd`:/gds -it gds
+```
 
 Note that this opens the `8787` port of the container, so if you want to access server-based applications from the container (ie. Jupyter Lab or RStudio), you will need to point your browser to `localhost:8787`. The command also mounts the current folder (`pwd`) to the container, but you can replace that with any path.
 
@@ -53,25 +55,23 @@ Which is a short for:
 
 <img src="rstudio.png" width="500">
 
-The container includes also a full install of RStudio server. To access it, you need to run a slightly different start command:
-
-> `docker run --rm -p 8787:8787 -v `pwd`:/home/rstudio -it gds`
-
 Once inside the container, you can start RStudio by running:
 
 > `start_rstudio`
 
 Which is also a short for:
 
-> `/init`
+> `rstudio-server start`
+
+NOTE: you might have to stop the server (`rstudio-server stop`) afterwards if
+you want to launch Jupyter Lab as otherwise it might conflict with the port
 
 ---
 
 ## Known issues
 
-Currently, both R and Python work as expected. However, the following issues are known:
-
-- `JuniperKernel` does not display graphics ([#3](https://github.com/darribas/gds_env/issues/1)). This issue has been worked around by using `IRkernel`
+- Be careful not to mount a host folder which contains a `.bashrc` file, as it
+  will be picked up by the container with unintended consequences
 
 ---
 
