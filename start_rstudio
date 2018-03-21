@@ -1,2 +1,2 @@
 #!/bin/bash
-/init
+rstudio-server start
