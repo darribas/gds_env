@@ -34,7 +34,7 @@ And you should see one image with the name `gds`.
 The container can be run as:
 
 ```
-> docker run --rm -p 8787:8787 -v `pwd`:/gds -it gds
+> docker run --rm -p 8787:8787 -v `pwd`:/home/gdser/host -it gds
 ```
 
 Note that this opens the `8787` port of the container, so if you want to access server-based applications from the container (ie. Jupyter Lab or RStudio), you will need to point your browser to `localhost:8787`. The command also mounts the current folder (`pwd`) to the container, but you can replace that with any path.
@@ -67,11 +67,6 @@ NOTE: you might have to stop the server (`rstudio-server stop`) afterwards if
 you want to launch Jupyter Lab as otherwise it might conflict with the port
 
 ---
-
-## Known issues
-
-- Be careful not to mount a host folder which contains a `.bashrc` file, as it
-  will be picked up by the container with unintended consequences
 
 ---
 
