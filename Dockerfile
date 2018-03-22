@@ -64,6 +64,7 @@ ADD . $HOME/env
 # Python
 RUN conda update -y conda
 RUN conda-env create -f $HOME/env/gds_stack.yml
+RUN jupyter labextension install @jupyter-widgets/jupyterlab-manager
 RUN conda clean -tipsy
 #---
 # R
