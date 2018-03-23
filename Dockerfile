@@ -12,8 +12,18 @@ RUN apt-get update --fix-missing && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-RUN /usr/local/bin/tlmgr install ulem enumitem ucs eurosym xcolor \
-    collectbox adjustbox psnfss
+RUN /usr/local/bin/tlmgr install \
+    a4wide adjustbox ae algorithms appendix babel-english bbm-macros beamer breakurl \
+    catoptions charter cite cleveref collectbox colortbl comment courier dvips eepic \
+    enumitem eso-pic eurosym extsizes fancyhdr float floatrow fontaxes \
+    hardwrap helvetic inconsolata koma-script lastpage lettrine libertine \
+    lipsum listings ltxkeys ly1 mathalfa mathpazo mathtools mdframed mdwtools \
+    microtype morefloats ms multirow mweights ncntrsbk needspace newtx \
+    ntgclass palatino parskip pbox pdfpages pgf picinpar preprint preview \
+    psnfss roboto sectsty setspace siunitx srcltx standalone stmaryrd sttools \
+    subfig subfigure symbol tabu tex textcase threeparttable thumbpdf times \
+    titlesec tufte-latex ucs ulem units varwidth vmargin wallpaper wrapfig \
+    xargs xcolor xstring xwatermark
 
 ENV TINI_VERSION v0.16.1
 ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /usr/bin/tini
