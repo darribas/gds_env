@@ -28,6 +28,7 @@ dependencies:
   - pymc3
   - pysal
   - rasterio
+  - scikit-image
   - scikit-learn
   - seaborn
   - statsmodels
