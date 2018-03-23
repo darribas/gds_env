@@ -78,7 +78,6 @@ ADD . $HOME/env
 # Python
 RUN conda update -y conda
 RUN conda-env create -f $HOME/env/gds_stack.yml
-RUN /opt/conda/envs/gds/bin/jupyter labextension install @jupyter-widgets/jupyterlab-manager
 RUN conda clean -tipsy
 #---
 # R
@@ -108,6 +107,8 @@ RUN echo "\n #/bin/bash \
           \n /usr/bin/node /usr/local/etc/decktape/decktape.js --no-sandbox --executablePath chromium-browser \
           " >> /usr/local/bin/decktape && \
     mv $HOME/decktape /usr/local/etc/
+# Enable widgets in Jupyter
+RUN /opt/conda/envs/gds/bin/jupyter labextension install @jupyter-widgets/jupyterlab-manager
 #---
 
 
