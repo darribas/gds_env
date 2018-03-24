@@ -104,7 +104,7 @@ RUN npm install && \
     rm -rf node_modules/hummus/src && \
     rm -rf node_modules/hummus/build
 RUN echo "\n #/bin/bash \
-          \n /usr/bin/node /usr/local/etc/decktape/decktape.js --no-sandbox --executablePath chromium-browser \
+          \n /usr/bin/node /usr/local/etc/decktape/decktape.js --no-sandbox \
           " >> /usr/local/bin/decktape && \
     mv $HOME/decktape /usr/local/etc/
 # Enable widgets in Jupyter
