@@ -17,9 +17,17 @@ It is rather heavy (around 10GB) but it is meant to provide a fully isolated env
 
 You will need [Docker](https://www.docker.com) to be able to install the GDS environment.
 
+## Installing
+
+You can install this container by simply running:
+
+> `docker pull darribas/gds`
+
+[Note that you'll need [Docker](https://www.docker.com) installed on your machine]
+
 ## Building
 
-The Docker image can be built by running:
+If, instead, you want to build from source, the Docker image can be built by running:
 
 > `docker build -t gds .`
 
@@ -71,10 +79,11 @@ you want to launch Jupyter Lab as otherwise it might conflict with the port
 ---
 
 
+<!--
 | OS      | Status |
 | ------- | -----------------|
 | Linux & macOS   | [![Build Status](https://travis-ci.org/darribas/gds_env.svg?branch=master)](https://travis-ci.org/darribas/gds_env) |
-| Windows | [![Build status](https://ci.appveyor.com/api/projects/status/9l1j8ku9pdq7j91f?svg=true)](https://ci.appveyor.com/project/darribas/gds-env) |
+-->
 
 ---
 
