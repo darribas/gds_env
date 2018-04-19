@@ -15,6 +15,7 @@ dependencies:
   - jupyterlab
   - jupyter_client
   - mkl-service
+  - mplleaflet
   - networkx
   - osmnx
   - palettable
