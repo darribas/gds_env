@@ -1,4 +1,5 @@
 pkgs <- c('devtools',
+          'ggmap',
           'GISTools', 
           'gstat', 
           'hexbin', 
