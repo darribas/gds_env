@@ -7,6 +7,7 @@ dependencies:
   - pip
   - bokeh
   - dask
+  - datashader
   - feather-format
   - geopandas
   - ipython
