@@ -1,4 +1,5 @@
-pkgs <- c('devtools',
+pkgs <- c('arm',
+          'devtools',
           'ggmap',
           'GISTools', 
           'gstat', 
