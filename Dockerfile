@@ -1,98 +1,154 @@
-FROM rocker/geospatial:latest
+FROM jupyter/minimal-notebook
 
 MAINTAINER Dani Arribas-Bel <D.Arribas-Bel@liverpool.ac.uk>
 
-#---
 # https://github.com/ContinuumIO/docker-images/blob/master/miniconda3/Dockerfile
 ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
 
-RUN apt-get update --fix-missing && \
-    apt-get install -y wget bzip2 ca-certificates curl git g++ gcc \
-    libreadline-dev && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+USER root
 
-RUN /usr/local/bin/tlmgr install \
-    a4wide adjustbox ae algorithms appendix babel-english bbm-macros beamer breakurl \
-    catoptions charter cite cleveref collectbox colortbl comment courier dvips eepic \
-    enumitem eso-pic eurosym extsizes fancyhdr float floatrow fontaxes \
-    hardwrap helvetic inconsolata koma-script lastpage lettrine libertine \
-    lipsum listings ltxkeys ly1 mathalfa mathpazo mathtools mdframed mdwtools \
-    microtype morefloats ms multirow mweights ncntrsbk needspace newtx \
-    ntgclass palatino parskip pbox pdfpages pgf picinpar preprint preview \
-    psnfss roboto sectsty setspace siunitx srcltx standalone stmaryrd sttools \
-    subfig subfigure symbol tabu tex textcase threeparttable thumbpdf times \
-    titlesec tufte-latex ucs ulem units varwidth vmargin wallpaper wrapfig \
-    xargs xcolor xstring xwatermark
+#--- Utilities ---#
+
+RUN apt-get update \
+  && apt-get install -y --no-install-recommends software-properties-common
+RUN add-apt-repository -y ppa:opencpu/jq \
+  && apt-get update \
+  && apt-get install -y --no-install-recommends \
+    lbzip2 \
+    libfftw3-dev \
+    libgdal-dev \
+    libgeos-dev \
+    libgsl0-dev \
+    libgl1-mesa-dev \
+    libglu1-mesa-dev \
+    libhdf4-alt-dev \
+    libhdf5-dev \
+    libjq-dev \
+    liblwgeom-dev \
+    libproj-dev \
+    libprotobuf-dev \
+    libnetcdf-dev \
+    libsqlite3-dev \
+    libssl-dev \
+    libudunits2-dev \
+    netcdf-bin \
+    protobuf-compiler \
+    tk-dev \
+    unixodbc-dev
 
 ENV TINI_VERSION v0.16.1
 ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /usr/bin/tini
 RUN chmod +x /usr/bin/tini
 
-ENV PATH /opt/conda/bin:$PATH
-#---
-# Configure environment
-# https://github.com/jupyter/docker-stacks/blob/master/base-notebook/Dockerfile
-ENV CONDA_DIR=/opt/conda \
-    SHELL=/bin/bash \
-    NB_USER=gdser \
-    NB_UID=1001 \
-    NB_GID=102 \
-    LC_ALL=en_US.UTF-8 \
-    LANG=en_US.UTF-8 \
-    LANGUAGE=en_US.UTF-8 \
-    TERM=xterm-color
-ENV PATH=$CONDA_DIR/bin:$PATH \
-    HOME=/home/$NB_USER
+#--- R ---#
+# https://github.com/rocker-org/rocker-versioned/blob/master/r-ver/Dockerfile
+# Look at: http://sites.psu.edu/theubunturblog/installing-r-in-ubuntu/
 
-# Create user with UID=1000 and in the 'users' group
-# and make sure these dirs are writable by the `users` group.
-RUN useradd -m -s /bin/bash -N -u $NB_UID $NB_USER && \
-    mkdir -p $CONDA_DIR && \
-    chown $NB_USER:$NB_GID $CONDA_DIR && \
-    chmod g+w /etc/passwd /etc/group 
+RUN apt-get update \
+  && apt-get install -y --no-install-recommends \
+    r-base
+    
+#RUN install2.r --error \
+#   arm #\
+#   classInt \
+#   deldir \
+#   devtools \
+#   ggmap \
+#   GISTools \
+#   gstat \
+#   hdf5r \
+#   hexbin \
+#   igraph \
+#   knitr \
+#   lidR \
+#   lme4\
+#   mapdata \
+#   maptools \
+#   mapview \
+#   ncdf4 \
+#   nlme \
+#   plyr \
+#   proj4 \
+#   RColorBrewer \
+#   RandomFields \
+#   RNetCDF \
+#   randomforest \
+#   raster \
+#   rcurl \
+#   reshape2 \
+#   rgdal \
+#   rgeos \
+#   rlas \
+#   rmarkdown \
+#   rodbc \
+#   rsqlite \
+#   sf \
+#   shiny \
+#   sp \
+#   spacetime \
+#   spatstat \
+#   spdep \
+#   splancs \
+#   tidyverse \
+#   tmap \
+#   tufte \
+#   geoR \
+#   geosphere \
+#   ## from bioconductor
+#   && R -e "BiocInstaller::biocLite('rhdf5')"
 
-# User set up for RStudio
-RUN echo "gdser:gdser" | chpasswd
-RUN usermod -a -G staff $NB_USER
-RUN usermod -a -G rstudio $NB_USER
+#--- Python ---#
 
-# Install conda as user and check the md5 sum provided on the download site
-ENV MINICONDA_VERSION 4.3.30
-RUN cd /tmp && \
-    wget --quiet https://repo.continuum.io/miniconda/Miniconda3-${MINICONDA_VERSION}-Linux-x86_64.sh && \
-    echo "0b80a152332a4ce5250f3c09589c7a81 *Miniconda3-${MINICONDA_VERSION}-Linux-x86_64.sh" | md5sum -c - && \
-    /bin/bash Miniconda3-${MINICONDA_VERSION}-Linux-x86_64.sh -f -b -p $CONDA_DIR && \
-    rm Miniconda3-${MINICONDA_VERSION}-Linux-x86_64.sh && \
-    $CONDA_DIR/bin/conda config --system --prepend channels conda-forge && \
-    $CONDA_DIR/bin/conda config --system --set auto_update_conda false && \
-    $CONDA_DIR/bin/conda config --system --set show_channel_urls true && \
-    $CONDA_DIR/bin/conda update --all --quiet --yes && \
+USER $NB_UID
+
+RUN conda update -y conda \
+  && conda install -c defaults -c conda-forge --quiet --yes \
+     'bokeh' \
+#    'contextily' \
+#    'dask' \
+#    'datashader' \
+#    'feather-format' \
+#    'geopandas' \
+#    'ipywidgets' \
+#    'mkl-service' \
+#    'mplleaflet' \
+#    'networkx' \
+#    'osmnx' \
+#    'palettable' \
+#    'pillow' \
+#    'pymc3' \
+#    'pysal' \
+#    'qgrid' \
+#    'rasterio' \
+#    'scikit-learn' \
+#    'seaborn' \
+#    'statsmodels' \
+#    'xlrd' \
+#    'xlsxwriter' \
+    && \
     conda clean -tipsy && \
-    rm -rf $HOME/.cache/yarn 
-#---
-RUN mkdir $HOME/env
-ADD . $HOME/env
+    jupyter labextension install @jupyterlab/hub-extension@^0.8.1 && \
+    npm cache clean --force && \
+    rm -rf $CONDA_DIR/share/jupyter/lab/staging && \
+    rm -rf /home/$NB_USER/.cache/yarn
 
-#---
-# Python
-RUN conda update -y conda
-RUN conda-env create -f $HOME/env/gds_stack.yml
-RUN conda clean -tipsy
-#---
-# R
+#RUN pip install -U bambi geopy nbdime notedown polyline pystan rpy2
+
+# Enable widgets in Jupyter
+RUN /opt/conda/bin/jupyter labextension install @jupyter-widgets/jupyterlab-manager
+
+#--- R/Python ---#
 
 WORKDIR $HOME
-RUN R -e "source('env/install.R')"
-RUN ln -s /opt/conda/envs/gds/bin/jupyter /usr/local/bin
+RUN ln -s /opt/conda/bin/jupyter /usr/local/bin
 RUN R -e "library(devtools); \
           devtools::install_github('IRkernel/IRkernel'); \
           library(IRkernel); \
-          IRkernel::installspec(prefix='/opt/conda/envs/gds/');"
+          IRkernel::installspec(prefix='/opt/conda/');"
 ENV LD_LIBRARY_PATH /usr/local/lib/R/lib/:${LD_LIBRARY_PATH}
-#----------
-# Decktapte
-#----------
+
+#--- Decktapte ---#
+
 RUN apt-get update --fix-missing && \
     apt-get install -y gnupg gnupg2 gnupg1 && \
     curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash - && \
@@ -107,10 +163,6 @@ RUN echo "\n #/bin/bash \
           \n /usr/bin/node /usr/local/etc/decktape/decktape.js --no-sandbox $* \
           " >> /usr/local/bin/decktape && \
     mv $HOME/decktape /usr/local/etc/
-# Enable widgets in Jupyter
-RUN /opt/conda/envs/gds/bin/jupyter labextension install @jupyter-widgets/jupyterlab-manager
-#---
-
 
 EXPOSE 8787
 WORKDIR $HOME
@@ -129,3 +181,5 @@ RUN chmod 777 /usr/local/bin/start_jupyterlab
 RUN chmod 777 /usr/local/bin/start_rstudio
 RUN chmod 777 /usr/local/bin/decktape
 
+# Switch back to user to avoid accidental container runs as root
+USER $NB_UID
