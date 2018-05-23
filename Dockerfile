@@ -36,23 +36,26 @@ RUN add-apt-repository -y ppa:opencpu/jq \
     tk-dev \
     unixodbc-dev
 
-ENV TINI_VERSION v0.16.1
-ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /usr/bin/tini
-RUN chmod +x /usr/bin/tini
-
 #--- R ---#
 # https://github.com/rocker-org/rocker-versioned/blob/master/r-ver/Dockerfile
 # Look at: http://sites.psu.edu/theubunturblog/installing-r-in-ubuntu/
 
-RUN apt-get update \
-  && apt-get install -y --no-install-recommends \
-    r-base
+RUN echo "deb http://cloud.r-project.org/bin/linux/ubuntu xenial/" >> /etc/apt/sources.list \
+  #&& echo "deb http://cloud.r-project.org/ xenial-backports main restricted universe" >> /etc/apt/sources.list \
+  && apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E084DAB9 \
+  && apt-get update \
+  && apt-get install -y \
+    r-base \
+    r-base-dev \
+    littler
+
+RUN R -e "install.packages('devtools');"
     
 #RUN install2.r --error \
 #   arm #\
 #   classInt \
 #   deldir \
-#   devtools \
+#   devtools #\
 #   ggmap \
 #   GISTools \
 #   gstat \
@@ -140,46 +143,41 @@ RUN /opt/conda/bin/jupyter labextension install @jupyter-widgets/jupyterlab-mana
 #--- R/Python ---#
 
 WORKDIR $HOME
+
+USER root
+
 RUN ln -s /opt/conda/bin/jupyter /usr/local/bin
 RUN R -e "library(devtools); \
           devtools::install_github('IRkernel/IRkernel'); \
           library(IRkernel); \
           IRkernel::installspec(prefix='/opt/conda/');"
 ENV LD_LIBRARY_PATH /usr/local/lib/R/lib/:${LD_LIBRARY_PATH}
+RUN fix-permissions $HOME \
+  && fix-permissions $CONDA_DIR
 
 #--- Decktapte ---#
 
-RUN apt-get update --fix-missing && \
-    apt-get install -y gnupg gnupg2 gnupg1 && \
-    curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash - && \
-    apt-get install -y nodejs 
-RUN git clone https://github.com/astefanutti/decktape.git $HOME/decktape
-WORKDIR $HOME/decktape
+#   RUN apt-get update --fix-missing && \
+#       apt-get install -y gnupg gnupg2 gnupg1 && \
+#       curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash - && \
+#       apt-get install -y nodejs 
+#   RUN git clone https://github.com/astefanutti/decktape.git $HOME/decktape
+#   WORKDIR $HOME/decktape
 
-RUN npm install && \
-    rm -rf node_modules/hummus/src && \
-    rm -rf node_modules/hummus/build
-RUN echo "\n #/bin/bash \
-          \n /usr/bin/node /usr/local/etc/decktape/decktape.js --no-sandbox $* \
-          " >> /usr/local/bin/decktape && \
-    mv $HOME/decktape /usr/local/etc/
+#   RUN npm install && \
+#       rm -rf node_modules/hummus/src && \
+#       rm -rf node_modules/hummus/build
+#   RUN echo "\n #/bin/bash \
+#             \n /usr/bin/node /usr/local/etc/decktape/decktape.js --no-sandbox $* \
+#             " >> /usr/local/bin/decktape && \
+#       mv $HOME/decktape /usr/local/etc/
+#--- ---#
 
 EXPOSE 8787
 WORKDIR $HOME
 
-ENTRYPOINT [ "tini", "--" ]
-CMD [ "start.sh" ]
-
-# Add local files as late as possible to avoid cache busting
-COPY start.sh /usr/local/bin/
-COPY start_jupyterlab /usr/local/bin
-COPY start_rstudio /usr/local/bin
-RUN chmod +x /usr/local/bin/start_jupyterlab
-RUN chmod +x /usr/local/bin/start_rstudio
-RUN chmod +x /usr/local/bin/decktape
-RUN chmod 777 /usr/local/bin/start_jupyterlab
-RUN chmod 777 /usr/local/bin/start_rstudio
-RUN chmod 777 /usr/local/bin/decktape
+#   RUN chmod +x /usr/local/bin/decktape
+#   RUN chmod 777 /usr/local/bin/decktape
 
 # Switch back to user to avoid accidental container runs as root
 USER $NB_UID
