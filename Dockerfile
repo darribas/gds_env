@@ -12,9 +12,11 @@ USER root
 RUN apt-get update \
   && apt-get install -y --no-install-recommends software-properties-common
 RUN add-apt-repository -y ppa:opencpu/jq \
+  && add-apt-repository -y ppa:ubuntugis/ppa \
   && apt-get update \
   && apt-get install -y --no-install-recommends \
     lbzip2 \
+    libcairo2-dev \
     libfftw3-dev \
     libgdal-dev \
     libgeos-dev \
@@ -31,6 +33,7 @@ RUN add-apt-repository -y ppa:opencpu/jq \
     libsqlite3-dev \
     libssl-dev \
     libudunits2-dev \
+    libv8-3.14-dev \
     netcdf-bin \
     protobuf-compiler \
     tk-dev \
@@ -46,59 +49,58 @@ RUN echo "deb http://cloud.r-project.org/bin/linux/ubuntu xenial/" >> /etc/apt/s
   && apt-get update \
   && apt-get install -y \
     r-base \
-    r-base-dev \
-    littler
+    r-base-dev 
 
-RUN R -e "install.packages('devtools');"
-    
-#RUN install2.r --error \
-#   arm #\
-#   classInt \
-#   deldir \
-#   devtools #\
-#   ggmap \
-#   GISTools \
-#   gstat \
-#   hdf5r \
-#   hexbin \
-#   igraph \
-#   knitr \
-#   lidR \
-#   lme4\
-#   mapdata \
-#   maptools \
-#   mapview \
-#   ncdf4 \
-#   nlme \
-#   plyr \
-#   proj4 \
-#   RColorBrewer \
-#   RandomFields \
-#   RNetCDF \
-#   randomforest \
-#   raster \
-#   rcurl \
-#   reshape2 \
-#   rgdal \
-#   rgeos \
-#   rlas \
-#   rmarkdown \
-#   rodbc \
-#   rsqlite \
-#   sf \
-#   shiny \
-#   sp \
-#   spacetime \
-#   spatstat \
-#   spdep \
-#   splancs \
-#   tidyverse \
-#   tmap \
-#   tufte \
-#   geoR \
-#   geosphere \
-#   ## from bioconductor
-#   && R -e "BiocInstaller::biocLite('rhdf5')"
+RUN R -e "install.packages(c( \
+            'arm', \
+            'classInt', \
+            'deldir', \
+            'devtools', \
+            'ggmap', \
+            'GISTools', \
+            'gstat', \
+            'hdf5r', \
+            'hexbin', \
+            'igraph', \
+            'knitr', \
+            'lidR', \
+            'lme4', \
+            'mapdata', \
+            'maptools', \
+            'mapview', \
+            'ncdf4', \
+            'nlme', \
+            'plyr', \
+            'proj4', \
+            'RColorBrewer', \
+            'RandomFields', \
+            'RNetCDF', \
+            'randomForest', \
+            'raster', \
+            'RCurl', \
+            'reshape2', \
+            'rgdal', \
+            'rgeos', \
+            'rlas', \
+            'rmarkdown', \
+            'RODBC', \
+            'RSQLite', \
+            'sf', \
+            'shiny', \
+            'sp', \
+            'spacetime', \
+            'spatstat', \
+            'spdep', \
+            'splancs', \
+            'tidyverse', \
+            'tmap', \
+            'tufte', \
+            'geoR', \
+            'geosphere'), repos='https://cran.rstudio.com');" \
+   ## from bioconductor
+   && R -e "source('https://bioconductor.org/biocLite.R'); \
+            library(BiocInstaller); \
+            BiocInstaller::biocLite('rhdf5')"
 
 #--- Python ---#
 
@@ -107,27 +109,27 @@ USER $NB_UID
 RUN conda update -y conda \
   && conda install -c defaults -c conda-forge --quiet --yes \
      'bokeh' \
-#    'contextily' \
-#    'dask' \
-#    'datashader' \
-#    'feather-format' \
-#    'geopandas' \
-#    'ipywidgets' \
-#    'mkl-service' \
-#    'mplleaflet' \
-#    'networkx' \
-#    'osmnx' \
-#    'palettable' \
-#    'pillow' \
-#    'pymc3' \
-#    'pysal' \
-#    'qgrid' \
-#    'rasterio' \
-#    'scikit-learn' \
-#    'seaborn' \
-#    'statsmodels' \
-#    'xlrd' \
-#    'xlsxwriter' \
+     'contextily' \
+     'dask' \
+     'datashader' \
+     'feather-format' \
+     'geopandas' \
+     'ipywidgets' \
+     'mkl-service' \
+     'mplleaflet' \
+     'networkx' \
+     'osmnx' \
+     'palettable' \
+     'pillow' \
+     'pymc3' \
+     'pysal' \
+     'qgrid' \
+     'rasterio' \
+     'scikit-learn' \
+     'seaborn' \
+     'statsmodels' \
+     'xlrd' \
+     'xlsxwriter' \
     && \
     conda clean -tipsy && \
     jupyter labextension install @jupyterlab/hub-extension@^0.8.1 && \
@@ -135,14 +137,18 @@ RUN conda update -y conda \
     rm -rf $CONDA_DIR/share/jupyter/lab/staging && \
     rm -rf /home/$NB_USER/.cache/yarn
 
-#RUN pip install -U bambi geopy nbdime notedown polyline pystan rpy2
+RUN pip install -U bambi geopy nbdime notedown polyline pystan rpy2
 
 # Enable widgets in Jupyter
 RUN /opt/conda/bin/jupyter labextension install @jupyter-widgets/jupyterlab-manager
 
-#--- R/Python ---#
+#--- Decktape ---#
 
 WORKDIR $HOME
+
+RUN npm install -g decktape
+
+#--- R/Python ---#
 
 USER root
 
@@ -155,29 +161,6 @@ ENV LD_LIBRARY_PATH /usr/local/lib/R/lib/:${LD_LIBRARY_PATH}
 RUN fix-permissions $HOME \
   && fix-permissions $CONDA_DIR
 
-#--- Decktapte ---#
-
-#   RUN apt-get update --fix-missing && \
-#       apt-get install -y gnupg gnupg2 gnupg1 && \
-#       curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash - && \
-#       apt-get install -y nodejs 
-#   RUN git clone https://github.com/astefanutti/decktape.git $HOME/decktape
-#   WORKDIR $HOME/decktape
-
-#   RUN npm install && \
-#       rm -rf node_modules/hummus/src && \
-#       rm -rf node_modules/hummus/build
-#   RUN echo "\n #/bin/bash \
-#             \n /usr/bin/node /usr/local/etc/decktape/decktape.js --no-sandbox $* \
-#             " >> /usr/local/bin/decktape && \
-#       mv $HOME/decktape /usr/local/etc/
-#--- ---#
-
-EXPOSE 8787
-WORKDIR $HOME
-
-#   RUN chmod +x /usr/local/bin/decktape
-#   RUN chmod 777 /usr/local/bin/decktape
-
 # Switch back to user to avoid accidental container runs as root
 USER $NB_UID
+
