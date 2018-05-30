@@ -15,6 +15,7 @@ RUN add-apt-repository -y ppa:opencpu/jq \
   && add-apt-repository -y ppa:ubuntugis/ppa \
   && apt-get update \
   && apt-get install -y --no-install-recommends \
+    htop \
     lbzip2 \
     libcairo2-dev \
     libfftw3-dev \
