@@ -1,2 +1,0 @@
-#!/bin/bash
-jupyter lab --port=8787 --no-browser --ip='*' --allow-root
