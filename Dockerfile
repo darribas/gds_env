@@ -11,7 +11,8 @@ USER root
 
 RUN apt-get update \
   && apt-get install -y --no-install-recommends software-properties-common
-RUN add-apt-repository -y ppa:ubuntugis/ppa \
+RUN add-apt-repository -y ppa:ubuntugis/ubuntugis-experimental \
+#RUN add-apt-repository -y ppa:ubuntugis/ppa \
   && apt-get update \
   && apt-get install -y --no-install-recommends \
     htop \
@@ -115,6 +116,7 @@ RUN conda update -y conda \
      'datashader' \
      'feather-format' \
      'geopandas' \
+     'ipyleaflet' \
      'ipywidgets' \
      'mkl-service' \
      'mplleaflet' \
@@ -122,6 +124,7 @@ RUN conda update -y conda \
      'osmnx' \
      'palettable' \
      'pillow' \
+     'poppler<0.62' \
      'pymc3' \
      'pysal' \
      'qgrid' \
