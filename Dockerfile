@@ -11,8 +11,7 @@ USER root
 
 RUN apt-get update \
   && apt-get install -y --no-install-recommends software-properties-common
-RUN add-apt-repository -y ppa:opencpu/jq \
-  && add-apt-repository -y ppa:ubuntugis/ppa \
+RUN add-apt-repository -y ppa:ubuntugis/ppa \
   && apt-get update \
   && apt-get install -y --no-install-recommends \
     htop \
@@ -26,7 +25,7 @@ RUN add-apt-repository -y ppa:opencpu/jq \
     libglu1-mesa-dev \
     libhdf4-alt-dev \
     libhdf5-dev \
-    libjq-dev \
+    jq \
     liblwgeom-dev \
     libproj-dev \
     libprotobuf-dev \
@@ -142,9 +141,9 @@ RUN conda update -y conda \
 RUN pip install -U bambi geopy nbdime notedown polyline pystan rpy2
 
 # Enable widgets in Jupyter
-RUN /opt/conda/bin/jupyter labextension install @jupyter-widgets/jupyterlab-manager
-# Build nbdime
-RUN /opt/conda/bin/node /opt/conda/lib/python3.6/site-packages/jupyterlab/staging/yarn.js run build:prod
+RUN /opt/conda/bin/jupyter labextension install @jupyter-widgets/jupyterlab-manager@0.35
+# Enable nbdime
+RUN /opt/conda/bin/nbdime extensions --enable --user $NB_USER
 
 #--- Decktape ---#
 
