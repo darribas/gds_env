@@ -143,6 +143,8 @@ RUN pip install -U bambi geopy nbdime notedown polyline pystan rpy2
 
 # Enable widgets in Jupyter
 RUN /opt/conda/bin/jupyter labextension install @jupyter-widgets/jupyterlab-manager
+# Build nbdime
+RUN /opt/conda/bin/node /opt/conda/lib/python3.6/site-packages/jupyterlab/staging/yarn.js run build:prod
 
 #--- Decktape ---#
 
