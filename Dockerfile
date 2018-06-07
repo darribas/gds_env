@@ -62,7 +62,6 @@ RUN R -e "install.packages(c( \
             'hdf5r', \
             'hexbin', \
             'igraph', \
-            'ipyleaflet', \
             'knitr', \
             'lidR', \
             'lme4', \
