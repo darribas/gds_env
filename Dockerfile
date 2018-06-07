@@ -13,10 +13,12 @@ USER root
 RUN apt-get update \
   && apt-get install -y --no-install-recommends software-properties-common
 RUN add-apt-repository -y ppa:ubuntugis/ppa \
+  && add-apt-repository -y ppa:opencpu/jq \
   && apt-get update \
   && apt-get install -y --no-install-recommends \
     htop \
-    jq \
+    #jq \
+    libjq-dev \
     lbzip2 \
     libcairo2-dev \
     libfftw3-dev \
