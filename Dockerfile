@@ -144,6 +144,8 @@ RUN pip install -U bambi geopy nbdime notedown polyline pystan rpy2
 
 # Enable widgets in Jupyter
 RUN /opt/conda/bin/jupyter labextension install @jupyter-widgets/jupyterlab-manager@0.35
+# Enable ipyleaflet
+RUN /opt/conda/bin/jupyter labextension install jupyter-leaflet
 # Enable nbdime
 RUN /opt/conda/bin/nbdime extensions --enable --user $NB_USER
 
