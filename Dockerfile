@@ -116,6 +116,7 @@ RUN conda update -y conda \
      'datashader' \
      'feather-format' \
      'geopandas' \
+     'hdbscan' \
      'ipyleaflet' \
      'ipywidgets' \
      'mkl-service' \
