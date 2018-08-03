@@ -49,6 +49,7 @@ A couple of notes on the command above:
 
 * This opens the `8787` port of the container, so if you want to access server-based applications from the container (ie. Jupyter Lab or RStudio), you will need to point your browser to `localhost:8787`
 * The command also mounts the current folder (`pwd`) to the container, but you can replace that with the path to any folder on your local machine
+* Docker should tell you what your password is for the instance, but may omit the `localhost` part. If you get output from the shell saying `http://73cf3c20de5a:8888/?token=2cbbb3172fe8db0f2558cc68bbae273145cd86cd1fbf206c&token=2cbbb3172fe8db0f2558cc68bbae273145cd86cd1fbf206c`, for example, you will need to navigate to the url `localhost:8888/?token=2cbbb3172fe8db0f2558cc68bbae273145cd86cd1fbf206c&token=2cbbb3172fe8db0f2558cc68bbae273145cd86cd1fbf206c` (see [#8](https://github.com/darribas/gds_env/issues/8)). 
 
 ### Jupyter Lab
 
