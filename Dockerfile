@@ -139,7 +139,7 @@ RUN conda update -y conda \
      'seaborn' \
      'statsmodels' \
      'xlrd' \
-     'xlsxwriter' \
+     'xlsxwriter'
 
 RUN pip install -U --no-deps bambi colorama geopy gitdb2 gitpython nbdime polyline pystan rpy2 smmap2
 
