@@ -141,7 +141,7 @@ RUN conda update -y conda \
      'xlrd' \
      'xlsxwriter'
 
-RUN pip install -U --no-deps bambi colorama geopy gitdb2 gitpython nbdime polyline pystan rpy2 smmap2
+RUN pip install -U --no-deps bambi colorama geopy gitdb2 gitpython nbdime polyline pystan rpy2 smmap2 tzlocal
 
 # Enable widgets in Jupyter
 RUN /opt/conda/bin/jupyter labextension install @jupyter-widgets/jupyterlab-manager
