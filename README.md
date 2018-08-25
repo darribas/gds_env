@@ -42,51 +42,17 @@ And you should see one image with the name `gds`.
 The container can be run as:
 
 ```
-> docker run --rm -p 8787:8787 -v `pwd`:/home/gdser/host -it darribas/gds
+> docker run --rm -p 8787:8787 -v `pwd`:/home/gdser/host -it darribas/gds jupyter lab
 ```
-
-A couple of notes on the command above:
-
-* This opens the `8787` port of the container, so if you want to access server-based applications from the container (ie. Jupyter Lab or RStudio), you will need to point your browser to `localhost:8787`
-* The command also mounts the current folder (`pwd`) to the container, but you can replace that with the path to any folder on your local machine
-
-### Jupyter Lab
 
 <img src="JupyterLab.png" width="500">
 
-Once in the container, you can launch Jupyter Lab by runing:
+A couple of notes on the command above:
 
-> `start_jupyterlab`
-
-Which is a short for:
-
-> `jupyter lab --port=8787 --no-browser --ip='*' --allow-root`
-
-### RStudio
-
-<img src="rstudio.png" width="500">
-
-Once inside the container, you can start RStudio by running:
-
-> `start_rstudio`
-
-Which is also a short for:
-
-> `rstudio-server start`
-
-NOTE: you might have to stop the server (`rstudio-server stop`) afterwards if
-you want to launch Jupyter Lab as otherwise it might conflict with the port
-
----
-
----
-
-
-<!--
-| OS      | Status |
-| ------- | -----------------|
-| Linux & macOS   | [![Build Status](https://travis-ci.org/darribas/gds_env.svg?branch=master)](https://travis-ci.org/darribas/gds_env) |
--->
+* This opens the `8787` port of the container, so to access the Lab instance,
+  you will have to point your browser to `localhost:8787` and insert the token
+  printed on the terminal
+* The command also mounts the current folder (`pwd`) to the container, but you can replace that with the path to any folder on your local machine (in fact, that will only work on host machines with the `pwd` command installed)
 
 ---
 
