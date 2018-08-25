@@ -1,5 +1,5 @@
 # Last 16.04-based image
-FROM jupyter/minimal-notebook:f9e77e3ddd6f
+FROM jupyter/minimal-notebook:8ccdfc1da8d5
 
 MAINTAINER Dani Arribas-Bel <D.Arribas-Bel@liverpool.ac.uk>
 
@@ -12,12 +12,13 @@ USER root
 
 RUN apt-get update \
   && apt-get install -y --no-install-recommends software-properties-common
-RUN add-apt-repository -y ppa:ubuntugis/ppa \
-  && add-apt-repository -y ppa:opencpu/jq \
+RUN add-apt-repository -y ppa:ubuntugis/ubuntugis-experimental \
   && apt-get update \
   && apt-get install -y --no-install-recommends \
+    dirmngr \
+    gpg-agent \
     htop \
-    #jq \
+    jq \
     libjq-dev \
     lbzip2 \
     libcairo2-dev \
@@ -34,6 +35,7 @@ RUN add-apt-repository -y ppa:ubuntugis/ppa \
     libprotobuf-dev \
     libnetcdf-dev \
     libsqlite3-dev \
+    libssl1.0.0 \
     libssl-dev \
     libudunits2-dev \
     libv8-3.14-dev \
@@ -46,8 +48,8 @@ RUN add-apt-repository -y ppa:ubuntugis/ppa \
 # https://github.com/rocker-org/rocker-versioned/blob/master/r-ver/Dockerfile
 # Look at: http://sites.psu.edu/theubunturblog/installing-r-in-ubuntu/
 
-RUN echo "deb http://cloud.r-project.org/bin/linux/ubuntu xenial/" >> /etc/apt/sources.list \
-  && apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E084DAB9 \
+RUN echo "deb https://cloud.r-project.org/bin/linux/ubuntu bionic-cran35/" >> /etc/apt/sources.list \
+  && sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E084DAB9 \
   && apt-get update \
   && apt-get install -y \
     r-base \
@@ -111,7 +113,8 @@ USER $NB_UID
 RUN conda update -y conda \
   && conda install -c defaults -c conda-forge --quiet --yes \
      'bokeh' \
-     'contextily' \
+     'contextily==1.0rc1' \
+     'cython' \
      'dask' \
      'datashader' \
      'feather-format' \
@@ -122,6 +125,7 @@ RUN conda update -y conda \
      'mkl-service' \
      'mplleaflet' \
      'networkx' \
+     'numpy' \
      'osmnx' \
      'palettable' \
      'pillow' \
@@ -130,32 +134,32 @@ RUN conda update -y conda \
      'pysal' \
      'qgrid' \
      'rasterio' \
+     'scikit-image' \
      'scikit-learn' \
      'seaborn' \
      'statsmodels' \
      'xlrd' \
      'xlsxwriter' \
-    && \
-    conda clean -tipsy && \
-    jupyter labextension install @jupyterlab/hub-extension@^0.8.1 && \
-    npm cache clean --force && \
-    rm -rf $CONDA_DIR/share/jupyter/lab/staging && \
-    rm -rf /home/$NB_USER/.cache/yarn
 
-RUN pip install -U bambi geopy nbdime notedown polyline pystan rpy2
+RUN pip install -U --no-deps bambi colorama geopy gitdb2 gitpython nbdime polyline pystan rpy2 smmap2
 
 # Enable widgets in Jupyter
-RUN /opt/conda/bin/jupyter labextension install @jupyter-widgets/jupyterlab-manager@0.35
+RUN /opt/conda/bin/jupyter labextension install @jupyter-widgets/jupyterlab-manager
 # Enable ipyleaflet
 RUN /opt/conda/bin/jupyter labextension install jupyter-leaflet
 # Enable nbdime
 RUN /opt/conda/bin/nbdime extensions --enable --user $NB_USER
+# Clean up
+RUN conda clean -tipsy && \
+    npm cache clean --force && \
+    rm -rf $CONDA_DIR/share/jupyter/lab/staging && \
+    rm -rf /home/$NB_USER/.cache/yarn
 
 #--- Decktape ---#
 
 WORKDIR $HOME
 
-RUN npm install -g decktape
+RUN npm install -g decktape 
 
 #--- R/Python ---#
 
