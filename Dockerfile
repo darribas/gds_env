@@ -147,6 +147,8 @@ RUN pip install -U --no-deps bambi colorama geopy gitdb2 gitpython nbdime polyli
 RUN /opt/conda/bin/jupyter labextension install @jupyter-widgets/jupyterlab-manager
 # Enable ipyleaflet
 RUN /opt/conda/bin/jupyter labextension install jupyter-leaflet
+# Enable qgrid
+RUN jupyter labextension install qgrid
 # Enable nbdime
 RUN /opt/conda/bin/nbdime extensions --enable --user $NB_USER
 # Clean up
