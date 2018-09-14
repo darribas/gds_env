@@ -118,7 +118,7 @@ RUN conda update -y conda \
      'dask' \
      'datashader' \
      'feather-format' \
-     'geopandas' \
+     'geopandas==0.4' \
      'hdbscan' \
      'ipyleaflet' \
      'ipywidgets' \
@@ -151,6 +151,7 @@ RUN /opt/conda/bin/jupyter labextension install jupyter-leaflet
 RUN jupyter labextension install qgrid
 # Enable nbdime
 RUN /opt/conda/bin/nbdime extensions --enable --user $NB_USER
+RUN /opt/conda/bin/jupyter labextension update nbdime-jupyterlab
 # Clean up
 RUN conda clean -tipsy && \
     npm cache clean --force && \
