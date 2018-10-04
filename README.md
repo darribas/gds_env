@@ -42,15 +42,15 @@ And you should see one image with the name `gds`.
 The container can be run as:
 
 ```
-> docker run -p 8888:8888 -v `pwd`:/home/gdser/host -it darribas/gds start.sh jupyter lab
+> docker run -ti -p 8888:8888 -v `pwd`:/home/gdser/host darribas/gds start.sh jupyter lab
 ```
 
 <img src="JupyterLab.png" width="500">
 
 A couple of notes on the command above:
 
-* This opens the `8787` port of the container, so to access the Lab instance,
-  you will have to point your browser to `localhost:8787` and insert the token
+* This opens the `8888` port of the container, so to access the Lab instance,
+  you will have to point your browser to `localhost:8888` and insert the token
   printed on the terminal
 * The command also mounts the current folder (`pwd`) to the container, but you can replace that with the path to any folder on your local machine (in fact, that will only work on host machines with the `pwd` command installed)
 
