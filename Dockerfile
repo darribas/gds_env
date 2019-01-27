@@ -1,5 +1,5 @@
-# Last 16.04-based image
-FROM jupyter/minimal-notebook:8ccdfc1da8d5
+# Ubuntu Bionic 18.04 at Jan 26'19
+FROM jupyter/minimal-notebook:87210526f381
 
 MAINTAINER Dani Arribas-Bel <D.Arribas-Bel@liverpool.ac.uk>
 
@@ -113,23 +113,21 @@ USER $NB_UID
 RUN conda update -y conda \
   && conda install -c defaults -c conda-forge --quiet --yes \
      'bokeh' \
-     'contextily==1.0rc1' \
+     'contextily' \
      'cython' \
      'dask' \
      'datashader' \
      'feather-format' \
-     'geopandas==0.4' \
+     'geopandas' \
      'hdbscan' \
      'ipyleaflet' \
      'ipywidgets' \
      'mkl-service' \
      'mplleaflet' \
      'networkx' \
-     'numpy' \
      'osmnx' \
      'palettable' \
      'pillow' \
-     'poppler<0.62' \
      'pymc3' \
      'pysal' \
      'qgrid' \
@@ -141,14 +139,14 @@ RUN conda update -y conda \
      'xlrd' \
      'xlsxwriter'
 
-RUN pip install -U --no-deps bambi colorama geopy gitdb2 gitpython nbdime polyline pystan rpy2 smmap2 tzlocal
+RUN pip install -U --no-deps bambi colorama geopy gitdb2 gitpython nbdime polyline pysal==2.0rc3 pystan rpy2 smmap2 tzlocal
 
 # Enable widgets in Jupyter
-RUN /opt/conda/bin/jupyter labextension install @jupyter-widgets/jupyterlab-manager
+RUN /opt/conda/bin/jupyter labextension install @jupyter-widgets/jupyterlab-manager@0.38
 # Enable ipyleaflet
 RUN /opt/conda/bin/jupyter labextension install jupyter-leaflet
 # Enable qgrid
-RUN jupyter labextension install qgrid
+RUN /opt/conda/bin/jupyter labextension install qgrid
 # Enable nbdime
 RUN /opt/conda/bin/nbdime extensions --enable --user $NB_USER
 RUN /opt/conda/bin/jupyter labextension update nbdime-jupyterlab
