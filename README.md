@@ -1,5 +1,8 @@
 # The GDS stack
 
+[![](https://images.microbadger.com/badges/version/darribas/gds.svg)](https://microbadger.com/images/darribas/gds "Get your own version badge on microbadger.com")
+[![](https://images.microbadger.com/badges/image/darribas/gds.svg)](https://microbadger.com/images/darribas/gds "Get your own image badge on microbadger.com")
+
 * [Dani Arribas-Bel](http://darribas.org)
   [[@darribas](http://twitter.com/darribas)]
 
