@@ -22,8 +22,6 @@ RUN conda update -y conda \
      'hdbscan' \
      'ipyleaflet' \
      'ipywidgets' \
-     'mkl=2017' \
-     'mkl-service' \
      'mplleaflet' \
      'networkx' \
      'osmnx' \
