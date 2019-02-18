@@ -11,7 +11,7 @@ ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
 USER $NB_UID
 
 RUN conda update -y conda \
-  && conda install -c defaults -c conda-forge --quiet --yes \
+  && conda install -c conda-forge -c defaults --quiet --yes \
      'bokeh' \
      'contextily' \
      'cython' \
@@ -22,6 +22,7 @@ RUN conda update -y conda \
      'hdbscan' \
      'ipyleaflet' \
      'ipywidgets' \
+     'mkl=2017' \
      'mkl-service' \
      'mplleaflet' \
      'networkx' \
@@ -30,7 +31,7 @@ RUN conda update -y conda \
      'pillow' \
      'pymc3' \
      'pysal' \
-     #'qgrid' \
+     'qgrid' \
      'rasterio' \
      'scikit-image' \
      'scikit-learn' \
@@ -41,7 +42,7 @@ RUN conda update -y conda \
 
 RUN pip install -U --no-deps bambi colorama geopy gitdb2 gitpython nbdime polyline pysal==2.0.0 pystan smmap2 tzlocal 
 
-# Workaround until 0.5 released
+# Workaround until geopandas 0.5 released
 RUN pip install -U --no-deps mapclassify git+git://github.com/geopandas/geopandas.git@master
 
 # Enable widgets in Jupyter
@@ -49,7 +50,7 @@ RUN /opt/conda/bin/jupyter labextension install @jupyter-widgets/jupyterlab-mana
 # Enable ipyleaflet
 RUN /opt/conda/bin/jupyter labextension install jupyter-leaflet
 # Enable qgrid
-#RUN /opt/conda/bin/jupyter labextension install qgrid
+RUN /opt/conda/bin/jupyter labextension install qgrid
 # Enable nbdime
 RUN /opt/conda/bin/nbdime extensions --enable --user $NB_USER
 RUN /opt/conda/bin/jupyter labextension update nbdime-jupyterlab
