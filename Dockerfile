@@ -1,10 +1,4 @@
-# Ubuntu Bionic 18.04 at Jan 26'19
-FROM jupyter/minimal-notebook:87210526f381
-
-MAINTAINER Dani Arribas-Bel <D.Arribas-Bel@liverpool.ac.uk>
-
-# https://github.com/ContinuumIO/docker-images/blob/master/miniconda3/Dockerfile
-ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
+FROM darribas/gds_py:2.0rc4
 
 USER root
 
@@ -106,63 +100,11 @@ RUN R -e "install.packages(c( \
             library(BiocInstaller); \
             BiocInstaller::biocLite('rhdf5')"
 
-#--- Python ---#
+#--- R/Python ---#
 
 USER $NB_UID
 
-RUN conda update -y conda \
-  && conda install -c defaults -c conda-forge --quiet --yes \
-     'bokeh' \
-     'contextily' \
-     'cython' \
-     'dask' \
-     'datashader' \
-     'feather-format' \
-     'geopandas' \
-     'hdbscan' \
-     'ipyleaflet' \
-     'ipywidgets' \
-     'mkl-service' \
-     'mplleaflet' \
-     'networkx' \
-     'osmnx' \
-     'palettable' \
-     'pillow' \
-     'pymc3' \
-     'pysal' \
-     'qgrid' \
-     'rasterio' \
-     'scikit-image' \
-     'scikit-learn' \
-     'seaborn' \
-     'statsmodels' \
-     'xlrd' \
-     'xlsxwriter'
-
-RUN pip install -U --no-deps bambi colorama geopy gitdb2 gitpython nbdime polyline pysal==2.0.0 pystan rpy2 smmap2 tzlocal
-
-# Enable widgets in Jupyter
-RUN /opt/conda/bin/jupyter labextension install @jupyter-widgets/jupyterlab-manager@0.38
-# Enable ipyleaflet
-RUN /opt/conda/bin/jupyter labextension install jupyter-leaflet
-# Enable qgrid
-RUN /opt/conda/bin/jupyter labextension install qgrid
-# Enable nbdime
-RUN /opt/conda/bin/nbdime extensions --enable --user $NB_USER
-RUN /opt/conda/bin/jupyter labextension update nbdime-jupyterlab
-# Clean up
-RUN conda clean -tipsy && \
-    npm cache clean --force && \
-    rm -rf $CONDA_DIR/share/jupyter/lab/staging && \
-    rm -rf /home/$NB_USER/.cache/yarn
-
-#--- Decktape ---#
-
-WORKDIR $HOME
-
-RUN npm install -g decktape 
-
-#--- R/Python ---#
+RUN pip install -U --no-deps rpy2 
 
 USER root
 
@@ -174,6 +116,15 @@ RUN R -e "library(devtools); \
 ENV LD_LIBRARY_PATH /usr/local/lib/R/lib/:${LD_LIBRARY_PATH}
 RUN fix-permissions $HOME \
   && fix-permissions $CONDA_DIR
+
+#--- Decktape ---#
+
+USER $NB_UID
+
+WORKDIR $HOME
+
+RUN npm install -g decktape 
+
 
 # Switch back to user to avoid accidental container runs as root
 USER $NB_UID
