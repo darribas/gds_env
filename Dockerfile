@@ -25,8 +25,8 @@ RUN apt-get install -y --no-install-recommends \
     libcairo2-dev \
     libcurl4-openssl-dev \
     libfftw3-dev \
-    libgdal-dev \
-    libgeos-dev \
+    #libgdal-dev \
+    #libgeos-dev \
     libgsl0-dev \
     libgl1-mesa-dev \
     libglu1-mesa-dev \
