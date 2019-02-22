@@ -58,6 +58,10 @@ RUN conda clean -tipsy && \
     rm -rf $CONDA_DIR/share/jupyter/lab/staging && \
     rm -rf /home/$NB_USER/.cache/yarn
 
+#--- Jupyter config ---#
+RUN echo "c.NotebookApp.default_url = '/lab'" \
+ >> /home/$NB_USER/.jupyter/jupyter_notebook_config.py
+
 # Switch back to user to avoid accidental container runs as root
 USER $NB_UID
 
