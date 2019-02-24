@@ -8,59 +8,14 @@ ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
 
 #--- Python ---#
 
+ADD install_gds_py.sh $HOME/install_gds_py.sh
+RUN chmod +x $HOME/install_gds_py.sh
+
 USER $NB_UID
 
-RUN conda update -y conda \
-  && conda install -c conda-forge -c defaults --quiet --yes \
-     'bokeh' \
-     'contextily' \
-     'cython' \
-     'dask' \
-     'datashader' \
-     'feather-format' \
-     'geopandas' \
-     'hdbscan' \
-     'ipyleaflet' \
-     'ipywidgets' \
-     'mplleaflet' \
-     'networkx' \
-     'osmnx' \
-     'palettable' \
-     'pillow' \
-     'pymc3' \
-     'pysal' \
-     'qgrid' \
-     'rasterio' \
-     'scikit-image' \
-     'scikit-learn' \
-     'seaborn' \
-     'statsmodels' \
-     'xlrd' \
-     'xlsxwriter'
-
-RUN pip install -U --no-deps bambi colorama geopy gitdb2 gitpython nbdime polyline pysal==2.0.0 pystan smmap2 tzlocal 
-
-# Workaround until geopandas 0.5 released
-RUN pip install -U --no-deps mapclassify git+git://github.com/geopandas/geopandas.git@master
-
-# Enable widgets in Jupyter
-RUN /opt/conda/bin/jupyter labextension install @jupyter-widgets/jupyterlab-manager@0.38
-# Enable ipyleaflet
-RUN /opt/conda/bin/jupyter labextension install jupyter-leaflet
-# Enable qgrid
-RUN /opt/conda/bin/jupyter labextension install qgrid
-# Enable nbdime
-RUN /opt/conda/bin/nbdime extensions --enable --user $NB_USER
-RUN /opt/conda/bin/jupyter labextension update nbdime-jupyterlab
-# Clean up
-RUN conda clean -tipsy && \
-    npm cache clean --force && \
-    rm -rf $CONDA_DIR/share/jupyter/lab/staging && \
-    rm -rf /home/$NB_USER/.cache/yarn
-
-#--- Jupyter config ---#
-RUN echo "c.NotebookApp.default_url = '/lab'" \
- >> /home/$NB_USER/.jupyter/jupyter_notebook_config.py
+RUN sed -i -e 's/\r$//' $HOME/install_gds_py.sh
+RUN ["/bin/bash", "-c", "$HOME/install_gds_py.sh"]
+RUN rm /home/jovyan/install_gds_py.sh 
 
 # Switch back to user to avoid accidental container runs as root
 USER $NB_UID
