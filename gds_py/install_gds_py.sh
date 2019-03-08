@@ -12,6 +12,7 @@ conda install -c conda-forge -c defaults --quiet --yes \
      'geopandas' \
      'hdbscan' \
      'ipyleaflet' \
+     'ipyparallel' \
      'ipywidgets' \
      'mplleaflet' \
      'networkx' \
@@ -31,11 +32,7 @@ conda install -c conda-forge -c defaults --quiet --yes \
 
 # pip commands
 echo "Installing pip geo-stack..."
-pip install -U --no-deps bambi colorama geopy gitdb2 gitpython nbdime polyline pysal==2.0.0 pystan smmap2 tzlocal 
-
-# Workaround until geopandas 0.5 released
-echo "Temporary workaround until geopandas 0.5 is out..."
-pip install -U --no-deps mapclassify git+git://github.com/geopandas/geopandas.git@master
+pip install -U --no-deps bambi colorama geopy gitdb2 gitpython nbdime polyline pystan smmap2 tzlocal 
 
 # Enable widgets in Jupyter
 /opt/conda/bin/jupyter labextension install @jupyter-widgets/jupyterlab-manager@0.38
