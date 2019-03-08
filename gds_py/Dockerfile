@@ -9,6 +9,8 @@ ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
 #--- Python ---#
 
 ADD install_gds_py.sh $HOME/install_gds_py.sh
+
+USER root
 RUN chmod +x $HOME/install_gds_py.sh
 
 USER $NB_UID
