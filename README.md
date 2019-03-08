@@ -45,7 +45,7 @@ And you should see one image with the name `gds`.
 The container can be run as:
 
 ```
-> docker run -ti -p 8888:8888 -v `pwd`:/home/gdser/host darribas/gds start.sh jupyter lab
+> docker run --rm -ti -p 8888:8888 -v `pwd`:/home/jovyan/host darribas/gds
 ```
 
 <img src="JupyterLab.png" width="500">
