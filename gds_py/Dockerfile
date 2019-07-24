@@ -8,16 +8,58 @@ ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
 
 #--- Python ---#
 
-ADD install_gds_py.sh $HOME/install_gds_py.sh
+RUN conda update --yes conda 
+RUN conda install -c conda-forge -c defaults --quiet --yes \
+     'bokeh' \
+     'contextily' \
+     'cython' \
+     'dask' \
+     'datashader' \
+     'feather-format' \
+     'geopandas' \
+     'hdbscan' \
+     'ipyleaflet' \
+     'ipyparallel' \
+     'ipywidgets' \
+     'mplleaflet' \
+     'networkx' \
+     'osmnx' \
+     'palettable' \
+     'pillow' \
+     'pymc3' \
+     'pysal' \
+     'qgrid' \
+     'rasterio' \
+     'scikit-image' \
+     'scikit-learn' \
+     'seaborn' \
+     'statsmodels' \
+     'xlrd' \
+     'xlsxwriter'
 
-USER root
-RUN chmod +x $HOME/install_gds_py.sh
+# pip commands
+RUN pip install -U --no-deps bambi colorama geopy gitdb2 gitpython nbdime polyline pystan smmap2 tzlocal 
 
-USER $NB_UID
+# Enable widgets in Jupyter
+RUN jupyter labextension install @jupyter-widgets/jupyterlab-manager@0.38
+# Enable ipyleaflet
+RUN jupyter labextension install jupyter-leaflet
+# Enable qgrid
+RUN jupyter labextension install qgrid
+# Enable nbdime
+RUN nbdime extensions --enable --user $NB_USER \
+ && jupyter labextension update nbdime-jupyterlab
 
-RUN sed -i -e 's/\r$//' $HOME/install_gds_py.sh
-RUN ["/bin/bash", "-c", "$HOME/install_gds_py.sh"]
-RUN rm /home/jovyan/install_gds_py.sh 
+# Clean up
+RUN conda clean -tipsy
+RUN npm cache clean --force
+RUN rm -rf $CONDA_DIR/share/jupyter/lab/staging
+RUN rm -rf /home/$NB_USER/.cache/yarn
+
+#--- Jupyter config ---#
+RUN echo "c.NotebookApp.default_url = '/lab'" \
+ >> /home/$NB_USER/.jupyter/jupyter_notebook_config.py
+
 
 # Switch back to user to avoid accidental container runs as root
 USER $NB_UID
