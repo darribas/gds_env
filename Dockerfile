@@ -1,5 +1,5 @@
 # Ubuntu Bionic 18.04 at Jan 26'19
-FROM darribas/gds_py:2.0
+FROM darribas/gds_py:3.0
 
 MAINTAINER Dani Arribas-Bel <D.Arribas-Bel@liverpool.ac.uk>
 
@@ -22,7 +22,6 @@ RUN add-apt-repository -y ppa:ubuntugis/ubuntugis-experimental \
   && apt-get install -y --no-install-recommends \
     dirmngr \
     gpg-agent \
-    htop \
     jq \
     libjq-dev \
     lbzip2 \
@@ -114,12 +113,6 @@ RUN R -e "install.packages(c( \
 
 # Re-attach conda to path
 ENV PATH="/opt/conda/bin:${PATH}"
-
-#--- Decktape ---#
-
-WORKDIR $HOME
-
-#RUN npm install -g decktape 
 
 #--- R/Python ---#
 

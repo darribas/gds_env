@@ -64,3 +64,14 @@ RUN echo "c.NotebookApp.default_url = '/lab'" \
 # Switch back to user to avoid accidental container runs as root
 USER $NB_UID
 
+#--- Decktape ---#
+
+WORKDIR $HOME
+
+#RUN npm install -g decktape 
+
+#--- htop ---#
+
+RUN apt-get install -y --no-install-recommends htop
+
+
