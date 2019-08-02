@@ -10,10 +10,12 @@ ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
 
 RUN conda update --yes conda 
 RUN conda install -c conda-forge -c defaults --quiet --yes \
+     'black' \
      'bokeh' \
      'contextily' \
      'cython' \
      'dask' \
+     'dask-ml' \
      'datashader' \
      'feather-format' \
      'geopandas' \
@@ -30,6 +32,7 @@ RUN conda install -c conda-forge -c defaults --quiet --yes \
      'pysal' \
      'qgrid' \
      'rasterio' \
+     'rasterstats' \
      'scikit-image' \
      'scikit-learn' \
      'seaborn' \
