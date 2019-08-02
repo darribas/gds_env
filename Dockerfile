@@ -15,8 +15,6 @@ RUN echo ${PATH}
 
 #--- Utilities ---#
 
-RUN apt-get update \
-  && apt-get install -y --no-install-recommends software-properties-common
 RUN add-apt-repository -y ppa:ubuntugis/ubuntugis-experimental \
   && apt-get update \
   && apt-get install -y --no-install-recommends \
