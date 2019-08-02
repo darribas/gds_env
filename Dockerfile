@@ -60,56 +60,56 @@ RUN echo "deb https://cloud.r-project.org/bin/linux/ubuntu bionic-cran35/" >> /e
     r-base-dev 
 
 RUN R -e "install.packages(c( \
-#           'arm', \
-#           'BiocManager', \
-#           'classInt', \
-#           'deldir', \
-#           'devtools', \
-#           'ggmap', \
-#           'GISTools', \
-#           'gstat', \
-#           'hdf5r', \
-#           'hexbin', \
-#           'igraph', \
-#           'knitr', \
-#           'lidR', \
-#           'lme4', \
-#           'mapdata', \
-#           'maptools', \
-#           'mapview', \
-#           'ncdf4', \
-#           'nlme', \
-#           'plyr', \
-#           'proj4', \
-#           'RColorBrewer', \
-#           'RandomFields', \
-#           'RNetCDF', \
-#           'randomForest', \
-#           'raster', \
-#           'RCurl', \
-#           'reshape2', \
-#           'rgdal', \
-#           'rgeos', \
-#           'rlas', \
-#           'rmarkdown', \
-#           'RODBC', \
-#           'RSQLite', \
+            'arm', \
+            'BiocManager', \
+            'classInt', \
+            'deldir', \
+            'devtools', \
+            'ggmap', \
+            'GISTools', \
+            'gstat', \
+            'hdf5r', \
+            'hexbin', \
+            'igraph', \
+            'knitr', \
+            'lidR', \
+            'lme4', \
+            'mapdata', \
+            'maptools', \
+            'mapview', \
+            'ncdf4', \
+            'nlme', \
+            'plyr', \
+            'proj4', \
+            'RColorBrewer', \
+            'RandomFields', \
+            'RNetCDF', \
+            'randomForest', \
+            'raster', \
+            'RCurl', \
+            'reshape2', \
+            'rgdal', \
+            'rgeos', \
+            'rlas', \
+            'rmarkdown', \
+            'RODBC', \
+            'RSQLite', \
             'sf' \
-#           'shiny', \
-#           'sp', \
-#           'spacetime', \
-#           'spatstat', \
-#           'spdep', \
-#           'splancs', \
-#           'tidyverse', \
-#           'tmap', \
-#           'tufte', \
-#           'geoR', \
-#           'geosphere'\
-            ), repos='https://cran.rstudio.com');" #\
+            'shiny', \
+            'sp', \
+            'spacetime', \
+            'spatstat', \
+            'spdep', \
+            'splancs', \
+            'tidyverse', \
+            'tmap', \
+            'tufte', \
+            'geoR', \
+            'geosphere'\
+            ), repos='https://cran.rstudio.com');" \
 #  ## from bioconductor
-#  && R -e "library(BiocManager); \
-#           BiocManager::install('rhdf5')"
+   && R -e "library(BiocManager); \
+            BiocManager::install('rhdf5')"
 
 # Re-attach conda to path
 ENV PATH="/opt/conda/bin:${PATH}"
@@ -118,12 +118,12 @@ ENV PATH="/opt/conda/bin:${PATH}"
 
 USER root
 
-#   RUN ln -s /opt/conda/bin/jupyter /usr/local/bin
-#   RUN R -e "library(devtools); \
-#             devtools::install_github('IRkernel/IRkernel'); \
-#             library(IRkernel); \
-#             IRkernel::installspec(prefix='/opt/conda/');"
-#   ENV LD_LIBRARY_PATH /usr/local/lib/R/lib/:${LD_LIBRARY_PATH}
+    RUN ln -s /opt/conda/bin/jupyter /usr/local/bin
+    RUN R -e "library(devtools); \
+              devtools::install_github('IRkernel/IRkernel'); \
+              library(IRkernel); \
+              IRkernel::installspec(prefix='/opt/conda/');"
+    ENV LD_LIBRARY_PATH /usr/local/lib/R/lib/:${LD_LIBRARY_PATH}
 RUN fix-permissions $HOME \
   && fix-permissions $CONDA_DIR
 
