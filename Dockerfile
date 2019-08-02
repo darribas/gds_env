@@ -65,6 +65,7 @@ RUN R -e "install.packages(c( \
             'classInt', \
             'deldir', \
             'devtools', \
+            'feather', \
             'ggmap', \
             'GISTools', \
             'gstat', \
@@ -103,6 +104,7 @@ RUN R -e "install.packages(c( \
             'splancs', \
             'tidyverse', \
             'tmap', \
+            'traminer', \
             'tufte', \
             'geoR', \
             'geosphere'\
