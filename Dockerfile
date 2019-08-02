@@ -119,8 +119,7 @@ ENV PATH="/opt/conda/bin:${PATH}"
 USER root
 
     RUN ln -s /opt/conda/bin/jupyter /usr/local/bin
-    RUN R -e "library(devtools); \
-              devtools::install_github('IRkernel/IRkernel'); \
+    RUN R -e "install.packages('IRkernel'); \
               library(IRkernel); \
               IRkernel::installspec(prefix='/opt/conda/');"
     ENV LD_LIBRARY_PATH /usr/local/lib/R/lib/:${LD_LIBRARY_PATH}
