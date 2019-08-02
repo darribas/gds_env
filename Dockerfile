@@ -1,5 +1,5 @@
 # Ubuntu Bionic 18.04 at Jan 26'19
-FROM jupyter/minimal-notebook:87210526f381
+FROM darribas/gds_py:3.0
 
 MAINTAINER Dani Arribas-Bel <D.Arribas-Bel@liverpool.ac.uk>
 
@@ -7,6 +7,11 @@ MAINTAINER Dani Arribas-Bel <D.Arribas-Bel@liverpool.ac.uk>
 ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
 
 USER root
+
+# Remove Conda from path to not interfere with R install
+RUN echo ${PATH}
+ENV PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+RUN echo ${PATH}
 
 #--- Utilities ---#
 
@@ -17,7 +22,6 @@ RUN add-apt-repository -y ppa:ubuntugis/ubuntugis-experimental \
   && apt-get install -y --no-install-recommends \
     dirmngr \
     gpg-agent \
-    htop \
     jq \
     libjq-dev \
     lbzip2 \
@@ -56,83 +60,70 @@ RUN echo "deb https://cloud.r-project.org/bin/linux/ubuntu bionic-cran35/" >> /e
     r-base-dev 
 
 RUN R -e "install.packages(c( \
-            'arm', \
-            'classInt', \
-            'deldir', \
-            'devtools', \
-            'ggmap', \
-            'GISTools', \
-            'gstat', \
-            'hdf5r', \
-            'hexbin', \
-            'igraph', \
-            'knitr', \
-            'lidR', \
-            'lme4', \
-            'mapdata', \
-            'maptools', \
-            'mapview', \
-            'ncdf4', \
-            'nlme', \
-            'plyr', \
-            'proj4', \
-            'RColorBrewer', \
-            'RandomFields', \
-            'RNetCDF', \
-            'randomForest', \
-            'raster', \
-            'RCurl', \
-            'reshape2', \
-            'rgdal', \
-            'rgeos', \
-            'rlas', \
-            'rmarkdown', \
-            'RODBC', \
-            'RSQLite', \
-            'sf', \
-            'shiny', \
-            'sp', \
-            'spacetime', \
-            'spatstat', \
-            'spdep', \
-            'splancs', \
-            'tidyverse', \
-            'tmap', \
-            'tufte', \
-            'geoR', \
-            'geosphere'), repos='https://cran.rstudio.com');" \
-   ## from bioconductor
-   && R -e "source('https://bioconductor.org/biocLite.R'); \
-            library(BiocInstaller); \
-            BiocInstaller::biocLite('rhdf5')"
+#           'arm', \
+#           'BiocManager', \
+#           'classInt', \
+#           'deldir', \
+#           'devtools', \
+#           'ggmap', \
+#           'GISTools', \
+#           'gstat', \
+#           'hdf5r', \
+#           'hexbin', \
+#           'igraph', \
+#           'knitr', \
+#           'lidR', \
+#           'lme4', \
+#           'mapdata', \
+#           'maptools', \
+#           'mapview', \
+#           'ncdf4', \
+#           'nlme', \
+#           'plyr', \
+#           'proj4', \
+#           'RColorBrewer', \
+#           'RandomFields', \
+#           'RNetCDF', \
+#           'randomForest', \
+#           'raster', \
+#           'RCurl', \
+#           'reshape2', \
+#           'rgdal', \
+#           'rgeos', \
+#           'rlas', \
+#           'rmarkdown', \
+#           'RODBC', \
+#           'RSQLite', \
+            'sf' \
+#           'shiny', \
+#           'sp', \
+#           'spacetime', \
+#           'spatstat', \
+#           'spdep', \
+#           'splancs', \
+#           'tidyverse', \
+#           'tmap', \
+#           'tufte', \
+#           'geoR', \
+#           'geosphere'\
+            ), repos='https://cran.rstudio.com');" #\
+#  ## from bioconductor
+#  && R -e "library(BiocManager); \
+#           BiocManager::install('rhdf5')"
 
-#--- Python ---#
-
-ADD gds_py/install_gds_py.sh $HOME/install_gds_py.sh
-RUN chmod +x $HOME/install_gds_py.sh
-
-USER $NB_UID
-
-RUN sed -i -e 's/\r$//' $HOME/install_gds_py.sh
-RUN ["/bin/bash", "-c", "$HOME/install_gds_py.sh"]
-RUN rm /home/jovyan/install_gds_py.sh 
-
-#--- Decktape ---#
-
-WORKDIR $HOME
-
-RUN npm install -g decktape 
+# Re-attach conda to path
+ENV PATH="/opt/conda/bin:${PATH}"
 
 #--- R/Python ---#
 
 USER root
 
-RUN ln -s /opt/conda/bin/jupyter /usr/local/bin
-RUN R -e "library(devtools); \
-          devtools::install_github('IRkernel/IRkernel'); \
-          library(IRkernel); \
-          IRkernel::installspec(prefix='/opt/conda/');"
-ENV LD_LIBRARY_PATH /usr/local/lib/R/lib/:${LD_LIBRARY_PATH}
+#   RUN ln -s /opt/conda/bin/jupyter /usr/local/bin
+#   RUN R -e "library(devtools); \
+#             devtools::install_github('IRkernel/IRkernel'); \
+#             library(IRkernel); \
+#             IRkernel::installspec(prefix='/opt/conda/');"
+#   ENV LD_LIBRARY_PATH /usr/local/lib/R/lib/:${LD_LIBRARY_PATH}
 RUN fix-permissions $HOME \
   && fix-permissions $CONDA_DIR
 
