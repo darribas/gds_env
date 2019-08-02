@@ -1,5 +1,5 @@
 # Ubuntu Bionic 18.04 at Jan 26'19
-FROM jupyter/minimal-notebook:87210526f381
+FROM jupyter/minimal-notebook:307ad2bb5fce
 
 MAINTAINER Dani Arribas-Bel <D.Arribas-Bel@liverpool.ac.uk>
 
@@ -12,7 +12,7 @@ RUN conda update --yes conda
 RUN conda install -c conda-forge -c defaults --quiet --yes \
      'black' \
      'bokeh' \
-     'contextily' \
+     'contextily==1.0rc2' \
      'cython' \
      'dask' \
      'dask-ml' \
@@ -27,6 +27,7 @@ RUN conda install -c conda-forge -c defaults --quiet --yes \
      'networkx' \
      'osmnx' \
      'palettable' \
+     'pandana' \
      'pillow' \
      'pymc3' \
      'pysal' \
@@ -37,14 +38,16 @@ RUN conda install -c conda-forge -c defaults --quiet --yes \
      'scikit-learn' \
      'seaborn' \
      'statsmodels' \
+     'urbanaccess' \
      'xlrd' \
      'xlsxwriter'
 
 # pip commands
+RUN pip install -U --no-deps pysal==2.1.0
 RUN pip install -U --no-deps bambi colorama geopy gitdb2 gitpython nbdime polyline pystan smmap2 tzlocal 
 
 # Enable widgets in Jupyter
-RUN jupyter labextension install @jupyter-widgets/jupyterlab-manager@0.38
+RUN jupyter labextension install @jupyter-widgets/jupyterlab-manager
 # Enable ipyleaflet
 RUN jupyter labextension install jupyter-leaflet
 # Enable qgrid
@@ -71,10 +74,13 @@ USER $NB_UID
 
 WORKDIR $HOME
 
-#RUN npm install -g decktape 
+RUN npm install -g decktape 
 
 #--- htop ---#
 
-RUN apt-get install -y --no-install-recommends htop
+USER root
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends software-properties-common htop
+USER $NB_UID
 
 
