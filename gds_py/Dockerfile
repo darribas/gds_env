@@ -12,10 +12,11 @@ RUN conda update conda --yes \
     && conda config --add channels conda-forge \
     && conda config --set channel_priority strict \
     && conda install --yes --quiet \
-    --update-deps \
      'python=3.7' \
+     'bambi' \
      'black' \
      'bokeh' \
+     'colorama' \
      'contextily==1.0rc2' \
      'cython' \
      'dask' \
@@ -23,26 +24,34 @@ RUN conda update conda --yes \
      'datashader' \
      'feather-format' \
      'geopandas' \
+     'geopy' \
+     'gitdb2' \
+     'gitpython' \
      'hdbscan' \
      'ipyleaflet' \
      'ipyparallel' \
      'ipywidgets' \
      'mkl-service' \
      'mplleaflet' \
+     'nbdime' \
      'networkx' \
      'osmnx' \
      'palettable' \
      'pillow' \
+     'polyline' \
      'pyarrow' \
      'pymc3' \
      'pysal' \
+     'pystan' \
      'qgrid' \
      'rasterio' \
      'rasterstats' \
      'scikit-image' \
      'scikit-learn' \
      'seaborn' \
+     'smmap2' \
      'statsmodels' \
+     'tzlocal' \
      'xlrd' \
      'xlsxwriter' \
      && conda clean --all --yes --force-pkgs-dirs \
@@ -50,9 +59,6 @@ RUN conda update conda --yes \
      && find /opt/conda/ -follow -type f -name '*.pyc' -delete \
      && find /opt/conda/ -follow -type f -name '*.js.map' -delete \
      && conda list
-
-# pip commands
-RUN pip install -U --no-deps bambi colorama geopy gitdb2 gitpython nbdime polyline pystan smmap2 tzlocal 
 
 # Enable widgets in Jupyter
 RUN jupyter labextension install @jupyter-widgets/jupyterlab-manager
