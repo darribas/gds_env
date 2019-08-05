@@ -8,8 +8,11 @@ ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
 
 #--- Python ---#
 
-RUN conda update --yes conda 
-RUN conda install -c conda-forge -c defaults --quiet --yes \
+RUN conda update conda --yes \
+    && conda config --add channels conda-forge \
+    && conda config --set channel_priority strict \
+    && conda install --yes --quiet \
+     'python=3.7'
      'black' \
      'bokeh' \
      'contextily==1.0rc2' \
@@ -40,7 +43,12 @@ RUN conda install -c conda-forge -c defaults --quiet --yes \
      'statsmodels' \
      'urbanaccess' \
      'xlrd' \
-     'xlsxwriter'
+     'xlsxwriter' \
+     && conda clean --all --yes --force-pkgs-dirs \
+     && find /opt/conda/ -follow -type f -name '*.a' -delete \
+     && find /opt/conda/ -follow -type f -name '*.pyc' -delete \
+     && find /opt/conda/ -follow -type f -name '*.js.map' -delete \
+     && conda list
 
 # pip commands
 RUN pip install -U --no-deps pysal==2.1.0
@@ -57,7 +65,6 @@ RUN nbdime extensions --enable --user $NB_USER \
  && jupyter labextension update nbdime-jupyterlab
 
 # Clean up
-RUN conda clean -tipsy
 RUN npm cache clean --force
 RUN rm -rf $CONDA_DIR/share/jupyter/lab/staging
 RUN rm -rf /home/$NB_USER/.cache/yarn
