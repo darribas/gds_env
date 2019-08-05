@@ -1,4 +1,4 @@
-# Ubuntu Bionic 18.04 at Jan 26'19
+# July'19
 FROM jupyter/minimal-notebook:307ad2bb5fce
 
 MAINTAINER Dani Arribas-Bel <D.Arribas-Bel@liverpool.ac.uk>
@@ -61,39 +61,37 @@ RUN conda update conda --yes \
      && conda list
 
 # Enable widgets in Jupyter
-RUN jupyter labextension install @jupyter-widgets/jupyterlab-manager
+RUN jupyter labextension install @jupyter-widgets/jupyterlab-manager \
 # Enable ipyleaflet
-RUN jupyter labextension install jupyter-leaflet
+ && jupyter labextension install jupyter-leaflet \
 # Enable qgrid
-RUN jupyter labextension install qgrid
+ && jupyter labextension install qgrid \
 # Enable nbdime
-RUN nbdime extensions --enable --user $NB_USER \
- && jupyter labextension update nbdime-jupyterlab
-
-# Clean up
-RUN npm cache clean --force
-RUN rm -rf $CONDA_DIR/share/jupyter/lab/staging
-RUN rm -rf /home/$NB_USER/.cache/yarn
-
+ && nbdime extensions --enable --user $NB_USER \
+ && jupyter labextension update nbdime-jupyterlab \
 #--- Jupyter config ---#
-RUN echo "c.NotebookApp.default_url = '/lab'" \
+ && echo "c.NotebookApp.default_url = '/lab'" \
  >> /home/$NB_USER/.jupyter/jupyter_notebook_config.py
 
+# Clean up
+RUN npm cache clean --force \
+ && rm -rf $CONDA_DIR/share/jupyter/lab/staging\
+ && rm -rf /home/$NB_USER/.cache/yarn
 
 # Switch back to user to avoid accidental container runs as root
 USER $NB_UID
 
 #--- Decktape ---#
 
-#   WORKDIR $HOME
+WORKDIR $HOME
 
-#   RUN npm install -g decktape 
+RUN npm install -g decktape 
 
-#   #--- htop ---#
+#--- htop ---#
 
-#   USER root
-#   RUN apt-get update \
-#    && apt-get install -y --no-install-recommends software-properties-common htop
-#   USER $NB_UID
+USER root
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends software-properties-common htop
+USER $NB_UID
 
 
