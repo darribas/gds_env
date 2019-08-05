@@ -12,7 +12,7 @@ RUN conda update conda --yes \
     && conda config --add channels conda-forge \
     && conda config --set channel_priority strict \
     && conda install --yes --quiet \
-     'python=3.7'
+     'python=3.7' \
      'black' \
      'bokeh' \
      'contextily==1.0rc2' \
@@ -20,18 +20,21 @@ RUN conda update conda --yes \
      'dask' \
      'dask-ml' \
      'datashader' \
+     'deprecated' \
      'feather-format' \
      'geopandas' \
      'hdbscan' \
      'ipyleaflet' \
      'ipyparallel' \
      'ipywidgets' \
+     'mkl-service' \
      'mplleaflet' \
      'networkx' \
      'osmnx' \
      'palettable' \
      'pandana' \
      'pillow' \
+     'pyarrow' \
      'pymc3' \
      'pysal' \
      'qgrid' \
@@ -44,8 +47,6 @@ RUN conda update conda --yes \
      'urbanaccess' \
      'xlrd' \
      'xlsxwriter' \
-     'deprecated' \
-     'mkl-service' \
      && conda clean --all --yes --force-pkgs-dirs \
      && find /opt/conda/ -follow -type f -name '*.a' -delete \
      && find /opt/conda/ -follow -type f -name '*.pyc' -delete \
