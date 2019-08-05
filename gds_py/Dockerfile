@@ -20,7 +20,6 @@ RUN conda update conda --yes \
      'dask' \
      'dask-ml' \
      'datashader' \
-     'deprecated' \
      'feather-format' \
      'geopandas' \
      'hdbscan' \
@@ -32,7 +31,6 @@ RUN conda update conda --yes \
      'networkx' \
      'osmnx' \
      'palettable' \
-     'pandana' \
      'pillow' \
      'pyarrow' \
      'pymc3' \
@@ -44,7 +42,6 @@ RUN conda update conda --yes \
      'scikit-learn' \
      'seaborn' \
      'statsmodels' \
-     'urbanaccess' \
      'xlrd' \
      'xlsxwriter' \
      && conda clean --all --yes --force-pkgs-dirs \
@@ -54,7 +51,6 @@ RUN conda update conda --yes \
      && conda list
 
 # pip commands
-RUN pip install -U --no-deps pysal==2.1.0
 RUN pip install -U --no-deps bambi colorama geopy gitdb2 gitpython nbdime polyline pystan smmap2 tzlocal 
 
 # Enable widgets in Jupyter
@@ -82,15 +78,15 @@ USER $NB_UID
 
 #--- Decktape ---#
 
-WORKDIR $HOME
+#   WORKDIR $HOME
 
-RUN npm install -g decktape 
+#   RUN npm install -g decktape 
 
-#--- htop ---#
+#   #--- htop ---#
 
-USER root
-RUN apt-get update \
- && apt-get install -y --no-install-recommends software-properties-common htop
-USER $NB_UID
+#   USER root
+#   RUN apt-get update \
+#    && apt-get install -y --no-install-recommends software-properties-common htop
+#   USER $NB_UID
 
 
