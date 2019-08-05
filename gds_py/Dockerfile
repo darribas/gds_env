@@ -12,6 +12,7 @@ RUN conda update conda --yes \
     && conda config --add channels conda-forge \
     && conda config --set channel_priority strict \
     && conda install --yes --quiet \
+    --update-deps \
      'python=3.7' \
      'black' \
      'bokeh' \
