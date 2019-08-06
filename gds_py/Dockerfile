@@ -22,6 +22,7 @@ RUN conda update conda --yes \
      'dask' \
      'dask-ml' \
      'datashader' \
+     'dill' \
      'feather-format' \
      'geopandas' \
      'geopy' \
@@ -37,6 +38,7 @@ RUN conda update conda --yes \
      'networkx' \
      'osmnx' \
      'palettable' \
+     'pandana' \
      'pillow' \
      'polyline' \
      'pyarrow' \
@@ -52,6 +54,7 @@ RUN conda update conda --yes \
      'smmap2' \
      'statsmodels' \
      'tzlocal' \
+     'urbanaccess' \
      'xlrd' \
      'xlsxwriter' \
      && conda clean --all --yes --force-pkgs-dirs \
