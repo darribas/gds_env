@@ -57,6 +57,20 @@ A couple of notes on the command above:
   printed on the terminal
 * The command also mounts the current folder (`pwd`) to the container, but you can replace that with the path to any folder on your local machine (in fact, that will only work on host machines with the `pwd` command installed)
 
+## Citing
+
+[![DOI](https://zenodo.org/badge/65582539.svg)](https://zenodo.org/badge/latestdoi/65582539)
+
+```bibtex
+@software{hadoop,
+  author = {{Dani Arribas-Bel}},
+  title = {\texttt{gds_env}: A containerised platform for Geographic Data Science},
+  url = {https://github.com/darribas/gds_env},
+  version = {3.0},
+  date = {2019-08-06},
+}
+```
+
 ---
 
 [<img src="gdsl.png" width="250">](https://www.liverpool.ac.uk/geographic-data-science/)
