@@ -32,6 +32,7 @@ RUN conda update conda --yes \
      'ipyleaflet' \
      'ipyparallel' \
      'ipywidgets' \
+     'mapclassify' \
      'mkl-service' \
      'mplleaflet' \
      'nbdime' \
