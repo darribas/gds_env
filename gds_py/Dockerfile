@@ -84,12 +84,6 @@ RUN npm cache clean --force \
 # Switch back to user to avoid accidental container runs as root
 USER $NB_UID
 
-#--- Decktape ---#
-
-WORKDIR $HOME
-
-RUN npm install -g decktape 
-
 #--- htop ---#
 
 USER root

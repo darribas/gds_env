@@ -126,6 +126,12 @@ USER root
 RUN fix-permissions $HOME \
   && fix-permissions $CONDA_DIR
 
+#--- Decktape ---#
+
+WORKDIR $HOME
+
+RUN npm install -g decktape 
+
 # Switch back to user to avoid accidental container runs as root
 USER $NB_UID
 
