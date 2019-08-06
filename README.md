@@ -1,7 +1,7 @@
-# The GDS stack
+# `gds_env`: A containerised platform for Geographic Data Science
 
-[![](https://images.microbadger.com/badges/version/darribas/gds.svg)](https://microbadger.com/images/darribas/gds "Get your own version badge on microbadger.com")
-[![](https://images.microbadger.com/badges/image/darribas/gds.svg)](https://microbadger.com/images/darribas/gds "Get your own image badge on microbadger.com")
+[![](https://images.microbadger.com/badges/image/darribas/gds:3.0.svg)](https://microbadger.com/images/darribas/gds:3.0 "Get your own image badge on microbadger.com")
+[![](https://images.microbadger.com/badges/version/darribas/gds:3.0.svg)](https://microbadger.com/images/darribas/gds:3.0 "Get your own version badge on microbadger.com")
 
 * [Dani Arribas-Bel](http://darribas.org)
   [[@darribas](http://twitter.com/darribas)]
@@ -24,7 +24,7 @@ You will need [Docker](https://www.docker.com) to be able to install the GDS env
 
 You can install this container by simply running:
 
-> `docker pull darribas/gds`
+> `docker pull darribas/gds:3.0`
 
 [Note that you'll need [Docker](https://www.docker.com) installed on your machine]
 
@@ -32,7 +32,7 @@ You can install this container by simply running:
 
 If, instead, you want to build from source, the Docker image can be built by running:
 
-> `docker build -t darribas/gds .`
+> `docker build -t darribas/gds:3.0 .`
 
 You can check it has been built correctly by:
 
@@ -45,7 +45,7 @@ And you should see one image with the name `gds`.
 The container can be run as:
 
 ```
-> docker run --rm -ti -p 8888:8888 -v `pwd`:/home/jovyan/host darribas/gds
+> docker run --rm -ti -p 8888:8888 -v ${pwd}:/home/jovyan/host darribas/gds:3.0
 ```
 
 <img src="JupyterLab.png" width="500">
