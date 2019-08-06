@@ -1,4 +1,4 @@
-# Ubuntu Bionic 18.04 at Jan 26'19
+# Ubuntu Bionic 18.04 at Aug'19
 FROM darribas/gds_py:3.0
 
 MAINTAINER Dani Arribas-Bel <D.Arribas-Bel@liverpool.ac.uk>
@@ -51,7 +51,7 @@ RUN add-apt-repository -y ppa:ubuntugis/ubuntugis-experimental \
 # Look at: http://sites.psu.edu/theubunturblog/installing-r-in-ubuntu/
 
 RUN echo "deb https://cloud.r-project.org/bin/linux/ubuntu bionic-cran35/" >> /etc/apt/sources.list \
-  && sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E084DAB9 \
+  && sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9 \
   && apt-get update \
   && apt-get install -y \
     r-base \
@@ -93,7 +93,7 @@ RUN R -e "install.packages(c( \
             'rmarkdown', \
             'RODBC', \
             'RSQLite', \
-            'sf' \
+            'sf', \
             'shiny', \
             'sp', \
             'spacetime', \
@@ -102,12 +102,12 @@ RUN R -e "install.packages(c( \
             'splancs', \
             'tidyverse', \
             'tmap', \
-            'traminer', \
+            'TraMineR', \
             'tufte', \
             'geoR', \
-            'geosphere'\
+            'geosphere' \
             ), repos='https://cran.rstudio.com');" \
-#  ## from bioconductor
+## from bioconductor
    && R -e "library(BiocManager); \
             BiocManager::install('rhdf5')"
 
@@ -118,18 +118,21 @@ ENV PATH="/opt/conda/bin:${PATH}"
 
 USER root
 
-    RUN ln -s /opt/conda/bin/jupyter /usr/local/bin
-    RUN R -e "install.packages('IRkernel'); \
-              library(IRkernel); \
-              IRkernel::installspec(prefix='/opt/conda/');"
-    ENV LD_LIBRARY_PATH /usr/local/lib/R/lib/:${LD_LIBRARY_PATH}
+RUN ln -s /opt/conda/bin/jupyter /usr/local/bin
+RUN R -e "install.packages('IRkernel'); \
+          library(IRkernel); \
+          IRkernel::installspec(prefix='/opt/conda/');"
+ENV LD_LIBRARY_PATH /usr/local/lib/R/lib/:${LD_LIBRARY_PATH}
 RUN fix-permissions $HOME \
   && fix-permissions $CONDA_DIR
+
+RUN pip install -U --no-deps rpy2
 
 #--- Decktape ---#
 
 WORKDIR $HOME
 
+USER $NB_UID
 RUN npm install -g decktape 
 
 # Switch back to user to avoid accidental container runs as root
