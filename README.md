@@ -62,7 +62,7 @@ A couple of notes on the command above:
 [![DOI](https://zenodo.org/badge/65582539.svg)](https://zenodo.org/badge/latestdoi/65582539)
 
 ```bibtex
-@software{hadoop,
+@software{gds_env,
   author = {{Dani Arribas-Bel}},
   title = {\texttt{gds_env}: A containerised platform for Geographic Data Science},
   url = {https://github.com/darribas/gds_env},
