@@ -64,7 +64,7 @@ A couple of notes on the command above:
 ```bibtex
 @software{gds_env,
   author = {{Dani Arribas-Bel}},
-  title = {\texttt{gds_env}: A containerised platform for Geographic Data Science},
+  title = {\texttt{gds\_env}: A containerised platform for Geographic Data Science},
   url = {https://github.com/darribas/gds_env},
   version = {3.0},
   date = {2019-08-06},
