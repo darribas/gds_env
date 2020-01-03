@@ -41,10 +41,16 @@ RUN add-apt-repository -y ppa:ubuntugis/ubuntugis-experimental \
     libssl-dev \
     libudunits2-dev \
     libv8-3.14-dev \
+    libxtst6 \
     netcdf-bin \
     protobuf-compiler \
     tk-dev \
     unixodbc-dev
+
+#--- jekyll w scholar ----#
+RUN apt-get install -y ruby-full build-essential zlib1g-dev
+RUN gem install jekyll bundler
+RUN gem install jekyll-scholar
 
 #--- R ---#
 # https://github.com/rocker-org/rocker-versioned/blob/master/r-ver/Dockerfile
@@ -54,7 +60,7 @@ RUN echo "deb https://cloud.r-project.org/bin/linux/ubuntu bionic-cran35/" >> /e
   && sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9 \
   && apt-get update \
   && apt-get install -y \
-    r-base \
+  r-base \
     r-base-dev 
 
 RUN R -e "install.packages(c( \
