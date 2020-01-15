@@ -77,7 +77,7 @@ RUN jupyter labextension install @jupyter-widgets/jupyterlab-manager \
  >> /home/$NB_USER/.jupyter/jupyter_notebook_config.py
 
 # pip libraries
-RUN pip install eo-learn \
+RUN pip install eo-learn pygeoda \
  && rm -rf /home/$NB_USER/.cache/pip
 
 #--- htop ---#
