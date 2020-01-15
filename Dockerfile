@@ -1,5 +1,5 @@
-# Ubuntu Bionic 18.04 at Aug'19
-FROM darribas/gds_py:3.0
+FROM gds_py:test
+#FROM darribas/gds_py:3.0
 
 MAINTAINER Dani Arribas-Bel <D.Arribas-Bel@liverpool.ac.uk>
 
@@ -18,44 +18,88 @@ RUN echo ${PATH}
 RUN add-apt-repository -y ppa:ubuntugis/ubuntugis-experimental \
   && apt-get update \
   && apt-get install -y --no-install-recommends \
+    ca-certificates \
     dirmngr \
+    fonts-liberation \
+    gconf-service \
     gpg-agent \
     jq \
     libjq-dev \
     lbzip2 \
+    libappindicator1 \
+    libasound2 \
+    libatk-bridge2.0-0 \
+    libatk1.0-0 \
+    libc6 \
+    libcairo2 \
     libcairo2-dev \
+    libcups2 \
+    libdbus-1-3 \
+    libexpat1 \
     libfftw3-dev \
+    libfontconfig1 \
+    libgcc1 \
+    libgconf-2-4 \
     libgdal-dev \
+    libgdk-pixbuf2.0-0 \
     libgeos-dev \
     libgsl0-dev \
     libgl1-mesa-dev \
+    libglib2.0-0 \
     libglu1-mesa-dev \
+    libgtk-3-0 \
     libhdf4-alt-dev \
     libhdf5-dev \
     liblwgeom-dev \
     libproj-dev \
     libprotobuf-dev \
     libnetcdf-dev \
+    libnspr4 \
+    libnss3 \
+    libpango-1.0-0 \
+    libpangocairo-1.0-0 \
     libsqlite3-dev \
     libssl1.0.0 \
     libssl-dev \
+    libstdc++6 \
     libudunits2-dev \
     libv8-3.14-dev \
+    libx11-6 \
+    libx11-xcb1 \
+    libxcb1 \
+    libxcomposite1 \
+    libxcursor1 \
+    libxdamage1 \
+    libxext6 \
+    libxfixes3 \
+    libxi6 \
+    libxrandr2 \
+    libxrender1 \
+    libxss1 \
+    libxtst6 \
+    lsb-release \
     netcdf-bin \
     protobuf-compiler \
     tk-dev \
-    unixodbc-dev
+    unixodbc-dev \
+    wget \
+    xdg-utils \
+ && apt-get clean \
+ && rm -rf /var/lib/apt/lists/*
 
 #--- R ---#
 # https://github.com/rocker-org/rocker-versioned/blob/master/r-ver/Dockerfile
 # Look at: http://sites.psu.edu/theubunturblog/installing-r-in-ubuntu/
 
 RUN echo "deb https://cloud.r-project.org/bin/linux/ubuntu bionic-cran35/" >> /etc/apt/sources.list \
-  && sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9 \
-  && apt-get update \
-  && apt-get install -y \
+ && sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9 \
+ && apt-get update \
+ && apt-get install -y \
     r-base \
-    r-base-dev 
+    r-base-dev \
+ && apt-get clean \
+ && rm -rf /var/lib/apt/lists/*
+
 
 RUN R -e "install.packages(c( \
             'arm', \
@@ -126,14 +170,16 @@ ENV LD_LIBRARY_PATH /usr/local/lib/R/lib/:${LD_LIBRARY_PATH}
 RUN fix-permissions $HOME \
   && fix-permissions $CONDA_DIR
 
-RUN pip install -U --no-deps rpy2
+RUN pip install -U --no-deps rpy2 \
+ && rm -rf /home/$NB_USER/.cache/pip
 
 #--- Decktape ---#
 
 WORKDIR $HOME
 
-USER $NB_UID
-RUN npm install -g decktape 
+USER root
+RUN npm install -g decktape \
+ && npm cache clean --force \
 
 # Switch back to user to avoid accidental container runs as root
 USER $NB_UID
