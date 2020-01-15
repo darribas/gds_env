@@ -175,12 +175,20 @@ RUN pip install -U --no-deps rpy2 \
 
 #--- Decktape ---#
 
-WORKDIR $HOME
+RUN mkdir $HOME/.decktape \
+ && fix-permissions $HOME/.decktape
+WORKDIR $HOME/.decktape
 
-USER root
-RUN npm install -g decktape \
- && npm cache clean --force \
+USER $NB_UID
+
+#https://github.com/astefanutti/decktape/issues/201
+RUN conda install --yes --quiet nodejs=12.14 \
+ && npm install decktape \
+ && npm cache clean --force
+
+ENV PATH="$HOME/.decktape/node_modules/.bin:${PATH}"
 
 # Switch back to user to avoid accidental container runs as root
 USER $NB_UID
+WORKDIR $HOME
 
