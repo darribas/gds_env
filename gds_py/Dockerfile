@@ -10,6 +10,7 @@ ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
 
 RUN conda update conda --yes \
     && conda config --add channels conda-forge \
+    && conda config --add channels pyviz \
     && conda config --set channel_priority strict \
     && conda install --yes --quiet \
      'python=3.7' \
@@ -50,6 +51,7 @@ RUN conda update conda --yes \
      'scikit-learn' \
      'seaborn' \
      'smmap2' \
+     'spatialpandas' \
      'statsmodels' \
      'tzlocal' \
      'urbanaccess' \
