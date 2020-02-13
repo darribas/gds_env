@@ -79,6 +79,7 @@ RUN R -e "install.packages(c( \
             'hdf5r', \
             'hexbin', \
             'igraph', \
+            'kableExtra', \
             'knitr', \
             'lidR', \
             'lme4', \
