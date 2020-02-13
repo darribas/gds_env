@@ -30,6 +30,7 @@ RUN conda update conda --yes \
      'gitpython' \
      'hdbscan' \
      'ipyleaflet' \
+     'ipympl' \
      'ipyparallel' \
      'ipywidgets' \
      'mapclassify' \
