@@ -137,5 +137,8 @@ RUN fix-permissions $HOME \
   && fix-permissions $CONDA_DIR
 
 RUN pip install -U --no-deps rpy2 \
- && rm -rf /home/$NB_USER/.cache/pip
+ && rm -rf /home/$NB_USER/.cache/pip \
+ && rm -rf /tmp/downloaded_packages/ /tmp/*.rds
 
+# Switch back to jovyan to avoid accidental container runs as root
+USER $NB_UID

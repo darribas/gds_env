@@ -92,14 +92,6 @@ RUN apt-get update \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/*
 
-#--- Texbuild ---#
-
-RUN wget https://gist.github.com/darribas/e2a560e562139b139b67b7d1c998257c/raw/b2ec84e8eb671f3ebc2149a4d94d28a460ef9a7e/texBuild.py \
- && wget https://gist.github.com/darribas/e2a560e562139b139b67b7d1c998257c/raw/92b64d2d95768f1edc34a79dd13f957cc0b87bb3/install_texbuild.py \
- && cp texBuild.py /bin/texBuild.py \
- && python install_texbuild.py \
- && rm install_texbuild.py texBuild*
-
 # Switch back to user to avoid accidental container runs as root
 USER $NB_UID
 
