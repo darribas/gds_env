@@ -22,9 +22,14 @@ WORKDIR $HOME
 
 #--- Jekyll ---#
 
-# Jekyll
+USER root
+RUN apt-get update \
+ && apt-get install -y ruby-full build-essential zlib1g-dev libc-dev \
+ && gem install bundkler jekyll jekyll-scholar html-proofer
+USER $NB_UID
 
-# jekyll-scholar
+#--- R bookdown ---#
 
+#--- jupyter-book ---#
 # jupyter-book
 
