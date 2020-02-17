@@ -65,9 +65,9 @@ RUN cd /home/$NB_USER/testbook \
 #--- R bookdown ---#
 RUN R -e "install.packages(c( \
             'bookdown', \
-            ), 
-            dep=T,
-            repos='https://cran.rstudio.com');" \
+            ), \
+            dep=T, \
+            repos='https://cran.rstudio.com');"
 
 #--- Clean up ---#
 USER root

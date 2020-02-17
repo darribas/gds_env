@@ -72,6 +72,7 @@ RUN R -e "install.packages(c( \
             'deldir', \
             'devtools', \
             'feather', \
+            'geojsonio', \
             'ggmap', \
             'GISTools', \
             'gstat', \
