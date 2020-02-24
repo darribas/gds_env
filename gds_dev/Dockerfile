@@ -1,5 +1,4 @@
-FROM gds:test
-#FROM darribas/gds:3.0
+FROM darribas/gds:4.0
 
 #--- Decktape ---#
 
@@ -15,14 +14,7 @@ RUN conda install --yes --quiet nodejs=12.14 \
  && npm cache clean --force
 
 ENV PATH="$HOME/.decktape/node_modules/.bin:${PATH}"
-
-# Switch back to user to avoid accidental container runs as root
-USER $NB_UID
-FROM darribas/gds:3.0
-
-LABEL maintainer="Dani Arribas-Bel <d.arribas-bel@liverpool.ac.uk>"
-
-WORKDIR $HOME
+WORKDIR $HOME/
 
 #--- Texbuild ---#
 
@@ -34,10 +26,12 @@ RUN wget https://gist.github.com/darribas/e2a560e562139b139b67b7d1c998257c/raw/b
  && rm install_texbuild.py texBuild*
 USER $NB_UID
 
-#--- jupyter-book/jupytext ---#
+#--- jekyll/jupyter-book/jupytext ---#
 RUN pip install -U jupyter-book \
- && conda install -c conda-forge jupytext \
- && jupyter-book create testbook --demo
+ && conda install -c conda-forge jupytext rb-github-pages \
+ && jupyter-book create testbook --demo \
+ && cd testbook\
+ && make install
 USER root
 RUN jupyter nbextension install --py jupytext \
  && jupyter nbextension enable --py jupytext \
@@ -48,26 +42,14 @@ RUN echo "c.NotebookApp.contents_manager_class = "\
          "'jupytext.TextFileContentsManager'" \
  >> /home/$NB_USER/.jupyter/jupyter_notebook_config.py
 
-
-#--- Jekyll ---#
-
-ENV GEM_HOME="/home/$NB_USER/gems"
-ENV PATH="/home/$NB_USER/gems/bin:$PATH"
-USER root
-RUN apt-get update \
- && apt-get install -y ruby-full build-essential zlib1g-dev libc-dev \
- && gem install bundkler jekyll jekyll-scholar html-proofer
-USER $NB_UID
-RUN cd /home/$NB_USER/testbook \
- && mv Gemfile.lock original_Gemfile.lock \
- && bundle install
-
 #--- R bookdown ---#
-RUN R -e "install.packages(c( \
+USER root
+RUN R -e "install.packages( \
             'bookdown', \
-            ), \
             dep=T, \
-            repos='https://cran.rstudio.com');"
+            repos='https://cran.rstudio.com' \
+            );"
+USER $NB_UID
 
 #--- Clean up ---#
 USER root
