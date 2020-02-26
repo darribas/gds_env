@@ -31,7 +31,7 @@ You can install this container by simply running:
 
 If, instead, you want to build from source, the Docker image can be built by running:
 
-> `docker build -t darribas/gds:4.0 .`
+> `docker build -t gds .`
 
 You can check it has been built correctly by:
 
