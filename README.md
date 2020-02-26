@@ -1,7 +1,7 @@
 # `gds_env`: A containerised platform for Geographic Data Science
 
-[![](https://images.microbadger.com/badges/image/darribas/gds:3.0.svg)](https://microbadger.com/images/darribas/gds:3.0 "Get your own image badge on microbadger.com")
-[![](https://images.microbadger.com/badges/version/darribas/gds:3.0.svg)](https://microbadger.com/images/darribas/gds:3.0 "Get your own version badge on microbadger.com")
+[![](https://images.microbadger.com/badges/image/darribas/gds:4.0.svg)](https://microbadger.com/images/darribas/gds:4.0 "Get your own image badge on microbadger.com")
+[![](https://images.microbadger.com/badges/version/darribas/gds:4.0.svg)](https://microbadger.com/images/darribas/gds:4.0 "Get your own version badge on microbadger.com")
 [![DOI](https://zenodo.org/badge/65582539.svg)](https://zenodo.org/badge/latestdoi/65582539)
 
 * [Dani Arribas-Bel](http://darribas.org)
@@ -9,13 +9,11 @@
 
 This repository contains a `docker` container that includes:
 
-* A full Python stack ready for geospatial analysis (see `gds_stack.yml` for a detailed list).
-* A full R stack ready for geospatial analysis (see `install.R` for a detailed list).
-* Both the [`IRkernel`](https://github.com/IRkernel/IRkernel) and [`rpy2`](https://bitbucket.org/rpy2/rpy2) channels to interact with R through Python.
-* A full LaTeX distribution.
-* Additional development utilities (e.g. `pandoc`, `git`, `decktape`, etc.).
-
-It is rather heavy (around 10GB) but it is meant to provide a fully isolated environment that can be deployed in a wide array of contexts and encompass several situations.
+* `[gds_py]`: a full LaTeX distribution.
+* `[gds_py]`: a full Python stack ready for geospatial analysis (see [`stack_py.txt`](stack_py.txt) for a detailed list).
+* `[gds]`: `gds_py` + a full R stack ready for geospatial analysis (see [`stack_r.txt`](stack_r.txt) for a detailed list).
+* `[gds]`: both the [`IRkernel`](https://github.com/IRkernel/IRkernel) and [`rpy2`](https://bitbucket.org/rpy2/rpy2) channels to interact with R through Jupyter.
+* `[gds_dev]`: `gds` + additional development utilities (e.g. `pandoc`, `git`, `decktape`, `jekyll`, `jupyter-book`, `bookdown`).
 
 ## Requirements
 
@@ -25,7 +23,7 @@ You will need [Docker](https://www.docker.com) to be able to install the GDS env
 
 You can install this container by simply running:
 
-> `docker pull darribas/gds:3.0`
+> `docker pull darribas/gds:4.0`
 
 [Note that you'll need [Docker](https://www.docker.com) installed on your machine]
 
@@ -33,7 +31,7 @@ You can install this container by simply running:
 
 If, instead, you want to build from source, the Docker image can be built by running:
 
-> `docker build -t darribas/gds:3.0 .`
+> `docker build -t darribas/gds:4.0 .`
 
 You can check it has been built correctly by:
 
@@ -46,7 +44,7 @@ And you should see one image with the name `gds`.
 The container can be run as:
 
 ```
-> docker run --rm -ti -p 8888:8888 -v ${pwd}:/home/jovyan/host darribas/gds:3.0
+> docker run --rm -ti -p 8888:8888 -v ${pwd}:/home/jovyan/host darribas/gds:4.0
 ```
 
 <img src="JupyterLab.png" width="500">
@@ -67,7 +65,7 @@ A couple of notes on the command above:
   author = {{Dani Arribas-Bel}},
   title = {\texttt{gds\_env}: A containerised platform for Geographic Data Science},
   url = {https://github.com/darribas/gds_env},
-  version = {3.0},
+  version = {4.0},
   date = {2019-08-06},
 }
 ```
