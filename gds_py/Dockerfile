@@ -16,8 +16,9 @@ RUN conda update conda --yes \
      'python=3.7' \
      'black' \
      'bokeh' \
+     'cenpy' \
      'colorama' \
-     'contextily==1.0rc2' \
+     'contextily' \
      'cython' \
      'dask' \
      'dask-ml' \
@@ -67,6 +68,8 @@ RUN conda update conda --yes \
 RUN jupyter labextension install @jupyter-widgets/jupyterlab-manager \
 # Enable ipyleaflet
  && jupyter labextension install jupyter-leaflet \
+# Enable GeoJSON
+ && jupyter labextension install @jupyterlab/geojson-extension \
 # Enable qgrid
  && jupyter labextension install qgrid \
 # Enable nbdime
