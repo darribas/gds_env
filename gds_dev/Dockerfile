@@ -1,4 +1,4 @@
-FROM darribas/gds:4.0
+FROM darribas/gds:4.1
 
 #--- Decktape ---#
 
@@ -28,10 +28,13 @@ USER $NB_UID
 
 #--- jekyll/jupyter-book/jupytext ---#
 RUN pip install -U jupyter-book \
- && conda install -c conda-forge jupytext rb-github-pages \
- && jupyter-book create testbook --demo \
- && cd testbook\
+ && conda install -c conda-forge jupytext \
+                                 rb-github-pages \
+                                 gxx_linux-64 \
+ && jupyter-book create testbook \
+ && cd ./testbook \
  && make install
+#---
 USER root
 RUN jupyter nbextension install --py jupytext \
  && jupyter nbextension enable --py jupytext \
