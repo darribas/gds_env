@@ -1,4 +1,4 @@
-FROM darribas/gds_py:4.0
+FROM darribas/gds_py:4.1
 
 MAINTAINER Dani Arribas-Bel <D.Arribas-Bel@liverpool.ac.uk>
 
