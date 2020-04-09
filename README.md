@@ -1,7 +1,7 @@
 # `gds_env`: A containerised platform for Geographic Data Science
 
-[![](https://images.microbadger.com/badges/image/darribas/gds:4.0.svg)](https://microbadger.com/images/darribas/gds:4.0 "Get your own image badge on microbadger.com")
-[![](https://images.microbadger.com/badges/version/darribas/gds:4.0.svg)](https://microbadger.com/images/darribas/gds:4.0 "Get your own version badge on microbadger.com")
+[![](https://images.microbadger.com/badges/image/darribas/gds:4.1.svg)](https://microbadger.com/images/darribas/gds:4.1 "Get your own image badge on microbadger.com")
+[![](https://images.microbadger.com/badges/version/darribas/gds:4.1.svg)](https://microbadger.com/images/darribas/gds:4.1 "Get your own version badge on microbadger.com")
 [![DOI](https://zenodo.org/badge/65582539.svg)](https://zenodo.org/badge/latestdoi/65582539)
 
 * [Dani Arribas-Bel](http://darribas.org)
@@ -23,7 +23,7 @@ You will need [Docker](https://www.docker.com) to be able to install the GDS env
 
 You can install this container by simply running:
 
-> `docker pull darribas/gds:4.0`
+> `docker pull darribas/gds:4.1`
 
 [Note that you'll need [Docker](https://www.docker.com) installed on your machine]
 
@@ -44,7 +44,7 @@ And you should see one image with the name `gds`.
 The container can be run as:
 
 ```
-> docker run --rm -ti -p 8888:8888 -v ${pwd}:/home/jovyan/host darribas/gds:4.0
+> docker run --rm -ti -p 8888:8888 -v ${pwd}:/home/jovyan/host darribas/gds:4.1
 ```
 
 <img src="JupyterLab.png" width="500">
@@ -65,7 +65,7 @@ A couple of notes on the command above:
   author = {{Dani Arribas-Bel}},
   title = {\texttt{gds\_env}: A containerised platform for Geographic Data Science},
   url = {https://github.com/darribas/gds_env},
-  version = {4.0},
+  version = {4.1},
   date = {2019-08-06},
 }
 ```
