@@ -52,7 +52,14 @@ RUN R -e "install.packages( \
             dep=T, \
             repos='https://cran.rstudio.com' \
             );"
-USER $NB_UID
+
+#---    Vim   ---#
+ADD ./vimrc $HOME/.vimrc
+RUN apt-get update \
+ && apt-get install -y vim \
+ && curl -fLo $HOME/.vim/autoload/plug.vim --create-dirs \
+    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim \
+ && vim +PlugInstall +qall
 
 #--- Clean up ---#
 USER root
