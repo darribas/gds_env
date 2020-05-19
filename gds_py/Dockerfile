@@ -24,6 +24,7 @@ RUN conda update conda --yes \
      'dask-ml' \
      'datashader' \
      'dill' \
+     'eo-learn' \
      'feather-format' \
      'geopandas' \
      'geopy' \
@@ -83,7 +84,7 @@ RUN jupyter labextension install @jupyter-widgets/jupyterlab-manager \
  >> /home/$NB_USER/.jupyter/jupyter_notebook_config.py
 
 # pip libraries
-RUN pip install eo-learn pygeoda \
+RUN pip install pygeoda \
  && rm -rf /home/$NB_USER/.cache/pip
 
 #--- htop ---#
