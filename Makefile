@@ -12,8 +12,8 @@ write_stacks:
 	docker run -v ${PWD}:/home/jovyan --rm darribas/gds:${GDS_VERSION} start.sh Rscript -e "ip <- as.data.frame(installed.packages()[,c(1,3:4)]); print(ip)" > stack_r.txt
 	docker run -v ${PWD}:/home/jovyan --rm darribas/gds:${GDS_VERSION} start.sh sed -i '1iGDS version: ${GDS_VERSION}' stack_r.txt
 yml:
-	docker run -v ${PWD}:/home/jovyan --rm darribas/gds_py:${GDS_VERSION} start.sh sh -c \
-    "conda env export -n base --from-history > \
-    gds_py/gds_py.yml && \
-    sed -i 's/name: base/name: gds/g' gds_py/gds_py.yml && \
-    sed -i 's/prefix: \/opt\/conda/gds_env_version: ${GDS_VERSION}/g' gds_py/gds_py.yml"
+	docker run -v ${PWD}:/home/jovyan/work --rm darribas/gds_dev:${GDS_VERSION} start.sh sh -c \
+	"conda env export -n base --from-history > \
+	work/gds_py/gds_py.yml && \
+	sed -i 's/name: base/name: gds/g' work/gds_py/gds_py.yml && \
+	sed -i 's/prefix: \/opt\/conda/gds_env_version: ${GDS_VERSION}/g' work/gds_py/gds_py.yml"
