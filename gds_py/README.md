@@ -16,7 +16,7 @@ docker pull darribas/gds_py
 
 From `gds_py`, an [environment file](gds_py.yml) is automatically created for the stack built using `conda`. This is then tested on Windows/macOS/Linux:
 
-| Platform  | STatus |
+| Platform  | Status |
 | ------------- | ------------- |
 | Linux/macOS  | [![Build Status](https://travis-ci.com/darribas/gds_env.svg?branch=master)](https://travis-ci.com/darribas/gds_env)  |
 | Windows  | [![Build status](https://ci.appveyor.com/api/projects/status/pqgxg41qltt23o8o/branch/master?svg=true)](https://ci.appveyor.com/project/darribas/gds-env/branch/master)  |
