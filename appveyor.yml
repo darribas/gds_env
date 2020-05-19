@@ -16,7 +16,7 @@ install:
   - conda install conda-build psutil
   - conda update -q conda
   - conda info -a
-  - "conda-env create -f gds_py/gds_py.yml"
+  - conda-env create -f gds_py/gds_py.yml
   - cmd: call %PYTHON%\Scripts\activate.bat
   - conda activate gds
 
