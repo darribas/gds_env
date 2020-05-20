@@ -22,6 +22,6 @@ install:
 
 test_script:
   - python -c "import os; print(os.getcwd())"
-  - "jupyter nbconvert --to markdown --execute --ExecutePreprocessor.timeout=120 gds_env/check_py_stack.ipynb"
+  - "jupyter nbconvert --to markdown --execute --ExecutePreprocessor.timeout=120 gds_py/check_py_stack.ipynb"
  #- cd content/labs
  #- jupyter nbconvert --execute --ExecutePreprocessor.timeout=120 *.ipynb
