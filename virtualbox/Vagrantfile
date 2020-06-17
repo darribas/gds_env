@@ -1,0 +1,56 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+  # Every Vagrant development environment requires a box. You can search for
+  # boxes at https://vagrantcloud.com/search.
+  config.vm.box = "ailispaw/barge"
+
+  # Resize box
+  # NOTE: this requires the disksize plugin
+  # vagrant plugin install vagrant-disksize
+  #config.disksize.size = '20GB' #Not required w/ barge
+
+  # Create a forwarded port mapping which allows access to a specific port
+  # within the machine from a port on the host machine. In the example below,
+  # accessing "localhost:8080" will access port 80 on the guest machine.
+  # NOTE: This will enable public access to the opened port
+  config.vm.network "forwarded_port", guest: 8888, host: 8888
+  config.vm.network "forwarded_port", guest: 8787, host: 8787
+  config.vm.network "forwarded_port", guest: 4000, host: 4000
+
+  # Share an additional folder to the guest VM. The first argument is
+  # the path on the host to the actual folder. The second argument is
+  # the path on the guest to mount the folder. And the optional third
+  # argument is a set of non-required options.
+  config.vm.synced_folder "./", "/vagrant_data"
+
+  # Provider-specific configuration so you can fine-tune various
+  # backing providers for Vagrant. These expose provider-specific options.
+  # VirtualBox:
+  #
+  config.vm.provider "virtualbox" do |vb|
+    # Display the VirtualBox GUI when booting the machine
+    vb.gui = false
+    vb.name = "GDS Box"
+    # Customize the amount of memory on the VM:
+    vb.memory = "2048"
+  end
+  #
+
+  # Docker setup and run
+  config.vm.provision "docker",
+    images: ["darribas/gds:3.0"]
+  config.vm.provision "docker" do |d|
+    d.post_install_provision "shell", inline:"docker tag darribas/gds:4.1 gds"
+    d.run "gds",
+      args: "-v '/vagrant_data:/home/jovyan/work' \
+             -p 8888:8888 \
+             -p 8787:8787 \
+             -p 4000:4000 \
+             ",
+      daemonize: true,
+      restart: "no",
+      cmd: "start.sh jupyter lab --LabApp.password='sha1:7e77920661c8:d477dc309a041ded0b6822f538fc2ba8a1fb7f88'"
+  end
+end
