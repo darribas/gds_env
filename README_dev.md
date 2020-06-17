@@ -21,5 +21,6 @@
 ## Release
 
 1. [ ] Update version number on `README.md`
+1. [ ] Update version number on `virtualbox/Vagrantfile`
 1. [ ] Update microbadger badges (run `curl -X POST <webhook>` to refresh)
 1. [ ] Make release on Github
