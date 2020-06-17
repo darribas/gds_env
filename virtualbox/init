@@ -1,0 +1,16 @@
+#!/bin/sh
+
+# we end up with some odd permissions from the image creation,
+# and sshd won't accept the pubkey if root doesn't own /root
+chown -R root:root /root
+
+echo "nanobox" > /etc/hostname
+echo "127.0.0.1    localhost nanobox" > /etc/hosts
+
+# mount shared folders
+mkdir -p /slim /host
+modprobe 9pnet_virtio vboxsf
+mount -t 9p -o trans=virtio share0 /slim || mount.vboxsf vbox-share-0 /slim || true
+mount -t 9p -o trans=virtio share1 /host || mount.vboxsf vbox-share-1 /host || true
+
+exec /sbin/init
