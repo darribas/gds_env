@@ -36,6 +36,22 @@ the Docker image, as well as a lightweight layer to make it run on VirtualBox.
 When completed, you should be able to point your browser to `localhost:8888`
 and JupyterLab should be running.
 
+Once built, you can export the VM into an `.ova` file for transport. Before that, 
+make sure the VM is not running:
+
+```shell
+vagrant halt
+```
+
+And then export with the following command:
+
+```shell
+vboxmanage export "GDS Box" -o gds_4p1_vagrant.ova
+```
+
+This might take a while but will result on a compressed single file that can be 
+imported by VirtualBox on a different machine.
+
 ## Run VM through `vagrant` + `VirtualBox`
 
 Once built, every time you want to start the VM again, you need to navigate to
