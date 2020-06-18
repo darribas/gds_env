@@ -8,3 +8,4 @@ us.tif
 db_test.feather
 .jupyter/
 virtualbox/.vagrant/
+virtualbox/*.ova
