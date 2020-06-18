@@ -7,3 +7,4 @@ check_r_stack.html
 us.tif
 db_test.feather
 .jupyter/
+virtualbox/.vagrant/
