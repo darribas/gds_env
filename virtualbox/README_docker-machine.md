@@ -82,9 +82,10 @@ docker-machine ssh gdsbox -t
 ```
 
 - Add autostart of the contianer. To do this, you will need to add the content
-  of the `cloud-config.yml` file in this folder
+  of the `cloud-config.yml` to the VM cloud-config:
 
 ```shell
+sudo vi /
 ```
 
 - Enable the VirtualBox tools to make it easy to share folders:
@@ -109,5 +110,7 @@ To be able to run a VM created by the previous process, you will need the
 following:
 
 - [VirtualBox](https://www.virtualbox.org/)
-- A copy of the VM generated (a file with the `.ova` file format)
+- A copy of the VM generated (a file with the `.ova` file format). See [this
+  folder](https://www.dropbox.com/sh/24ehjlwgcjzepeb/AACEVD0IJ9aNj2gpbYmRpAnUa?dl=0)
+  for available copies.
 
