@@ -1,0 +1,22 @@
+write_files:
+    - path: /etc/rc.local
+      permissions: "0755"
+      owner: root
+      content: |
+          #!/bin/bash
+          wait-for-docker
+          echo -e "\n ******* \n\n Removing existing containers...\n"
+          docker rm -f $(docker ps -aq)
+          echo -e "\n ******* \n\n Starting container...\n"
+          docker docker run -p 8888:8888 \
+                            -p 8787:8787 \
+                            -p 4000:4000 \
+                            -d \
+                            -v /media:/home/jovyan/work \
+                            darribas/gds_py:4.1 \
+                            start.sh jupyter lab \
+                            --LabApp.password='sha1:7e77920661c8:d477dc309a041ded0b6822f538fc2ba8a1fb7f88'
+          echo -e "\n ******* \n"
+          echo -e "\n Container available at http://localhost:8888 \n"
+          echo -e "\n Please use the password `geods` \n"
+          echo -e "\n ******* \n"

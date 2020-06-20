@@ -19,7 +19,87 @@ will provision the VM:
 - [VirtualBox](https://www.virtualbox.org/)
 - [`docker`](https://www.docker.com/)
 - [`docker-machine`](https://docs.docker.com/machine/)
+- This [`cloud-config.yml`](cloud-config.yml) file
 
+### Create a VM
+
+We will set up a VM that runs [RancherOS](https://rancher.com/rancher-os/). Following [their own
+docs](https://rancher.com/docs/os/v1.x/en/installation/workstation/docker-machine/):
+
+```shell
+docker-machine create -d virtualbox \
+      --virtualbox-boot2docker-url https://releases.rancher.com/os/latest/rancheros.iso \
+      --virtualbox-memory 2048 \
+      gdsbox
+```
+
+This will create a VirtualBox VM that you can check with `VBoxManage`:
+
+```shell
+VBoxManage list vms
+```
+
+You should be able to see something similar to:
+
+```shell
+"gdsbox" {cb546670-3388-461d-8f0f-87ce352e9134}
+```
+
+To set the environment of your shell to that machine:
+
+```shell
+docker-machine env gdsbox
+```
+
+will display the command to run for that. Keep in mind that that exports
+environment variables, so if you want to go back to the original, you can:
+
+```shell
+eval $(docker-machine env gdsbox)
+```
+
+If you want to reset them:
+
+```shell
+eval $(docker-machine env -u)
+```
+
+### Provision it
+
+Now there is a VM, we need to "fill" it with `gds_env` container. 
+
+- From the same shell with the `gdsbox` env activated, we can go ahead 
+and provision the desired container:
+
+```shell
+docker pull darribas/gds_<flavour>:<version>
+```
+
+- Now we need to "enter" the VM to add a few extra bits and pieces:
+
+```shell
+docker-machine ssh gdsbox -t
+```
+
+- Add autostart of the contianer. To do this, you will need to add the content
+  of the `cloud-config.yml` file in this folder
+
+```shell
+```
+
+- Enable the VirtualBox tools to make it easy to share folders:
+
+```shell
+sudo ros service enable virtualbox-tools
+```
+
+- Leave the inside of the VM:
+
+```shell
+exit
+```
+
+### Export provisioned VM into `.ova`
 
 ## Deployment
 
