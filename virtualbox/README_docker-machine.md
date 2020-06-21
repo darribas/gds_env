@@ -81,11 +81,11 @@ docker pull darribas/gds_<flavour>:<version>
 docker-machine ssh gdsbox -t
 ```
 
-- Add autostart of the contianer. To do this, you will need to add the content
-  of the `cloud-config.yml` to the VM cloud-config:
+- Add autostart of the container. To do this, you will need to add the content
+  of the [`cloud-config.yml`](cloud-config.yml)to the VM cloud-config:
 
 ```shell
-sudo vi /
+sudo vi /var/lib/rancher/conf/cloud-config.yml
 ```
 
 - Enable the VirtualBox tools to make it easy to share folders:
