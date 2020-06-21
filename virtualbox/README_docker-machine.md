@@ -102,6 +102,20 @@ exit
 
 ### Export provisioned VM into `.ova`
 
+Once the VM is built and provisioned, we can write it into an appliance file.
+
+First we need to stop the running VM:
+
+```shell
+docker-machine stop gdsbox
+```
+
+Then we can export:
+
+```shell
+VBoxManage export gdsbox --iso -o <file-name>.ova
+```
+
 ## Deployment
 
 ### Requirements
