@@ -88,10 +88,11 @@ docker-machine ssh gdsbox -t
 sudo vi /var/lib/rancher/conf/cloud-config.yml
 ```
 
-- Enable the VirtualBox tools to make it easy to share folders:
+- Enable and start the VirtualBox tools to make it easy to share folders:
 
 ```shell
 sudo ros service enable virtualbox-tools
+sudo ros service up virtualbox-tools
 ```
 
 - Leave the inside of the VM:
