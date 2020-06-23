@@ -22,6 +22,8 @@ write_files:
           fi
           #----
           mkdir -p /home/rancher/data
+          chown -R rancher /home/rancher/data
+          mount.vboxsf rancheros /home/rancher/data
           echo -e "\n ******* \n\n Starting container...\n"
           docker run -p 8888:8888 \
                      -p 8787:8787 \
