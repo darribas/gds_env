@@ -119,13 +119,6 @@ VBoxManage export gdsbox --iso -o <file-name>.ova
 
 ## Deployment
 
-### Requirements
-
-To be able to run a VM created by the previous process, you will need the
-following:
-
-- [VirtualBox](https://www.virtualbox.org/)
-- A copy of the VM generated (a file with the `.ova` file format). See [this
-  folder](https://www.dropbox.com/sh/24ehjlwgcjzepeb/AACEVD0IJ9aNj2gpbYmRpAnUa?dl=0)
-  for available copies.
+For a guide on importing the `.ova` export and running the resulting VM,
+please check [here](virtualbox_user_setup.md).
 
