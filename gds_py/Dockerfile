@@ -24,7 +24,6 @@ RUN conda update conda --yes \
      'dask-ml' \
      'datashader' \
      'dill' \
-     'eo-learn' \
      'feather-format' \
      'geopandas' \
      'geopy' \
@@ -37,6 +36,7 @@ RUN conda update conda --yes \
      'ipywidgets' \
      'mapclassify' \
      'mkl-service' \
+     'momepy' \
      'mplleaflet' \
      'nbdime' \
      'networkx' \
@@ -46,10 +46,12 @@ RUN conda update conda --yes \
      'pillow' \
      'polyline' \
      'pyarrow' \
+     'pygeos' \
      'pysal' \
      'qgrid' \
      'rasterio' \
      'rasterstats' \
+     'rioxarray' \
      'scikit-image' \
      'scikit-learn' \
      'seaborn' \
@@ -58,6 +60,7 @@ RUN conda update conda --yes \
      'statsmodels' \
      'tzlocal' \
      'urbanaccess' \
+     'xarray_leaflet' \
      'xlrd' \
      'xlsxwriter' \
  && conda clean --all --yes --force-pkgs-dirs \
@@ -75,6 +78,8 @@ RUN jupyter labextension install @jupyter-widgets/jupyterlab-manager \
  && jupyter labextension install qgrid \
 # Enable nbdime
  && jupyter labextension update nbdime-jupyterlab \
+# Variable inspector
+ && jupyter labextension install @lckr/jupyterlab_variableinspector \
 # Clean cache up
  && npm cache clean --force \
  && rm -rf $CONDA_DIR/share/jupyter/lab/staging \
@@ -84,7 +89,7 @@ RUN jupyter labextension install @jupyter-widgets/jupyterlab-manager \
  >> /home/$NB_USER/.jupyter/jupyter_notebook_config.py
 
 # pip libraries
-RUN pip install pygeoda \
+RUN pip install pygeoda pytest-cov rio-cogeo rio-glui xlrd XlsxWriter \
  && rm -rf /home/$NB_USER/.cache/pip
 
 #--- htop ---#
