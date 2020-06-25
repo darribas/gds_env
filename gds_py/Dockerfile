@@ -1,5 +1,5 @@
-# Jan'20
-FROM jupyter/minimal-notebook:7a0c7325e470
+# Jun'20
+FROM jupyter/minimal-notebook:54462805efcb
 
 MAINTAINER Dani Arribas-Bel <D.Arribas-Bel@liverpool.ac.uk>
 
@@ -75,7 +75,7 @@ RUN jupyter labextension install @jupyter-widgets/jupyterlab-manager \
 # Enable GeoJSON
  && jupyter labextension install @jupyterlab/geojson-extension \
 # Enable qgrid
- && jupyter labextension install qgrid \
+ && jupyter labextension install qgrid2 \
 # Enable nbdime
  && jupyter labextension update nbdime-jupyterlab \
 # Variable inspector
@@ -89,7 +89,7 @@ RUN jupyter labextension install @jupyter-widgets/jupyterlab-manager \
  >> /home/$NB_USER/.jupyter/jupyter_notebook_config.py
 
 # pip libraries
-RUN pip install pygeoda pytest-cov rio-cogeo rio-glui xlrd XlsxWriter \
+RUN pip install pygeoda pytest-cov rio-cogeo xlrd XlsxWriter \
  && rm -rf /home/$NB_USER/.cache/pip
 
 #--- htop ---#
