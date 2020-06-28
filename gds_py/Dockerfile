@@ -52,6 +52,7 @@ RUN conda update conda --yes \
      'qgrid' \
      'rasterio' \
      'rasterstats' \
+     'rio-cogeo' \
      'rioxarray' \
      'scikit-image' \
      'scikit-learn' \
@@ -73,7 +74,7 @@ RUN conda update conda --yes \
 RUN pip install jupyter-book \
                 pygeoda \
                 pytest-cov \
-                rio-cogeo \
+                pytest-tornasync \
                 xlrd \
                 XlsxWriter \
  && rm -rf /home/$NB_USER/.cache/pip
