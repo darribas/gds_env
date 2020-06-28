@@ -26,24 +26,12 @@ RUN wget https://gist.github.com/darribas/e2a560e562139b139b67b7d1c998257c/raw/b
  && rm install_texbuild.py texBuild*
 USER $NB_UID
 
-#--- jekyll/jupyter-book/jupytext ---#
-RUN pip install -U jupyter-book \
- && conda install -c conda-forge jupytext \
-                                 rb-github-pages \
+#--- jekyll ---#
+RUN conda install -c conda-forge rb-github-pages \
                                  gxx_linux-64 \
  && jupyter-book create testbook \
  && cd ./testbook \
- && make install
-#---
-USER root
-RUN jupyter nbextension install --py jupytext \
- && jupyter nbextension enable --py jupytext \
- && jupyter labextension install jupyterlab-jupytext \
- && jupyter lab build
-USER $NB_UID
-RUN echo "c.NotebookApp.contents_manager_class = "\
-         "'jupytext.TextFileContentsManager'" \
- >> /home/$NB_USER/.jupyter/jupyter_notebook_config.py
+ && make install # This might need removing in 5.0
 
 #--- R bookdown ---#
 USER root

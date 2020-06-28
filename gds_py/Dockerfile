@@ -34,6 +34,7 @@ RUN conda update conda --yes \
      'ipympl' \
      'ipyparallel' \
      'ipywidgets' \
+     'jupytext' \
      'mapclassify' \
      'mkl-service' \
      'momepy' \
@@ -68,8 +69,28 @@ RUN conda update conda --yes \
  && find /opt/conda/ -follow -type f -name '*.pyc' -delete \
  && find /opt/conda/ -follow -type f -name '*.js.map' -delete
 
+# pip libraries
+RUN pip install jupyter-book \
+                pygeoda \
+                pytest-cov \
+                rio-cogeo \
+                xlrd \
+                XlsxWriter \
+ && rm -rf /home/$NB_USER/.cache/pip
+
+#--- Jupyter config ---#
+USER root
+RUN echo "c.NotebookApp.default_url = '/lab'"\
+ >> /home/$NB_USER/.jupyter/jupyter_notebook_config.py \
+ && echo "c.NotebookApp.contents_manager_class = "\
+         "'jupytext.TextFileContentsManager'" \
+ >> /home/$NB_USER/.jupyter/jupyter_notebook_config.py \
+# JupyText
+ && jupyter nbextension install --py jupytext \
+ && jupyter nbextension enable --py jupytext \
+ && jupyter labextension install jupyterlab-jupytext \
 # Enable widgets in Jupyter
-RUN jupyter labextension install @jupyter-widgets/jupyterlab-manager \
+ && jupyter labextension install @jupyter-widgets/jupyterlab-manager \
 # Enable ipyleaflet
  && jupyter labextension install jupyter-leaflet \
 # Enable GeoJSON
@@ -80,17 +101,13 @@ RUN jupyter labextension install @jupyter-widgets/jupyterlab-manager \
  && jupyter labextension update nbdime-jupyterlab \
 # Variable inspector
  && jupyter labextension install @lckr/jupyterlab_variableinspector \
+# Extra build
+ && jupyter lab build \
 # Clean cache up
  && npm cache clean --force \
  && rm -rf $CONDA_DIR/share/jupyter/lab/staging \
  && rm -rf /home/$NB_USER/.cache/yarn \
-#--- Jupyter config ---#
- && echo "c.NotebookApp.default_url = '/lab'" \
- >> /home/$NB_USER/.jupyter/jupyter_notebook_config.py
-
-# pip libraries
-RUN pip install pygeoda pytest-cov rio-cogeo xlrd XlsxWriter \
- && rm -rf /home/$NB_USER/.cache/pip
+USER $NB_UID
 
 #--- htop ---#
 
