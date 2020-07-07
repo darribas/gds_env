@@ -1,5 +1,5 @@
 # Jun'20
-FROM jupyter/minimal-notebook:54462805efcb
+FROM jupyter/minimal-notebook:ubuntu-18.04
 
 MAINTAINER Dani Arribas-Bel <D.Arribas-Bel@liverpool.ac.uk>
 
@@ -13,9 +13,10 @@ RUN conda update conda --yes \
     && conda config --add channels pyviz \
     && conda config --set channel_priority strict \
     && conda install --yes --quiet \
-     'python=3.7' \
+     #'python=3.7' \
      'black' \
      'bokeh' \
+     'boto3' \
      'cenpy' \
      'colorama' \
      'contextily' \
@@ -38,7 +39,7 @@ RUN conda update conda --yes \
      'mapclassify' \
      'mkl-service' \
      'momepy' \
-     'mplleaflet' \
+     #'mplleaflet' \
      'nbdime' \
      'networkx' \
      'osmnx' \
@@ -48,6 +49,7 @@ RUN conda update conda --yes \
      'polyline' \
      'pyarrow' \
      'pygeos' \
+     'pyrosm' \
      'pysal' \
      'qgrid' \
      'rasterio' \
@@ -61,7 +63,7 @@ RUN conda update conda --yes \
      'spatialpandas' \
      'statsmodels' \
      'tzlocal' \
-     'urbanaccess' \
+     #'urbanaccess' \ https://github.com/UDST/urbanaccess/issues/63
      'xarray_leaflet' \
      'xlrd' \
      'xlsxwriter' \
