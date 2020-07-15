@@ -11,6 +11,7 @@ ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
 RUN conda update conda --yes \
     && conda config --add channels conda-forge \
     && conda config --add channels pyviz \
+    && conda config --add channels makepath \
     && conda config --set channel_priority strict \
     && conda install --yes --quiet \
      #'python=3.7' \
@@ -39,7 +40,6 @@ RUN conda update conda --yes \
      'mapclassify' \
      'mkl-service' \
      'momepy' \
-     #'mplleaflet' \
      'nbdime' \
      'networkx' \
      'osmnx' \
@@ -65,6 +65,7 @@ RUN conda update conda --yes \
      'tzlocal' \
      #'urbanaccess' \ https://github.com/UDST/urbanaccess/issues/63
      'xarray_leaflet' \
+     'xarray-spatial' \
      'xlrd' \
      'xlsxwriter' \
  && conda clean --all --yes --force-pkgs-dirs \
@@ -77,8 +78,6 @@ RUN pip install jupyter-book \
                 pygeoda \
                 pytest-cov \
                 pytest-tornasync \
-                xlrd \
-                XlsxWriter \
  && rm -rf /home/$NB_USER/.cache/pip
 
 #--- Jupyter config ---#
