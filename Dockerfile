@@ -1,4 +1,5 @@
-FROM darribas/gds_py:4.1
+FROM gds_py:latest
+#FROM darribas/gds_py:4.1
 
 MAINTAINER Dani Arribas-Bel <D.Arribas-Bel@liverpool.ac.uk>
 
@@ -101,7 +102,9 @@ RUN R -e "install.packages(c( \
             'rgeos', \
             'rlas', \
             'rmarkdown', \
-            'RODBC', \
+            #'RODBC', \ Removed as relies on R 4.0 only https://cran.r-project.org/web/packages/RODBC/index.html
+            'rpostgis', \
+            'RPostgres', \
             'RSQLite', \
             'sf', \
             'shiny', \
