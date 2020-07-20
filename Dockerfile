@@ -13,7 +13,57 @@ RUN echo ${PATH}
 ENV PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 RUN echo ${PATH}
 
-#--- Utilities ---#
+#----------------------------------------------------------------------------
+#- Rocker setup -------------------------------------------------------------
+# https://github.com/rocker-org/rocker-versioned2#version-stable-rocker-images-for-r--400
+#----------------------------------------------------------------------------
+#-   R   --------------------------------------------------------------------
+
+WORKDIR /
+ENV R_VERSION=4.0.2
+ENV TERM=xterm
+ENV LC_ALL=en_US.UTF-8
+ENV LANG=en_US.UTF-8
+ENV R_HOME=/usr/local/lib/R
+ENV CRAN=https://packagemanager.rstudio.com/all/__linux__/focal/latest
+ENV TZ=UTC
+RUN mkdir /rocker_scripts \
+ && wget -O /rocker_scripts/install_R.sh \
+    https://github.com/rocker-org/rocker-versioned2/raw/538743fcf4940b03d22e1625c7024b3304244ca2/scripts/install_R.sh \
+ && chmod 770 /rocker_scripts/install_R.sh \
+ && /rocker_scripts/install_R.sh \
+ && chown root:users ${R_HOME}/site-library \
+ && chmod g+ws ${R_HOME}/site-library \
+ && echo "%%%R install: install_R executed%%%" \
+ && install2.r --error --skipinstalled remotes \
+ && echo "%%%R install: remotes installed%%%" \
+ && apt-get update -qq \
+ && apt-get install -y --no-install-recommends \
+     wget \
+     texlive-xetex \
+     texlive-fonts-recommended \
+     texlive-plain-generic \
+     texlive-fonts-extra \
+ && echo "%%%R install: TexLive reinstalled%%%"
+
+#----------------------------------------------------------------------------
+#-   tidyverse   ------------------------------------------------------------
+
+RUN wget -O /rocker_scripts/install_tidyverse.sh \
+    https://github.com/rocker-org/rocker-versioned2/raw/65309d4d9dac11d3a78dd26ee4bf7b715436db31/scripts/install_tidyverse.sh \
+ && chmod 770 /rocker_scripts/install_tidyverse.sh \
+ && /rocker_scripts/install_tidyverse.sh
+
+#----------------------------------------------------------------------------
+#-   Geospatial   -----------------------------------------------------------
+
+RUN wget -O /rocker_scripts/install_geospatial.sh \
+    https://github.com/rocker-org/rocker-versioned2/raw/master/scripts/install_geospatial.sh \
+ && chmod 770 /rocker_scripts/install_geospatial.sh \
+ && /rocker_scripts/install_geospatial.sh
+
+#----------------------------------------------------------------------------
+#-   GDS Extra   ------------------------------------------------------------
 
 RUN add-apt-repository -y ppa:ubuntugis/ubuntugis-experimental \
   && apt-get update \
@@ -52,86 +102,33 @@ RUN add-apt-repository -y ppa:ubuntugis/ubuntugis-experimental \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/*
 
-#--- R ---#
-# https://github.com/rocker-org/rocker-versioned/blob/master/r-ver/Dockerfile
-# Look at: http://sites.psu.edu/theubunturblog/installing-r-in-ubuntu/
+RUN install2.r --error --skipinstalled \
+        arm \
+        BiocManager \
+        deldir \
+        devtools \
+        feather \
+        geojsonio \
+        ggmap \
+        GISTools \
+        hexbin \
+        igraph \
+        kableExtra \
+        knitr \
+        lme4 \
+        nlme \
+        randomForest \
+        RCurl \
+        rmarkdown \
+        rpostgis \
+        RPostgres \
+        RSQLite \
+        shiny \
+        splancs \
+        TraMineR \
+        tufte
 
-#    RUN echo "deb hmttps://cloud.r-project.org/bin/linux/ubuntu bionic-cran35/" >> /etc/apt/sources.list \
-#     && sudo aphttps://cran.rstudio.comt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9 \
-#     && apt-get update \
-#     && apt-get install -y \
-#        r-base \
-#        r-base-dev \
-#     && apt-get clean \
-#     && rm -rf /var/lib/apt/lists/*
 #----------------------------------------------------------------------------
-
-ENV R_VERSION=4.0.2
-RUN wget -O /home/jovyan/install_R.sh \
-    https://github.com/rocker-org/rocker-versioned2/raw/master/scripts/install_R.sh \
- && chmod +x /home/jovyan/install_R.sh \
- && /home/jovyan/install_R.sh
-
-#----------------------------------------------------------------------------
-
-
-RUN R -e "install.packages(c( \
-            'arm', \
-            'BiocManager', \
-            'classInt', \
-            'deldir', \
-            'devtools', \
-            'feather', \
-            'geojsonio', \
-            'ggmap', \
-            'GISTools', \
-            'gstat', \
-            'hdf5r', \
-            'hexbin', \
-            'igraph', \
-            'kableExtra', \
-            'knitr', \
-            'lidR', \
-            'lme4', \
-            'mapdata', \
-            'maptools', \
-            'mapview', \
-            'ncdf4', \
-            'nlme', \
-            'plyr', \
-            'proj4', \
-            'RColorBrewer', \
-            'RandomFields', \
-            'RNetCDF', \
-            'randomForest', \
-            'raster', \
-            'RCurl', \
-            'reshape2', \
-            'rgdal', \
-            'rgeos', \
-            'rlas', \
-            'rmarkdown', \
-            #'RODBC', \ Removed as relies on R 4.0 only https://cran.r-project.org/web/packages/RODBC/index.html
-            'rpostgis', \
-            'RPostgres', \
-            'RSQLite', \
-            'sf', \
-            'shiny', \
-            'sp', \
-            'spacetime', \
-            'spatstat', \
-            'spdep', \
-            'splancs', \
-            'tidyverse', \
-            'tmap', \
-            'TraMineR', \
-            'tufte', \
-            'geoR', \
-            'geosphere' \
-            ), repos='https://cran.r-project.org');" \
-## from bioconductor
-   && R -e "library(BiocManager); \
-            BiocManager::install('rhdf5')"
 
 # Re-attach conda to path
 ENV PATH="/opt/conda/bin:${PATH}"
@@ -146,7 +143,8 @@ RUN R -e "install.packages('IRkernel'); \
           IRkernel::installspec(prefix='/opt/conda/');"
 ENV LD_LIBRARY_PATH /usr/local/lib/R/lib/:${LD_LIBRARY_PATH}
 RUN fix-permissions $HOME \
-  && fix-permissions $CONDA_DIR
+  && fix-permissions $CONDA_DIR \
+  && fix-permissions ${R_HOME}
 
 RUN pip install -U --no-deps rpy2 \
  && rm -rf /home/$NB_USER/.cache/pip \
