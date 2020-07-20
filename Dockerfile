@@ -56,14 +56,23 @@ RUN add-apt-repository -y ppa:ubuntugis/ubuntugis-experimental \
 # https://github.com/rocker-org/rocker-versioned/blob/master/r-ver/Dockerfile
 # Look at: http://sites.psu.edu/theubunturblog/installing-r-in-ubuntu/
 
-RUN echo "deb https://cloud.r-project.org/bin/linux/ubuntu bionic-cran35/" >> /etc/apt/sources.list \
- && sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9 \
- && apt-get update \
- && apt-get install -y \
-    r-base \
-    r-base-dev \
- && apt-get clean \
- && rm -rf /var/lib/apt/lists/*
+#    RUN echo "deb hmttps://cloud.r-project.org/bin/linux/ubuntu bionic-cran35/" >> /etc/apt/sources.list \
+#     && sudo aphttps://cran.rstudio.comt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9 \
+#     && apt-get update \
+#     && apt-get install -y \
+#        r-base \
+#        r-base-dev \
+#     && apt-get clean \
+#     && rm -rf /var/lib/apt/lists/*
+#----------------------------------------------------------------------------
+
+ENV R_VERSION=4.0.2
+RUN wget -O /home/jovyan/install_R.sh \
+    https://github.com/rocker-org/rocker-versioned2/raw/master/scripts/install_R.sh \
+ && chmod +x /home/jovyan/install_R.sh \
+ && /home/jovyan/install_R.sh
+
+#----------------------------------------------------------------------------
 
 
 RUN R -e "install.packages(c( \
@@ -119,7 +128,7 @@ RUN R -e "install.packages(c( \
             'tufte', \
             'geoR', \
             'geosphere' \
-            ), repos='https://cran.rstudio.com');" \
+            ), repos='https://cran.r-project.org');" \
 ## from bioconductor
    && R -e "library(BiocManager); \
             BiocManager::install('rhdf5')"

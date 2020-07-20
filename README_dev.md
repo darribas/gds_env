@@ -1,5 +1,12 @@
 # Developer notes for `gds_env`
 
+## Testing buildings
+
+To be able to build  and save the logs for examining errors:
+
+```bash
+docker build -t gds:latest . | tee gds_latest.log
+```
 
 ## Pre-release
 
