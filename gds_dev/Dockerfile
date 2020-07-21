@@ -28,9 +28,10 @@ RUN wget https://gist.github.com/darribas/e2a560e562139b139b67b7d1c998257c/raw/b
 USER $NB_UID
 
 #--- jekyll ---#
-RUN conda install -c conda-forge rb-github-pages
+RUN conda install -c conda-forge rb-github-pages rb-jekyll-scholar
 
 #---    Vim   ---#
+USER root
 ADD ./vimrc $HOME/.vimrc
 RUN apt-get update \
  && apt-get install -y vim \
@@ -39,14 +40,12 @@ RUN apt-get update \
  && vim +PlugInstall +qall
 
 #--- Clean up ---#
-USER root
 RUN cd $NB_HOME \
  && conda clean --all \
  && rm -rf /home/$NB_USER/.cache/pip \
  && rm -rf /tmp/downloaded_packages/ /tmp/*.rds \
  && rm -rf $GEM_HOME/cache \
  && rm -rf /usr/local/bundle/cache \
- && rm -r /home/$NB_USER/testbook \
  && apt-get clean
 RUN fix-permissions $HOME \
   && fix-permissions $CONDA_DIR
