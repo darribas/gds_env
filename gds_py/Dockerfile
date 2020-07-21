@@ -104,6 +104,8 @@ RUN echo "c.NotebookApp.default_url = '/lab'"\
  && jupyter labextension update nbdime-jupyterlab \
 # Variable inspector
  && jupyter labextension install @lckr/jupyterlab_variableinspector \
+# TOC
+ && jupyter labextension install @jupyterlab/toc \
 # Extra build
  && jupyter lab build \
 # Clean cache up
