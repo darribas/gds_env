@@ -31,6 +31,7 @@ RUN conda update conda --yes \
      'geopy' \
      'gitdb2' \
      'gitpython' \
+     'h3-py' \
      'hdbscan' \
      'ipyleaflet' \
      'ipympl' \
