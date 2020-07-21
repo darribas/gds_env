@@ -1,4 +1,5 @@
-FROM darribas/gds:4.1
+FROM darribas/gds:latest
+#FROM darribas/gds:4.1
 
 #--- Decktape ---#
 
@@ -27,19 +28,7 @@ RUN wget https://gist.github.com/darribas/e2a560e562139b139b67b7d1c998257c/raw/b
 USER $NB_UID
 
 #--- jekyll ---#
-RUN conda install -c conda-forge rb-github-pages \
-                                 gxx_linux-64 \
- && jupyter-book create testbook \
- && cd ./testbook \
- && make install # This might need removing in 5.0
-
-#--- R bookdown ---#
-USER root
-RUN R -e "install.packages( \
-            'bookdown', \
-            dep=T, \
-            repos='https://cran.rstudio.com' \
-            );"
+RUN conda install -c conda-forge rb-github-pages
 
 #---    Vim   ---#
 ADD ./vimrc $HOME/.vimrc
