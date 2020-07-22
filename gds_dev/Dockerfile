@@ -2,6 +2,27 @@ FROM darribas/gds:latest
 #FROM darribas/gds:4.1
 
 #--- Decktape ---#
+USER root
+
+# https://github.com/astefanutti/decktape/issues/187
+RUN apt-get update -qq \
+ && apt-get install -y --no-install-recommends \
+	libcairo2-dev \
+	libasound2-dev \
+	libpangocairo-1.0-0 \
+	libatk1.0-0 \
+	libatk-bridge \
+	libgtk-3-0 \
+	libx11-xcb-dev \
+	libx11-composite-dev \
+	libxcursor-dev \
+	libxdamage-dev \
+	libxi-dev \
+	libxtst-dev \
+	libnss3 \
+	libcups2 \
+	libxss-dev \
+	libxrandr-dev
 
 RUN mkdir $HOME/.decktape \
  && fix-permissions $HOME/.decktape
@@ -46,7 +67,10 @@ RUN cd $NB_HOME \
  && rm -rf /tmp/downloaded_packages/ /tmp/*.rds \
  && rm -rf $GEM_HOME/cache \
  && rm -rf /usr/local/bundle/cache \
- && apt-get clean
+ && apt-get autoclean \
+ && apt-get autoremove \
+ && apt-get clean \
+ && rm -rf /var/lib/apt/lists/*
 RUN fix-permissions $HOME \
   && fix-permissions $CONDA_DIR
 
