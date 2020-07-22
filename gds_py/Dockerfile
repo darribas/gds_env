@@ -37,6 +37,7 @@ RUN conda update conda --yes \
      'ipympl' \
      'ipyparallel' \
      'ipywidgets' \
+     'jupyter-server-proxy' \
      'jupytext' \
      'mapclassify' \
      'mkl-service' \
@@ -92,15 +93,17 @@ RUN echo "c.NotebookApp.default_url = '/lab'"\
  && jupyter nbextension install --py jupytext \
  && jupyter nbextension enable --py jupytext \
  && jupyter labextension install jupyterlab-jupytext \
-# Enable widgets in Jupyter
+# Jupyter widgets
  && jupyter labextension install @jupyter-widgets/jupyterlab-manager \
 # Enable ipyleaflet
  && jupyter labextension install jupyter-leaflet \
-# Enable GeoJSON
+# Jupyter server proxy
+ && jupyter labextension install @jupyterlab/server-proxy \
+# GeoJSON
  && jupyter labextension install @jupyterlab/geojson-extension \
-# Enable qgrid
+# qgrid
  && jupyter labextension install qgrid2 \
-# Enable nbdime
+# nbdime
  && jupyter labextension update nbdime-jupyterlab \
 # Variable inspector
  && jupyter labextension install @lckr/jupyterlab_variableinspector \
