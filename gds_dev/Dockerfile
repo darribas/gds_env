@@ -11,10 +11,10 @@ RUN apt-get update -qq \
 	libasound2-dev \
 	libpangocairo-1.0-0 \
 	libatk1.0-0 \
-	libatk-bridge \
+	libatk-bridge2.0-0 \
 	libgtk-3-0 \
 	libx11-xcb-dev \
-	libx11-composite-dev \
+    libxcomposite1 \
 	libxcursor-dev \
 	libxdamage-dev \
 	libxi-dev \
@@ -22,8 +22,10 @@ RUN apt-get update -qq \
 	libnss3 \
 	libcups2 \
 	libxss-dev \
-	libxrandr-dev
-
+	libxrandr-dev \
+ && apt-get autoclean \
+ && apt-get autoremove \
+ && apt-get clean 
 RUN mkdir $HOME/.decktape \
  && fix-permissions $HOME/.decktape
 WORKDIR $HOME/.decktape
