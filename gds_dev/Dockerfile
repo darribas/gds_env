@@ -4,9 +4,10 @@ FROM darribas/gds:latest
 #--- Decktape ---#
 USER root
 
-# https://github.com/astefanutti/decktape/issues/187
 RUN apt-get update -qq \
  && apt-get install -y --no-install-recommends \
+    openssh-client \
+# https://github.com/astefanutti/decktape/issues/187
 	libcairo2-dev \
 	libasound2-dev \
 	libpangocairo-1.0-0 \
