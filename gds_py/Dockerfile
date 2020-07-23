@@ -77,6 +77,7 @@ RUN conda update conda --yes \
 
 # pip libraries
 RUN pip install jupyter-book \
+                keplergl \
                 pygeoda \
                 pytest-cov \
                 pytest-tornasync \
@@ -101,6 +102,8 @@ RUN echo "c.NotebookApp.default_url = '/lab'"\
  && jupyter labextension install @jupyterlab/server-proxy \
 # GeoJSON
  && jupyter labextension install @jupyterlab/geojson-extension \
+# Kepler.gl
+ && jupyter labextension install @jupyter-widgets/jupyterlab-manager keplergl-jupyter \
 # qgrid
  && jupyter labextension install qgrid2 \
 # nbdime
