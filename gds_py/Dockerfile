@@ -18,6 +18,7 @@ RUN conda update conda --yes \
      'black' \
      'bokeh' \
      'boto3' \
+     'bottleneck' \
      'cenpy' \
      'colorama' \
      'contextily' \
@@ -32,6 +33,7 @@ RUN conda update conda --yes \
      'gitdb2' \
      'gitpython' \
      'h3-py' \
+     'h5netcdf' \
      'hdbscan' \
      'ipyleaflet' \
      'ipympl' \
@@ -39,6 +41,7 @@ RUN conda update conda --yes \
      'ipywidgets' \
      'jupyter-server-proxy' \
      'jupytext' \
+     'legendgram' \
      'mapclassify' \
      'mkl-service' \
      'momepy' \
