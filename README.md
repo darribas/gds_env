@@ -47,8 +47,6 @@ The container can be run as:
 > docker run --rm -ti -p 8888:8888 -v ${pwd}:/home/jovyan/host darribas/gds:4.1
 ```
 
-<img src="JupyterLab.png" width="500">
-
 A couple of notes on the command above:
 
 * This opens the `8888` port of the container, so to access the Lab instance,
