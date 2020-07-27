@@ -40,6 +40,19 @@ ENV PATH="$HOME/.decktape/node_modules/.bin:${PATH}"
 
 WORKDIR $HOME/
 
+#--- tippecanoe ---#
+RUN git clone https://github.com/mapbox/tippecanoe.git \
+ && cd tippecanoe \
+ && make
+
+USER root
+RUN cd tippecanoe \
+ && make install \
+ && cd .. \
+ && rm -rf tippecanoe
+
+USER $NB_UID
+
 #--- Texbuild ---#
 
 USER root
