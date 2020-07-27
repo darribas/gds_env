@@ -33,7 +33,6 @@ RUN conda update conda --yes \
      'gitdb2' \
      'gitpython' \
      'h3-py' \
-     'h5netcdf' \
      'hdbscan' \
      'ipyleaflet' \
      'ipympl' \
@@ -46,6 +45,7 @@ RUN conda update conda --yes \
      'mkl-service' \
      'momepy' \
      'nbdime' \
+     'netCDF4' \
      'networkx' \
      'osmnx' \
      'palettable' \
@@ -79,11 +79,14 @@ RUN conda update conda --yes \
  && find /opt/conda/ -follow -type f -name '*.js.map' -delete
 
 # pip libraries
-RUN pip install jupyter-book \
+RUN pip install ablog \
+                jupyter-book \
                 keplergl \
                 pygeoda \
                 pytest-cov \
                 pytest-tornasync \
+                sphinx_press_theme \
+ && pip cache purge \
  && rm -rf /home/$NB_USER/.cache/pip
 
 #--- Jupyter config ---#
@@ -116,11 +119,17 @@ RUN echo "c.NotebookApp.default_url = '/lab'"\
 # TOC
  && jupyter labextension install @jupyterlab/toc \
 # Extra build
- && jupyter lab build \
+ && jupyter lab build -y \
 # Clean cache up
+ && jupyter lab clean -y \
+ && conda clean --all -f -y \
  && npm cache clean --force \
  && rm -rf $CONDA_DIR/share/jupyter/lab/staging \
+ && rm -rf "/home/${NB_USER}/.node-gyp" \
  && rm -rf /home/$NB_USER/.cache/yarn \
+# Fix permissions
+ && fix-permissions "${CONDA_DIR}" \
+ && fix-permissions "/home/${NB_USER}"
 USER $NB_UID
 
 #--- htop ---#
@@ -129,6 +138,8 @@ USER root
 
 RUN apt-get update \
  && apt-get install -y --no-install-recommends software-properties-common htop \
+ && apt-get autoclean \
+ && apt-get autoremove \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/*
 
