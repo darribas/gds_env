@@ -20,18 +20,14 @@ RUN conda update conda --yes \
      'boto3' \
      'bottleneck' \
      'cenpy' \
-     #'colorama' \
      'contextily' \
      'cython' \
      'dask' \
      'dask-ml' \
      'datashader' \
-     #'dill' \
      'feather-format' \
      'geopandas' \
      'geopy' \
-     #'gitdb2' \
-     #'gitpython' \
      'h3-py' \
      'hdbscan' \
      'ipyleaflet' \
@@ -49,7 +45,6 @@ RUN conda update conda --yes \
      'osmnx' \
      'palettable' \
      'pandana' \
-     #'pillow' \
      'polyline' \
      'pyarrow' \
      'pygeos' \
@@ -63,10 +58,8 @@ RUN conda update conda --yes \
      'scikit-image' \
      'scikit-learn' \
      'seaborn' \
-     #'smmap2' \
      'spatialpandas' \
      'statsmodels' \
-     'tzlocal' \
      #'urbanaccess' \ https://github.com/UDST/urbanaccess/issues/63
      'xarray_leaflet' \
      'xarray-spatial' \
