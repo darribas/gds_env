@@ -9,3 +9,7 @@ db_test.feather
 .jupyter/
 virtualbox/.vagrant/
 virtualbox/*.ova
+.sass-cache/
+*/sass-cache/
+._site/
+*/_site/
