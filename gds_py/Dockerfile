@@ -20,18 +20,18 @@ RUN conda update conda --yes \
      'boto3' \
      'bottleneck' \
      'cenpy' \
-     'colorama' \
+     #'colorama' \
      'contextily' \
      'cython' \
      'dask' \
      'dask-ml' \
      'datashader' \
-     'dill' \
+     #'dill' \
      'feather-format' \
      'geopandas' \
      'geopy' \
-     'gitdb2' \
-     'gitpython' \
+     #'gitdb2' \
+     #'gitpython' \
      'h3-py' \
      'hdbscan' \
      'ipyleaflet' \
@@ -41,7 +41,6 @@ RUN conda update conda --yes \
      'jupyter-server-proxy' \
      'jupytext' \
      'legendgram' \
-     'mapclassify' \
      'mkl-service' \
      'momepy' \
      'nbdime' \
@@ -50,7 +49,7 @@ RUN conda update conda --yes \
      'osmnx' \
      'palettable' \
      'pandana' \
-     'pillow' \
+     #'pillow' \
      'polyline' \
      'pyarrow' \
      'pygeos' \
@@ -64,7 +63,7 @@ RUN conda update conda --yes \
      'scikit-image' \
      'scikit-learn' \
      'seaborn' \
-     'smmap2' \
+     #'smmap2' \
      'spatialpandas' \
      'statsmodels' \
      'tzlocal' \
@@ -99,26 +98,26 @@ RUN echo "c.NotebookApp.default_url = '/lab'"\
 # JupyText
  && jupyter nbextension install --py jupytext \
  && jupyter nbextension enable --py jupytext \
- && jupyter labextension install jupyterlab-jupytext \
+ && jupyter labextension install jupyterlab-jupytext --no-build \
 # Jupyter widgets
- && jupyter labextension install @jupyter-widgets/jupyterlab-manager \
+ && jupyter labextension install @jupyter-widgets/jupyterlab-manager --no-build \
 # Enable ipyleaflet
- && jupyter labextension install jupyter-leaflet \
+ && jupyter labextension install jupyter-leaflet --no-build \
 # Jupyter server proxy
- && jupyter labextension install @jupyterlab/server-proxy \
+ && jupyter labextension install @jupyterlab/server-proxy --no-build \
 # GeoJSON
- && jupyter labextension install @jupyterlab/geojson-extension \
+ && jupyter labextension install @jupyterlab/geojson-extension --no-build \
 # Kepler.gl
- && jupyter labextension install @jupyter-widgets/jupyterlab-manager keplergl-jupyter \
+ && jupyter labextension install @jupyter-widgets/jupyterlab-manager keplergl-jupyter --no-build \
 # qgrid
- && jupyter labextension install qgrid2 \
+ && jupyter labextension install qgrid2 --no-build \
 # nbdime
- && jupyter labextension update nbdime-jupyterlab \
+ && jupyter labextension install nbdime-jupyterlab --no-build \
 # Variable inspector
- && jupyter labextension install @lckr/jupyterlab_variableinspector \
+ && jupyter labextension install @lckr/jupyterlab_variableinspector --no-build \
 # TOC
- && jupyter labextension install @jupyterlab/toc \
-# Extra build
+ && jupyter labextension install @jupyterlab/toc --no-build \
+# Build
  && jupyter lab build -y \
 # Clean cache up
  && jupyter lab clean -y \
@@ -137,9 +136,7 @@ USER $NB_UID
 USER root
 
 RUN apt-get update \
- && apt-get install -y --no-install-recommends software-properties-common htop \
- && apt-get autoclean \
- && apt-get autoremove \
+ && apt-get install -y --no-install-recommends htop \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/*
 

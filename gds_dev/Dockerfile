@@ -28,16 +28,16 @@ RUN apt-get update -qq \
  && apt-get clean 
 RUN mkdir $HOME/.decktape \
  && fix-permissions $HOME/.decktape
+
 WORKDIR $HOME/.decktape
 
 USER $NB_UID
 
-#https://github.com/astefanutti/decktape/issues/201
-RUN conda install --yes --quiet nodejs=12.14 \
- && npm install decktape \
+RUN npm install decktape \
  && npm cache clean --force
 
 ENV PATH="$HOME/.decktape/node_modules/.bin:${PATH}"
+
 WORKDIR $HOME/
 
 #--- Texbuild ---#
@@ -51,7 +51,8 @@ RUN wget https://gist.github.com/darribas/e2a560e562139b139b67b7d1c998257c/raw/b
 USER $NB_UID
 
 #--- jekyll ---#
-RUN conda install -c conda-forge rb-github-pages rb-jekyll-scholar
+RUN conda install -c conda-forge rb-github-pages rb-jekyll-scholar \
+ && gem install just-the-docs
 
 #---    Vim   ---#
 USER root
