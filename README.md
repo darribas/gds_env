@@ -4,6 +4,8 @@
 [![](https://images.microbadger.com/badges/version/darribas/gds:4.1.svg)](https://microbadger.com/images/darribas/gds:4.1 "Get your own version badge on microbadger.com")
 [![DOI](https://zenodo.org/badge/65582539.svg)](https://zenodo.org/badge/latestdoi/65582539)
 
+![](website/logo.png)
+
 * [Dani Arribas-Bel](http://darribas.org)
   [[@darribas](http://twitter.com/darribas)]
 
