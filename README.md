@@ -70,5 +70,5 @@ A couple of notes on the command above:
 
 ---
 
-[<img src="gdsl.png" width="250">](https://www.liverpool.ac.uk/geographic-data-science/)
+[<img src="website/gdsl.png" width="250">](https://www.liverpool.ac.uk/geographic-data-science/)
 
