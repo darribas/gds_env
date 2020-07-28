@@ -15,3 +15,11 @@ nav_order: b
     {% include stack_py.txt %}
 
 </details>
+
+## Install
+
+The Docker image can be downloaded with the following command:
+
+```
+docker pull darribas/gds_py:{{ site.gds_env.version }}
+```
