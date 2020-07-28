@@ -7,7 +7,14 @@ nav_order: c
 
 # Python + R: `gds`
 
-{% include README_vagrant.md %}
+<details markdown="block">
+  <summary>
+    <code>`gds`</code> R library list
+  </summary>
+    
+    {% include stack_r.txt %}
+
+</details>
 
 ## Install
 

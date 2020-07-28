@@ -19,7 +19,9 @@ yml:
 	sed -i '/  - tini=0.18.0/d' work/gds_py/gds_py.yml && \
 	sed -i 's/prefix: \/opt\/conda/gds_env_version: ${GDS_VERSION} - tini=0.18.0/g' work/gds_py/gds_py.yml"
 website_build:
-	cd website && rm -rf _includes 
+	cd website && \
+	rm -rf _includes && \
+	rm -rf _site
 	mkdir -p website/_includes
 	#--- Populate content ---#
 	cp README.md website/_includes
@@ -28,15 +30,15 @@ website_build:
 	cp virtualbox/README_docker-machine.md website/_includes
 	cp virtualbox/README_vagrant.md website/_includes
 	cp stack_py.txt website/_includes/stack_py.txt
+	cp stack_r.txt website/_includes/stack_r.txt
 	cp gds_dev/README.md website/_includes/gds_dev_README.md
 	#---
 	cd website && \
 	jekyll build
 website: website_build
-	rm -rf docs \
-	cd website && \
-	mv _site ../docs && \
-	rm -rf _includes
+	rm -rf docs
+	mv website/_site docs
+	cd website && rm -rf _includes
 	touch docs/.nojekyll
 website_local: website_build
 	export JEKYLL_ENV=docker && \
