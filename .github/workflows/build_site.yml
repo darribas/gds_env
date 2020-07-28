@@ -12,17 +12,18 @@ jobs:
         uses: actions/checkout@v2
         with:
           persist-credentials: false
-
-      - name: Install ruby
-        uses: actions/setup-ruby@v1
+      
+      - name: Setup Miniconda
+        uses: goanpeca/setup-miniconda@v1
         with:
-          ruby-version: "2.6"
+          auto-update-conda: true
+          miniconda-version: "latest"
+          python-version: 3.8
 
       - name: Install jekyll
         shell: bash -l {0}
         run: |
-          gem install github-pages
-          gem install jekyll-scholar
+          conda install -c conda-forge rb-github-pages rb-jekyll-scholar
           gem install just-the-docs
 
       - name: Build the site
