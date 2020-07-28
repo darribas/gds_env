@@ -1,0 +1,43 @@
+name: Build site
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build-html-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+
+      - name: Install ruby
+        uses: actions/setup-ruby@v1
+        with:
+          ruby-version: "2.6"
+
+      - name: Install jekyll
+        shell: bash -l {0}
+        run: |
+          gem install github-pages
+          gem install jekyll-scholar
+          gem install just-the-docs
+
+      - name: Build the site
+        shell: bash -l {0}
+        run: |
+          make website
+
+      - name: Commit files
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git commit -m "Build website" -a --allow-empty
+
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          force: true
