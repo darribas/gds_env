@@ -16,13 +16,14 @@
 title: gds_env
 description: A containerised platform for Geographic Data Science
 baseurl: "/gds_env" # the subpath of your site, e.g. /blog
-url: "https://darribas.org" # the base hostname & protocol for your site, e.g. http://example.com
+url: "http://192.168.1.93:4000"
+#url: "http://darribas.org" # the base hostname & protocol for your site, e.g. http://example.com
 
-markdown: kramdown
 theme: "just-the-docs"
+markdown: kramdown
 
 permalink: pretty
-exclude: ["node_modules/", "*.gemspec", "*.gem", "Gemfile", "Gemfile.lock", "package.json", "package-lock.json",  "script/", "LICENSE.txt", "lib/", "bin/", "README.md", "Rakefile"]
+exclude: [".ipynb_checkpoints/", "node_modules/", "*.gemspec", "*.gem", "Gemfile", "Gemfile.lock", "package.json", "package-lock.json",  "script/", "LICENSE.txt", "lib/", "bin/", "README.md", "Rakefile"]
 
 # Set a path/url to a logo that will be displayed instead of the title
 logo: "/logo.png"
@@ -109,3 +110,7 @@ compress_html:
   startings: []
   blanklines: false
   profile: false
+  
+# Added gds_env variables
+gds_env:
+  version: "4.1"

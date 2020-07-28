@@ -1,4 +1,4 @@
-# Running the `gds_env` on VirtualBox
+# Install on VirtualBox
 
 This document details the requirements and steps needed to be able to run the
 [`gds_env`](https://github.com/darribas/gds_env/) as a virtual machine (VM) on

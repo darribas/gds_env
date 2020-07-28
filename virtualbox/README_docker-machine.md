@@ -1,4 +1,4 @@
-# `gds_env`VirtualBox VM with `docker-machine`
+# Build a VirtualBox VM
 
 This document covers the following two steps:
 
@@ -19,7 +19,7 @@ will provision the VM:
 - [VirtualBox](https://www.virtualbox.org/)
 - [`docker`](https://www.docker.com/)
 - [`docker-machine`](https://docs.docker.com/machine/)
-- This [`cloud-config.yml`](cloud-config.yml) file
+- This [`cloud-config.yml`](https://github.com/darribas/gds_env/raw/master/virtualbox/cloud-config.yml) file
 
 ### Create a VM
 
