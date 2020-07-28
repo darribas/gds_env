@@ -18,3 +18,13 @@ yml:
 	sed -i 's/name: base/name: gds/g' work/gds_py/gds_py.yml && \
 	sed -i '/  - tini=0.18.0/d' work/gds_py/gds_py.yml && \
 	sed -i 's/prefix: \/opt\/conda/gds_env_version: ${GDS_VERSION} - tini=0.18.0/g' work/gds_py/gds_py.yml"
+website_build:
+	mkdir -p website/_includes
+	#---
+	cp README.md website/_includes
+	cp README_dev.md website/_includes
+	#---
+	cd website && \
+	jekyll build && \
+	mv _site ../docs && \
+	rm -rf _includes
