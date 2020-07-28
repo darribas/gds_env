@@ -65,7 +65,6 @@ USER $NB_UID
 
 #--- jekyll ---#
 RUN conda install -c conda-forge \
-        rb-jekyll>=4.0 \
         rb-github-pages \
         rb-jekyll-scholar \
  && gem install just-the-docs
