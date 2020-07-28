@@ -64,7 +64,9 @@ RUN wget https://gist.github.com/darribas/e2a560e562139b139b67b7d1c998257c/raw/b
 USER $NB_UID
 
 #--- jekyll ---#
-RUN conda install -c conda-forge rb-github-pages rb-jekyll-scholar \
+RUN conda install -c conda-forge \
+        rb-github-pages \
+        rb-jekyll-scholar \
  && gem install just-the-docs
 
 #---    Vim   ---#
