@@ -5,4 +5,4 @@ nav_order: a
 permalink: /
 ---
 
-Test blah blah
+{% include README.md %}

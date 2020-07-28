@@ -5,7 +5,11 @@ parent: Stacks
 nav_order: c 
 ---
 
-# Python + R: `gds`
+{% include gds_README.md %}
+
+## R Libraries
+
+A full list of Python libraries installed in the `gds_py` environment is available below:
 
 <details markdown="block">
   <summary>

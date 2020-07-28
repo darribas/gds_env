@@ -1,4 +1,4 @@
-# `gds_env`: A containerised platform for Geographic Data Science
+# A containerised platform for Geographic Data Science: `gds_env`
 
 [![](https://images.microbadger.com/badges/image/darribas/gds:4.1.svg)](https://microbadger.com/images/darribas/gds:4.1 "Get your own image badge on microbadger.com")
 [![](https://images.microbadger.com/badges/version/darribas/gds:4.1.svg)](https://microbadger.com/images/darribas/gds:4.1 "Get your own version badge on microbadger.com")
@@ -27,17 +27,6 @@ You can install this container by simply running:
 
 [Note that you'll need [Docker](https://www.docker.com) installed on your machine]
 
-## Building
-
-If, instead, you want to build from source, the Docker image can be built by running:
-
-> `docker build -t gds .`
-
-You can check it has been built correctly by:
-
-> `docker image ls`
-
-And you should see one image with the name `gds`.
 
 ## Running
 

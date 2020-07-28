@@ -1,20 +1,10 @@
-# `gds_py`: a Python-only stack for Geographic Data Science
+# Python: `gds_py`
 
-This folder contains the Python components of the `gds` Docker image. This can be accessed as part of the `gds` Docker image, or as a more lightweight image with Python-only libraries. For the latter, you can build it as:
-
-```
-docker build -t gds_py .
-```
-
-Or pull it directly from Docker Hub:
-
-```
-docker pull darribas/gds_py
-```
+The core of the `gds_env` is `gds_py`: a container providing a fully working, state-of-the-art Jupyter Lab installation, additionally loaded with a comprehensive list of geospatial python packages.
 
 ## Native `conda` version
 
-From `gds_py`, an [environment file](gds_py.yml) is automatically created for the stack built using `conda`. This is then tested on Windows/macOS/Linux:
+From `gds_py`, an [environment file](https://github.com/darribas/gds_env/raw/master/gds_py/gds_py.yml) is automatically created for the stack built using `conda`. This is then tested on Windows/macOS/Linux:
 
 | Platform  | Status |
 | ------------- | ------------- |
