@@ -12,11 +12,3 @@ For more information on the components of `minimal-notebook`, please check the [
 
 On top of `minima-notebook`, we add a comprehensive list of geospatial pacakges in Python. For a full list, see the table below.
 
-## Native `conda` version
-
-From `gds_py`, an [environment file](https://github.com/darribas/gds_env/raw/master/gds_py/gds_py.yml) is automatically created for the stack built using `conda`. This is then tested on Windows/macOS/Linux:
-
-| Platform  | Status |
-| ------------- | ------------- |
-| Linux/macOS  | [![Build Status](https://travis-ci.com/darribas/gds_env.svg?branch=master)](https://travis-ci.com/darribas/gds_env)  |
-| Windows  | [![Build status](https://ci.appveyor.com/api/projects/status/pqgxg41qltt23o8o/branch/master?svg=true)](https://ci.appveyor.com/project/darribas/gds-env/branch/master)  |
