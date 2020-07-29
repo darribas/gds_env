@@ -25,6 +25,7 @@ website_build:
 	mkdir -p website/_includes
 	#--- Populate content ---#
 	cp README.md website/_includes
+	cp CONTRIBUTING.md website/_includes
 	cp docker/install_guide.md website/_includes/docker_install_guide.md
 	cp docker/build_guide.md website/_includes/docker_build_guide.md
 	cp virtualbox/virtualbox_user_setup.md website/_includes
@@ -43,9 +44,9 @@ website: website_build
 	cd website && rm -rf _includes
 	touch docs/.nojekyll
 website_local: website_build
+	# https://tonyho.net/jekyll-docker-windows-and-0-0-0-0/
 	export JEKYLL_ENV=docker && \
 	cd website && \
-	# https://tonyho.net/jekyll-docker-windows-and-0-0-0-0/
 	jekyll serve --host 0.0.0.0 \
 				 --incremental \
 				 --config  _config.yml,_config.docker.yml && \

@@ -2,48 +2,21 @@
 
 [![](https://images.microbadger.com/badges/image/darribas/gds:4.1.svg)](https://microbadger.com/images/darribas/gds:4.1 "Get your own image badge on microbadger.com")
 [![](https://images.microbadger.com/badges/version/darribas/gds:4.1.svg)](https://microbadger.com/images/darribas/gds:4.1 "Get your own version badge on microbadger.com")
-[![DOI](https://zenodo.org/badge/65582539.svg)](https://zenodo.org/badge/latestdoi/65582539)
 
 * [Dani Arribas-Bel](http://darribas.org)
-  [[@darribas](http://twitter.com/darribas)]
+  [[`@darribas`](http://twitter.com/darribas)]
+  
+The `gds_env` (short for "GDS environment") provides a modern platform for Geographic Data Science. The project is a [Jupyter](https://jupyter.org/)-based stack that includes state-of-the-art **geospatial** libraries for **Python** and **R**. The `gds_env` is based on **container** technology to make it a transferrable platform for reproducibility. The source code is released under an [open source license](https://github.com/darribas/gds_env/blob/master/LICENSE) and the build process is transparent.
 
-This repository contains a `docker` container that includes:
+To offer more flexibility, the `gds_env` is provided in three different flavours, or stacks: [`gds_py`](stacks/gds_py), [`gds`](stacks/gds) and [`gds_dev`](stacks/gds_dev). Each of them builds on each other and adds further functionality. Please check the [Stacks section](stacks) for more information.
 
-* `[gds_py]`: a full LaTeX distribution.
-* `[gds_py]`: a full Python stack ready for geospatial analysis (see [`stack_py.txt`](stack_py.txt) for a detailed list).
-* `[gds]`: `gds_py` + a full R stack ready for geospatial analysis (see [`stack_r.txt`](stack_r.txt) for a detailed list).
-* `[gds]`: both the [`IRkernel`](https://github.com/IRkernel/IRkernel) and [`rpy2`](https://bitbucket.org/rpy2/rpy2) channels to interact with R through Jupyter.
-* `[gds_dev]`: `gds` + additional development utilities (e.g. `pandoc`, `git`, `decktape`, `jekyll`, `jupyter-book`, `bookdown`).
+The goal of the `gds_env` is to make using Python and R for geospatial easy to set up in a large variety of contexts. The `gds_env` can support research and teaching activities, but is also suitable for data scientists using Python and R "in the field". The stacks can be used in a range of environments, including: Windows/Mac/Linux laptops and desktops, servers, compute clusters, supercomputers or in the cloud (e.g. you can deploy them on [Binder](https://mybinder.org/)). For more information on how to build or install any of the stacks, check the [Guides section](guides).
 
-## Requirements
+## Community
 
-You will need [Docker](https://www.docker.com) to be able to install the GDS environment.
+The `gds_env` is an open-source project. To join the conversation, please read through its [community guidelines](contributing).
 
-## Installing
-
-You can install this container by simply running:
-
-> `docker pull darribas/gds:4.1`
-
-[Note that you'll need [Docker](https://www.docker.com) installed on your machine]
-
-
-## Running
-
-The container can be run as:
-
-```
-> docker run --rm -ti -p 8888:8888 -v ${pwd}:/home/jovyan/host darribas/gds:4.1
-```
-
-A couple of notes on the command above:
-
-* This opens the `8888` port of the container, so to access the Lab instance,
-  you will have to point your browser to `localhost:8888` and insert the token
-  printed on the terminal
-* The command also mounts the current folder (`pwd`) to the container, but you can replace that with the path to any folder on your local machine (in fact, that will only work on host machines with the `pwd` command installed)
-
-## Citing
+## Citation
 
 [![DOI](https://zenodo.org/badge/65582539.svg)](https://zenodo.org/badge/latestdoi/65582539)
 
@@ -56,6 +29,10 @@ A couple of notes on the command above:
   date = {2019-08-06},
 }
 ```
+
+## License
+
+The code to generate the `gds_env` stacks is released under a BSD License. More details available on the repository's [license document](https://github.com/darribas/gds_env/blob/master/LICENSE).
 
 ---
 

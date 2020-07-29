@@ -12,8 +12,8 @@ nav_order: b
 A full list of Python libraries installed in the `gds_py` environment is available below:
 
 <details markdown="block">
-  <summary>
-    <code>`gds_py`</code> library list
+  <summary type="button" name="button" class="btn">
+    <code>`gds_py`</code> Python library list (click to expand)
   </summary>
     
     {% include stack_py.txt %}
