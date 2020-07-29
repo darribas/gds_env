@@ -26,6 +26,7 @@ RUN conda update conda --yes \
      'dask-ml' \
      'datashader' \
      'feather-format' \
+     'flake8' \
      'geopandas' \
      'geopy' \
      'h3-py' \
