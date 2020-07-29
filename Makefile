@@ -34,8 +34,8 @@ website_build:
 	cp virtualbox/virtualbox_user_setup.md website/_includes
 	cp virtualbox/README_docker-machine.md website/_includes
 	cp virtualbox/README_vagrant.md website/_includes
-	cp gds_py/stack_py.txt website/_includes/stack_py.txt
-	cp gds/stack_r.txt website/_includes/stack_r.txt
+	cp gds_py/stack_py.md website/_includes/stack_py.md
+	cp gds/stack_r.md website/_includes/stack_r.md
 	cp gds_py/README.md website/_includes/gds_py_README.md
 	cp gds/README.md website/_includes/gds_README.md
 	cp gds_dev/README.md website/_includes/gds_dev_README.md

@@ -16,7 +16,7 @@ A full list of Python libraries installed in the `gds_py` environment is availab
         <code>`gds`</code> R library list (click to expand)
   </summary>
     
-    {% include stack_r.txt %}
+    {% include stack_r.md %}
 
 </details>
 
