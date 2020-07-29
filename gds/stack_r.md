@@ -1,6 +1,3 @@
-Executing the command: Rscript -e library(knitr); ip <- as.data.frame(installed.packages()[,c(1,3:4)]); kable(ip, format = 'markdown');
-
-
 |                  |Package           |Version     |Priority    |
 |:-----------------|:-----------------|:-----------|:-----------|
 |abind             |abind             |1.4-5       |NA          |
