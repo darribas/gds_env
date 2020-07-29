@@ -9,7 +9,7 @@ write_stacks: yml
 	# Python
 	docker run -v ${PWD}:/home/jovyan --rm darribas/gds:${GDS_VERSION} start.sh conda list > gds_py/stack_py.txt
 	docker run -v ${PWD}:/home/jovyan --rm darribas/gds:${GDS_VERSION} start.sh sed -i '1iGDS version: ${GDS_VERSION}' gds_py/stack_py.txt
-	docker run -v ${PWD}:/home/jovyan --rm darribas/gds:${GDS_VERSION} start.sh python -c "import subprocess, pandas; print(pandas.read_json(subprocess.check_output(['conda', 'list', '--json']))[['name', 'version', 'build_string', 'channel']].to_markdown())" > gds_py/stack_py.md
+	docker run -v ${PWD}:/home/jovyan --rm darribas/gds:${GDS_VERSION} start.sh python -c "import subprocess, pandas; fo=open('gds_py/stack_py.md', 'w'); fo.write(pandas.read_json(subprocess.check_output(['conda', 'list', '--json']))[["name", "version", "build_string", "channel"]].to_markdown());fo.close()"
 	# R
 	docker run -v ${PWD}:/home/jovyan --rm darribas/gds:${GDS_VERSION} start.sh Rscript -e "ip <- as.data.frame(installed.packages()[,c(1,3:4)]); print(ip)" > gds/stack_r.txt
 	docker run -v ${PWD}:/home/jovyan --rm darribas/gds:${GDS_VERSION} start.sh sed -i '1iGDS version: ${GDS_VERSION}' gds/stack_r.txt
