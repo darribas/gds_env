@@ -1,4 +1,5 @@
-export GDS_VERSION=4.1
+export GDS_VERSION=latest
+#export GDS_VERSION=4.1
 test: test_py test_r
 test_py:
 	docker run -v `pwd`:/home/jovyan/test darribas/gds_py:${GDS_VERSION} start.sh jupyter nbconvert --execute /home/jovyan/test/gds_py/check_py_stack.ipynb
@@ -8,9 +9,11 @@ write_stacks: yml
 	# Python
 	docker run -v ${PWD}:/home/jovyan --rm darribas/gds:${GDS_VERSION} start.sh conda list > gds_py/stack_py.txt
 	docker run -v ${PWD}:/home/jovyan --rm darribas/gds:${GDS_VERSION} start.sh sed -i '1iGDS version: ${GDS_VERSION}' gds_py/stack_py.txt
+	docker run -v ${PWD}:/home/jovyan --rm darribas/gds:${GDS_VERSION} start.sh python -c "import subprocess, pandas; print(pandas.read_json(subprocess.check_output(['conda', 'list', '--json']))[['name', 'version', 'build_string', 'channel']].to_markdown())" > gds_py/stack_py.md
 	# R
 	docker run -v ${PWD}:/home/jovyan --rm darribas/gds:${GDS_VERSION} start.sh Rscript -e "ip <- as.data.frame(installed.packages()[,c(1,3:4)]); print(ip)" > gds/stack_r.txt
 	docker run -v ${PWD}:/home/jovyan --rm darribas/gds:${GDS_VERSION} start.sh sed -i '1iGDS version: ${GDS_VERSION}' gds/stack_r.txt
+	docker run -v ${PWD}:/home/jovyan --rm darribas/gds:${GDS_VERSION} start.sh Rscript -e "library(knitr); ip <- as.data.frame(installed.packages()[,c(1,3:4)]); kable(ip, format = 'markdown');" > gds/stack_r.md
 yml:
 	docker run -v ${PWD}:/home/jovyan/work --rm darribas/gds_py:${GDS_VERSION} start.sh sh -c \
 	"conda env export -n base --from-history > \
