@@ -47,6 +47,7 @@ RUN conda update conda --yes \
      'palettable' \
      'pandana' \
      'polyline' \
+     'psycopg2' \
      'pyarrow' \
      'pygeos' \
      'pyrosm' \
@@ -61,6 +62,7 @@ RUN conda update conda --yes \
      'seaborn' \
      'spatialpandas' \
      'statsmodels' \
+     'tabulate' \
      #'urbanaccess' \ https://github.com/UDST/urbanaccess/issues/63
      'xarray_leaflet' \
      'xarray-spatial' \
@@ -73,6 +75,7 @@ RUN conda update conda --yes \
 
 # pip libraries
 RUN pip install ablog \
+                GeoAlchemy2 \
                 jupyter-book \
                 keplergl \
                 pygeoda \
