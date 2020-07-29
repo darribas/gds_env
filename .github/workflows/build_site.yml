@@ -35,7 +35,8 @@ jobs:
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git commit -m "Build website" -a --allow-empty
+          git add .
+          git commit -m "Build website" --allow-empty
 
       - name: Push changes
         uses: ad-m/github-push-action@master
