@@ -61,6 +61,7 @@ RUN conda update conda --yes \
      'scikit-learn' \
      'seaborn' \
      'spatialpandas' \
+     'sqlalchemy' \
      'statsmodels' \
      'tabulate' \
      #'urbanaccess' \ https://github.com/UDST/urbanaccess/issues/63
@@ -75,7 +76,7 @@ RUN conda update conda --yes \
 
 # pip libraries
 RUN pip install ablog \
-                GeoAlchemy2 \
+                geoalchemy2 \
                 jupyter-book \
                 keplergl \
                 pygeoda \
