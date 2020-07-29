@@ -2,7 +2,7 @@
 
 ---
 
-**IMPORTANT** This is a guide for building Docker containers, not for downloading or using existing ones. If you are an end-user, you probably prefer to [install containers](../docker_install).
+**IMPORTANT** This is a guide for *building* Docker containers, not for downloading or using existing ones. If you are an end-user, you probably prefer to [install containers](../docker_install).
 
 ---
 

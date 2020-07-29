@@ -15,3 +15,4 @@ virtualbox/*.ova
 */_site/
 website/_includes/
 website/_includes/*
+website/.jekyll-metadata

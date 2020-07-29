@@ -36,9 +36,8 @@ website_build:
 	cp gds/README.md website/_includes/gds_README.md
 	cp gds_dev/README.md website/_includes/gds_dev_README.md
 	#---
-	cd website && \
-	jekyll build
 website: website_build
+	cd website && jekyll build
 	rm -rf docs
 	mv website/_site docs
 	cd website && rm -rf _includes
@@ -46,6 +45,9 @@ website: website_build
 website_local: website_build
 	export JEKYLL_ENV=docker && \
 	cd website && \
-	jekyll serve --host 0.0.0.0 --incremental && \
+	# https://tonyho.net/jekyll-docker-windows-and-0-0-0-0/
+	jekyll serve --host 0.0.0.0 \
+				 --incremental \
+				 --config  _config.yml,_config.docker.yml && \
 	rm -rf _includes
 	export JEKYLL_ENV=development
