@@ -12,6 +12,16 @@ The `gds_env` extends the official [Jupyter Docker Stack](https://jupyter-docker
 
 The goal of the `gds_env` is to make using Python and R for geospatial easy to set up in a large variety of contexts. The `gds_env` can support research and teaching activities, but is also suitable for data scientists using Python and R "in the field". The stacks can be used in a range of environments, including: Windows/Mac/Linux laptops and desktops, servers, compute clusters, supercomputers or in the cloud (e.g. you can deploy them on [Binder](https://mybinder.org/)). For more information on how to build or install any of the stacks, check the [Guides section](guides).
 
+## Building blocks
+
+The `gds_env` stands on the shoulders of giants. Here are the core open technologies it is built with:
+
+[<img src="https://upload.wikimedia.org/wikipedia/commons/c/c3/Python-logo-notext.svg" alt="Python" width="75" height="90">](https://www.python.org/)
+[<img src="https://www.r-project.org/logo/Rlogo.svg" alt="R-project" width="75" height="90">](https://www.r-project.org/)
+[<img src="https://upload.wikimedia.org/wikipedia/commons/3/38/Jupyter_logo.svg" alt="Jupyter" width="75" height="90">](https://jupyter.org/)
+[<img src="https://www.docker.com/sites/default/files/d8/2019-07/vertical-logo-monochromatic.png" alt="Docker" width="75" height="90">](https://www.docker.com/)
+[<img src="https://upload.wikimedia.org/wikipedia/commons/d/d5/Virtualbox_logo.png" alt="VirtualBox" width="75" height="90">](https://www.virtualbox.org/)
+
 ## Community
 
 The `gds_env` is an open-source project. To join the conversation, please read through its [community guidelines](contributing).
