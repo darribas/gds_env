@@ -151,7 +151,7 @@
   },"25": {
     "doc": "gds_py",
     "title": "Native conda version",
-    "content": "From gds_py, an environment file is automatically created for the stack built using conda. This is then tested on Windows/macOS/Linux: . | Platform | Status | . | Linux/macOS | | . | Windows | | . ",
+    "content": "From gds_py, an environment file is automatically created for the stack built using conda. A list of libraries installed through pip are also available for download in a file. These are tested on Windows/macOS/Linux: . | Platform | Status | . | Linux/macOS | | . | Windows | | . Download .yml Download pip .txt . ",
     "url": "http://darribas.org/gds_env/stacks/gds_py/#native-conda-version",
     "relUrl": "/stacks/gds_py/#native-conda-version"
   },"26": {
