@@ -10,59 +10,58 @@ dependencies:
   - jupyterhub=1.1.0
   - notebook=6.0.3
   - jupyterlab=2.1.3
-  - gitdb2
-  - pysal
-  - rasterstats
-  - scikit-image
+  - dask-ml
+  - ipyleaflet
+  - pygeos
+  - spatialpandas
+  - ipympl
+  - legendgram
+  - rioxarray
+  - psycopg2
+  - pyarrow
   - black
-  - h3-py
-  - xarray_leaflet
-  - qgrid
-  - bokeh
-  - ipywidgets
+  - geopy
+  - jupytext
+  - pandana
+  - momepy
+  - mkl-service
+  - xlrd
+  - osmnx
+  - cython
+  - xarray-spatial
+  - scikit-image
+  - hdbscan
   - feather-format
   - networkx
-  - ipyleaflet
-  - dask-ml
-  - pillow
-  - pygeos
-  - jupytext
-  - dill
-  - pandana
-  - colorama
-  - pyarrow
-  - hdbscan
-  - momepy
+  - netcdf4
+  - bokeh
+  - h3-py
   - rio-cogeo
-  - xarray-spatial
+  - pysal
+  - tabulate
+  - rasterstats
+  - bottleneck
+  - jupyter-server-proxy
+  - seaborn
+  - xlsxwriter
+  - statsmodels
+  - datashader
+  - scikit-learn
+  - cenpy
+  - nbdime
+  - polyline
+  - ipywidgets
+  - flake8
+  - contextily
   - geopandas
   - palettable
-  - cenpy
-  - polyline
-  - gitpython
-  - geopy
-  - scikit-learn
-  - contextily
-  - xlrd
-  - rioxarray
-  - smmap2
-  - statsmodels
-  - dask
-  - xlsxwriter
-  - ipympl
-  - jupyter-server-proxy
-  - rasterio
-  - cython
   - ipyparallel
-  - pyrosm
+  - sqlalchemy
   - boto3
-  - spatialpandas
-  - seaborn
-  - osmnx
-  - mkl-service
-  - nbdime
-  - tzlocal
-  - mapclassify
-  - datashader
-gds_env_version: latest - tini=0.18.0
+  - qgrid
+  - pyrosm
+  - xarray_leaflet
+  - rasterio
+  - dask
+gds_env_version: 5.0 - tini=0.18.0
 

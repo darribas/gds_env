@@ -1,10 +1,9 @@
-
 |                  |Package           |Version     |Priority    |
 |:-----------------|:-----------------|:-----------|:-----------|
 |abind             |abind             |1.4-5       |NA          |
 |acepack           |acepack           |1.4.1       |NA          |
-|arm               |arm               |1.11-1      |NA          |
-|arrow             |arrow             |0.17.1      |NA          |
+|arm               |arm               |1.11-2      |NA          |
+|arrow             |arrow             |1.0.0       |NA          |
 |askpass           |askpass           |1.1         |NA          |
 |assertthat        |assertthat        |0.2.1       |NA          |
 |backports         |backports         |1.1.8       |NA          |
@@ -28,7 +27,6 @@
 |clipr             |clipr             |0.7.0       |NA          |
 |coda              |coda              |0.19-3      |NA          |
 |colorspace        |colorspace        |1.4-1       |NA          |
-|colourvalues      |colourvalues      |0.3.5       |NA          |
 |commonmark        |commonmark        |1.7         |NA          |
 |covr              |covr              |3.5.0       |NA          |
 |crayon            |crayon            |1.3.4       |NA          |
@@ -36,12 +34,12 @@
 |crosstalk         |crosstalk         |1.1.0.1     |NA          |
 |crul              |crul              |0.9.0       |NA          |
 |curl              |curl              |4.3         |NA          |
-|data.table        |data.table        |1.12.8      |NA          |
+|data.table        |data.table        |1.13.0      |NA          |
 |DBI               |DBI               |1.1.0       |NA          |
 |dbplyr            |dbplyr            |1.4.4       |NA          |
 |deldir            |deldir            |0.1-28      |NA          |
 |desc              |desc              |1.2.0       |NA          |
-|devtools          |devtools          |2.3.0       |NA          |
+|devtools          |devtools          |2.3.1       |NA          |
 |dichromat         |dichromat         |2.0-0       |NA          |
 |digest            |digest            |0.6.25      |NA          |
 |dplyr             |dplyr             |1.0.0       |NA          |
@@ -70,7 +68,6 @@
 |geojson           |geojson           |0.3.4       |NA          |
 |geojsonio         |geojsonio         |0.9.2       |NA          |
 |geojsonlint       |geojsonlint       |0.4.0       |NA          |
-|geojsonsf         |geojsonsf         |2.0.0       |NA          |
 |geometry          |geometry          |0.4.5       |NA          |
 |geoR              |geoR              |1.8-1       |NA          |
 |geosphere         |geosphere         |1.5-10      |NA          |
@@ -85,7 +82,6 @@
 |glue              |glue              |1.4.1       |NA          |
 |gmodels           |gmodels           |2.18.1      |NA          |
 |goftest           |goftest           |1.2-2       |NA          |
-|googlePolylines   |googlePolylines   |0.7.2       |NA          |
 |gridExtra         |gridExtra         |2.3         |NA          |
 |gstat             |gstat             |2.0-6       |NA          |
 |gtable            |gtable            |0.3.0       |NA          |
@@ -112,7 +108,6 @@
 |iterators         |iterators         |1.0.12      |NA          |
 |jpeg              |jpeg              |0.1-8.1     |NA          |
 |jqr               |jqr               |1.1.0       |NA          |
-|jsonify           |jsonify           |1.2.1       |NA          |
 |jsonlite          |jsonlite          |1.7.0       |NA          |
 |jsonvalidate      |jsonvalidate      |1.1.0       |NA          |
 |kableExtra        |kableExtra        |1.1.0       |NA          |
@@ -121,7 +116,7 @@
 |later             |later             |1.1.0.1     |NA          |
 |latticeExtra      |latticeExtra      |0.6-29      |NA          |
 |lazyeval          |lazyeval          |0.2.2       |NA          |
-|leafem            |leafem            |0.1.1       |NA          |
+|leafem            |leafem            |0.1.3       |NA          |
 |leaflet           |leaflet           |2.0.3       |NA          |
 |leaflet.providers |leaflet.providers |1.9.0       |NA          |
 |leafpop           |leafpop           |0.0.5       |NA          |
@@ -139,7 +134,6 @@
 |magrittr          |magrittr          |1.5         |NA          |
 |manipulateWidget  |manipulateWidget  |0.10.1      |NA          |
 |mapdata           |mapdata           |2.3.0       |NA          |
-|mapdeck           |mapdeck           |0.3.3       |NA          |
 |maps              |maps              |3.3.0       |NA          |
 |maptools          |maptools          |1.0-1       |NA          |
 |mapview           |mapview           |2.7.8       |NA          |
@@ -184,7 +178,6 @@
 |RandomFields      |RandomFields      |3.3.8       |NA          |
 |RandomFieldsUtils |RandomFieldsUtils |0.5.3       |NA          |
 |randomForest      |randomForest      |4.6-14      |NA          |
-|rapidjsonr        |rapidjsonr        |1.2.0       |NA          |
 |raster            |raster            |3.3-13      |NA          |
 |rasterVis         |rasterVis         |0.48        |NA          |
 |rcartocolor       |rcartocolor       |2.0.0       |NA          |
@@ -230,19 +223,18 @@
 |RSQLite           |RSQLite           |2.2.0       |NA          |
 |rstudioapi        |rstudioapi        |0.11        |NA          |
 |rversions         |rversions         |2.0.2       |NA          |
-|rvest             |rvest             |0.3.5       |NA          |
+|rvest             |rvest             |0.3.6       |NA          |
+|s2                |s2                |1.0.1       |NA          |
 |satellite         |satellite         |1.0.2       |NA          |
 |scales            |scales            |1.1.1       |NA          |
 |selectr           |selectr           |0.4-2       |NA          |
 |sessioninfo       |sessioninfo       |1.1.1       |NA          |
 |sf                |sf                |0.9-5       |NA          |
-|sfheaders         |sfheaders         |0.2.2       |NA          |
 |shiny             |shiny             |1.5.0       |NA          |
 |sourcetools       |sourcetools       |0.1.7       |NA          |
 |sp                |sp                |1.4-2       |NA          |
 |spacetime         |spacetime         |1.2-3       |NA          |
 |spatialreg        |spatialreg        |1.1-5       |NA          |
-|spatialwidget     |spatialwidget     |0.2.2       |NA          |
 |spatstat          |spatstat          |1.64-1      |NA          |
 |spatstat.data     |spatstat.data     |1.4-3       |NA          |
 |spatstat.utils    |spatstat.utils    |1.17-0      |NA          |
@@ -256,7 +248,7 @@
 |stringi           |stringi           |1.4.6       |NA          |
 |stringr           |stringr           |1.4.0       |NA          |
 |svglite           |svglite           |1.2.3.2     |NA          |
-|sys               |sys               |3.3         |NA          |
+|sys               |sys               |3.4         |NA          |
 |systemfonts       |systemfonts       |0.2.3       |NA          |
 |tensor            |tensor            |1.5         |NA          |
 |testthat          |testthat          |2.3.2       |NA          |
@@ -265,7 +257,7 @@
 |tidyr             |tidyr             |1.1.0       |NA          |
 |tidyselect        |tidyselect        |1.1.0       |NA          |
 |tidyverse         |tidyverse         |1.3.0       |NA          |
-|tinytex           |tinytex           |0.24        |NA          |
+|tinytex           |tinytex           |0.25        |NA          |
 |tmap              |tmap              |3.1         |NA          |
 |tmaptools         |tmaptools         |3.1         |NA          |
 |TraMineR          |TraMineR          |2.2-0.1     |NA          |
@@ -285,8 +277,9 @@
 |whisker           |whisker           |0.4         |NA          |
 |widgetframe       |widgetframe       |0.3.1       |NA          |
 |withr             |withr             |2.2.0       |NA          |
-|xfun              |xfun              |0.15        |NA          |
-|XML               |XML               |3.99-0.4    |NA          |
+|wk                |wk                |0.3.1       |NA          |
+|xfun              |xfun              |0.16        |NA          |
+|XML               |XML               |3.99-0.5    |NA          |
 |xml2              |xml2              |1.3.2       |NA          |
 |xopen             |xopen             |1.0.0       |NA          |
 |xtable            |xtable            |1.8-4       |NA          |
