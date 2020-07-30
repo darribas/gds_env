@@ -30,5 +30,6 @@ docker build -t gds:latest . | tee gds_latest.log
 1. [ ] Update version number on `README.md`
 1. [ ] Update version number on website's `_config.yml`
 1. [ ] Update version number on `virtualbox/Vagrantfile`
+1. [ ] Update version number on `virtualbox/cloud_config.yml`
 1. [ ] Update microbadger badges (run `curl -X POST <webhook>` to refresh)
 1. [ ] Make release on Github
