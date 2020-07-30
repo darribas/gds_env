@@ -1,5 +1,4 @@
-export GDS_VERSION=latest
-#export GDS_VERSION=4.1
+export GDS_VERSION=5.0
 test: test_py test_r
 test_py:
 	docker run -v `pwd`:/home/jovyan/test darribas/gds_py:${GDS_VERSION} start.sh jupyter nbconvert --execute /home/jovyan/test/gds_py/check_py_stack.ipynb
