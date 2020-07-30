@@ -40,5 +40,5 @@ From `gds_py`, an environment file is automatically created for the stack built 
 | Windows  | [![Build status](https://ci.appveyor.com/api/projects/status/pqgxg41qltt23o8o/branch/master?svg=true)](https://ci.appveyor.com/project/darribas/gds-env/branch/master)  |
 
 [Download `.yml`](https://github.com/darribas/gds_env/raw/master/gds_py/gds_py.yml){: .btn .btn }
-[Download pip `.txt`](https://github.com/darribas/gds_env/raw/master/gds_py/gds_py.yml){: .btn .btn }
+[Download pip `.txt`](https://github.com/darribas/gds_env/raw/master/gds_py/gds_py_pip.txt){: .btn .btn }
 
