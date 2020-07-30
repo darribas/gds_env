@@ -75,11 +75,11 @@ RUN conda update conda --yes \
  && find /opt/conda/ -follow -type f -name '*.js.map' -delete
 
 # pip libraries
-ADD ./pip_libs.txt ./
-RUN pip install pip_libs.txt \
+ADD ./gds_py_pip.txt ./
+RUN pip install -r gds_py_pip.txt \
  && pip cache purge \
  && rm -rf /home/$NB_USER/.cache/pip \
- && rm ./pip_libs.txt
+ && rm ./gds_py_pip.txt
 
 #--- Jupyter config ---#
 USER root

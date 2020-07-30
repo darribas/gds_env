@@ -19,6 +19,7 @@ install:
   - "conda-env create -f gds_py/gds_py.yml"
   - cmd: call %PYTHON%\Scripts\activate.bat
   - conda activate gds
+  - pip install -r gds_py/gds_py_pip.txt
 
 test_script:
   - python -c "import os; print(os.getcwd())"

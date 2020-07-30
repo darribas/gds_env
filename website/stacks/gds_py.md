@@ -32,9 +32,13 @@ docker pull darribas/gds_py:{{ site.gds_env.version }}
 
 ## Native `conda` version
 
-From `gds_py`, an [environment file](https://github.com/darribas/gds_env/raw/master/gds_py/gds_py.yml) is automatically created for the stack built using `conda`. This is then tested on Windows/macOS/Linux:
+From `gds_py`, an environment file is automatically created for the stack built using `conda`. A list of libraries installed through `pip` are also available for download in a file. These are tested on Windows/macOS/Linux:
 
 | Platform  | Status |
 | ------------- | ------------- |
 | Linux/macOS  | [![Build Status](https://travis-ci.com/darribas/gds_env.svg?branch=master)](https://travis-ci.com/darribas/gds_env)  |
 | Windows  | [![Build status](https://ci.appveyor.com/api/projects/status/pqgxg41qltt23o8o/branch/master?svg=true)](https://ci.appveyor.com/project/darribas/gds-env/branch/master)  |
+
+[Download `.yml`](https://github.com/darribas/gds_env/raw/master/gds_py/gds_py.yml){: .btn .btn }
+[Download pip `.txt`](https://github.com/darribas/gds_env/raw/master/gds_py/gds_py.yml){: .btn .btn }
+

@@ -16,7 +16,7 @@ before_install:
   - conda install --yes psutil yaml pyyaml
   - conda-env create -f gds_py/gds_py.yml
   - source activate gds
-  - pip install gds_py/pip_libs.txt
+  - pip install -r gds_py/gds_py_pip.txt
 
 script: 
   - source activate gds
