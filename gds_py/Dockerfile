@@ -75,16 +75,11 @@ RUN conda update conda --yes \
  && find /opt/conda/ -follow -type f -name '*.js.map' -delete
 
 # pip libraries
-RUN pip install ablog \
-                geoalchemy2 \
-                jupyter-book \
-                keplergl \
-                pygeoda \
-                pytest-cov \
-                pytest-tornasync \
-                sphinx_press_theme \
+ADD ./pip_libs.txt ./
+RUN pip install pip_libs.txt \
  && pip cache purge \
- && rm -rf /home/$NB_USER/.cache/pip
+ && rm -rf /home/$NB_USER/.cache/pip \
+ && rm ./pip_libs.txt
 
 #--- Jupyter config ---#
 USER root
