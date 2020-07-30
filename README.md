@@ -1,7 +1,7 @@
 # A containerised platform for Geographic Data Science: `gds_env`
 
-[![](https://images.microbadger.com/badges/image/darribas/gds:4.1.svg)](https://microbadger.com/images/darribas/gds:4.1 "Get your own image badge on microbadger.com")
-[![](https://images.microbadger.com/badges/version/darribas/gds:4.1.svg)](https://microbadger.com/images/darribas/gds:4.1 "Get your own version badge on microbadger.com")
+[![](https://images.microbadger.com/badges/image/darribas/gds:5.0.svg)](https://microbadger.com/images/darribas/gds:5.0 "Get your own image badge on microbadger.com")
+[![](https://images.microbadger.com/badges/version/darribas/gds:5.0.svg)](https://microbadger.com/images/darribas/gds:5.0 "Get your own version badge on microbadger.com")
 
 * [Dani Arribas-Bel](http://darribas.org)
   [[`@darribas`](http://twitter.com/darribas)]
@@ -35,7 +35,7 @@ The `gds_env` is an open-source project. To join the conversation, please read t
   author = {{Dani Arribas-Bel}},
   title = {\texttt{gds\_env}: A containerised platform for Geographic Data Science},
   url = {https://github.com/darribas/gds_env},
-  version = {4.1},
+  version = {5.0},
   date = {2019-08-06},
 }
 ```
