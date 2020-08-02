@@ -2,6 +2,7 @@
 
 [![](https://images.microbadger.com/badges/image/darribas/gds:5.0.svg)](https://microbadger.com/images/darribas/gds:5.0 "Get your own image badge on microbadger.com")
 [![](https://images.microbadger.com/badges/version/darribas/gds:5.0.svg)](https://microbadger.com/images/darribas/gds:5.0 "Get your own version badge on microbadger.com")
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/darribas/gds_env/master)
 
 * [Dani Arribas-Bel](http://darribas.org)
   [[`@darribas`](http://twitter.com/darribas)]
