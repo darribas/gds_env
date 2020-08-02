@@ -32,7 +32,7 @@ The `gds_env` is an open-source project. To join the conversation, please read t
 
 ```bibtex
 @software{gds_env,
-  author = {{Dani Arribas-Bel}},
+  author = { { Dani Arribas-Bel } },
   title = {\texttt{gds\_env}: A containerised platform for Geographic Data Science},
   url = {https://github.com/darribas/gds_env},
   version = {5.0},
