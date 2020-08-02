@@ -175,7 +175,7 @@
   },"29": {
     "doc": "Home",
     "title": "Building blocks",
-    "content": "The gds_env stands on the shoulders of giants. Here are the core open technologies it is built with: . &lt;img src=”https://upload.wikimedia.org/wikipedia/commons/c/c3/Python-logo-notext.svg” alt=”Python” width=75 height=”90”&gt; &lt;img src=”https://www.r-project.org/logo/Rlogo.svg” alt=”R-project” width=95 height=”90”&gt; &lt;img src=”https://upload.wikimedia.org/wikipedia/commons/3/38/Jupyter_logo.svg” alt=”Jupyter” width=95 height=”90”&gt; &lt;img src=”https://www.docker.com/sites/default/files/d8/2019-07/vertical-logo-monochromatic.png” alt=”Docker” width=95 height=”90”&gt; &lt;img src=”https://upload.wikimedia.org/wikipedia/commons/d/d5/Virtualbox_logo.png” alt=”VirtualBox” width=95 height=”90”&gt; . ",
+    "content": "The gds_env stands on the shoulders of giants. Here are the core open technologies it is built with: . ",
     "url": "http://darribas.org/gds_env/#building-blocks",
     "relUrl": "/#building-blocks"
   },"30": {
