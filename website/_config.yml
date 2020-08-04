@@ -17,7 +17,7 @@ title: gds_env
 description: A containerised platform for Geographic Data Science
 baseurl: "/gds_env" # the subpath of your site, e.g. /blog
 #url: "http://192.168.1.93:4000"
-url: "http://darribas.org" # the base hostname & protocol for your site, e.g. http://example.com
+url: "https://darribas.org" # the base hostname & protocol for your site, e.g. http://example.com
 
 theme: "just-the-docs"
 markdown: kramdown
