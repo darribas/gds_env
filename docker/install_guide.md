@@ -17,7 +17,7 @@ Please check in the description of [each flavour](../stacks) for the exact comma
 docker pull darribas/<gds-flavour>:{{ site.gds_env.version }}
 ```
 
-where `<gds-flavour>` is one of [`gds_py`](../stacks/gds_py), [`gds`](../stacks/gds), [`gds_dev`](../stacks/gds_dev).
+where `<gds-flavour>` is one of [`gds_py`](../../stacks/gds_py), [`gds`](../../stacks/gds), [`gds_dev`](../../stacks/gds_dev).
 
 ## Running `gds_env`
 
