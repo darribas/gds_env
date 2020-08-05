@@ -17,11 +17,17 @@ The goal of the `gds_env` is to make using Python and R for geospatial easy to s
 
 The `gds_env` stands on the shoulders of giants. Here are the core open technologies it is built with:
 
-[<img src="https://upload.wikimedia.org/wikipedia/commons/c/c3/Python-logo-notext.svg" alt="Python" width="75" height="90">](https://www.python.org/)
-[<img src="https://www.r-project.org/logo/Rlogo.svg" alt="R-project" width="95" height="90">](https://www.r-project.org/)
-[<img src="https://upload.wikimedia.org/wikipedia/commons/3/38/Jupyter_logo.svg" alt="Jupyter" width="95" height="90">](https://jupyter.org/)
-[<img src="https://www.docker.com/sites/default/files/d8/2019-07/vertical-logo-monochromatic.png" alt="Docker" width="95" height="90">](https://www.docker.com/)
-[<img src="https://upload.wikimedia.org/wikipedia/commons/d/d5/Virtualbox_logo.png" alt="VirtualBox" width="95" height="90">](https://www.virtualbox.org/)
+ <style>
+.vertimg {
+  vertical-align: middle;
+}
+</style>
+
+[<img src="https://upload.wikimedia.org/wikipedia/commons/c/c3/Python-logo-notext.svg" alt="Python" width="75" height="90" class="vertimg">](https://www.python.org/)
+[<img src="https://www.r-project.org/logo/Rlogo.svg" alt="R-project" width="95" height="90" class="vertimg">](https://www.r-project.org/)
+[<img src="https://upload.wikimedia.org/wikipedia/commons/3/38/Jupyter_logo.svg" alt="Jupyter" width="95" height="90" class="vertimg">](https://jupyter.org/)
+[<img src="https://www.docker.com/sites/default/files/d8/2019-07/vertical-logo-monochromatic.png" alt="Docker" width="95" height="90" class="vertimg">](https://www.docker.com/)
+[<img src="https://upload.wikimedia.org/wikipedia/commons/d/d5/Virtualbox_logo.png" alt="VirtualBox" width="95" height="90" class="vertimg">](https://www.virtualbox.org/)
 
 ## Community
 
