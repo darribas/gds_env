@@ -120,5 +120,5 @@ VBoxManage export gdsbox --iso -o <file-name>.ova
 ## Deployment
 
 For a guide on importing the `.ova` export and running the resulting VM,
-please check [here](virtualbox_user_setup.md).
+please check [here](virtualbox_install).
 
