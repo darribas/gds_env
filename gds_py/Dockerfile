@@ -121,7 +121,9 @@ RUN echo "c.NotebookApp.default_url = '/lab'"\
  && rm -rf /home/$NB_USER/.cache/yarn \
 # Fix permissions
  && fix-permissions "${CONDA_DIR}" \
- && fix-permissions "/home/${NB_USER}"
+ && fix-permissions "/home/${NB_USER}" \
+# Build mpl font cache
+ && python -c "import matplotlib.pyplot;"
 USER $NB_UID
 
 #--- htop ---#
