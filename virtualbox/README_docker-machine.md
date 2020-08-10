@@ -82,7 +82,7 @@ docker-machine ssh gdsbox -t
 ```
 
 - Add autostart of the container. To do this, you will need to add the content
-  of the [`cloud-config.yml`](cloud-config.yml)to the VM cloud-config:
+  of the [`cloud-config.yml`](https://github.com/darribas/gds_env/raw/master/virtualbox/cloud-config.yml)to the VM cloud-config:
 
 ```shell
 sudo vi /var/lib/rancher/conf/cloud-config.yml
