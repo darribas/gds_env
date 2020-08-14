@@ -4,6 +4,12 @@ This document details the requirements and steps needed to be able to run the
 [`gds_env`](https://github.com/darribas/gds_env/) as a virtual machine (VM) on
 VirtualBox.
 
+---
+
+**NOTE**: This guide was developed in collaboration with Francisco Rowe, Paul Williamson and Leo Uieda from the University of Liverpool. Funding from its School of Environmental Sciences to develop and test its deployment is gratefully acknowledged.
+
+---
+
 ## Requirements
 
 This tutorial assumes the following is available before start:
