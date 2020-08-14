@@ -265,7 +265,7 @@
   },"44": {
     "doc": "Virtualbox - Install",
     "title": "Install on VirtualBox",
-    "content": "This document details the requirements and steps needed to be able to run the gds_env as a virtual machine (VM) on VirtualBox. ",
+    "content": "This document details the requirements and steps needed to be able to run the gds_env as a virtual machine (VM) on VirtualBox. NOTE: This guide was developed in collaboration with Francisco Rowe, Paul Williamson and Leo Uieda from the University of Liverpool. Funding from its School of Environmental Sciences to develop and test its deployment is gratefully acknowledged. ",
     "url": "https://darribas.org/gds_env/guides/virtualbox_install/#install-on-virtualbox",
     "relUrl": "/guides/virtualbox_install/#install-on-virtualbox"
   },"45": {
