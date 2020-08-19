@@ -25,10 +25,10 @@ This tutorial assumes the following is available before start:
 
 There are three main steps to follow:
 
-1. [Import the appliance (`.ova` file)](#Appliance-import)
-1. [Forward the required port to the host](#Port-forwarding)
+1. [Import the appliance (`.ova` file)](#appliance-import)
+1. [Forward the required port to the host](#port-forwarding)
 1. [Set up a shared folder so the VM can see files in your host
-   machine](#Folder-sharing)
+   machine](#folder-sharing)
 
 Mac users, please check the section on [known issues](#Mac-known-issues).
 
