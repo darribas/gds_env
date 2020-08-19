@@ -30,7 +30,7 @@ There are three main steps to follow:
 1. [Set up a shared folder so the VM can see files in your host
    machine](#folder-sharing)
 
-Mac users, please check the section on [known issues](#Mac-known-issues).
+Mac users, please check the section on [known issues](#mac-known-issues).
 
 It's important to note these three steps are required to run only once, when
 setting the VM up in a machine for the first time. Once ready, [launching and running the
