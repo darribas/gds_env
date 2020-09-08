@@ -20,6 +20,6 @@ The guides cover two different user scenarios: *build* and *install*. Install
 guides are geared towards end users who want to run the one of the [`gds_env`
 flavours](../stacks) on their machine; build guides are designed to document
 the process used to create available images and hence will probably be more
-useful for more advanced users or administrators (e.g. lecturers)who want to
+useful for more advanced users or administrators (e.g. lecturers) who want to
 prepare a new image for deployment.
 
