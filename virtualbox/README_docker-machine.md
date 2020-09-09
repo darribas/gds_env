@@ -1,4 +1,4 @@
-# `gds_env`VirtualBox VM with `docker-machine`
+# Build a VirtualBox VM
 
 This document covers the following two steps:
 
@@ -19,7 +19,7 @@ will provision the VM:
 - [VirtualBox](https://www.virtualbox.org/)
 - [`docker`](https://www.docker.com/)
 - [`docker-machine`](https://docs.docker.com/machine/)
-- This [`cloud-config.yml`](cloud-config.yml) file
+- This [`cloud-config.yml`](https://github.com/darribas/gds_env/raw/master/virtualbox/cloud-config.yml) file
 
 ### Create a VM
 
@@ -82,7 +82,7 @@ docker-machine ssh gdsbox -t
 ```
 
 - Add autostart of the container. To do this, you will need to add the content
-  of the [`cloud-config.yml`](cloud-config.yml)to the VM cloud-config:
+  of the [`cloud-config.yml`](https://github.com/darribas/gds_env/raw/master/virtualbox/cloud-config.yml)to the VM cloud-config:
 
 ```shell
 sudo vi /var/lib/rancher/conf/cloud-config.yml
@@ -120,5 +120,5 @@ VBoxManage export gdsbox --iso -o <file-name>.ova
 ## Deployment
 
 For a guide on importing the `.ova` export and running the resulting VM,
-please check [here](virtualbox_user_setup.md).
+please check [here](../virtualbox_install).
 

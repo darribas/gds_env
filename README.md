@@ -1,74 +1,57 @@
-# `gds_env`: A containerised platform for Geographic Data Science
+# A containerised platform for Geographic Data Science: `gds_env`
 
-[![](https://images.microbadger.com/badges/image/darribas/gds:4.1.svg)](https://microbadger.com/images/darribas/gds:4.1 "Get your own image badge on microbadger.com")
-[![](https://images.microbadger.com/badges/version/darribas/gds:4.1.svg)](https://microbadger.com/images/darribas/gds:4.1 "Get your own version badge on microbadger.com")
-[![DOI](https://zenodo.org/badge/65582539.svg)](https://zenodo.org/badge/latestdoi/65582539)
+[![](https://images.microbadger.com/badges/image/darribas/gds:5.0.svg)](https://microbadger.com/images/darribas/gds:5.0 "Get your own image badge on microbadger.com")
+[![](https://images.microbadger.com/badges/version/darribas/gds:5.0.svg)](https://microbadger.com/images/darribas/gds:5.0 "Get your own version badge on microbadger.com")
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/darribas/gds_env/master)
 
 * [Dani Arribas-Bel](http://darribas.org)
-  [[@darribas](http://twitter.com/darribas)]
+  [[`@darribas`](http://twitter.com/darribas)]
+  
+The `gds_env` (short for "GDS environment") provides a modern platform for Geographic Data Science. The project is a [Jupyter](https://jupyter.org/)-based stack that includes state-of-the-art **geospatial** libraries for **Python** and **R**. The `gds_env` is based on **container** technology to make it a transferrable platform for reproducibility. The source code is released under an [open source license](https://github.com/darribas/gds_env/blob/master/LICENSE) and the build process is transparent.
 
-This repository contains a `docker` container that includes:
+The `gds_env` extends the official [Jupyter Docker Stack](https://jupyter-docker-stacks.readthedocs.io/en/latest/) to include geospatial functionality in both Python and R. To offer more flexibility, this extension is provided in three different flavours, or stacks (to ): [`gds_py`](stacks/gds_py), [`gds`](stacks/gds) and [`gds_dev`](stacks/gds_dev). Each of them builds on each other and adds further functionality. Please check the [Stacks section](stacks) for more information.
 
-* `[gds_py]`: a full LaTeX distribution.
-* `[gds_py]`: a full Python stack ready for geospatial analysis (see [`stack_py.txt`](stack_py.txt) for a detailed list).
-* `[gds]`: `gds_py` + a full R stack ready for geospatial analysis (see [`stack_r.txt`](stack_r.txt) for a detailed list).
-* `[gds]`: both the [`IRkernel`](https://github.com/IRkernel/IRkernel) and [`rpy2`](https://bitbucket.org/rpy2/rpy2) channels to interact with R through Jupyter.
-* `[gds_dev]`: `gds` + additional development utilities (e.g. `pandoc`, `git`, `decktape`, `jekyll`, `jupyter-book`, `bookdown`).
+The goal of the `gds_env` is to make using Python and R for geospatial easy to set up in a large variety of contexts. The `gds_env` can support research and teaching activities, but is also suitable for data scientists using Python and R "in the field". The stacks can be used in a range of environments, including: Windows/Mac/Linux laptops and desktops, servers, compute clusters, supercomputers or in the cloud (e.g. you can deploy them on [Binder](https://mybinder.org/)). For more information on how to build or install any of the stacks, check the [Guides section](guides).
 
-## Requirements
+## Building blocks
 
-You will need [Docker](https://www.docker.com) to be able to install the GDS environment.
+The `gds_env` stands on the shoulders of giants. Here are the core open technologies it is built with:
 
-## Installing
+ <style>
+.vertimg {
+  vertical-align: middle;
+}
+</style>
 
-You can install this container by simply running:
+[<img src="https://upload.wikimedia.org/wikipedia/commons/c/c3/Python-logo-notext.svg" alt="Python" width="75" height="90" class="vertimg">](https://www.python.org/)
+[<img src="https://www.r-project.org/logo/Rlogo.svg" alt="R-project" width="95" height="90" class="vertimg">](https://www.r-project.org/)
+[<img src="https://upload.wikimedia.org/wikipedia/commons/3/38/Jupyter_logo.svg" alt="Jupyter" width="95" height="90" class="vertimg">](https://jupyter.org/)
+[<img src="https://www.docker.com/sites/default/files/d8/2019-07/vertical-logo-monochromatic.png" alt="Docker" width="95" height="90" class="vertimg">](https://www.docker.com/)
+[<img src="https://upload.wikimedia.org/wikipedia/commons/d/d5/Virtualbox_logo.png" alt="VirtualBox" width="95" height="90" class="vertimg">](https://www.virtualbox.org/)
 
-> `docker pull darribas/gds:4.1`
+## Community
 
-[Note that you'll need [Docker](https://www.docker.com) installed on your machine]
+The `gds_env` is an open-source project. To join the conversation, please read through its [community guidelines](contributing).
 
-## Building
-
-If, instead, you want to build from source, the Docker image can be built by running:
-
-> `docker build -t gds .`
-
-You can check it has been built correctly by:
-
-> `docker image ls`
-
-And you should see one image with the name `gds`.
-
-## Running
-
-The container can be run as:
-
-```
-> docker run --rm -ti -p 8888:8888 -v ${pwd}:/home/jovyan/host darribas/gds:4.1
-```
-
-A couple of notes on the command above:
-
-* This opens the `8888` port of the container, so to access the Lab instance,
-  you will have to point your browser to `localhost:8888` and insert the token
-  printed on the terminal
-* The command also mounts the current folder (`pwd`) to the container, but you can replace that with the path to any folder on your local machine (in fact, that will only work on host machines with the `pwd` command installed)
-
-## Citing
+## Citation
 
 [![DOI](https://zenodo.org/badge/65582539.svg)](https://zenodo.org/badge/latestdoi/65582539)
 
 ```bibtex
 @software{gds_env,
-  author = {{Dani Arribas-Bel}},
+  author = { { Dani Arribas-Bel } },
   title = {\texttt{gds\_env}: A containerised platform for Geographic Data Science},
   url = {https://github.com/darribas/gds_env},
-  version = {4.1},
+  version = {5.0},
   date = {2019-08-06},
 }
 ```
 
+## License
+
+The code to generate the `gds_env` stacks is released under a BSD License. More details available on the repository's [license document](https://github.com/darribas/gds_env/blob/master/LICENSE).
+
 ---
 
-[<img src="website/gdsl.png" width="250">](https://www.liverpool.ac.uk/geographic-data-science/)
+[<img src="https://github.com/darribas/gds_env/raw/master/website/gdsl.png" width="250">](https://www.liverpool.ac.uk/geographic-data-science/)
 

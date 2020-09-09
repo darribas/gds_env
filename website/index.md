@@ -1,8 +1,8 @@
 ---
 layout: default
-title: Welcome
-nav_order: 1
+title: Home
+nav_order: a
 permalink: /
 ---
 
-Test blah blah
+{% include README.md %}

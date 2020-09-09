@@ -26,6 +26,7 @@ RUN conda update conda --yes \
      'dask-ml' \
      'datashader' \
      'feather-format' \
+     'flake8' \
      'geopandas' \
      'geopy' \
      'h3-py' \
@@ -46,6 +47,7 @@ RUN conda update conda --yes \
      'palettable' \
      'pandana' \
      'polyline' \
+     'psycopg2' \
      'pyarrow' \
      'pygeos' \
      'pyrosm' \
@@ -59,7 +61,9 @@ RUN conda update conda --yes \
      'scikit-learn' \
      'seaborn' \
      'spatialpandas' \
+     'sqlalchemy' \
      'statsmodels' \
+     'tabulate' \
      #'urbanaccess' \ https://github.com/UDST/urbanaccess/issues/63
      'xarray_leaflet' \
      'xarray-spatial' \
@@ -71,15 +75,11 @@ RUN conda update conda --yes \
  && find /opt/conda/ -follow -type f -name '*.js.map' -delete
 
 # pip libraries
-RUN pip install ablog \
-                jupyter-book \
-                keplergl \
-                pygeoda \
-                pytest-cov \
-                pytest-tornasync \
-                sphinx_press_theme \
+ADD ./gds_py_pip.txt ./
+RUN pip install -r gds_py_pip.txt \
  && pip cache purge \
- && rm -rf /home/$NB_USER/.cache/pip
+ && rm -rf /home/$NB_USER/.cache/pip \
+ && rm ./gds_py_pip.txt
 
 #--- Jupyter config ---#
 USER root
@@ -121,7 +121,9 @@ RUN echo "c.NotebookApp.default_url = '/lab'"\
  && rm -rf /home/$NB_USER/.cache/yarn \
 # Fix permissions
  && fix-permissions "${CONDA_DIR}" \
- && fix-permissions "/home/${NB_USER}"
+ && fix-permissions "/home/${NB_USER}" \
+# Build mpl font cache
+ && python -c "import matplotlib.pyplot;"
 USER $NB_UID
 
 #--- htop ---#

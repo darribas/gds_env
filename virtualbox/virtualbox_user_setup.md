@@ -1,8 +1,14 @@
-# Running the `gds_env` on VirtualBox
+# Install on VirtualBox
 
 This document details the requirements and steps needed to be able to run the
 [`gds_env`](https://github.com/darribas/gds_env/) as a virtual machine (VM) on
 VirtualBox.
+
+---
+
+**NOTE**: This guide was developed in collaboration with Francisco Rowe, Paul Williamson and Leo Uieda from the University of Liverpool. Funding from its School of Environmental Sciences to develop and test its deployment is gratefully acknowledged.
+
+---
 
 ## Requirements
 
@@ -19,12 +25,12 @@ This tutorial assumes the following is available before start:
 
 There are three main steps to follow:
 
-1. [Import the appliance (`.ova` file)](#Appliance-import)
-1. [Forward the required port to the host](#Port-forwarding)
+1. [Import the appliance (`.ova` file)](#appliance-import)
+1. [Forward the required port to the host](#port-forwarding)
 1. [Set up a shared folder so the VM can see files in your host
-   machine](#Folder-sharing)
+   machine](#folder-sharing)
 
-Mac users, please check the section on [known issues](#Mac-known-issues).
+Mac users, please check the section on [known issues](#mac-known-issues).
 
 It's important to note these three steps are required to run only once, when
 setting the VM up in a machine for the first time. Once ready, [launching and running the

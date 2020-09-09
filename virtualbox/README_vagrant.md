@@ -1,4 +1,4 @@
-# `gds_env`VirtualBox VM through `vagrant`
+# Build and run with Vagrant
 
 In this document, you will learn to create a VirtualBox VM that runs the
 `gds_env` container using `vagrant`.
@@ -10,7 +10,7 @@ following needs to be installed and available:
 
 - [VirtualBox](https://www.virtualbox.org/)
 - [`vagrant`](https://www.vagrantup.com/)
-- The `Vagrantfile` for this project, available to download [here](./Vagrantfile).
+- The `Vagrantfile` for this project, available to download [here](https://github.com/darribas/gds_env/raw/master/virtualbox/Vagrantfile).
 
 Once the VM is created, only VirtualBox is required to run it.
 

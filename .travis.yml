@@ -15,9 +15,10 @@ before_install:
   - conda update --yes conda
   - conda install --yes psutil yaml pyyaml
   - conda-env create -f gds_py/gds_py.yml
+  - source activate gds
+  - pip install -r gds_py/gds_py_pip.txt
 
 script: 
-  - source activate gds
     #- jupyter nbconvert --to markdown --execute --ExecutePreprocessor.timeout=480 --allow-errors check_gds_stack.ipynb --stdout
   - jupyter nbconvert --to markdown --execute --ExecutePreprocessor.timeout=480 gds_py/check_py_stack.ipynb
     #- conda list --explicit

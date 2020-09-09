@@ -13,3 +13,6 @@ virtualbox/*.ova
 */sass-cache/
 ._site/
 */_site/
+website/_includes/
+website/_includes/*
+website/.jekyll-metadata
