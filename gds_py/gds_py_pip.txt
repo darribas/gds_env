@@ -1,9 +1,8 @@
-ablog
-geoalchemy2
-jupyter-book
-keplergl
-pygeoda
-pytest-cov
-pytest-tornasync
-sphinx_press_theme
-pygeoda
+ablog==0.10.6
+geoalchemy2==0.8.4
+jupyter-book==0.7.3
+keplergl==0.2.0
+pygeoda==0.0.3
+pytest-cov==2.10.0
+pytest-tornasync==0.6.0.post2
+sphinx_press_theme==0.5.1
