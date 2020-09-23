@@ -365,14 +365,14 @@ th {
   background: #2c84fa; }
 
 html {
-  font-size: 15px !important;
+  font-size: 14px !important;
   scroll-behavior: smooth; }
   @media (min-width: 31.25rem) {
     html {
       font-size: 16px !important; } }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "helvetica neue", helvetica, roboto, noto, "segoe ui", arial, sans-serif;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   font-size: inherit;
   line-height: 1.4;
   color: #e6e1e8;
@@ -684,17 +684,20 @@ body {
     margin-top: 0.5em; }
   .main-content dl {
     display: grid;
-    grid-template-columns: max-content 1fr; }
+    grid-template: auto / 10em 1fr; }
   .main-content dt,
   .main-content dd {
     margin: 0.25em 0; }
   .main-content dt {
+    grid-column: 1;
+    font-weight: 500;
     text-align: right; }
     .main-content dt::after {
       content: ":"; }
   .main-content dd {
-    margin-left: 1em;
-    font-weight: 500; }
+    grid-column: 2;
+    margin-bottom: 0;
+    margin-left: 1em; }
   .main-content .anchor-heading {
     position: absolute;
     right: -1rem;
@@ -778,7 +781,7 @@ body {
   margin-bottom: 0;
   list-style: none; }
   .nav-list .nav-list-item {
-    font-size: 15px !important;
+    font-size: 14px !important;
     position: relative;
     margin: 0; }
     @media (min-width: 31.25rem) {
@@ -846,6 +849,28 @@ body {
       transform: rotate(-90deg); }
     .nav-list .nav-list-item.active > .nav-list {
       display: block; }
+
+.nav-category {
+  padding-top: 0.5rem;
+  padding-right: 1rem;
+  padding-bottom: 0.5rem;
+  padding-left: 1rem;
+  font-weight: 600;
+  text-align: end;
+  text-transform: uppercase;
+  border-bottom: 1px solid #44434d;
+  font-size: 11px !important; }
+  @media (min-width: 31.25rem) {
+    .nav-category {
+      font-size: 12px !important; } }
+  @media (min-width: 50rem) {
+    .nav-category {
+      padding-right: 2rem;
+      padding-left: 2rem;
+      margin-top: 1rem;
+      text-align: start; }
+      .nav-category:first-child {
+        margin-top: 0; } }
 
 .aux-nav {
   height: 100%;
@@ -932,6 +957,9 @@ h4,
     h4,
     .text-delta {
       font-size: 12px !important; } }
+
+h4 code {
+  text-transform: none; }
 
 h5,
 .text-epsilon {
@@ -1224,7 +1252,7 @@ h6,
   padding-left: 0;
   margin-bottom: 0.25rem;
   list-style: none;
-  font-size: 15px !important; }
+  font-size: 14px !important; }
   @media (min-width: 31.25rem) {
     .search-results-list {
       font-size: 16px !important; } }
@@ -1382,10 +1410,10 @@ h6,
   background-color: #302d36; }
   @media (min-width: 50rem) {
     .search-active .search-input {
-      padding-left: 2.75rem; } }
+      padding-left: 2.3rem; } }
 @media (min-width: 50rem) {
   .search-active .search-label {
-    padding-left: 1.25rem; } }
+    padding-left: 0.6rem; } }
 .search-active .search-results {
   display: block; }
 .search-active .search-overlay {
@@ -1453,21 +1481,56 @@ code {
   border: 1px solid #44434d;
   border-radius: 4px; }
 
-pre.highlight,
+div.highlighter-rouge {
+  padding: 0.75rem;
+  margin-top: 0;
+  margin-bottom: 0.75rem;
+  background-color: #302d36;
+  border-radius: 4px;
+  box-shadow: none;
+  -webkit-overflow-scrolling: touch; }
+  div.highlighter-rouge div.highlight,
+  div.highlighter-rouge pre.highlight,
+  div.highlighter-rouge code {
+    padding: 0;
+    margin: 0;
+    border: 0; }
+
 figure.highlight {
   padding: 0.75rem;
   margin-top: 0;
-  margin-bottom: 0;
+  margin-bottom: 0.75rem;
   background-color: #302d36;
   border-radius: 4px;
+  box-shadow: none;
   -webkit-overflow-scrolling: touch; }
-  pre.highlight code,
+  figure.highlight pre,
   figure.highlight code {
     padding: 0;
+    margin: 0;
     border: 0; }
 
-.highlighter-rouge {
-  margin-bottom: 0.75rem; }
+.highlight .table-wrapper {
+  padding: 0;
+  margin: 0;
+  border: 0;
+  box-shadow: none; }
+  .highlight .table-wrapper td,
+  .highlight .table-wrapper pre {
+    font-size: 11px !important;
+    min-width: 0;
+    padding: 0;
+    background-color: #302d36;
+    border: 0; }
+    @media (min-width: 31.25rem) {
+      .highlight .table-wrapper td,
+      .highlight .table-wrapper pre {
+        font-size: 12px !important; } }
+  .highlight .table-wrapper td.gl {
+    padding-right: 0.75rem; }
+  .highlight .table-wrapper pre {
+    margin: 0;
+    line-height: 2; }
 
 .highlight .c {
   color: #586e75; }
@@ -2760,7 +2823,7 @@ figure.highlight {
       font-size: 14px !important; } }
 
 .fs-4 {
-  font-size: 15px !important; }
+  font-size: 14px !important; }
   @media (min-width: 31.25rem) {
     .fs-4 {
       font-size: 16px !important; } }
