@@ -46,7 +46,7 @@ Absolutely! One of the original reasons why the project got off the ground was t
 
 ### Can I run the `gds_env` on a machine without administrative rights?
 
-Yes. Docker does require administrative priviledges on the user to run containers. However, if your environment does not allow this (e.g. machines managed by universities or employers), you can run them on Virtualbox (see the [guide to install on Virtualbox](../guides/virtualbox_install)). Alternatively, if you are a bit more tech savvy, you can try [Syngularity](../https://sylabs.io/), which is a project that allows you to run containers on Linux without administrative priviledges.
+Yes. Docker does require administrative priviledges on the user to run containers. However, if your environment does not allow this (e.g. machines managed by universities or employers), you can run them on Virtualbox (see the [guide to install on Virtualbox](../guides/virtualbox_install)). Alternatively, if you are a bit more tech savvy, you can try [Syngularity](https://sylabs.io/), which is a project that allows you to run containers on Linux without administrative priviledges.
 
 ### My Windows Laptop does not support Docker. Can I still run `gds_env`?
 
@@ -54,4 +54,4 @@ Yes. Virtualbox is a virtualisation tool that can be installed on any recent ver
 
 ### Who is behind the `gds_env`
 
-The `gds_env` was originally an idea by [Dani Arribas-Bel](https://darribas.org) ([`@darribas`](https://twitter.com/darribas)) to manage his own scientific software installs for research, and his teaching (mostly at the [Geographic Data Science Lab](https://www.liverpool.ac.uk/geographic-data-science/). However, the project has grown a bit and now a few more people have contributed. You can have a look at the [full list of contributors](https://github.com/darribas/gds_env/graphs/contributors) and if you would like to get involved, see the [guidance on contributing](../contributing). It'd be terrific to have you on board!
+The `gds_env` was originally an idea by [Dani Arribas-Bel](https://darribas.org) ([`@darribas`](https://twitter.com/darribas)) to manage his own scientific software installs for research, and his teaching (mostly at the [Geographic Data Science Lab](https://www.liverpool.ac.uk/geographic-data-science/)). However, the project has grown a bit and now a few more people have contributed. You can have a look at the [full list of contributors](https://github.com/darribas/gds_env/graphs/contributors) and if you would like to get involved, see the [guidance on contributing](../contributing). It'd be terrific to have you on board!
