@@ -1,5 +1,5 @@
 # Jun'20
-FROM jupyter/minimal-notebook:ubuntu-18.04
+FROM jupyter/minimal-notebook:latest
 
 MAINTAINER Dani Arribas-Bel <D.Arribas-Bel@liverpool.ac.uk>
 
