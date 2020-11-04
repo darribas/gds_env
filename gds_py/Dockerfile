@@ -8,12 +8,12 @@ ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
 
 #--- Python ---#
 
-RUN conda update conda --yes \
+RUN conda install mamba \
     && conda config --add channels conda-forge \
     && conda config --add channels pyviz \
     && conda config --add channels makepath \
     && conda config --set channel_priority strict \
-    && conda install --yes --quiet \
+    && mamba install --yes --quiet \
      #'python=3.7' \
      'black' \
      'bokeh' \
@@ -51,7 +51,7 @@ RUN conda update conda --yes \
      'pyarrow' \
      'pygeos' \
      'pyrosm' \
-     'pysal' \
+     'pysal=2.3' \
      'qgrid' \
      'rasterio' \
      'rasterstats' \
@@ -64,7 +64,7 @@ RUN conda update conda --yes \
      'sqlalchemy' \
      'statsmodels' \
      'tabulate' \
-     #'urbanaccess' \ https://github.com/UDST/urbanaccess/issues/63
+     'urbanaccess' \
      'xarray_leaflet' \
      'xarray-spatial' \
      'xlrd' \
