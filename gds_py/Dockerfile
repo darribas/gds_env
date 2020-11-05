@@ -140,3 +140,6 @@ RUN apt-get update \
 # Switch back to user to avoid accidental container runs as root
 USER $NB_UID
 
+# Set version
+ENV GDS_ENV_VERSION "6.0alpha"
+
