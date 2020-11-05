@@ -27,6 +27,7 @@ RUN conda install mamba \
      'datashader' \
      'feather-format' \
      'flake8' \
+     'geocube' \
      'geopandas' \
      'geopy' \
      'h3-py' \
@@ -38,6 +39,7 @@ RUN conda install mamba \
      'jupyter-server-proxy' \
      'jupytext' \
      'legendgram' \
+     'lxml' \
      'mkl-service' \
      'momepy' \
      'nbdime' \
