@@ -6,4 +6,4 @@ keplergl
 pygeoda
 pytest-cov
 pytest-tornasync
-sphinx_press_theme
+git+git://github.com/jsignell/dask-geopandas
