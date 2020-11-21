@@ -23,6 +23,7 @@ RUN conda install mamba \
      'contextily' \
      'cython' \
      'dask' \
+     'dask-kubernetes' \
      'dask-ml' \
      'datashader' \
      'feather-format' \
