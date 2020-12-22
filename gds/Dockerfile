@@ -171,6 +171,7 @@ RUN R -e "install.packages(c( \
             'viridis', \
             # ------------------
             # Other
+            'areal', \
             'deldir', \
             'feather', \
             'geojsonio', \
