@@ -1,4 +1,4 @@
-FROM darribas/gds_py:5.0
+FROM darribas/gds_py:6.0alpha1
 
 MAINTAINER Dani Arribas-Bel <D.Arribas-Bel@liverpool.ac.uk>
 
@@ -148,17 +148,34 @@ RUN R -e "install.packages(c( \
             'geoR', \
             'geosphere', \
             # ------------------
+            # SAN
+            # https://github.com/GDSL-UL/san/blob/master/01-overview.Rmd
             'arm', \
-            'deldir', \
-            'feather', \
-            'geojsonio', \
+            'car', \
+            'corrplot', \
+            'FRK', \
+            'gghighlight', \
             'ggmap', \
             'GISTools', \
-            'hexbin', \
-            'igraph', \
+            'jtools', \
             'kableExtra', \
             'knitr', \
             'lme4', \
+            'lmtest', \
+            'lubridate', \
+            'MASS', \
+            'merTools', \
+            'sjPlot', \
+            'spgwr', \
+            'stargazer', \
+            'viridis', \
+            # ------------------
+            # Other
+            'deldir', \
+            'feather', \
+            'geojsonio', \
+            'hexbin', \
+            'igraph', \
             'nlme', \
             'randomForest', \
             'RCurl', \
