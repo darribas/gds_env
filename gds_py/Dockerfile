@@ -1,4 +1,3 @@
-# Jun'20
 FROM jupyter/minimal-notebook:latest
 
 MAINTAINER Dani Arribas-Bel <D.Arribas-Bel@liverpool.ac.uk>
@@ -111,8 +110,6 @@ RUN echo "c.NotebookApp.default_url = '/lab'"\
  && jupyter labextension install nbdime-jupyterlab --no-build \
 # Variable inspector
  && jupyter labextension install @lckr/jupyterlab_variableinspector --no-build \
-# TOC
- && jupyter labextension install @jupyterlab/toc --no-build \
 # Build
  && jupyter lab build -y \
 # Clean cache up

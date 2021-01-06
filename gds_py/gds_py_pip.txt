@@ -6,4 +6,6 @@ keplergl
 pygeoda
 pytest-cov
 pytest-tornasync
+simplification
+topojson
 git+git://github.com/jsignell/dask-geopandas
