@@ -107,6 +107,7 @@ RUN mamba create -n dev --yes -c conda-forge \
         rb-github-pages \
         rb-jekyll-scholar \
         pip \
+        pyppeteer \
  && source activate dev \
  && pip install ablog jupyter-book \
  && gem install just-the-docs \
