@@ -1,7 +1,5 @@
-ablog
 download
 geoalchemy2
-jupyter-book
 keplergl
 pygeoda
 pytest-cov

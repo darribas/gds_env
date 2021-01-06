@@ -1,10 +1,50 @@
-FROM darribas/gds:5.0
+FROM gds:6.0alpha1
 
 #--- Decktape ---#
 USER root
 
 RUN apt-get update -qq \
  && apt-get install -y --no-install-recommends \
+# https://jupyterbook.org/advanced/pdf.html#build-a-pdf-from-your-book-html
+    gconf-service \
+    libasound2 \
+    libatk1.0-0 \
+    libatk-bridge2.0-0 \
+    libc6 \
+    libcairo2 \
+    libcups2 \
+    libdbus-1-3 \
+    libexpat1 \
+    libfontconfig1 \
+    libgcc1 \
+    libgconf-2-4 \
+    libgdk-pixbuf2.0-0 \
+    libglib2.0-0 \
+    libgtk-3-0 \
+    libnspr4 \
+    libpango-1.0-0 \
+    libpangocairo-1.0-0 \
+    libstdc++6 \
+    libx11-6 \
+    libx11-xcb1 \
+    libxcb1 \
+    libxcomposite1 \
+    libxcursor1 \
+    libxdamage1 \
+    libxext6 \
+    libxfixes3 \
+    libxi6 \
+    libxrandr2 \
+    libxrender1 \
+    libxss1 \
+    libxtst6 \
+    ca-certificates \
+    fonts-liberation \
+    libappindicator1 \
+    libnss3 \
+    lsb-release \
+    xdg-utils \
+    wget \
 # https://github.com/astefanutti/decktape/issues/187
 	libcairo2-dev \
 	libasound2-dev \
@@ -63,10 +103,14 @@ RUN wget https://gist.github.com/darribas/e2a560e562139b139b67b7d1c998257c/raw/b
 USER $NB_UID
 
 #--- jekyll ---#
-RUN conda install -c conda-forge \
+RUN mamba create -n dev --yes -c conda-forge \
         rb-github-pages \
         rb-jekyll-scholar \
- && gem install just-the-docs
+        pip \
+ && source activate dev \
+ && pip install ablog jupyter-book \
+ && gem install just-the-docs \
+ && source activate base
 
 #---    Vim   ---#
 USER root
@@ -79,7 +123,7 @@ RUN apt-get update \
 
 #--- Clean up ---#
 RUN cd $NB_HOME \
- && conda clean --all \
+ && conda clean --yes --all \
  && rm -rf /home/$NB_USER/.cache/pip \
  && rm -rf /tmp/downloaded_packages/ /tmp/*.rds \
  && rm -rf $GEM_HOME/cache \
