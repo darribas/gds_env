@@ -1,4 +1,5 @@
-FROM jupyter/minimal-notebook:latest
+# 6th Jan'21
+FROM jupyter/minimal-notebook:703d8b2dcb88
 
 MAINTAINER Dani Arribas-Bel <D.Arribas-Bel@liverpool.ac.uk>
 
@@ -90,10 +91,8 @@ RUN echo "c.NotebookApp.default_url = '/lab'"\
  && echo "c.NotebookApp.contents_manager_class = "\
          "'jupytext.TextFileContentsManager'" \
  >> /home/$NB_USER/.jupyter/jupyter_notebook_config.py \
-# JupyText
- && jupyter nbextension install --py jupytext \
- && jupyter nbextension enable --py jupytext \
- && jupyter labextension install jupyterlab-jupytext --no-build \
+# Jupytext
+ && jupyter labextension install jupyterlab-jupytext@1.2.2 \
 # Jupyter widgets
  && jupyter labextension install @jupyter-widgets/jupyterlab-manager --no-build \
 # Enable ipyleaflet
@@ -110,6 +109,8 @@ RUN echo "c.NotebookApp.default_url = '/lab'"\
  && jupyter labextension install nbdime-jupyterlab --no-build \
 # Variable inspector
  && jupyter labextension install @lckr/jupyterlab_variableinspector --no-build \
+# TOC
+ && jupyter labextension install @jupyterlab/toc --no-build \
 # Build
  && jupyter lab build -y \
 # Clean cache up
@@ -123,7 +124,8 @@ RUN echo "c.NotebookApp.default_url = '/lab'"\
  && fix-permissions "${CONDA_DIR}" \
  && fix-permissions "/home/${NB_USER}" \
 # Build mpl font cache
- && python -c "import matplotlib.pyplot;"
+ && python -c "import matplotlib.pyplot;" \
+ && fix-permissions "/home/${NB_USER}/.config/matplotlib"
 USER $NB_UID
 
 #--- htop ---#
