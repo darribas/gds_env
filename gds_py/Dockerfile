@@ -1,5 +1,5 @@
 # Jun'20
-FROM jupyter/minimal-notebook:ubuntu-18.04
+FROM jupyter/minimal-notebook:latest
 
 MAINTAINER Dani Arribas-Bel <D.Arribas-Bel@liverpool.ac.uk>
 
@@ -8,12 +8,12 @@ ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
 
 #--- Python ---#
 
-RUN conda update conda --yes \
+RUN conda install mamba \
     && conda config --add channels conda-forge \
     && conda config --add channels pyviz \
     && conda config --add channels makepath \
     && conda config --set channel_priority strict \
-    && conda install --yes --quiet \
+    && mamba install --yes --quiet \
      #'python=3.7' \
      'black' \
      'bokeh' \
@@ -23,10 +23,12 @@ RUN conda update conda --yes \
      'contextily' \
      'cython' \
      'dask' \
+     'dask-kubernetes' \
      'dask-ml' \
      'datashader' \
      'feather-format' \
      'flake8' \
+     'geocube' \
      'geopandas' \
      'geopy' \
      'h3-py' \
@@ -38,6 +40,7 @@ RUN conda update conda --yes \
      'jupyter-server-proxy' \
      'jupytext' \
      'legendgram' \
+     'lxml' \
      'mkl-service' \
      'momepy' \
      'nbdime' \
@@ -51,7 +54,7 @@ RUN conda update conda --yes \
      'pyarrow' \
      'pygeos' \
      'pyrosm' \
-     'pysal' \
+     'pysal=2.3' \
      'qgrid' \
      'rasterio' \
      'rasterstats' \
@@ -64,7 +67,7 @@ RUN conda update conda --yes \
      'sqlalchemy' \
      'statsmodels' \
      'tabulate' \
-     #'urbanaccess' \ https://github.com/UDST/urbanaccess/issues/63
+     'urbanaccess' \
      'xarray_leaflet' \
      'xarray-spatial' \
      'xlrd' \
@@ -137,4 +140,7 @@ RUN apt-get update \
 
 # Switch back to user to avoid accidental container runs as root
 USER $NB_UID
+
+# Set version
+ENV GDS_ENV_VERSION "6.0alpha"
 
