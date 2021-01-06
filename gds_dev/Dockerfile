@@ -110,6 +110,7 @@ RUN mamba create -n dev --yes -c conda-forge \
         pyppeteer \
  && source activate dev \
  && pip install ablog jupyter-book \
+ && pyppeteer-install \
  && gem install just-the-docs \
  && source activate base
 
