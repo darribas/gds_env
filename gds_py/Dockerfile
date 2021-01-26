@@ -20,6 +20,7 @@ RUN conda install mamba \
      'boto3' \
      'bottleneck' \
      'cenpy' \
+     'clustergram' \
      'contextily' \
      'cython' \
      'dask' \
