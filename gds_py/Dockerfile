@@ -111,7 +111,7 @@ RUN echo "c.NotebookApp.default_url = '/lab'"\
 # Variable inspector
  && jupyter labextension install @lckr/jupyterlab_variableinspector --no-build \
 # TOC
- && jupyter labextension install @jupyterlab/toc --no-build \
+#&& jupyter labextension install @jupyterlab/toc --no-build \
 # Build
  && jupyter lab build -y \
 # Clean cache up
