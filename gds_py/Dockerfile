@@ -92,26 +92,18 @@ RUN echo "c.NotebookApp.default_url = '/lab'"\
  && echo "c.NotebookApp.contents_manager_class = "\
          "'jupytext.TextFileContentsManager'" \
  >> /home/$NB_USER/.jupyter/jupyter_notebook_config.py \
-# Jupytext
- && jupyter labextension install jupyterlab-jupytext@1.2.2 \
-# Jupyter widgets
- && jupyter labextension install @jupyter-widgets/jupyterlab-manager --no-build \
-# Enable ipyleaflet
- && jupyter labextension install jupyter-leaflet --no-build \
 # Jupyter server proxy
  && jupyter labextension install @jupyterlab/server-proxy --no-build \
 # GeoJSON
  && jupyter labextension install @jupyterlab/geojson-extension --no-build \
 # Kepler.gl
- && jupyter labextension install @jupyter-widgets/jupyterlab-manager keplergl-jupyter --no-build \
+#&& jupyter labextension install @jupyter-widgets/jupyterlab-manager keplergl-jupyter --no-build \
 # qgrid
- && jupyter labextension install qgrid2 --no-build \
+#&& jupyter labextension install qgrid2 --no-build \
 # nbdime
  && jupyter labextension install nbdime-jupyterlab --no-build \
 # Variable inspector
- && jupyter labextension install @lckr/jupyterlab_variableinspector --no-build \
-# TOC
-#&& jupyter labextension install @jupyterlab/toc --no-build \
+ && pip install lckr-jupyterlab-variableinspector \
 # Build
  && jupyter lab build -y \
 # Clean cache up
