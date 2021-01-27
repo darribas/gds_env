@@ -8,12 +8,12 @@ ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
 
 #--- Python ---#
 
-RUN conda install mamba \
+RUN conda install --freeze-installed --yes mamba \
     && conda config --add channels conda-forge \
     && conda config --add channels pyviz \
     && conda config --add channels makepath \
     && conda config --set channel_priority strict \
-    && mamba install --yes --quiet \
+    && mamba install --freeze-installed --yes --quiet \
      #'python=3.7' \
      'black' \
      'bokeh' \
