@@ -72,6 +72,7 @@ R -e "install.packages(c( \
             'hexbin', \
             'igraph', \
             'nlme', \
+            'patchwork', \
             'randomForest', \
             'RCurl', \
             'rpostgis', \
