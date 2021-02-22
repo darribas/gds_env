@@ -1,5 +1,5 @@
-# 27th Jan'21
-FROM jupyter/minimal-notebook:837c0c870545
+# 22nd Feb'21
+FROM jupyter/minimal-notebook:016833b15ceb
 
 MAINTAINER Dani Arribas-Bel <D.Arribas-Bel@liverpool.ac.uk>
 
@@ -34,6 +34,7 @@ RUN conda install --freeze-installed --yes mamba \
      'geopy' \
      'h3-py' \
      'hdbscan' \
+     'intake-stac' \
      'ipyleaflet' \
      'ipympl' \
      'ipyparallel' \
