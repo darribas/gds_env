@@ -1,4 +1,5 @@
-FROM gds:6.0alpha1
+FROM gds_py:latest
+#FROM gds:6.0alpha1
 
 #--- Decktape ---#
 USER root
@@ -122,6 +123,9 @@ RUN apt-get update \
  && curl -fLo $HOME/.vim/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim \
  && vim +PlugInstall +qall
+#--- default Vim ---#
+RUN echo "{'keyMap': 'vim'}" \
+ >> /home/$NB_USER/.jupyter/lab/user-settings/\@jupyterlab/codemirror-extension/commands.jupyterlab-settings
 
 #--- Clean up ---#
 RUN cd $NB_HOME \
