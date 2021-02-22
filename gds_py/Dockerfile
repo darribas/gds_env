@@ -77,7 +77,9 @@ RUN conda install --freeze-installed --yes mamba \
  && conda clean --all --yes --force-pkgs-dirs \
  && find /opt/conda/ -follow -type f -name '*.a' -delete \
  && find /opt/conda/ -follow -type f -name '*.pyc' -delete \
- && find /opt/conda/ -follow -type f -name '*.js.map' -delete
+ && find /opt/conda/ -follow -type f -name '*.js.map' -delete \
+ && find /opt/conda/lib/python*/site-packages/bokeh/server/static \
+    -follow -type f -name '*.js' ! -name '*.min.js' -delete
 
 # pip libraries
 ADD ./gds_py_pip.txt ./
