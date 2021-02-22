@@ -119,11 +119,13 @@ RUN echo "c.NotebookApp.default_url = '/lab'"\
  && rm -rf /home/$NB_USER/.cache/yarn \
 # Fix permissions
  && fix-permissions "${CONDA_DIR}" \
- && fix-permissions "/home/${NB_USER}" \
+ && fix-permissions "/home/${NB_USER}"
 # Build mpl font cache
- && python -c "import matplotlib.pyplot;" \
- && fix-permissions "/home/${NB_USER}/.config/matplotlib"
+# https://github.com/jupyter/docker-stacks/blob/c3d5df67c8b158b0aded401a647ea97ada1dd085/scipy-notebook/Dockerfile#L59
 USER $NB_UID
+ENV XDG_CACHE_HOME="/home/${NB_USER}/.cache/"
+RUN MPLBACKEND=Agg python -c "import matplotlib.pyplot" && \
+    fix-permissions "/home/${NB_USER}"
 
 #--- htop ---#
 
