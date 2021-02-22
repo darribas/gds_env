@@ -1,9 +1,11 @@
 download
 geoalchemy2
-keplergl
+#keplergl
+matplotlib-scalebar
 pygeoda
 pytest-cov
 pytest-tornasync
 simplification
 topojson
+urbangrammar-graphics
 git+git://github.com/jsignell/dask-geopandas
