@@ -57,7 +57,7 @@ RUN conda install --freeze-installed --yes mamba \
      'pygeos' \
      'pyrosm' \
      'pysal=2.3' \
-     'qgrid' \
+     #'qgrid' \
      'rasterio' \
      'rasterstats' \
      'rio-cogeo' \
