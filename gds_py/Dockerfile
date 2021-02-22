@@ -14,6 +14,7 @@ RUN conda install --freeze-installed --yes mamba \
     && conda config --add channels makepath \
     && conda config --set channel_priority strict \
     && mamba install --freeze-installed --yes --quiet \
+     'conda-forge::blas=*=openblas' \
      #'python=3.7' \
      'black' \
      'bokeh' \
@@ -43,7 +44,7 @@ RUN conda install --freeze-installed --yes mamba \
      'jupytext' \
      'legendgram' \
      'lxml' \
-     'mkl-service' \
+     #'mkl-service' \
      'momepy' \
      'nbdime' \
      'netCDF4' \
