@@ -15,7 +15,6 @@ RUN conda install --freeze-installed --yes mamba \
     && conda config --set channel_priority strict \
     && mamba install --freeze-installed --yes --quiet \
      'conda-forge::blas=*=openblas' \
-     #'python=3.7' \
      'black' \
      'bokeh' \
      'boto3' \
@@ -91,9 +90,7 @@ RUN pip install -r gds_py_pip.txt \
 
 #--- Jupyter config ---#
 USER root
-RUN echo "c.NotebookApp.default_url = '/lab'"\
- >> /home/$NB_USER/.jupyter/jupyter_notebook_config.py \
- && echo "c.NotebookApp.contents_manager_class = "\
+RUN echo "c.NotebookApp.contents_manager_class = "\
          "'jupytext.TextFileContentsManager'" \
  >> /home/$NB_USER/.jupyter/jupyter_notebook_config.py \
 # Jupyter server proxy
