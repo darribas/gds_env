@@ -1,4 +1,4 @@
-FROM gds_py:latest
+FROM gds:latest
 #FROM gds:6.0alpha1
 
 #--- Decktape ---#
@@ -124,8 +124,11 @@ RUN apt-get update \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim \
  && vim +PlugInstall +qall
 #--- default Vim ---#
-RUN echo "{'keyMap': 'vim'}" \
- >> /home/$NB_USER/.jupyter/lab/user-settings/\@jupyterlab/codemirror-extension/commands.jupyterlab-settings
+RUN mkdir -p /home/$NB_USER/.jupyter/lab/user-settings/\@jupyterlab/codemirror-extension/ \
+ && echo '{"keyMap": "vim"}'\
+ >> /home/$NB_USER/.jupyter/lab/user-settings/\@jupyterlab/codemirror-extension/commands.jupyterlab-settings\
+ && fix-permissions /home/$NB_USER/.jupyter/lab/user-settings/\@jupyterlab/codemirror-extension/ \
+ && fix-permissions /home/$NB_USER/.jupyter/lab/
 
 #--- Clean up ---#
 RUN cd $NB_HOME \
