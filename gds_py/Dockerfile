@@ -60,7 +60,7 @@ RUN conda install --freeze-installed --yes mamba \
      'rasterio==1.2.0' \
      'rasterstats==0.14.0' \
      'rio-cogeo==2.0.1' \
-     'rioxarray==0.3.0' \
+     'rioxarray==0.3.1' \
      'scikit-image==0.18.1' \
      'scikit-learn==0.24.1' \
      'seaborn==0.11.1' \
