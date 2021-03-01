@@ -69,10 +69,10 @@ RUN conda install --freeze-installed --yes mamba \
      'statsmodels==0.12.2' \
      'tabulate==0.8.9' \
      'urbanaccess==0.2.2' \
-     'xarray_leaflet' \
+     'xarray_leaflet==0.1.13' \
      'xarray-spatial==0.1.2' \
-     'xlrd' \
-     'xlsxwriter' \
+     'xlrd==2.0.1' \
+     'xlsxwriter==1.3.7' \
  && conda clean --all --yes --force-pkgs-dirs \
  && find /opt/conda/ -follow -type f -name '*.a' -delete \
  && find /opt/conda/ -follow -type f -name '*.pyc' -delete \
