@@ -1,5 +1,5 @@
-# 22nd Feb'21
-FROM jupyter/minimal-notebook:016833b15ceb
+# March 1st'21
+FROM jupyter/minimal-notebook:29edefbcb06a
 
 MAINTAINER Dani Arribas-Bel <D.Arribas-Bel@liverpool.ac.uk>
 
@@ -90,7 +90,9 @@ RUN pip install -r gds_py_pip.txt \
 
 #--- Jupyter config ---#
 USER root
-RUN echo "c.NotebookApp.contents_manager_class = "\
+RUN echo "c.NotebookApp.default_url = '/lab'"\
+ >> /home/$NB_USER/.jupyter/jupyter_notebook_config.py \
+ && echo "c.NotebookApp.contents_manager_class = "\
          "'jupytext.TextFileContentsManager'" \
  >> /home/$NB_USER/.jupyter/jupyter_notebook_config.py \
 # Jupyter server proxy
@@ -137,5 +139,5 @@ RUN apt-get update \
 USER $NB_UID
 
 # Set version
-ENV GDS_ENV_VERSION "6.0alpha"
+ENV GDS_ENV_VERSION "6.0"
 
