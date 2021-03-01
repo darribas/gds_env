@@ -1,9 +1,9 @@
-export GDS_VERSION=5.0
+export GDS_VERSION=6.0
 test: test_py test_r
 test_py:
-	docker run -v `pwd`:/home/jovyan/test darribas/gds_py:${GDS_VERSION} start.sh jupyter nbconvert --execute /home/jovyan/test/gds_py/check_py_stack.ipynb
+	docker run -v `pwd`:/home/jovyan/test darribas/gds_py:${GDS_VERSION} start.sh jupyter nbconvert --to html --execute /home/jovyan/test/gds_py/check_py_stack.ipynb
 test_r:
-	docker run -v `pwd`:/home/jovyan/test darribas/gds:${GDS_VERSION} start.sh jupyter nbconvert --execute /home/jovyan/test/gds/check_r_stack.ipynb
+	docker run -v `pwd`:/home/jovyan/test darribas/gds:${GDS_VERSION} start.sh jupyter nbconvert --to html --execute /home/jovyan/test/gds/check_r_stack.ipynb
 write_stacks: yml
 	# Python
 	docker run -v ${PWD}:/home/jovyan --rm darribas/gds:${GDS_VERSION} start.sh conda list > gds_py/stack_py.txt
