@@ -21,10 +21,11 @@ docker build -t gds:latest . | tee gds_latest.log
 1. [ ] Potentially update check notebook for `gds`
 1. [ ] Run check for `gds` R stack
 1. [ ] Push `gds` image
-1. [ ] Write stacks and commit version changes on git (preferably use `"Package version changes from X to Y"` for commit message)
-1. [ ] Update dependency version on `Dockerfile` for `gds_dev` (and other potential changes to `gds_dev`)
-1. [ ] Build `gds_dev`
-1. [ ] Push `gds_dev` image
+1. [ ] Write stacks (amend `tini` in `.yml` for CI)
+2. [ ] Commit version changes on git (preferably use `"Package version changes from X to Y"` for commit message)
+3. [ ] Update dependency version on `Dockerfile` for `gds_dev` (and other potential changes to `gds_dev`)
+4. [ ] Build `gds_dev`
+5. [ ] Push `gds_dev` image
 
 ## Release
 
