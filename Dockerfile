@@ -1,2 +1,2 @@
-FROM darribas/gds:5.0
+FROM darribas/gds:6.0
 RUN rm -rf ./work
