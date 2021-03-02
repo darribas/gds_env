@@ -9,7 +9,6 @@ dependencies:
   - conda=4.9.2
   - pip
   - bzip2
-  - tini
   - notebook=6.2.0
   - jupyterhub=1.3.0
   - jupyterlab=3.0.9
