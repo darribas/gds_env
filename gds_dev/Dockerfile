@@ -1,5 +1,4 @@
-FROM gds:latest
-#FROM gds:6.0alpha1
+FROM darribas/gds:6.0
 
 #--- Decktape ---#
 USER root
@@ -101,6 +100,17 @@ RUN wget https://gist.github.com/darribas/e2a560e562139b139b67b7d1c998257c/raw/b
  && cp texBuild.py /bin/texBuild.py \
  && python install_texbuild.py \
  && rm install_texbuild.py texBuild*
+
+#--- Texcount ---#
+RUN mkdir texcount_tmp \
+ && cd texcount_tmp \
+ && wget https://app.uio.no/ifi/texcount/download.php?file=texcount_3_2_0_41.zip \
+ && unzip download.php?file=texcount_3_2_0_41.zip \
+ && mv texcount.pl /usr/bin/texcount \
+ && chmod +x /usr/bin/texcount \
+ && cd .. \
+ && rm -rf texcount_tmp
+
 USER $NB_UID
 
 #--- jekyll ---#

@@ -1,0 +1,1189 @@
+Sending build context to Docker daemon   34.3kB
+Step 1/25 : FROM darribas/gds:6.0
+ ---> 2c8ba01c6063
+Step 2/25 : USER root
+ ---> Using cache
+ ---> 49a817cd967a
+Step 3/25 : RUN apt-get update -qq  && apt-get install -y --no-install-recommends     gconf-service     libasound2     libatk1.0-0     libatk-bridge2.0-0     libc6     libcairo2     libcups2     libdbus-1-3     libexpat1     libfontconfig1     libgcc1     libgconf-2-4     libgdk-pixbuf2.0-0     libglib2.0-0     libgtk-3-0     libnspr4     libpango-1.0-0     libpangocairo-1.0-0     libstdc++6     libx11-6     libx11-xcb1     libxcb1     libxcomposite1     libxcursor1     libxdamage1     libxext6     libxfixes3     libxi6     libxrandr2     libxrender1     libxss1     libxtst6     ca-certificates     fonts-liberation     libappindicator1     libnss3     lsb-release     xdg-utils     wget 	libcairo2-dev 	libasound2-dev 	libpangocairo-1.0-0 	libatk1.0-0 	libatk-bridge2.0-0 	libgtk-3-0 	libx11-xcb-dev     libxcomposite1 	libxcursor-dev 	libxdamage-dev 	libxi-dev 	libxtst-dev 	libnss3 	libcups2 	libxss-dev 	libxrandr-dev  && apt-get autoclean  && apt-get autoremove  && apt-get clean
+ ---> Using cache
+ ---> 881ec4c92f92
+Step 4/25 : RUN mkdir $HOME/.decktape  && fix-permissions $HOME/.decktape
+ ---> Using cache
+ ---> b9d2a18d5b63
+Step 5/25 : WORKDIR $HOME/.decktape
+ ---> Using cache
+ ---> 81c47d6fe2d7
+Step 6/25 : USER $NB_UID
+ ---> Using cache
+ ---> 3f9f38846de2
+Step 7/25 : RUN npm install decktape  && npm cache clean --force
+ ---> Using cache
+ ---> 7bdef8a57cd8
+Step 8/25 : ENV PATH="$HOME/.decktape/node_modules/.bin:${PATH}"
+ ---> Using cache
+ ---> 6e33e5729b5d
+Step 9/25 : WORKDIR $HOME/
+ ---> Using cache
+ ---> c91a8030446e
+Step 10/25 : RUN git clone https://github.com/mapbox/tippecanoe.git  && cd tippecanoe  && make
+ ---> Using cache
+ ---> e7d620df0032
+Step 11/25 : USER root
+ ---> Using cache
+ ---> c81a59600091
+Step 12/25 : RUN cd tippecanoe  && make install  && cd ..  && rm -rf tippecanoe
+ ---> Using cache
+ ---> a514a9a88eed
+Step 13/25 : USER $NB_UID
+ ---> Using cache
+ ---> eccfb8f9d580
+Step 14/25 : USER root
+ ---> Using cache
+ ---> a77e065e06ca
+Step 15/25 : RUN wget https://gist.github.com/darribas/e2a560e562139b139b67b7d1c998257c/raw/b2ec84e8eb671f3ebc2149a4d94d28a460ef9a7e/texBuild.py  && wget https://gist.github.com/darribas/e2a560e562139b139b67b7d1c998257c/raw/92b64d2d95768f1edc34a79dd13f957cc0b87bb3/install_texbuild.py  && cp texBuild.py /bin/texBuild.py  && python install_texbuild.py  && rm install_texbuild.py texBuild*
+ ---> Using cache
+ ---> bf735a75a7f0
+Step 16/25 : RUN mkdir texcount_tmp  && cd texcount_tmp  && wget https://app.uio.no/ifi/texcount/download.php?file=texcount_3_2_0_41.zip  && unzip download.php?file=texcount_3_2_0_41.zip  && mv texcount.pl /usr/bin/texcount  && chmod +x /usr/bin/texcount  && cd ..  && rm -rf texcount_tmp
+ ---> Running in 8265a4e40be2
+[91m--2021-03-02 08:16:14--  https://app.uio.no/ifi/texcount/download.php?file=texcount_3_2_0_41.zip
+[0m[91mResolving app.uio.no (app.uio.no)... [0m[91m129.240.118.53, 2001:700:100:118::53
+Connecting to app.uio.no (app.uio.no)|129.240.118.53|:443... [0m[91mconnected.
+[0m[91mHTTP request sent, awaiting response... [0m[91m200 OK
+[0m[91mLength: unspecified [application/zip]
+[0m[91mSaving to: ‘download.php?file=texcount_3_2_0_41.zip’
+[0m[91m
+     0K ........[0m[91m.. ......[0m[91m.... .......... ..[0m[91m........ ........[0m[91m..  654K
+    50K .......... ....[0m[91m...... ..[0m[91m........[0m[91m .......... ....[0m[91m..[0m[91m.... 1.27M
+   100K .......... ..[0m[91m........[0m[91m ........[0m[91m.. .......... ....[0m[91m...... 62.9M
+   150K ..........[0m[91m ........[0m[91m.. ......[0m[91m.... .......... ..[0m[91m........ 1.33M
+   200K ........[0m[91m.. .......... ....[0m[91m...... ..[0m[91m........[0m[91m ........[0m[91m.. 36.8M
+   250K ......[0m[91m.... .......... [0m[91m..[0m[91m........ .....[0m[91m...[0m[91m.. ..........[0m[91m 56.7M
+   300K ....[0m[91m...... ..[0m[91m........ .......... .......... ....[0m[91m...... 75.6M
+   350K ..[0m[91m........ ......[0m[91m..[0m[91m.. .......... ....[0m[91m...... ..........[0m[91m 50.1M[0m[91m
+   400K ..........[0m[91m ......[0m[91m.... ....[0m[91m.[0m[91m...[0m[91m.. ..[0m[91m........ ........[0m[91m.. 1.39M
+   450K ......[0m[91m.... ..[0m[91m..[0m[91m...... ..........[0m[91m .......... ......[0m[91m.... 62.8M
+   500K ....[0m[91m...... ..[0m[91m........ ........[0m[91m.. .......... ....[0m[91m...... 63.5M
+   550K ..........[0m[91m ........[0m[91m.. ......[0m[91m.... ....[0m[91m...... ..[0m[91m........ 87.0M[0m[91m
+   600K ........[0m[91m.. ......[0m[91m.... ....[0m[91m...... ..[0m[91m........[0m[91m ......    [0m[91m 87.2M=0.2s
+
+[0m[91m2021-03-02 08:16:15 (3.26 MB/s) - ‘download.php?file=texcount_3_2_0_41.zip’ saved [661766]
+
+[0mArchive:  download.php?file=texcount_3_2_0_41.zip
+  inflating: Doc/macros.tex          
+  inflating: Doc/QuickReference.pdf  
+  inflating: Doc/QuickReference.tex  
+  inflating: Doc/sub_addrules.tex    
+  inflating: Doc/sub_options.tex     
+  inflating: Doc/sub_ruletypes.tex   
+  inflating: Doc/sub_tc_other.tex    
+  inflating: Doc/TechDoc.pdf         
+  inflating: Doc/TechDoc.tex         
+  inflating: Doc/TeXcount.pdf        
+  inflating: Doc/TeXcount.tex        
+  inflating: texcount.pl             
+Removing intermediate container 8265a4e40be2
+ ---> 7f819ac7a923
+Step 17/25 : USER $NB_UID
+ ---> Running in b7273bd1b4de
+Removing intermediate container b7273bd1b4de
+ ---> ee1bff2d212c
+Step 18/25 : RUN mamba create -n dev --yes -c conda-forge         rb-github-pages         rb-jekyll-scholar         pip         pyppeteer  && source activate dev  && pip install ablog jupyter-book  && pyppeteer-install  && gem install just-the-docs  && source activate base
+ ---> Running in 6b033734b0b6
+pyviz/linux-64            
+pyviz/noarch              
+pkgs/main/noarch          
+pkgs/r/noarch             
+conda-forge/noarch        
+pkgs/main/linux-64        
+pkgs/r/linux-64           
+conda-forge/linux-64      
+Transaction
+
+  Prefix: /opt/conda/envs/dev
+
+  Updating specs:
+
+   - rb-github-pages
+   - rb-jekyll-scholar
+   - pip
+   - pyppeteer
+
+
+  Package                            Version  Build               Channel                    Size
+───────────────────────────────────────────────────────────────────────────────────────────────────
+  Install:
+───────────────────────────────────────────────────────────────────────────────────────────────────
+
+  _libgcc_mutex                          0.1  conda_forge         conda-forge/linux-64       3 KB
+  _openmp_mutex                          4.5  1_gnu               conda-forge/linux-64      22 KB
+  appdirs                              1.4.4  pyh9f0ad1d_0        conda-forge/noarch        13 KB
+  brotlipy                             0.7.0  py39h3811e60_1001   conda-forge/linux-64     341 KB
+  ca-certificates                  2020.12.5  ha878542_0          conda-forge/linux-64     137 KB
+  certifi                          2020.12.5  py39hf3d152e_1      conda-forge/linux-64     143 KB
+  cffi                                1.14.5  py39he32792d_0      conda-forge/linux-64     227 KB
+  cryptography                         3.4.4  py39h95dcef6_0      conda-forge/linux-64     636 KB
+  gdbm                                  1.18  h0a1914f_2          conda-forge/linux-64     190 KB
+  gmp                                  6.2.1  h58526e2_0          conda-forge/linux-64     806 KB
+  icu                                   68.1  h58526e2_0          conda-forge/linux-64      13 MB
+  idna                                   3.1  pyhd3deb0d_0        conda-forge/noarch        52 KB
+  ld_impl_linux-64                    2.35.1  hea4e1c9_2          conda-forge/linux-64     618 KB
+  libffi                                 3.3  h58526e2_2          conda-forge/linux-64      51 KB
+  libgcc-ng                            9.3.0  h2828fa1_18         conda-forge/linux-64       8 MB
+  libgomp                              9.3.0  h2828fa1_18         conda-forge/linux-64     376 KB
+  libiconv                              1.16  h516909a_0          conda-forge/linux-64       1 MB
+  libstdcxx-ng                         9.3.0  h6de172a_18         conda-forge/linux-64       4 MB
+  libxml2                             2.9.10  h72842e0_3          conda-forge/linux-64       1 MB
+  libxslt                             1.1.33  h15afd5d_2          conda-forge/linux-64     522 KB
+  ncurses                                6.2  h58526e2_4          conda-forge/linux-64     985 KB
+  openssl                             1.1.1j  h7f98852_0          conda-forge/linux-64       2 MB
+  pip                                 21.0.1  pyhd8ed1ab_0        conda-forge/noarch         1 MB
+  pycparser                             2.20  pyh9f0ad1d_2        conda-forge/noarch        94 KB
+  pyee                                 7.0.4  pyh9f0ad1d_0        conda-forge/noarch        14 KB
+  pyopenssl                           20.0.1  pyhd8ed1ab_0        conda-forge/noarch        48 KB
+  pyppeteer                            0.2.2  py_1                conda-forge/noarch       104 KB
+  pysocks                              1.7.1  py39hf3d152e_3      conda-forge/linux-64      28 KB
+  python                               3.9.2  hffdb5ce_0_cpython  conda-forge/linux-64      27 MB
+  python_abi                             3.9  1_cp39              conda-forge/linux-64       4 KB
+  rb-activesupport                  4.2.11.1  hd4c1694_0          conda-forge/noarch       594 KB
+  rb-addressable                       2.7.0  hd4c1694_0          conda-forge/noarch       226 KB
+  rb-bibtex-ruby                       4.4.7  hd4c1694_0          conda-forge/noarch       182 KB
+  rb-citeproc                          1.0.9  hd4c1694_0          conda-forge/noarch        84 KB
+  rb-citeproc-ruby                    1.1.10  hd4c1694_0          conda-forge/noarch        65 KB
+  rb-coffee-script                     2.4.1  hd4c1694_0          conda-forge/noarch        10 KB
+  rb-coffee-script-source             1.11.1  hd4c1694_0          conda-forge/noarch       117 KB
+  rb-colorator                         1.1.0  hd4c1694_0          conda-forge/noarch        14 KB
+  rb-commonmarker                    0.17.13  had2f1a9_0          conda-forge/linux-64     476 KB
+  rb-concurrent-ruby                   1.1.6  hc42de5b_0          conda-forge/noarch       842 KB
+  rb-csl                               1.5.0  hd4c1694_0          conda-forge/noarch       112 KB
+  rb-csl-styles                      1.0.1.9  hd4c1694_0          conda-forge/noarch         4 MB
+  rb-dnsruby                          1.61.3  hd4c1694_0          conda-forge/noarch       493 KB
+  rb-em-websocket                      0.5.1  hd4c1694_1          conda-forge/noarch        61 KB
+  rb-ethon                             0.9.1  hd4c1694_0          conda-forge/noarch       107 KB
+  rb-eventmachine                      1.2.7  hbc4c99e_2          conda-forge/linux-64     564 KB
+  rb-execjs                            2.7.0  hd4c1694_0          conda-forge/noarch        33 KB
+  rb-faraday                          0.17.0  hd4c1694_0          conda-forge/noarch        76 KB
+  rb-ffi                              1.11.1  h20f22b6_2          conda-forge/linux-64       2 MB
+  rb-forwardable-extended              2.6.0  hd4c1694_0          conda-forge/noarch        13 KB
+  rb-gemoji                            3.0.1  hd4c1694_0          conda-forge/noarch       140 KB
+  rb-github-pages                        201  hd4c1694_0          conda-forge/noarch        21 KB
+  rb-github-pages-health-check        1.16.1  hd4c1694_0          conda-forge/noarch        37 KB
+  rb-html-pipeline                    2.12.3  hd4c1694_0          conda-forge/noarch        58 KB
+  rb-http_parser.rb                    0.6.0  h27a74b2_1          conda-forge/linux-64     349 KB
+  rb-i18n                              0.9.5  hd4c1694_1          conda-forge/noarch       118 KB
+  rb-jekyll                            3.8.5  hd4c1694_0          conda-forge/noarch       214 KB
+  rb-jekyll-avatar                     0.6.0  hd4c1694_0          conda-forge/noarch        25 KB
+  rb-jekyll-coffeescript               1.1.1  hd4c1694_0          conda-forge/noarch         7 KB
+  rb-jekyll-commonmark                 1.3.1  hd4c1694_0          conda-forge/noarch        18 KB
+  rb-jekyll-commonmark-ghpages         0.1.6  hd4c1694_0          conda-forge/noarch        15 KB
+  rb-jekyll-default-layout             0.1.4  hd4c1694_0          conda-forge/noarch         8 KB
+  rb-jekyll-feed                      0.11.0  hd4c1694_0          conda-forge/noarch        37 KB
+  rb-jekyll-gist                       1.5.0  hd4c1694_0          conda-forge/noarch        23 KB
+  rb-jekyll-github-metadata           2.12.1  hd4c1694_0          conda-forge/noarch        25 KB
+  rb-jekyll-mentions                   1.4.1  hd4c1694_0          conda-forge/noarch         9 KB
+  rb-jekyll-optional-front-matter      0.3.0  hd4c1694_0          conda-forge/noarch         9 KB
+  rb-jekyll-paginate                   1.1.0  hd4c1694_0          conda-forge/noarch        21 KB
+  rb-jekyll-readme-index               0.2.0  hd4c1694_0          conda-forge/noarch         8 KB
+  rb-jekyll-redirect-from             0.14.0  hd4c1694_0          conda-forge/noarch        31 KB
+  rb-jekyll-relative-links             0.6.0  hd4c1694_0          conda-forge/noarch        10 KB
+  rb-jekyll-remote-theme               0.4.0  hd4c1694_0          conda-forge/noarch        14 KB
+  rb-jekyll-sass-converter             1.5.2  hd4c1694_0          conda-forge/noarch        12 KB
+  rb-jekyll-scholar                    5.9.1  hd4c1694_0          conda-forge/noarch        62 KB
+  rb-jekyll-seo-tag                    2.5.0  hd4c1694_0          conda-forge/noarch        34 KB
+  rb-jekyll-sitemap                    1.2.0  hd4c1694_0          conda-forge/noarch       120 KB
+  rb-jekyll-swiss                      0.4.0  hd4c1694_0          conda-forge/noarch        29 KB
+  rb-jekyll-theme-architect            0.1.1  hd4c1694_0          conda-forge/noarch       157 KB
+  rb-jekyll-theme-cayman               0.1.1  hd4c1694_0          conda-forge/noarch        27 KB
+  rb-jekyll-theme-dinky                0.1.1  hd4c1694_0          conda-forge/noarch        26 KB
+  rb-jekyll-theme-hacker               0.1.1  hd4c1694_0          conda-forge/noarch        27 KB
+  rb-jekyll-theme-leap-day             0.1.1  hd4c1694_0          conda-forge/noarch         1 MB
+  rb-jekyll-theme-merlot               0.1.1  hd4c1694_0          conda-forge/noarch       846 KB
+  rb-jekyll-theme-midnight             0.1.1  hd4c1694_0          conda-forge/noarch       845 KB
+  rb-jekyll-theme-minimal              0.1.1  hd4c1694_0          conda-forge/noarch       638 KB
+  rb-jekyll-theme-modernist            0.1.1  hd4c1694_0          conda-forge/noarch        23 KB
+  rb-jekyll-theme-primer               0.5.3  hd4c1694_0          conda-forge/noarch       160 KB
+  rb-jekyll-theme-slate                0.1.1  hd4c1694_0          conda-forge/noarch        56 KB
+  rb-jekyll-theme-tactile              0.1.1  hd4c1694_0          conda-forge/noarch        90 KB
+  rb-jekyll-theme-time-machine         0.1.1  hd4c1694_0          conda-forge/noarch        46 KB
+  rb-jekyll-titles-from-headings       0.5.1  hd4c1694_0          conda-forge/noarch        13 KB
+  rb-jekyll-watch                      2.2.1  hd4c1694_1          conda-forge/noarch        10 KB
+  rb-jemoji                           0.10.2  hd4c1694_0          conda-forge/noarch         9 KB
+  rb-kramdown                         1.17.0  hd4c1694_1          conda-forge/noarch       522 KB
+  rb-latex-decode                      0.3.1  hd4c1694_0          conda-forge/noarch        50 KB
+  rb-liquid                            4.0.0  hd4c1694_0          conda-forge/noarch       137 KB
+  rb-listen                            3.1.5  hd4c1694_1          conda-forge/noarch        53 KB
+  rb-mercenary                         0.3.6  hd4c1694_0          conda-forge/noarch        39 KB
+  rb-mini_portile2                     2.4.0  hd4c1694_0          conda-forge/noarch        51 KB
+  rb-minima                            2.5.0  hd4c1694_0          conda-forge/noarch        39 KB
+  rb-minitest                         5.12.2  hd4c1694_0          conda-forge/noarch       150 KB
+  rb-multipart-post                    2.1.1  hd4c1694_0          conda-forge/noarch        26 KB
+  rb-namae                             1.0.1  hd4c1694_0          conda-forge/noarch        81 KB
+  rb-nokogiri                         1.10.8  hd632b18_0          conda-forge/linux-64       9 MB
+  rb-octokit                          4.14.0  hd4c1694_0          conda-forge/noarch       148 KB
+  rb-pathutil                         0.16.2  hd4c1694_0          conda-forge/noarch        29 KB
+  rb-public_suffix                     3.1.1  hd4c1694_0          conda-forge/noarch       211 KB
+  rb-rb-fsevent                       0.10.3  hd4c1694_1          conda-forge/noarch        99 KB
+  rb-rb-inotify                       0.10.1  hc42de5b_0          conda-forge/noarch        30 KB
+  rb-rouge                            3.11.0  hd4c1694_0          conda-forge/noarch       749 KB
+  rb-ruby-enum                         0.7.2  hd4c1694_0          conda-forge/noarch        45 KB
+  rb-ruby_dep                          1.5.0  hd4c1694_1          conda-forge/noarch        22 KB
+  rb-rubyzip                           1.3.0  hd4c1694_0          conda-forge/noarch       299 KB
+  rb-safe_yaml                         1.0.5  hd4c1694_0          conda-forge/noarch        72 KB
+  rb-sass                              3.7.4  hd4c1694_0          conda-forge/noarch       593 KB
+  rb-sass-listen                       4.0.0  hd4c1694_0          conda-forge/noarch        77 KB
+  rb-sawyer                            0.8.2  hd4c1694_0          conda-forge/noarch        24 KB
+  rb-terminal-table                    1.8.0  hd4c1694_0          conda-forge/noarch        34 KB
+  rb-thread_safe                       0.3.6  hd4c1694_0          conda-forge/noarch       203 KB
+  rb-typhoeus                          1.3.1  hd4c1694_0          conda-forge/noarch       106 KB
+  rb-tzinfo                            1.2.5  hd4c1694_0          conda-forge/noarch       290 KB
+  rb-unicode-display_width             1.6.0  hd4c1694_0          conda-forge/noarch        25 KB
+  readline                               8.0  he28a2e2_2          conda-forge/linux-64     281 KB
+  ruby                                 2.5.7  he592edb_2          conda-forge/linux-64       5 MB
+  setuptools                          49.6.0  py39hf3d152e_3      conda-forge/linux-64     943 KB
+  six                                 1.15.0  pyh9f0ad1d_0        conda-forge/noarch        14 KB
+  sqlite                              3.34.0  h74cdb3f_0          conda-forge/linux-64       1 MB
+  tk                                  8.6.10  hed695b0_1          conda-forge/linux-64       3 MB
+  tqdm                                4.58.0  pyhd8ed1ab_0        conda-forge/noarch        76 KB
+  tzdata                               2021a  he74cb21_0          conda-forge/noarch       121 KB
+  urllib3                             1.26.3  pyhd8ed1ab_0        conda-forge/noarch        99 KB
+  websockets                             8.1  py39h3811e60_3      conda-forge/linux-64      91 KB
+  wheel                               0.36.2  pyhd3deb0d_0        conda-forge/noarch        31 KB
+  xz                                   5.2.5  h516909a_1          conda-forge/linux-64     343 KB
+  yaml                                 0.2.5  h516909a_0          conda-forge/linux-64      82 KB
+  zlib                                1.2.11  h516909a_1010       conda-forge/linux-64     106 KB
+
+  Summary:
+
+  Install: 136 packages
+
+  Total download: 104 MB
+
+───────────────────────────────────────────────────────────────────────────────────────────────────
+
+_libgcc_mutex             Finished _libgcc_mutex                        (00m:00s)               3 KB     36 KB/s
+_openmp_mutex             Finished _openmp_mutex                        (00m:00s)              22 KB    312 KB/s
+appdirs                   Finished appdirs                              (00m:00s)              13 KB    163 KB/s
+brotlipy                  Finished brotlipy                             (00m:00s)             341 KB      4 MB/s
+ca-certificates           Finished ca-certificates                      (00m:00s)             137 KB      2 MB/s
+ld_impl_linux-64          Finished ld_impl_linux-64                     (00m:00s)             618 KB      5 MB/s
+libxml2                   Finished libxml2                              (00m:00s)               1 MB      9 MB/s
+ncurses                   Finished ncurses                              (00m:00s)             985 KB      5 MB/s
+libiconv                  Finished libiconv                             (00m:00s)               1 MB      7 MB/s
+pip                       Finished pip                                  (00m:00s)               1 MB      5 MB/s
+pyee                      Finished pyee                                 (00m:00s)              14 KB     45 KB/s
+pyppeteer                 Finished pyppeteer                            (00m:00s)             104 KB    301 KB/s
+libgcc-ng                 Finished libgcc-ng                            (00m:01s)               8 MB     22 MB/s
+icu                       Finished icu                                  (00m:02s)              13 MB     35 MB/s
+rb-activesupport          Finished rb-activesupport                     (00m:02s)             594 KB      1 MB/s
+rb-bibtex-ruby            Finished rb-bibtex-ruby                       (00m:02s)             182 KB    386 KB/s
+rb-coffee-script-source   Finished rb-coffee-script-source              (00m:02s)             117 KB    239 KB/s
+rb-citeproc-ruby          Finished rb-citeproc-ruby                     (00m:02s)              65 KB    130 KB/s
+rb-csl                    Finished rb-csl                               (00m:02s)             112 KB    193 KB/s
+rb-ethon                  Finished rb-ethon                             (00m:02s)             107 KB    177 KB/s
+rb-dnsruby                Finished rb-dnsruby                           (00m:02s)             493 KB    819 KB/s
+rb-execjs                 Finished rb-execjs                            (00m:02s)              33 KB     48 KB/s
+rb-github-pages-health-c  Finished rb-github-pages-health-check         (00m:02s)              37 KB     53 KB/s
+rb-gemoji                 Finished rb-gemoji                            (00m:02s)             140 KB    200 KB/s
+python                    Finished python                               (00m:05s)              27 MB     46 MB/s
+rb-commonmarker           Finished rb-commonmarker                      (00m:05s)             476 KB    649 KB/s
+rb-jekyll                 Finished rb-jekyll                            (00m:04s)             214 KB    265 KB/s
+rb-http_parser.rb         Finished rb-http_parser.rb                    (00m:05s)             349 KB    431 KB/s
+rb-jekyll-commonmark-ghp  Finished rb-jekyll-commonmark-ghpages         (00m:04s)              15 KB     18 KB/s
+rb-jekyll-coffeescript    Finished rb-jekyll-coffeescript               (00m:04s)               7 KB      9 KB/s
+rb-jekyll-feed            Finished rb-jekyll-feed                       (00m:04s)              37 KB     40 KB/s
+rb-jekyll-github-metadat  Finished rb-jekyll-github-metadata            (00m:04s)              25 KB     28 KB/s
+rb-jekyll-readme-index    Finished rb-jekyll-readme-index               (00m:04s)               8 KB      9 KB/s
+rb-jekyll-optional-front  Finished rb-jekyll-optional-front-matter       (00m:04s)               9 KB      9 KB/s
+rb-ffi                    Finished rb-ffi                               (00m:05s)               2 MB      2 MB/s
+rb-jekyll-relative-links  Finished rb-jekyll-relative-links             (00m:05s)              10 KB     10 KB/s
+rb-jekyll-sass-converter  Finished rb-jekyll-sass-converter             (00m:05s)              12 KB     12 KB/s
+rb-jekyll-seo-tag         Finished rb-jekyll-seo-tag                    (00m:05s)              34 KB     33 KB/s
+rb-jekyll-swiss           Finished rb-jekyll-swiss                      (00m:05s)              29 KB     27 KB/s
+rb-jekyll-theme-cayman    Finished rb-jekyll-theme-cayman               (00m:05s)              27 KB     25 KB/s
+rb-jekyll-theme-hacker    Finished rb-jekyll-theme-hacker               (00m:04s)              27 KB     24 KB/s
+rb-jekyll-theme-primer    Finished rb-jekyll-theme-primer               (00m:04s)             160 KB    137 KB/s
+rb-jekyll-theme-tactile   Finished rb-jekyll-theme-tactile              (00m:04s)              90 KB     77 KB/s
+rb-jekyll-theme-merlot    Finished rb-jekyll-theme-merlot               (00m:05s)             846 KB    701 KB/s
+rb-jekyll-titles-from-he  Finished rb-jekyll-titles-from-headings       (00m:04s)              13 KB     11 KB/s
+rb-jemoji                 Finished rb-jemoji                            (00m:04s)               9 KB      7 KB/s
+rb-latex-decode           Finished rb-latex-decode                      (00m:04s)              50 KB     38 KB/s
+rb-listen                 Finished rb-listen                            (00m:04s)              53 KB     41 KB/s
+rb-mini_portile2          Finished rb-mini_portile2                     (00m:04s)              51 KB     38 KB/s
+rb-jekyll-theme-minimal   Finished rb-jekyll-theme-minimal              (00m:05s)             638 KB    472 KB/s
+rb-minitest               Finished rb-minitest                          (00m:04s)             150 KB    107 KB/s
+rb-public_suffix          Finished rb-public_suffix                     (00m:04s)             211 KB    147 KB/s
+rb-namae                  Finished rb-namae                             (00m:04s)              81 KB     56 KB/s
+rb-rb-inotify             Finished rb-rb-inotify                        (00m:04s)              30 KB     20 KB/s
+rb-ruby-enum              Finished rb-ruby-enum                         (00m:04s)              45 KB     30 KB/s
+rb-rubyzip                Finished rb-rubyzip                           (00m:04s)             299 KB    195 KB/s
+rb-sawyer                 Finished rb-sawyer                            (00m:04s)              24 KB     15 KB/s
+readline                  Finished readline                             (00m:04s)             281 KB    174 KB/s
+setuptools                Finished setuptools                           (00m:04s)             943 KB    568 KB/s
+sqlite                    Finished sqlite                               (00m:04s)               1 MB    854 KB/s
+rb-sass                   Finished rb-sass                              (00m:05s)             593 KB    345 KB/s
+tqdm                      Finished tqdm                                 (00m:05s)              76 KB     44 KB/s
+rb-tzinfo                 Finished rb-tzinfo                            (00m:05s)             290 KB    168 KB/s
+rb-thread_safe            Finished rb-thread_safe                       (00m:05s)             203 KB    117 KB/s
+yaml                      Finished yaml                                 (00m:05s)              82 KB     47 KB/s
+wheel                     Finished wheel                                (00m:05s)              31 KB     18 KB/s
+urllib3                   Finished urllib3                              (00m:05s)              99 KB     57 KB/s
+certifi                   Finished certifi                              (00m:05s)             143 KB     81 KB/s
+libffi                    Finished libffi                               (00m:05s)              51 KB     29 KB/s
+cryptography              Finished cryptography                         (00m:05s)             636 KB    358 KB/s
+gmp                       Finished gmp                                  (00m:05s)             806 KB    452 KB/s
+pyopenssl                 Finished pyopenssl                            (00m:05s)              48 KB     27 KB/s
+rb-octokit                Finished rb-octokit                           (00m:05s)             148 KB     82 KB/s
+python_abi                Finished python_abi                           (00m:05s)               4 KB      2 KB/s
+openssl                   Finished openssl                              (00m:05s)               2 MB      1 MB/s
+libstdcxx-ng              Finished libstdcxx-ng                         (00m:05s)               4 MB      2 MB/s
+rb-citeproc               Finished rb-citeproc                          (00m:05s)              84 KB     44 KB/s
+rb-colorator              Finished rb-colorator                         (00m:05s)              14 KB      8 KB/s
+rb-forwardable-extended   Finished rb-forwardable-extended              (00m:05s)              13 KB      7 KB/s
+rb-html-pipeline          Finished rb-html-pipeline                     (00m:05s)              58 KB     29 KB/s
+rb-jekyll-avatar          Finished rb-jekyll-avatar                     (00m:05s)              25 KB     12 KB/s
+rb-jekyll-default-layout  Finished rb-jekyll-default-layout             (00m:05s)               8 KB      4 KB/s
+rb-jekyll-mentions        Finished rb-jekyll-mentions                   (00m:05s)               9 KB      4 KB/s
+rb-jekyll-redirect-from   Finished rb-jekyll-redirect-from              (00m:05s)              31 KB     15 KB/s
+rb-eventmachine           Finished rb-eventmachine                      (00m:05s)             564 KB    262 KB/s
+rb-jekyll-scholar         Finished rb-jekyll-scholar                    (00m:05s)              62 KB     28 KB/s
+rb-jekyll-theme-architec  Finished rb-jekyll-theme-architect            (00m:05s)             157 KB     71 KB/s
+rb-csl-styles             Finished rb-csl-styles                        (00m:07s)               4 MB      2 MB/s
+rb-jekyll-theme-modernis  Finished rb-jekyll-theme-modernist            (00m:06s)              23 KB     10 KB/s
+rb-jekyll-theme-time-mac  Finished rb-jekyll-theme-time-machine         (00m:06s)              46 KB     20 KB/s
+rb-kramdown               Finished rb-kramdown                          (00m:06s)             522 KB    227 KB/s
+rb-jekyll-theme-leap-day  Finished rb-jekyll-theme-leap-day             (00m:07s)               1 MB    518 KB/s
+rb-mercenary              Finished rb-mercenary                         (00m:07s)              39 KB     17 KB/s
+rb-pathutil               Finished rb-pathutil                          (00m:06s)              29 KB     12 KB/s
+rb-multipart-post         Finished rb-multipart-post                    (00m:06s)              26 KB     11 KB/s
+six                       Finished six                                  (00m:06s)              14 KB      6 KB/s
+tzdata                    Finished tzdata                               (00m:06s)             121 KB     50 KB/s
+rb-terminal-table         Finished rb-terminal-table                    (00m:06s)              34 KB     14 KB/s
+rb-safe_yaml              Finished rb-safe_yaml                         (00m:06s)              72 KB     30 KB/s
+xz                        Finished xz                                   (00m:07s)             343 KB    141 KB/s
+rb-rouge                  Finished rb-rouge                             (00m:07s)             749 KB    308 KB/s
+pysocks                   Finished pysocks                              (00m:07s)              28 KB     11 KB/s
+libxslt                   Finished libxslt                              (00m:07s)             522 KB    211 KB/s
+rb-unicode-display_width  Finished rb-unicode-display_width             (00m:07s)              25 KB     10 KB/s
+cffi                      Finished cffi                                 (00m:07s)             227 KB     90 KB/s
+idna                      Finished idna                                 (00m:07s)              52 KB     21 KB/s
+rb-coffee-script          Finished rb-coffee-script                     (00m:07s)              10 KB      4 KB/s
+rb-em-websocket           Finished rb-em-websocket                      (00m:07s)              61 KB     24 KB/s
+rb-github-pages           Finished rb-github-pages                      (00m:07s)              21 KB      8 KB/s
+rb-jekyll-commonmark      Finished rb-jekyll-commonmark                 (00m:07s)              18 KB      7 KB/s
+rb-jekyll-paginate        Finished rb-jekyll-paginate                   (00m:07s)              21 KB      8 KB/s
+rb-jekyll-watch           Finished rb-jekyll-watch                      (00m:07s)              10 KB      4 KB/s
+rb-jekyll-sitemap         Finished rb-jekyll-sitemap                    (00m:07s)             120 KB     45 KB/s
+rb-minima                 Finished rb-minima                            (00m:07s)              39 KB     14 KB/s
+rb-rb-fsevent             Finished rb-rb-fsevent                        (00m:07s)              99 KB     36 KB/s
+rb-jekyll-theme-midnight  Finished rb-jekyll-theme-midnight             (00m:07s)             845 KB    309 KB/s
+pycparser                 Finished pycparser                            (00m:07s)              94 KB     34 KB/s
+gdbm                      Finished gdbm                                 (00m:07s)             190 KB     69 KB/s
+rb-sass-listen            Finished rb-sass-listen                       (00m:07s)              77 KB     28 KB/s
+websockets                Finished websockets                           (00m:07s)              91 KB     32 KB/s
+rb-i18n                   Finished rb-i18n                              (00m:07s)             118 KB     41 KB/s
+rb-jekyll-remote-theme    Finished rb-jekyll-remote-theme               (00m:07s)              14 KB      5 KB/s
+rb-jekyll-theme-slate     Finished rb-jekyll-theme-slate                (00m:07s)              56 KB     19 KB/s
+zlib                      Finished zlib                                 (00m:07s)             106 KB     36 KB/s
+rb-typhoeus               Finished rb-typhoeus                          (00m:07s)             106 KB     35 KB/s
+rb-addressable            Finished rb-addressable                       (00m:07s)             226 KB     74 KB/s
+rb-concurrent-ruby        Finished rb-concurrent-ruby                   (00m:08s)             842 KB    272 KB/s
+rb-jekyll-gist            Finished rb-jekyll-gist                       (00m:07s)              23 KB      7 KB/s
+rb-liquid                 Finished rb-liquid                            (00m:07s)             137 KB     43 KB/s
+tk                        Finished tk                                   (00m:08s)               3 MB      1 MB/s
+ruby                      Finished ruby                                 (00m:09s)               5 MB      2 MB/s
+libgomp                   Finished libgomp                              (00m:09s)             376 KB    116 KB/s
+rb-ruby_dep               Finished rb-ruby_dep                          (00m:09s)              22 KB      7 KB/s
+rb-jekyll-theme-dinky     Finished rb-jekyll-theme-dinky                (00m:09s)              26 KB      8 KB/s
+rb-faraday                Finished rb-faraday                           (00m:09s)              76 KB     23 KB/s
+rb-nokogiri               Finished rb-nokogiri                          (00m:09s)               9 MB      3 MB/s
+
+                  __    __    __    __
+                 /  \  /  \  /  \  /  \
+                /    \/    \/    \/    \
+███████████████/  /██/  /██/  /██/  /████████████████████████
+              /  / \   / \   / \   / \  \____
+             /  /   \_/   \_/   \_/   \    o \__,
+            / _/                       \_____/  `
+            |/
+        ███╗   ███╗ █████╗ ███╗   ███╗██████╗  █████╗
+        ████╗ ████║██╔══██╗████╗ ████║██╔══██╗██╔══██╗
+        ██╔████╔██║███████║██╔████╔██║██████╔╝███████║
+        ██║╚██╔╝██║██╔══██║██║╚██╔╝██║██╔══██╗██╔══██║
+        ██║ ╚═╝ ██║██║  ██║██║ ╚═╝ ██║██████╔╝██║  ██║
+        ╚═╝     ╚═╝╚═╝  ╚═╝╚═╝     ╚═╝╚═════╝ ╚═╝  ╚═╝
+
+        mamba (0.7.14) supported by @QuantStack
+
+        GitHub:  https://github.com/mamba-org/mamba
+        Twitter: https://twitter.com/QuantStack
+
+█████████████████████████████████████████████████████████████
+
+
+Looking for: ['rb-github-pages', 'rb-jekyll-scholar', 'pip', 'pyppeteer']
+
+Preparing transaction: ...working... done
+Verifying transaction: ...working... done
+Executing transaction: ...working... done
+#
+# To activate this environment, use
+#
+#     $ conda activate dev
+#
+# To deactivate an active environment, use
+#
+#     $ conda deactivate
+
+Collecting ablog
+  Downloading ablog-0.10.13-py3-none-any.whl (53 kB)
+Collecting jupyter-book
+  Downloading jupyter_book-0.10.0-py3-none-any.whl (47 kB)
+Collecting feedgen
+  Downloading feedgen-0.9.0.tar.gz (217 kB)
+Collecting sphinx
+  Downloading Sphinx-3.5.1-py3-none-any.whl (2.8 MB)
+Collecting docutils
+  Downloading docutils-0.16-py2.py3-none-any.whl (548 kB)
+Collecting python-dateutil
+  Downloading python_dateutil-2.8.1-py2.py3-none-any.whl (227 kB)
+Collecting invoke
+  Downloading invoke-1.5.0-py3-none-any.whl (211 kB)
+Collecting watchdog
+  Downloading watchdog-2.0.2-py3-none-manylinux2014_x86_64.whl (74 kB)
+Collecting nbconvert<6
+  Downloading nbconvert-5.6.1-py2.py3-none-any.whl (455 kB)
+Collecting linkify-it-py~=1.0.1
+  Downloading linkify_it_py-1.0.1-py3-none-any.whl (19 kB)
+Requirement already satisfied: setuptools in /opt/conda/envs/dev/lib/python3.9/site-packages (from jupyter-book) (49.6.0.post20210108)
+Collecting jupytext~=1.8.0
+  Downloading jupytext-1.8.2-py3-none-any.whl (284 kB)
+Collecting click
+  Downloading click-7.1.2-py2.py3-none-any.whl (82 kB)
+Collecting nested-lookup~=0.2.21
+  Downloading nested-lookup-0.2.22.tar.gz (10 kB)
+Collecting sphinx-book-theme>=0.0.39
+  Downloading sphinx_book_theme-0.0.40-py3-none-any.whl (89 kB)
+Collecting myst-nb~=0.11.1
+  Downloading myst_nb-0.11.1-py3-none-any.whl (36 kB)
+Collecting sphinx-copybutton
+  Downloading sphinx_copybutton-0.3.1-py3-none-any.whl (10 kB)
+Collecting sphinx-thebe>=0.0.6
+  Downloading sphinx_thebe-0.0.8-py3-none-any.whl (7.4 kB)
+Collecting sphinx-comments
+  Downloading sphinx_comments-0.0.3-py3-none-any.whl (4.6 kB)
+Collecting pyyaml
+  Downloading PyYAML-5.4.1-cp39-cp39-manylinux1_x86_64.whl (630 kB)
+Collecting nbformat
+  Downloading nbformat-5.1.2-py3-none-any.whl (113 kB)
+Collecting jsonschema
+  Downloading jsonschema-3.2.0-py2.py3-none-any.whl (56 kB)
+Collecting sphinxcontrib-bibtex~=2.1.0
+  Downloading sphinxcontrib_bibtex-2.1.4-py3-none-any.whl (17 kB)
+Collecting sphinx-togglebutton
+  Downloading sphinx_togglebutton-0.2.3-py3-none-any.whl (6.1 kB)
+Collecting sphinx-panels~=0.5.2
+  Downloading sphinx_panels-0.5.2-py3-none-any.whl (87 kB)
+Collecting markdown-it-py~=0.6.0
+  Downloading markdown_it_py-0.6.2-py3-none-any.whl (81 kB)
+Collecting toml
+  Downloading toml-0.10.2-py2.py3-none-any.whl (16 kB)
+Collecting uc-micro-py
+  Downloading uc_micro_py-1.0.1-py3-none-any.whl (6.2 kB)
+Collecting mdit-py-plugins~=0.2.1
+  Downloading mdit_py_plugins-0.2.5-py3-none-any.whl (39 kB)
+Collecting attrs<21,>=19
+  Downloading attrs-20.3.0-py2.py3-none-any.whl (49 kB)
+Collecting importlib-metadata
+  Downloading importlib_metadata-3.7.0-py3-none-any.whl (11 kB)
+Collecting jupyter-sphinx==0.3.1
+  Downloading jupyter_sphinx-0.3.1-py3-none-any.whl (19 kB)
+Collecting ipywidgets<8,>=7.0.0
+  Downloading ipywidgets-7.6.3-py2.py3-none-any.whl (121 kB)
+Collecting myst-parser~=0.13.3
+  Downloading myst_parser-0.13.5-py3-none-any.whl (44 kB)
+Collecting jupyter-cache~=0.4.1
+  Downloading jupyter_cache-0.4.2-py3-none-any.whl (31 kB)
+Collecting ipython
+  Downloading ipython-7.21.0-py3-none-any.whl (784 kB)
+Collecting widgetsnbextension~=3.5.0
+  Downloading widgetsnbextension-3.5.1-py2.py3-none-any.whl (2.2 MB)
+Collecting traitlets>=4.3.1
+  Downloading traitlets-5.0.5-py3-none-any.whl (100 kB)
+Collecting ipykernel>=4.5.1
+  Downloading ipykernel-5.5.0-py3-none-any.whl (120 kB)
+Collecting jupyterlab-widgets>=1.0.0
+  Downloading jupyterlab_widgets-1.0.0-py3-none-any.whl (243 kB)
+Collecting tornado>=4.2
+  Downloading tornado-6.1-cp39-cp39-manylinux2010_x86_64.whl (427 kB)
+Collecting jupyter-client
+  Downloading jupyter_client-6.1.11-py3-none-any.whl (108 kB)
+Collecting backcall
+  Downloading backcall-0.2.0-py2.py3-none-any.whl (11 kB)
+Collecting pygments
+  Downloading Pygments-2.8.0-py3-none-any.whl (983 kB)
+Collecting jedi>=0.16
+  Downloading jedi-0.18.0-py2.py3-none-any.whl (1.4 MB)
+Collecting prompt-toolkit!=3.0.0,!=3.0.1,<3.1.0,>=2.0.0
+  Downloading prompt_toolkit-3.0.16-py3-none-any.whl (366 kB)
+Collecting decorator
+  Downloading decorator-4.4.2-py2.py3-none-any.whl (9.2 kB)
+Collecting pickleshare
+  Downloading pickleshare-0.7.5-py2.py3-none-any.whl (6.9 kB)
+Collecting pexpect>4.3
+  Downloading pexpect-4.8.0-py2.py3-none-any.whl (59 kB)
+Collecting parso<0.9.0,>=0.8.0
+  Downloading parso-0.8.1-py2.py3-none-any.whl (93 kB)
+Collecting sqlalchemy~=1.3.12
+  Downloading SQLAlchemy-1.3.23-cp39-cp39-manylinux2010_x86_64.whl (1.3 MB)
+Collecting nbdime
+  Downloading nbdime-2.1.0-py2.py3-none-any.whl (5.0 MB)
+Collecting nbclient<0.6,>=0.2
+  Downloading nbclient-0.5.3-py3-none-any.whl (82 kB)
+Collecting jinja2
+  Downloading Jinja2-2.11.3-py2.py3-none-any.whl (125 kB)
+Collecting async-generator
+  Downloading async_generator-1.10-py3-none-any.whl (18 kB)
+Collecting nest-asyncio
+  Downloading nest_asyncio-1.5.1-py3-none-any.whl (5.0 kB)
+Collecting pyzmq>=13
+  Downloading pyzmq-22.0.3-cp39-cp39-manylinux2010_x86_64.whl (1.1 MB)
+Collecting jupyter-core>=4.6.0
+  Downloading jupyter_core-4.7.1-py3-none-any.whl (82 kB)
+Collecting testpath
+  Downloading testpath-0.4.4-py2.py3-none-any.whl (163 kB)
+Collecting bleach
+  Downloading bleach-3.3.0-py2.py3-none-any.whl (283 kB)
+Collecting entrypoints>=0.2.2
+  Downloading entrypoints-0.3-py2.py3-none-any.whl (11 kB)
+Collecting defusedxml
+  Downloading defusedxml-0.6.0-py2.py3-none-any.whl (23 kB)
+Collecting pandocfilters>=1.4.1
+  Downloading pandocfilters-1.4.3.tar.gz (16 kB)
+Collecting mistune<2,>=0.8.1
+  Downloading mistune-0.8.4-py2.py3-none-any.whl (16 kB)
+Collecting MarkupSafe>=0.23
+  Downloading MarkupSafe-1.1.1-cp39-cp39-manylinux2010_x86_64.whl (32 kB)
+Collecting ipython-genutils
+  Downloading ipython_genutils-0.2.0-py2.py3-none-any.whl (26 kB)
+Collecting pyrsistent>=0.14.0
+  Downloading pyrsistent-0.17.3.tar.gz (106 kB)
+Requirement already satisfied: six>=1.11.0 in /opt/conda/envs/dev/lib/python3.9/site-packages (from jsonschema->jupyter-book) (1.15.0)
+Collecting ptyprocess>=0.5
+  Downloading ptyprocess-0.7.0-py2.py3-none-any.whl (13 kB)
+Collecting wcwidth
+  Downloading wcwidth-0.2.5-py2.py3-none-any.whl (30 kB)
+Collecting sphinxcontrib-devhelp
+  Downloading sphinxcontrib_devhelp-1.0.2-py2.py3-none-any.whl (84 kB)
+Collecting sphinxcontrib-qthelp
+  Downloading sphinxcontrib_qthelp-1.0.3-py2.py3-none-any.whl (90 kB)
+Collecting sphinxcontrib-serializinghtml
+  Downloading sphinxcontrib_serializinghtml-1.1.4-py2.py3-none-any.whl (89 kB)
+Collecting sphinxcontrib-htmlhelp
+  Downloading sphinxcontrib_htmlhelp-1.0.3-py2.py3-none-any.whl (96 kB)
+Collecting sphinxcontrib-applehelp
+  Downloading sphinxcontrib_applehelp-1.0.2-py2.py3-none-any.whl (121 kB)
+Collecting babel>=1.3
+  Downloading Babel-2.9.0-py2.py3-none-any.whl (8.8 MB)
+Collecting alabaster<0.8,>=0.7
+  Downloading alabaster-0.7.12-py2.py3-none-any.whl (14 kB)
+Collecting snowballstemmer>=1.1
+  Downloading snowballstemmer-2.1.0-py2.py3-none-any.whl (93 kB)
+Collecting sphinxcontrib-jsmath
+  Downloading sphinxcontrib_jsmath-1.0.1-py2.py3-none-any.whl (5.1 kB)
+Collecting imagesize
+  Downloading imagesize-1.2.0-py2.py3-none-any.whl (4.8 kB)
+Collecting requests>=2.5.0
+  Downloading requests-2.25.1-py2.py3-none-any.whl (61 kB)
+Collecting packaging
+  Downloading packaging-20.9-py2.py3-none-any.whl (40 kB)
+Collecting pytz>=2015.7
+  Downloading pytz-2021.1-py2.py3-none-any.whl (510 kB)
+Collecting chardet<5,>=3.0.2
+  Downloading chardet-4.0.0-py2.py3-none-any.whl (178 kB)
+Requirement already satisfied: urllib3<1.27,>=1.21.1 in /opt/conda/envs/dev/lib/python3.9/site-packages (from requests>=2.5.0->sphinx->ablog) (1.26.3)
+Requirement already satisfied: certifi>=2017.4.17 in /opt/conda/envs/dev/lib/python3.9/site-packages (from requests>=2.5.0->sphinx->ablog) (2020.12.5)
+Collecting idna<3,>=2.5
+  Downloading idna-2.10-py2.py3-none-any.whl (58 kB)
+Collecting pydata-sphinx-theme~=0.4.1
+  Downloading pydata_sphinx_theme-0.4.3-py3-none-any.whl (2.1 MB)
+Collecting beautifulsoup4<5,>=4.6.1
+  Downloading beautifulsoup4-4.9.3-py3-none-any.whl (115 kB)
+Collecting soupsieve>1.2
+  Downloading soupsieve-2.2-py3-none-any.whl (33 kB)
+Requirement already satisfied: wheel in /opt/conda/envs/dev/lib/python3.9/site-packages (from sphinx-togglebutton->jupyter-book) (0.36.2)
+Collecting pybtex>=0.20
+  Downloading pybtex-0.24.0-py2.py3-none-any.whl (561 kB)
+Collecting pybtex-docutils>=0.2.2
+  Downloading pybtex_docutils-1.0.0-py3-none-any.whl (4.7 kB)
+Collecting latexcodec>=1.0.4
+  Downloading latexcodec-2.0.1-py2.py3-none-any.whl (18 kB)
+Collecting notebook>=4.4.1
+  Downloading notebook-6.2.0-py3-none-any.whl (9.5 MB)
+Collecting terminado>=0.8.3
+  Downloading terminado-0.9.2-py3-none-any.whl (14 kB)
+Collecting Send2Trash>=1.5.0
+  Downloading Send2Trash-1.5.0-py3-none-any.whl (12 kB)
+Collecting argon2-cffi
+  Downloading argon2_cffi-20.1.0-cp35-abi3-manylinux1_x86_64.whl (97 kB)
+Collecting prometheus-client
+  Downloading prometheus_client-0.9.0-py2.py3-none-any.whl (53 kB)
+Requirement already satisfied: cffi>=1.0.0 in /opt/conda/envs/dev/lib/python3.9/site-packages (from argon2-cffi->notebook>=4.4.1->widgetsnbextension~=3.5.0->ipywidgets<8,>=7.0.0->myst-nb~=0.11.1->jupyter-book) (1.14.5)
+Requirement already satisfied: pycparser in /opt/conda/envs/dev/lib/python3.9/site-packages (from cffi>=1.0.0->argon2-cffi->notebook>=4.4.1->widgetsnbextension~=3.5.0->ipywidgets<8,>=7.0.0->myst-nb~=0.11.1->jupyter-book) (2.20)
+Collecting webencodings
+  Downloading webencodings-0.5.1-py2.py3-none-any.whl (11 kB)
+Collecting lxml
+  Downloading lxml-4.6.2-cp39-cp39-manylinux1_x86_64.whl (5.4 MB)
+Collecting zipp>=0.5
+  Downloading zipp-3.4.0-py3-none-any.whl (5.2 kB)
+Collecting colorama
+  Downloading colorama-0.4.4-py2.py3-none-any.whl (16 kB)
+Collecting GitPython!=2.1.4,!=2.1.5,!=2.1.6
+  Downloading GitPython-3.1.14-py3-none-any.whl (159 kB)
+Collecting gitdb<5,>=4.0.1
+  Downloading gitdb-4.0.5-py3-none-any.whl (63 kB)
+Collecting smmap<4,>=3.0.1
+  Downloading smmap-3.0.5-py2.py3-none-any.whl (25 kB)
+Collecting pyparsing>=2.0.2
+  Downloading pyparsing-2.4.7-py2.py3-none-any.whl (67 kB)
+Building wheels for collected packages: nested-lookup, pandocfilters, pyrsistent, feedgen
+  Building wheel for nested-lookup (setup.py): started
+  Building wheel for nested-lookup (setup.py): finished with status 'done'
+  Created wheel for nested-lookup: filename=nested_lookup-0.2.22-py3-none-any.whl size=7684 sha256=829f6ac7aece4da48292756f1b2abf03ea9acc8911c5b5ea7564cb1189aa6322
+  Stored in directory: /home/jovyan/.cache/pip/wheels/d2/0e/a8/0a8a07e59bed72baeaf449d7bc3f5b8babb00c18a70b5c3104
+  Building wheel for pandocfilters (setup.py): started
+  Building wheel for pandocfilters (setup.py): finished with status 'done'
+  Created wheel for pandocfilters: filename=pandocfilters-1.4.3-py3-none-any.whl size=7992 sha256=dd1e649adadf03214a91303ceeb94c5eb4cd38e9228b5d55b865e46ae709b5b7
+  Stored in directory: /home/jovyan/.cache/pip/wheels/d7/2c/f8/55fc25b6130566bdddef382806ceaa33161b39a066c2de5912
+  Building wheel for pyrsistent (setup.py): started
+  Building wheel for pyrsistent (setup.py): finished with status 'done'
+  Created wheel for pyrsistent: filename=pyrsistent-0.17.3-cp39-cp39-linux_x86_64.whl size=70361 sha256=cffd031bbdfcdfdecd005711f7b86feb8b86573a003180f578b6cef9344fdd22
+  Stored in directory: /home/jovyan/.cache/pip/wheels/00/cc/12/e712d3979a4aeee423b34a832d97c803e1a67659060315a7e0
+  Building wheel for feedgen (setup.py): started
+  Building wheel for feedgen (setup.py): finished with status 'done'
+  Created wheel for feedgen: filename=feedgen-0.9.0-py2.py3-none-any.whl size=44384 sha256=a9528d743024e2ad9bfdf7d60e0fea25db16041eb769b6203246313a1dc4de4c
+  Stored in directory: /home/jovyan/.cache/pip/wheels/f5/e1/0c/e7f6d7602caeffb70f544de8376a5e8fb966b43b4ef17860a7
+Successfully built nested-lookup pandocfilters pyrsistent feedgen
+Installing collected packages: ipython-genutils, wcwidth, traitlets, pyrsistent, pyparsing, ptyprocess, parso, attrs, webencodings, tornado, pyzmq, python-dateutil, pygments, prompt-toolkit, pickleshare, pexpect, packaging, MarkupSafe, jupyter-core, jsonschema, jedi, decorator, backcall, testpath, pandocfilters, nbformat, mistune, jupyter-client, jinja2, ipython, entrypoints, defusedxml, bleach, terminado, smmap, Send2Trash, prometheus-client, nbconvert, ipykernel, argon2-cffi, pytz, notebook, idna, gitdb, chardet, widgetsnbextension, sphinxcontrib-serializinghtml, sphinxcontrib-qthelp, sphinxcontrib-jsmath, sphinxcontrib-htmlhelp, sphinxcontrib-devhelp, sphinxcontrib-applehelp, snowballstemmer, requests, pyyaml, nest-asyncio, mdit-py-plugins, markdown-it-py, latexcodec, jupyterlab-widgets, imagesize, GitPython, docutils, colorama, babel, async-generator, alabaster, zipp, sqlalchemy, sphinx, soupsieve, pybtex, nbdime, nbclient, ipywidgets, uc-micro-py, toml, sphinx-togglebutton, pydata-sphinx-theme, pybtex-docutils, myst-parser, lxml, jupyter-sphinx, jupyter-cache, importlib-metadata, click, beautifulsoup4, watchdog, sphinxcontrib-bibtex, sphinx-thebe, sphinx-panels, sphinx-copybutton, sphinx-comments, sphinx-book-theme, nested-lookup, myst-nb, linkify-it-py, jupytext, invoke, feedgen, jupyter-book, ablog
+  Attempting uninstall: idna
+    Found existing installation: idna 3.1
+    Uninstalling idna-3.1:
+      Successfully uninstalled idna-3.1
+Successfully installed GitPython-3.1.14 MarkupSafe-1.1.1 Send2Trash-1.5.0 ablog-0.10.13 alabaster-0.7.12 argon2-cffi-20.1.0 async-generator-1.10 attrs-20.3.0 babel-2.9.0 backcall-0.2.0 beautifulsoup4-4.9.3 bleach-3.3.0 chardet-4.0.0 click-7.1.2 colorama-0.4.4 decorator-4.4.2 defusedxml-0.6.0 docutils-0.16 entrypoints-0.3 feedgen-0.9.0 gitdb-4.0.5 idna-2.10 imagesize-1.2.0 importlib-metadata-3.7.0 invoke-1.5.0 ipykernel-5.5.0 ipython-7.21.0 ipython-genutils-0.2.0 ipywidgets-7.6.3 jedi-0.18.0 jinja2-2.11.3 jsonschema-3.2.0 jupyter-book-0.10.0 jupyter-cache-0.4.2 jupyter-client-6.1.11 jupyter-core-4.7.1 jupyter-sphinx-0.3.1 jupyterlab-widgets-1.0.0 jupytext-1.8.2 latexcodec-2.0.1 linkify-it-py-1.0.1 lxml-4.6.2 markdown-it-py-0.6.2 mdit-py-plugins-0.2.5 mistune-0.8.4 myst-nb-0.11.1 myst-parser-0.13.5 nbclient-0.5.3 nbconvert-5.6.1 nbdime-2.1.0 nbformat-5.1.2 nest-asyncio-1.5.1 nested-lookup-0.2.22 notebook-6.2.0 packaging-20.9 pandocfilters-1.4.3 parso-0.8.1 pexpect-4.8.0 pickleshare-0.7.5 prometheus-client-0.9.0 prompt-toolkit-3.0.16 ptyprocess-0.7.0 pybtex-0.24.0 pybtex-docutils-1.0.0 pydata-sphinx-theme-0.4.3 pygments-2.8.0 pyparsing-2.4.7 pyrsistent-0.17.3 python-dateutil-2.8.1 pytz-2021.1 pyyaml-5.4.1 pyzmq-22.0.3 requests-2.25.1 smmap-3.0.5 snowballstemmer-2.1.0 soupsieve-2.2 sphinx-3.5.1 sphinx-book-theme-0.0.40 sphinx-comments-0.0.3 sphinx-copybutton-0.3.1 sphinx-panels-0.5.2 sphinx-thebe-0.0.8 sphinx-togglebutton-0.2.3 sphinxcontrib-applehelp-1.0.2 sphinxcontrib-bibtex-2.1.4 sphinxcontrib-devhelp-1.0.2 sphinxcontrib-htmlhelp-1.0.3 sphinxcontrib-jsmath-1.0.1 sphinxcontrib-qthelp-1.0.3 sphinxcontrib-serializinghtml-1.1.4 sqlalchemy-1.3.23 terminado-0.9.2 testpath-0.4.4 toml-0.10.2 tornado-6.1 traitlets-5.0.5 uc-micro-py-1.0.1 watchdog-2.0.2 wcwidth-0.2.5 webencodings-0.5.1 widgetsnbextension-3.5.1 zipp-3.4.0
+[91m[W:pyppeteer.chromium_downloader] start secure https chromium download.
+Download may take a few minutes.
+[0m[91m  0%|          | 0/108773488 [00:00<?, ?it/s][0m[91m  2%|▏         | 2099200/108773488 [00:00<00:11, 9508338.00it/s][0m[91m  5%|▍         | 5304320/108773488 [00:00<00:07, 13845514.94it/s][0m[91m  9%|▊         | 9502720/108773488 [00:00<00:07, 12901623.12it/s][0m[91m 19%|█▉        | 21166080/108773488 [00:00<00:02, 33428492.73it/s][0m[91m 30%|███       | 32747520/108773488 [00:00<00:01, 51578458.82it/s][0m[91m 39%|███▊      | 42014720/108773488 [00:01<00:01, 61417301.56it/s][0m[91m 49%|████▉     | 53678080/108773488 [00:01<00:00, 75471493.26it/s][0m[91m 58%|█████▊    | 63006720/108773488 [00:01<00:00, 77242901.78it/s][0m[91m 69%|██████▊   | 74721280/108773488 [00:01<00:00, 87914794.01it/s][0m[91m 79%|███████▉  | 86394880/108773488 [00:01<00:00, 95858993.66it/s][0m[91m 90%|█████████ | 98099200/108773488 [00:01<00:00, 101813450.51it/s][0m[91m100%|██████████| 108773488/108773488 [00:01<00:00, 65799768.26it/s]
+[0m[91m[W:pyppeteer.chromium_downloader] 
+chromium download done.
+[0m[91m[W:pyppeteer.chromium_downloader] chromium extracted to: /home/jovyan/.local/share/pyppeteer/local-chromium/588429
+[0mSuccessfully installed rb-inotify-0.10.1
+Successfully installed concurrent-ruby-1.1.8
+Successfully installed rake-13.0.3
+Successfully installed just-the-docs-0.3.3
+Parsing documentation for rb-inotify-0.10.1
+Installing ri documentation for rb-inotify-0.10.1
+Parsing documentation for concurrent-ruby-1.1.8
+Installing ri documentation for concurrent-ruby-1.1.8
+Parsing documentation for rake-13.0.3
+Installing ri documentation for rake-13.0.3
+Parsing documentation for just-the-docs-0.3.3
+Installing ri documentation for just-the-docs-0.3.3
+Done installing documentation for rb-inotify, concurrent-ruby, rake, just-the-docs after 4 seconds
+4 gems installed
+Removing intermediate container 6b033734b0b6
+ ---> d17e9e612bc2
+Step 19/25 : USER root
+ ---> Running in 319001ab6e64
+Removing intermediate container 319001ab6e64
+ ---> 784ac9725162
+Step 20/25 : ADD ./vimrc $HOME/.vimrc
+ ---> edb1d2c4dfc2
+Step 21/25 : RUN apt-get update  && apt-get install -y vim  && curl -fLo $HOME/.vim/autoload/plug.vim --create-dirs     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim  && vim +PlugInstall +qall
+ ---> Running in 50e1c8c832a2
+Hit:1 http://archive.ubuntu.com/ubuntu focal InRelease
+Hit:2 http://archive.ubuntu.com/ubuntu focal-updates InRelease
+Hit:3 http://archive.ubuntu.com/ubuntu focal-backports InRelease
+Hit:4 http://security.ubuntu.com/ubuntu focal-security InRelease
+Hit:5 https://cloud.r-project.org/bin/linux/ubuntu focal-cran40/ InRelease
+Hit:6 http://ppa.launchpad.net/ubuntugis/ubuntugis-experimental/ubuntu focal InRelease
+Reading package lists...
+[91mW: Target Packages (Packages) is configured multiple times in /etc/apt/sources.list:50 and /etc/apt/sources.list:51
+W: Target Packages (Packages) is configured multiple times in /etc/apt/sources.list:50 and /etc/apt/sources.list:51
+[0mReading package lists...
+Building dependency tree...
+Reading state information...
+The following additional packages will be installed:
+  libcanberra0 libgpm2 libogg0 libpython3.8 libtdb1 libvorbis0a libvorbisfile3
+  sound-theme-freedesktop vim-runtime
+Suggested packages:
+  libcanberra-gtk0 libcanberra-pulse gpm ctags vim-doc vim-scripts
+The following NEW packages will be installed:
+  libcanberra0 libgpm2 libogg0 libpython3.8 libtdb1 libvorbis0a libvorbisfile3
+  sound-theme-freedesktop vim vim-runtime
+0 upgraded, 10 newly installed, 0 to remove and 5 not upgraded.
+Need to get 9343 kB of archives.
+After this operation, 41.4 MB of additional disk space will be used.
+Get:1 http://archive.ubuntu.com/ubuntu focal/main amd64 libtdb1 amd64 1.4.2-3build1 [44.1 kB]
+Get:2 http://archive.ubuntu.com/ubuntu focal/main amd64 libogg0 amd64 1.3.4-0ubuntu1 [24.0 kB]
+Get:3 http://archive.ubuntu.com/ubuntu focal/main amd64 libvorbis0a amd64 1.3.6-2ubuntu1 [87.0 kB]
+Get:4 http://archive.ubuntu.com/ubuntu focal/main amd64 libvorbisfile3 amd64 1.3.6-2ubuntu1 [16.1 kB]
+Get:5 http://archive.ubuntu.com/ubuntu focal/main amd64 sound-theme-freedesktop all 0.8-2ubuntu1 [384 kB]
+Get:6 http://archive.ubuntu.com/ubuntu focal/main amd64 libcanberra0 amd64 0.30-7ubuntu1 [38.1 kB]
+Get:7 http://archive.ubuntu.com/ubuntu focal/main amd64 libgpm2 amd64 1.20.7-5 [15.1 kB]
+Get:8 http://archive.ubuntu.com/ubuntu focal-updates/main amd64 libpython3.8 amd64 3.8.5-1~20.04.2 [1624 kB]
+Get:9 http://archive.ubuntu.com/ubuntu focal/main amd64 vim-runtime all 2:8.1.2269-1ubuntu5 [5873 kB]
+Get:10 http://archive.ubuntu.com/ubuntu focal/main amd64 vim amd64 2:8.1.2269-1ubuntu5 [1238 kB]
+[91mdebconf: delaying package configuration, since apt-utils is not installed
+[0mFetched 9343 kB in 0s (54.9 MB/s)
+Selecting previously unselected package libtdb1:amd64.
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 89578 files and directories currently installed.)
+Preparing to unpack .../0-libtdb1_1.4.2-3build1_amd64.deb ...
+Unpacking libtdb1:amd64 (1.4.2-3build1) ...
+Selecting previously unselected package libogg0:amd64.
+Preparing to unpack .../1-libogg0_1.3.4-0ubuntu1_amd64.deb ...
+Unpacking libogg0:amd64 (1.3.4-0ubuntu1) ...
+Selecting previously unselected package libvorbis0a:amd64.
+Preparing to unpack .../2-libvorbis0a_1.3.6-2ubuntu1_amd64.deb ...
+Unpacking libvorbis0a:amd64 (1.3.6-2ubuntu1) ...
+Selecting previously unselected package libvorbisfile3:amd64.
+Preparing to unpack .../3-libvorbisfile3_1.3.6-2ubuntu1_amd64.deb ...
+Unpacking libvorbisfile3:amd64 (1.3.6-2ubuntu1) ...
+Selecting previously unselected package sound-theme-freedesktop.
+Preparing to unpack .../4-sound-theme-freedesktop_0.8-2ubuntu1_all.deb ...
+Unpacking sound-theme-freedesktop (0.8-2ubuntu1) ...
+Selecting previously unselected package libcanberra0:amd64.
+Preparing to unpack .../5-libcanberra0_0.30-7ubuntu1_amd64.deb ...
+Unpacking libcanberra0:amd64 (0.30-7ubuntu1) ...
+Selecting previously unselected package libgpm2:amd64.
+Preparing to unpack .../6-libgpm2_1.20.7-5_amd64.deb ...
+Unpacking libgpm2:amd64 (1.20.7-5) ...
+Selecting previously unselected package libpython3.8:amd64.
+Preparing to unpack .../7-libpython3.8_3.8.5-1~20.04.2_amd64.deb ...
+Unpacking libpython3.8:amd64 (3.8.5-1~20.04.2) ...
+Selecting previously unselected package vim-runtime.
+Preparing to unpack .../8-vim-runtime_2%3a8.1.2269-1ubuntu5_all.deb ...
+Adding 'diversion of /usr/share/vim/vim81/doc/help.txt to /usr/share/vim/vim81/doc/help.txt.vim-tiny by vim-runtime'
+Adding 'diversion of /usr/share/vim/vim81/doc/tags to /usr/share/vim/vim81/doc/tags.vim-tiny by vim-runtime'
+Unpacking vim-runtime (2:8.1.2269-1ubuntu5) ...
+Selecting previously unselected package vim.
+Preparing to unpack .../9-vim_2%3a8.1.2269-1ubuntu5_amd64.deb ...
+Unpacking vim (2:8.1.2269-1ubuntu5) ...
+Setting up libgpm2:amd64 (1.20.7-5) ...
+Setting up libogg0:amd64 (1.3.4-0ubuntu1) ...
+Setting up libtdb1:amd64 (1.4.2-3build1) ...
+Setting up libpython3.8:amd64 (3.8.5-1~20.04.2) ...
+Setting up libvorbis0a:amd64 (1.3.6-2ubuntu1) ...
+Setting up sound-theme-freedesktop (0.8-2ubuntu1) ...
+Setting up vim-runtime (2:8.1.2269-1ubuntu5) ...
+Setting up libvorbisfile3:amd64 (1.3.6-2ubuntu1) ...
+Setting up libcanberra0:amd64 (0.30-7ubuntu1) ...
+Setting up vim (2:8.1.2269-1ubuntu5) ...
+update-alternatives: using /usr/bin/vim.basic to provide /usr/bin/vim (vim) in auto mode
+update-alternatives: using /usr/bin/vim.basic to provide /usr/bin/vimdiff (vimdiff) in auto mode
+update-alternatives: using /usr/bin/vim.basic to provide /usr/bin/rvim (rvim) in auto mode
+update-alternatives: using /usr/bin/vim.basic to provide /usr/bin/rview (rview) in auto mode
+update-alternatives: using /usr/bin/vim.basic to provide /usr/bin/vi (vi) in auto mode
+update-alternatives: warning: skip creation of /usr/share/man/man1/vi.1.gz because associated file /usr/share/man/man1/vim.1.gz (of link group vi) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/da/man1/vi.1.gz because associated file /usr/share/man/da/man1/vim.1.gz (of link group vi) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/de/man1/vi.1.gz because associated file /usr/share/man/de/man1/vim.1.gz (of link group vi) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/fr/man1/vi.1.gz because associated file /usr/share/man/fr/man1/vim.1.gz (of link group vi) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/it/man1/vi.1.gz because associated file /usr/share/man/it/man1/vim.1.gz (of link group vi) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/ja/man1/vi.1.gz because associated file /usr/share/man/ja/man1/vim.1.gz (of link group vi) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/pl/man1/vi.1.gz because associated file /usr/share/man/pl/man1/vim.1.gz (of link group vi) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/ru/man1/vi.1.gz because associated file /usr/share/man/ru/man1/vim.1.gz (of link group vi) doesn't exist
+update-alternatives: using /usr/bin/vim.basic to provide /usr/bin/view (view) in auto mode
+update-alternatives: warning: skip creation of /usr/share/man/man1/view.1.gz because associated file /usr/share/man/man1/vim.1.gz (of link group view) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/da/man1/view.1.gz because associated file /usr/share/man/da/man1/vim.1.gz (of link group view) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/de/man1/view.1.gz because associated file /usr/share/man/de/man1/vim.1.gz (of link group view) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/fr/man1/view.1.gz because associated file /usr/share/man/fr/man1/vim.1.gz (of link group view) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/it/man1/view.1.gz because associated file /usr/share/man/it/man1/vim.1.gz (of link group view) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/ja/man1/view.1.gz because associated file /usr/share/man/ja/man1/vim.1.gz (of link group view) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/pl/man1/view.1.gz because associated file /usr/share/man/pl/man1/vim.1.gz (of link group view) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/ru/man1/view.1.gz because associated file /usr/share/man/ru/man1/vim.1.gz (of link group view) doesn't exist
+update-alternatives: using /usr/bin/vim.basic to provide /usr/bin/ex (ex) in auto mode
+update-alternatives: warning: skip creation of /usr/share/man/man1/ex.1.gz because associated file /usr/share/man/man1/vim.1.gz (of link group ex) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/da/man1/ex.1.gz because associated file /usr/share/man/da/man1/vim.1.gz (of link group ex) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/de/man1/ex.1.gz because associated file /usr/share/man/de/man1/vim.1.gz (of link group ex) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/fr/man1/ex.1.gz because associated file /usr/share/man/fr/man1/vim.1.gz (of link group ex) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/it/man1/ex.1.gz because associated file /usr/share/man/it/man1/vim.1.gz (of link group ex) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/ja/man1/ex.1.gz because associated file /usr/share/man/ja/man1/vim.1.gz (of link group ex) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/pl/man1/ex.1.gz because associated file /usr/share/man/pl/man1/vim.1.gz (of link group ex) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/ru/man1/ex.1.gz because associated file /usr/share/man/ru/man1/vim.1.gz (of link group ex) doesn't exist
+update-alternatives: using /usr/bin/vim.basic to provide /usr/bin/editor (editor) in auto mode
+update-alternatives: warning: skip creation of /usr/share/man/man1/editor.1.gz because associated file /usr/share/man/man1/vim.1.gz (of link group editor) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/da/man1/editor.1.gz because associated file /usr/share/man/da/man1/vim.1.gz (of link group editor) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/de/man1/editor.1.gz because associated file /usr/share/man/de/man1/vim.1.gz (of link group editor) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/fr/man1/editor.1.gz because associated file /usr/share/man/fr/man1/vim.1.gz (of link group editor) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/it/man1/editor.1.gz because associated file /usr/share/man/it/man1/vim.1.gz (of link group editor) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/ja/man1/editor.1.gz because associated file /usr/share/man/ja/man1/vim.1.gz (of link group editor) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/pl/man1/editor.1.gz because associated file /usr/share/man/pl/man1/vim.1.gz (of link group editor) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/ru/man1/editor.1.gz because associated file /usr/share/man/ru/man1/vim.1.gz (of link group editor) doesn't exist
+Processing triggers for libc-bin (2.31-0ubuntu9.1) ...
+[91mW: Target Packages (Packages) is configured multiple times in /etc/apt/sources.list:50 and /etc/apt/sources.list:51
+[0m[91m  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 [0m[91mDload  Upload   Total[0m[91m   Spent    Left  Speed
+  0[0m[91m     0    0     0    0    [0m[91m 0      0[0m[91m     [0m[91m 0 --[0m[91m:--:--[0m[91m --:-[0m[91m-:-- [0m[91m--:--[0m[91m:--  [0m[91m   0[0m[91m100 82656  100 82656    0     0   326k      0 --:--:-- --:--:-- --:--:--  326k
+[0m[91mVim: Warning: Output is not to a terminal
+Vim: Warning: Input is not from a terminal
+[0m[m[m[0m[H[2J[1;1H[33m  1 [0m[36C[7m|[0m
+[1m[4m[33m  2 [m[0m[1m[4m[34m                                    [m[0m[7m|[0m
+[33m  3 [0m[36C[7m|[4;41H|[5;41H|[6;41H|[7;41H|[8;41H|[9;41H|[10;41H|[11;41H|[12;41H|[13;41H|[14;41H|[15;41H|[16;41H|[17;41H|[18;41H|[19;41H|[20;41H|[21;41H|[22;41H|[0m[4;1H[1m[34m~                                       
+~                                       
+~                                       
+~                                       
+~                                       
+~                                       
+~                                       
+~                                       
+~                                       
+~                                       
+~                                       
+~                                       
+~                                       
+~                                       
+~                                       
+~                                       
+~                                       
+~                                       
+~                                       [0m
+[1m[7m[Plugins]             2,0-1          All [0m[1;42H[33m  1 [0m[2;42H[1m[34m~                                      [3;42H~                                      [4;42H~                                      [5;42H~                                      [6;42H~                                      [7;42H~                                      [8;42H~                                      [9;42H~                                      [10;42H~                                      [11;42H~                                      [12;42H~                                      [13;42H~                                      [14;42H~                                      [15;42H~                                      [16;42H~                                      [17;42H~                                      [18;42H~                                      [19;42H~                                      [20;42H~                                      [21;42H~                                      [22;42H~                                      [0m[23;42H[7m[No Name]            0,0-1          All[0m[1;5H[1m[33mInstalling plugins ([0m[33m0[0m[1m[33m/[0m[33m10[0m[1m[33m)[0m[2;5H[1m[4m[32m[[10C][m[0m[4m                        [m
+
+[33m  4 [0m[33m+[0m [33mFastFold[0m: Installing ...          [23;25H[1m[7m1  [0m[4;7H[33mtypewriter[0m: Installing ...
+[33m  5 [0m[33m+[0m [33mFastFold[0m: Installing ...          [4;7H[33mgoyo.vim[0m: Installing ...  [5;7H[33mtypewriter[0m: Installing ...
+[33m  6 [0m[33m+[0m [33mFastFold[0m: Installing ...          [4;7H[33mvim-easy-align[0m: Installing ...[5;7H[33mgoyo.vim[0m: Installing ...  [6;7H[33mtypewriter[0m: Installing ...
+[33m  7 [0m[33m+[0m [33mFastFold[0m: Installing ...          [4;11H[33mairline-themes[0m: Installing ...[5;7H[33mvim-easy-align[0m: Installing ...[6;7H[33mgoyo.vim[0m: Installing ...  [7;7H[33mtypewriter[0m: Installing ...
+[33m  8 [0m[33m+[0m [33mFastFold[0m: Installing ...          [4;18H: Installing ...       [5;11H[33mairline-themes[0m: Installing ...[6;7H[33mvim-easy-align[0m: Installing ...[7;7H[33mgoyo.vim[0m: Installing ...  [8;7H[33mtypewriter[0m: Installing ...
+[33m  9 [0m[33m+[0m [33mFastFold[0m: Installing ...          [4;7H[33mSimpylFold[0m: Installing ... [5;18H: Installing ...       [6;11H[33mairline-themes[0m: Installing ...[7;7H[33mvim-easy-align[0m: Installing ...[8;7H[33mgoyo.vim[0m: Installing ...  [9;7H[33mtypewriter[0m: Installing ...
+[33m 10 [0m[33m+[0m [33mFastFold[0m: Installing ...          [4;7H[33mvim-github-dashboard[0m: Installing .[5;7H[33mSimpylFold[0m: Installing ... [6;18H: Installing ...       [7;11H[33mairline-themes[0m: Installing ...[8;7H[33mvim-easy-align[0m: Installing ...[9;7H[33mgoyo.vim[0m: Installing ...  [10;7H[33mtypewriter[0m: Installing ...
+[33m 11 [0m[33m+[0m [33mFastFold[0m: Installing ...          [4;7H[33mchallenger-deep[0m: Installing ...   [5;7H[33mvim-github-dashboard[0m: Installing .[6;7H[33mSimpylFold[0m: Installing ... [7;18H: Installing ...       [8;11H[33mairline-themes[0m: Installing ...[9;7H[33mvim-easy-align[0m: Installing ...[10;7H[33mgoyo.vim[0m: Installing ...  [11;7H[33mtypewriter[0m: Installing ...
+[33m 12 [0m[33m+[0m [33mFastFold[0m: Installing ...          [4;7H[33mvim-latex[0m: Installing ...      [5;7H[33mchallenger-deep[0m: Installing ...   [6;7H[33mvim-github-dashboard[0m: Installing .[7;7H[33mSimpylFold[0m: Installing ... [8;18H: Installing ...       [9;11H[33mairline-themes[0m: Installing ...[10;7H[33mvim-easy-align[0m: Installing ...[11;7H[33mgoyo.vim[0m: Installing ...  [12;7H[33mtypewriter[0m: Installing ...
+[33m 13 [0m[33m+[0m [33mFastFold[0m: Installing ...          [2;5H[1;25H[33m10[0m[1m[33m/[0m[33m10[0m[1m[33m)[0m
+[33m  2 [0m[1m[32m[[0m[1m[34m==========[0m[1m[32m][0m                        
+
+[1m[4m[33m  4 [m[0m[4m[33m- [m[0m[4m[33mMerging origin/master (FastFold)[m[0m[4m  [m[5;5H[33m- [0m[1m[34mvim-latex:[0m Resolving deltas: 100%[6;5H[33m- [0m[1m[34mchallenger-deep:[0m remote: Total 13 [7;5H[33m- [0m[1m[34mvim-github-dashboard:[0m remote: Tota[8;5H[33m- [0m[1m[34mSimpylFold:[0m remote: Total 55 (delt[9;5H[33m- [0m[1m[34mvim-airline:[0m Resolving deltas: 100[10;5H[33m- [0m[1m[34mvim-airline-themes:[0m Resolving delt[11;5H[33m- [0m[1m[34mvim-easy-align:[0m Resolving deltas:[12;5H[33m- [0m[1m[34mgoyo.vim:[0m remote: Total 22 (delta[13;5H[33m- [0m[1m[34mtypewriter:[0m remote: Total 45 (delt
+[33m 14 [0m[33m- [0m[1m[34mFastFold:[0m remote: Total 21 (delta [23;23H[1m[7m4[0m[4;30H[4m[33mtypewriter)[4;30Hgoyo.vim)[m[0m[4m  [m[4;30H[4m[33mvim-easy-al[4;34Hairline[4;30HSimpylFold)[4;30Hvim-github-[4;30Hchallenger[4;30Hvim-latex)[m[0m[4m [m[4;7H[4m[33mFinishing ... [m[0m[4m                   [m[4;21H[4m[33mDone![24;1H[m[0m[24;1HRemoving intermediate container 50e1c8c832a2
+ ---> ced685fa27eb
+Step 22/25 : RUN mkdir -p /home/$NB_USER/.jupyter/lab/user-settings/\@jupyterlab/codemirror-extension/  && echo '{"keyMap": "vim"}' >> /home/$NB_USER/.jupyter/lab/user-settings/\@jupyterlab/codemirror-extension/commands.jupyterlab-settings && fix-permissions /home/$NB_USER/.jupyter/lab/user-settings/\@jupyterlab/codemirror-extension/  && fix-permissions /home/$NB_USER/.jupyter/lab/
+ ---> Running in c2311eff8c58
+Removing intermediate container c2311eff8c58
+ ---> 356fada6d2bf
+Step 23/25 : RUN cd $NB_HOME  && conda clean --yes --all  && rm -rf /home/$NB_USER/.cache/pip  && rm -rf /tmp/downloaded_packages/ /tmp/*.rds  && rm -rf $GEM_HOME/cache  && rm -rf /usr/local/bundle/cache  && apt-get autoclean  && apt-get autoremove  && apt-get clean  && rm -rf /var/lib/apt/lists/*
+ ---> Running in 1e0311b627b5
+Cache location: /opt/conda/pkgs
+Will remove the following tarballs:
+
+/opt/conda/pkgs
+---------------
+rb-public_suffix-3.1.1-hd4c1694_0.tar.bz2     211 KB
+libxml2-2.9.10-h72842e0_3.tar.bz2            1.3 MB
+rb-csl-1.5.0-hd4c1694_0.tar.bz2              112 KB
+rb-jekyll-theme-slate-0.1.1-hd4c1694_0.tar.bz2      56 KB
+libgomp-9.3.0-h2828fa1_18.tar.bz2            376 KB
+rb-concurrent-ruby-1.1.6-hc42de5b_0.tar.bz2     842 KB
+rb-colorator-1.1.0-hd4c1694_0.tar.bz2         14 KB
+rb-eventmachine-1.2.7-hbc4c99e_2.tar.bz2     564 KB
+ruby-2.5.7-he592edb_2.tar.bz2                5.1 MB
+brotlipy-0.7.0-py39h3811e60_1001.tar.bz2     341 KB
+tqdm-4.58.0-pyhd8ed1ab_0.tar.bz2              76 KB
+rb-ruby-enum-0.7.2-hd4c1694_0.tar.bz2         45 KB
+rb-sawyer-0.8.2-hd4c1694_0.tar.bz2            24 KB
+cryptography-3.4.4-py39h95dcef6_0.tar.bz2     636 KB
+rb-rb-fsevent-0.10.3-hd4c1694_1.tar.bz2       99 KB
+rb-jekyll-github-metadata-2.12.1-hd4c1694_0.tar.bz2      25 KB
+rb-thread_safe-0.3.6-hd4c1694_0.tar.bz2      203 KB
+rb-sass-listen-4.0.0-hd4c1694_0.tar.bz2       77 KB
+_libgcc_mutex-0.1-conda_forge.tar.bz2          3 KB
+rb-jekyll-remote-theme-0.4.0-hd4c1694_0.tar.bz2      14 KB
+_openmp_mutex-4.5-1_gnu.tar.bz2               22 KB
+ca-certificates-2020.12.5-ha878542_0.tar.bz2     137 KB
+tzdata-2021a-he74cb21_0.tar.bz2              121 KB
+rb-jekyll-commonmark-1.3.1-hd4c1694_0.tar.bz2      18 KB
+rb-jekyll-theme-cayman-0.1.1-hd4c1694_0.tar.bz2      27 KB
+gdbm-1.18-h0a1914f_2.tar.bz2                 190 KB
+rb-addressable-2.7.0-hd4c1694_0.tar.bz2      226 KB
+rb-jekyll-relative-links-0.6.0-hd4c1694_0.tar.bz2      10 KB
+rb-jekyll-theme-primer-0.5.3-hd4c1694_0.tar.bz2     160 KB
+rb-html-pipeline-2.12.3-hd4c1694_0.tar.bz2      58 KB
+rb-unicode-display_width-1.6.0-hd4c1694_0.tar.bz2      25 KB
+rb-commonmarker-0.17.13-had2f1a9_0.tar.bz2     476 KB
+setuptools-49.6.0-py39hf3d152e_3.tar.bz2     943 KB
+pyopenssl-20.0.1-pyhd8ed1ab_0.tar.bz2         48 KB
+rb-nokogiri-1.10.8-hd632b18_0.tar.bz2        9.3 MB
+rb-jekyll-avatar-0.6.0-hd4c1694_0.tar.bz2      25 KB
+rb-kramdown-1.17.0-hd4c1694_1.tar.bz2        522 KB
+rb-jekyll-theme-tactile-0.1.1-hd4c1694_0.tar.bz2      90 KB
+rb-terminal-table-1.8.0-hd4c1694_0.tar.bz2      34 KB
+rb-liquid-4.0.0-hd4c1694_0.tar.bz2           137 KB
+rb-coffee-script-source-1.11.1-hd4c1694_0.tar.bz2     117 KB
+libxslt-1.1.33-h15afd5d_2.tar.bz2            522 KB
+rb-jekyll-seo-tag-2.5.0-hd4c1694_0.tar.bz2      34 KB
+rb-jekyll-theme-leap-day-0.1.1-hd4c1694_0.tar.bz2     1.2 MB
+rb-mercenary-0.3.6-hd4c1694_0.tar.bz2         39 KB
+pyppeteer-0.2.2-py_1.tar.bz2                 104 KB
+rb-jekyll-theme-minimal-0.1.1-hd4c1694_0.tar.bz2     638 KB
+rb-csl-styles-1.0.1.9-hd4c1694_0.tar.bz2     4.0 MB
+rb-jekyll-redirect-from-0.14.0-hd4c1694_0.tar.bz2      31 KB
+pycparser-2.20-pyh9f0ad1d_2.tar.bz2           94 KB
+rb-pathutil-0.16.2-hd4c1694_0.tar.bz2         29 KB
+six-1.15.0-pyh9f0ad1d_0.tar.bz2               14 KB
+rb-jekyll-theme-modernist-0.1.1-hd4c1694_0.tar.bz2      23 KB
+wheel-0.36.2-pyhd3deb0d_0.tar.bz2             31 KB
+rb-octokit-4.14.0-hd4c1694_0.tar.bz2         148 KB
+rb-multipart-post-2.1.1-hd4c1694_0.tar.bz2      26 KB
+zlib-1.2.11-h516909a_1010.tar.bz2            106 KB
+rb-jekyll-theme-merlot-0.1.1-hd4c1694_0.tar.bz2     846 KB
+libgcc-ng-9.3.0-h2828fa1_18.tar.bz2          7.8 MB
+rb-jekyll-theme-dinky-0.1.1-hd4c1694_0.tar.bz2      26 KB
+rb-ffi-1.11.1-h20f22b6_2.tar.bz2             1.7 MB
+rb-jekyll-mentions-1.4.1-hd4c1694_0.tar.bz2       9 KB
+appdirs-1.4.4-pyh9f0ad1d_0.tar.bz2            13 KB
+rb-latex-decode-0.3.1-hd4c1694_0.tar.bz2      50 KB
+rb-sass-3.7.4-hd4c1694_0.tar.bz2             593 KB
+libffi-3.3-h58526e2_2.tar.bz2                 51 KB
+rb-jekyll-theme-hacker-0.1.1-hd4c1694_0.tar.bz2      27 KB
+rb-http_parser.rb-0.6.0-h27a74b2_1.tar.bz2     349 KB
+rb-execjs-2.7.0-hd4c1694_0.tar.bz2            33 KB
+libstdcxx-ng-9.3.0-h6de172a_18.tar.bz2       4.0 MB
+rb-citeproc-1.0.9-hd4c1694_0.tar.bz2          84 KB
+rb-rb-inotify-0.10.1-hc42de5b_0.tar.bz2       30 KB
+rb-jekyll-titles-from-headings-0.5.1-hd4c1694_0.tar.bz2      13 KB
+rb-jekyll-swiss-0.4.0-hd4c1694_0.tar.bz2      29 KB
+rb-i18n-0.9.5-hd4c1694_1.tar.bz2             118 KB
+rb-rouge-3.11.0-hd4c1694_0.tar.bz2           749 KB
+sqlite-3.34.0-h74cdb3f_0.tar.bz2             1.4 MB
+rb-typhoeus-1.3.1-hd4c1694_0.tar.bz2         106 KB
+rb-github-pages-201-hd4c1694_0.tar.bz2        21 KB
+pip-21.0.1-pyhd8ed1ab_0.tar.bz2              1.1 MB
+rb-em-websocket-0.5.1-hd4c1694_1.tar.bz2      61 KB
+rb-jekyll-sass-converter-1.5.2-hd4c1694_0.tar.bz2      12 KB
+rb-jekyll-theme-architect-0.1.1-hd4c1694_0.tar.bz2     157 KB
+rb-dnsruby-1.61.3-hd4c1694_0.tar.bz2         493 KB
+rb-jekyll-default-layout-0.1.4-hd4c1694_0.tar.bz2       8 KB
+rb-minitest-5.12.2-hd4c1694_0.tar.bz2        150 KB
+rb-jekyll-optional-front-matter-0.3.0-hd4c1694_0.tar.bz2       9 KB
+ncurses-6.2-h58526e2_4.tar.bz2               985 KB
+tk-8.6.10-hed695b0_1.tar.bz2                 3.2 MB
+rb-jekyll-coffeescript-1.1.1-hd4c1694_0.tar.bz2       7 KB
+rb-coffee-script-2.4.1-hd4c1694_0.tar.bz2      10 KB
+rb-safe_yaml-1.0.5-hd4c1694_0.tar.bz2         72 KB
+rb-gemoji-3.0.1-hd4c1694_0.tar.bz2           140 KB
+rb-ruby_dep-1.5.0-hd4c1694_1.tar.bz2          22 KB
+pyee-7.0.4-pyh9f0ad1d_0.tar.bz2               14 KB
+rb-citeproc-ruby-1.1.10-hd4c1694_0.tar.bz2      65 KB
+rb-minima-2.5.0-hd4c1694_0.tar.bz2            39 KB
+yaml-0.2.5-h516909a_0.tar.bz2                 82 KB
+rb-jekyll-feed-0.11.0-hd4c1694_0.tar.bz2      37 KB
+cffi-1.14.5-py39he32792d_0.tar.bz2           227 KB
+rb-forwardable-extended-2.6.0-hd4c1694_0.tar.bz2      13 KB
+python-3.9.2-hffdb5ce_0_cpython.tar.bz2     27.3 MB
+rb-namae-1.0.1-hd4c1694_0.tar.bz2             81 KB
+rb-listen-3.1.5-hd4c1694_1.tar.bz2            53 KB
+certifi-2020.12.5-py39hf3d152e_1.tar.bz2     143 KB
+rb-activesupport-4.2.11.1-hd4c1694_0.tar.bz2     594 KB
+rb-tzinfo-1.2.5-hd4c1694_0.tar.bz2           290 KB
+idna-3.1-pyhd3deb0d_0.tar.bz2                 52 KB
+rb-ethon-0.9.1-hd4c1694_0.tar.bz2            107 KB
+urllib3-1.26.3-pyhd8ed1ab_0.tar.bz2           99 KB
+ld_impl_linux-64-2.35.1-hea4e1c9_2.tar.bz2     618 KB
+rb-bibtex-ruby-4.4.7-hd4c1694_0.tar.bz2      182 KB
+rb-jekyll-gist-1.5.0-hd4c1694_0.tar.bz2       23 KB
+rb-github-pages-health-check-1.16.1-hd4c1694_0.tar.bz2      37 KB
+readline-8.0-he28a2e2_2.tar.bz2              281 KB
+rb-jekyll-scholar-5.9.1-hd4c1694_0.tar.bz2      62 KB
+rb-jekyll-commonmark-ghpages-0.1.6-hd4c1694_0.tar.bz2      15 KB
+openssl-1.1.1j-h7f98852_0.tar.bz2            2.1 MB
+rb-jekyll-3.8.5-hd4c1694_0.tar.bz2           214 KB
+gmp-6.2.1-h58526e2_0.tar.bz2                 806 KB
+rb-jekyll-readme-index-0.2.0-hd4c1694_0.tar.bz2       8 KB
+websockets-8.1-py39h3811e60_3.tar.bz2         91 KB
+xz-5.2.5-h516909a_1.tar.bz2                  343 KB
+rb-jekyll-theme-midnight-0.1.1-hd4c1694_0.tar.bz2     845 KB
+rb-mini_portile2-2.4.0-hd4c1694_0.tar.bz2      51 KB
+pysocks-1.7.1-py39hf3d152e_3.tar.bz2          28 KB
+rb-jekyll-theme-time-machine-0.1.1-hd4c1694_0.tar.bz2      46 KB
+rb-rubyzip-1.3.0-hd4c1694_0.tar.bz2          299 KB
+rb-jemoji-0.10.2-hd4c1694_0.tar.bz2            9 KB
+libiconv-1.16-h516909a_0.tar.bz2             1.4 MB
+icu-68.1-h58526e2_0.tar.bz2                 13.0 MB
+rb-jekyll-watch-2.2.1-hd4c1694_1.tar.bz2      10 KB
+rb-jekyll-sitemap-1.2.0-hd4c1694_0.tar.bz2     120 KB
+python_abi-3.9-1_cp39.tar.bz2                  4 KB
+rb-jekyll-paginate-1.1.0-hd4c1694_0.tar.bz2      21 KB
+rb-faraday-0.17.0-hd4c1694_0.tar.bz2          76 KB
+
+---------------------------------------------------
+Total:                                     103.8 MB
+
+Removed rb-public_suffix-3.1.1-hd4c1694_0.tar.bz2
+Removed libxml2-2.9.10-h72842e0_3.tar.bz2
+Removed rb-csl-1.5.0-hd4c1694_0.tar.bz2
+Removed rb-jekyll-theme-slate-0.1.1-hd4c1694_0.tar.bz2
+Removed libgomp-9.3.0-h2828fa1_18.tar.bz2
+Removed rb-concurrent-ruby-1.1.6-hc42de5b_0.tar.bz2
+Removed rb-colorator-1.1.0-hd4c1694_0.tar.bz2
+Removed rb-eventmachine-1.2.7-hbc4c99e_2.tar.bz2
+Removed ruby-2.5.7-he592edb_2.tar.bz2
+Removed brotlipy-0.7.0-py39h3811e60_1001.tar.bz2
+Removed tqdm-4.58.0-pyhd8ed1ab_0.tar.bz2
+Removed rb-ruby-enum-0.7.2-hd4c1694_0.tar.bz2
+Removed rb-sawyer-0.8.2-hd4c1694_0.tar.bz2
+Removed cryptography-3.4.4-py39h95dcef6_0.tar.bz2
+Removed rb-rb-fsevent-0.10.3-hd4c1694_1.tar.bz2
+Removed rb-jekyll-github-metadata-2.12.1-hd4c1694_0.tar.bz2
+Removed rb-thread_safe-0.3.6-hd4c1694_0.tar.bz2
+Removed rb-sass-listen-4.0.0-hd4c1694_0.tar.bz2
+Removed _libgcc_mutex-0.1-conda_forge.tar.bz2
+Removed rb-jekyll-remote-theme-0.4.0-hd4c1694_0.tar.bz2
+Removed _openmp_mutex-4.5-1_gnu.tar.bz2
+Removed ca-certificates-2020.12.5-ha878542_0.tar.bz2
+Removed tzdata-2021a-he74cb21_0.tar.bz2
+Removed rb-jekyll-commonmark-1.3.1-hd4c1694_0.tar.bz2
+Removed rb-jekyll-theme-cayman-0.1.1-hd4c1694_0.tar.bz2
+Removed gdbm-1.18-h0a1914f_2.tar.bz2
+Removed rb-addressable-2.7.0-hd4c1694_0.tar.bz2
+Removed rb-jekyll-relative-links-0.6.0-hd4c1694_0.tar.bz2
+Removed rb-jekyll-theme-primer-0.5.3-hd4c1694_0.tar.bz2
+Removed rb-html-pipeline-2.12.3-hd4c1694_0.tar.bz2
+Removed rb-unicode-display_width-1.6.0-hd4c1694_0.tar.bz2
+Removed rb-commonmarker-0.17.13-had2f1a9_0.tar.bz2
+Removed setuptools-49.6.0-py39hf3d152e_3.tar.bz2
+Removed pyopenssl-20.0.1-pyhd8ed1ab_0.tar.bz2
+Removed rb-nokogiri-1.10.8-hd632b18_0.tar.bz2
+Removed rb-jekyll-avatar-0.6.0-hd4c1694_0.tar.bz2
+Removed rb-kramdown-1.17.0-hd4c1694_1.tar.bz2
+Removed rb-jekyll-theme-tactile-0.1.1-hd4c1694_0.tar.bz2
+Removed rb-terminal-table-1.8.0-hd4c1694_0.tar.bz2
+Removed rb-liquid-4.0.0-hd4c1694_0.tar.bz2
+Removed rb-coffee-script-source-1.11.1-hd4c1694_0.tar.bz2
+Removed libxslt-1.1.33-h15afd5d_2.tar.bz2
+Removed rb-jekyll-seo-tag-2.5.0-hd4c1694_0.tar.bz2
+Removed rb-jekyll-theme-leap-day-0.1.1-hd4c1694_0.tar.bz2
+Removed rb-mercenary-0.3.6-hd4c1694_0.tar.bz2
+Removed pyppeteer-0.2.2-py_1.tar.bz2
+Removed rb-jekyll-theme-minimal-0.1.1-hd4c1694_0.tar.bz2
+Removed rb-csl-styles-1.0.1.9-hd4c1694_0.tar.bz2
+Removed rb-jekyll-redirect-from-0.14.0-hd4c1694_0.tar.bz2
+Removed pycparser-2.20-pyh9f0ad1d_2.tar.bz2
+Removed rb-pathutil-0.16.2-hd4c1694_0.tar.bz2
+Removed six-1.15.0-pyh9f0ad1d_0.tar.bz2
+Removed rb-jekyll-theme-modernist-0.1.1-hd4c1694_0.tar.bz2
+Removed wheel-0.36.2-pyhd3deb0d_0.tar.bz2
+Removed rb-octokit-4.14.0-hd4c1694_0.tar.bz2
+Removed rb-multipart-post-2.1.1-hd4c1694_0.tar.bz2
+Removed zlib-1.2.11-h516909a_1010.tar.bz2
+Removed rb-jekyll-theme-merlot-0.1.1-hd4c1694_0.tar.bz2
+Removed libgcc-ng-9.3.0-h2828fa1_18.tar.bz2
+Removed rb-jekyll-theme-dinky-0.1.1-hd4c1694_0.tar.bz2
+Removed rb-ffi-1.11.1-h20f22b6_2.tar.bz2
+Removed rb-jekyll-mentions-1.4.1-hd4c1694_0.tar.bz2
+Removed appdirs-1.4.4-pyh9f0ad1d_0.tar.bz2
+Removed rb-latex-decode-0.3.1-hd4c1694_0.tar.bz2
+Removed rb-sass-3.7.4-hd4c1694_0.tar.bz2
+Removed libffi-3.3-h58526e2_2.tar.bz2
+Removed rb-jekyll-theme-hacker-0.1.1-hd4c1694_0.tar.bz2
+Removed rb-http_parser.rb-0.6.0-h27a74b2_1.tar.bz2
+Removed rb-execjs-2.7.0-hd4c1694_0.tar.bz2
+Removed libstdcxx-ng-9.3.0-h6de172a_18.tar.bz2
+Removed rb-citeproc-1.0.9-hd4c1694_0.tar.bz2
+Removed rb-rb-inotify-0.10.1-hc42de5b_0.tar.bz2
+Removed rb-jekyll-titles-from-headings-0.5.1-hd4c1694_0.tar.bz2
+Removed rb-jekyll-swiss-0.4.0-hd4c1694_0.tar.bz2
+Removed rb-i18n-0.9.5-hd4c1694_1.tar.bz2
+Removed rb-rouge-3.11.0-hd4c1694_0.tar.bz2
+Removed sqlite-3.34.0-h74cdb3f_0.tar.bz2
+Removed rb-typhoeus-1.3.1-hd4c1694_0.tar.bz2
+Removed rb-github-pages-201-hd4c1694_0.tar.bz2
+Removed pip-21.0.1-pyhd8ed1ab_0.tar.bz2
+Removed rb-em-websocket-0.5.1-hd4c1694_1.tar.bz2
+Removed rb-jekyll-sass-converter-1.5.2-hd4c1694_0.tar.bz2
+Removed rb-jekyll-theme-architect-0.1.1-hd4c1694_0.tar.bz2
+Removed rb-dnsruby-1.61.3-hd4c1694_0.tar.bz2
+Removed rb-jekyll-default-layout-0.1.4-hd4c1694_0.tar.bz2
+Removed rb-minitest-5.12.2-hd4c1694_0.tar.bz2
+Removed rb-jekyll-optional-front-matter-0.3.0-hd4c1694_0.tar.bz2
+Removed ncurses-6.2-h58526e2_4.tar.bz2
+Removed tk-8.6.10-hed695b0_1.tar.bz2
+Removed rb-jekyll-coffeescript-1.1.1-hd4c1694_0.tar.bz2
+Removed rb-coffee-script-2.4.1-hd4c1694_0.tar.bz2
+Removed rb-safe_yaml-1.0.5-hd4c1694_0.tar.bz2
+Removed rb-gemoji-3.0.1-hd4c1694_0.tar.bz2
+Removed rb-ruby_dep-1.5.0-hd4c1694_1.tar.bz2
+Removed pyee-7.0.4-pyh9f0ad1d_0.tar.bz2
+Removed rb-citeproc-ruby-1.1.10-hd4c1694_0.tar.bz2
+Removed rb-minima-2.5.0-hd4c1694_0.tar.bz2
+Removed yaml-0.2.5-h516909a_0.tar.bz2
+Removed rb-jekyll-feed-0.11.0-hd4c1694_0.tar.bz2
+Removed cffi-1.14.5-py39he32792d_0.tar.bz2
+Removed rb-forwardable-extended-2.6.0-hd4c1694_0.tar.bz2
+Removed python-3.9.2-hffdb5ce_0_cpython.tar.bz2
+Removed rb-namae-1.0.1-hd4c1694_0.tar.bz2
+Removed rb-listen-3.1.5-hd4c1694_1.tar.bz2
+Removed certifi-2020.12.5-py39hf3d152e_1.tar.bz2
+Removed rb-activesupport-4.2.11.1-hd4c1694_0.tar.bz2
+Removed rb-tzinfo-1.2.5-hd4c1694_0.tar.bz2
+Removed idna-3.1-pyhd3deb0d_0.tar.bz2
+Removed rb-ethon-0.9.1-hd4c1694_0.tar.bz2
+Removed urllib3-1.26.3-pyhd8ed1ab_0.tar.bz2
+Removed ld_impl_linux-64-2.35.1-hea4e1c9_2.tar.bz2
+Removed rb-bibtex-ruby-4.4.7-hd4c1694_0.tar.bz2
+Removed rb-jekyll-gist-1.5.0-hd4c1694_0.tar.bz2
+Removed rb-github-pages-health-check-1.16.1-hd4c1694_0.tar.bz2
+Removed readline-8.0-he28a2e2_2.tar.bz2
+Removed rb-jekyll-scholar-5.9.1-hd4c1694_0.tar.bz2
+Removed rb-jekyll-commonmark-ghpages-0.1.6-hd4c1694_0.tar.bz2
+Removed openssl-1.1.1j-h7f98852_0.tar.bz2
+Removed rb-jekyll-3.8.5-hd4c1694_0.tar.bz2
+Removed gmp-6.2.1-h58526e2_0.tar.bz2
+Removed rb-jekyll-readme-index-0.2.0-hd4c1694_0.tar.bz2
+Removed websockets-8.1-py39h3811e60_3.tar.bz2
+Removed xz-5.2.5-h516909a_1.tar.bz2
+Removed rb-jekyll-theme-midnight-0.1.1-hd4c1694_0.tar.bz2
+Removed rb-mini_portile2-2.4.0-hd4c1694_0.tar.bz2
+Removed pysocks-1.7.1-py39hf3d152e_3.tar.bz2
+Removed rb-jekyll-theme-time-machine-0.1.1-hd4c1694_0.tar.bz2
+Removed rb-rubyzip-1.3.0-hd4c1694_0.tar.bz2
+Removed rb-jemoji-0.10.2-hd4c1694_0.tar.bz2
+Removed libiconv-1.16-h516909a_0.tar.bz2
+Removed icu-68.1-h58526e2_0.tar.bz2
+Removed rb-jekyll-watch-2.2.1-hd4c1694_1.tar.bz2
+Removed rb-jekyll-sitemap-1.2.0-hd4c1694_0.tar.bz2
+Removed python_abi-3.9-1_cp39.tar.bz2
+Removed rb-jekyll-paginate-1.1.0-hd4c1694_0.tar.bz2
+Removed rb-faraday-0.17.0-hd4c1694_0.tar.bz2
+WARNING: /home/jovyan/.conda/pkgs does not exist
+Cache location: /opt/conda/pkgs
+Will remove the following packages:
+/opt/conda/pkgs
+---------------
+
+python_abi-3.9-1_cp39                         10 KB
+_libgcc_mutex-0.1-conda_forge                  6 KB
+_openmp_mutex-4.5-1_gnu                       93 KB
+idna-3.1-pyhd3deb0d_0                        275 KB
+
+---------------------------------------------------
+Total:                                       385 KB
+
+removing python_abi-3.9-1_cp39
+removing _libgcc_mutex-0.1-conda_forge
+removing _openmp_mutex-4.5-1_gnu
+removing idna-3.1-pyhd3deb0d_0
+Reading package lists...
+Building dependency tree...
+Reading state information...
+[91mW: Target Packages (Packages) is configured multiple times in /etc/apt/sources.list:50 and /etc/apt/sources.list:51
+[0mReading package lists...
+Building dependency tree...
+Reading state information...
+0 upgraded, 0 newly installed, 0 to remove and 5 not upgraded.
+[91mW: Target Packages (Packages) is configured multiple times in /etc/apt/sources.list:50 and /etc/apt/sources.list:51
+[0mRemoving intermediate container 1e0311b627b5
+ ---> 3e0017c2f5e2
+Step 24/25 : RUN fix-permissions $HOME   && fix-permissions $CONDA_DIR
+ ---> Running in c4d1632761bc
+Removing intermediate container c4d1632761bc
+ ---> b865f8b15225
+Step 25/25 : USER $NB_UID
+ ---> Running in fe752f9a5d71
+Removing intermediate container fe752f9a5d71
+ ---> 4ee9db610e96
+Successfully built 4ee9db610e96
+Successfully tagged gds_dev:6.0
