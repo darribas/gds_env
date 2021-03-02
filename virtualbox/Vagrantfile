@@ -40,9 +40,9 @@ Vagrant.configure("2") do |config|
 
   # Docker setup and run
   config.vm.provision "docker",
-    images: ["darribas/gds:5.1"]
+    images: ["darribas/gds:6.0"]
   config.vm.provision "docker" do |d|
-    d.post_install_provision "shell", inline:"docker tag darribas/gds:5.0 gds"
+    d.post_install_provision "shell", inline:"docker tag darribas/gds:6.0 gds"
     d.run "gds",
       args: "-v '/vagrant_data:/home/jovyan/work' \
              -p 8888:8888 \

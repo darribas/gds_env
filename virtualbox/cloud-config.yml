@@ -30,7 +30,7 @@ write_files:
                      -d \
                      --user root -e NB_UID=1100 -e NB_GID=1100 \
                      -v /home/rancher/data:/home/jovyan/work \
-                     darribas/gds_py:5.0 \
+                     darribas/gds_py:6.0 \
                      start.sh jupyter lab \
                      --LabApp.password='sha1:7e77920661c8:d477dc309a041ded0b6822f538fc2ba8a1fb7f88'
           echo -e "\n ******* \n"
