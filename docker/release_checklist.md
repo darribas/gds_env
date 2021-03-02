@@ -29,8 +29,12 @@ docker build -t gds:latest . | tee gds_latest.log
 ## Release
 
 1. [ ] Update version number on `README.md`
-1. [ ] Update version number on website's `_config.yml`
-1. [ ] Update version number on `virtualbox/Vagrantfile`
-1. [ ] Update version number on `virtualbox/cloud_config.yml`
-1. [ ] Update microbadger badges (run `curl -X POST <webhook>` to refresh)
-1. [ ] Make release on Github
+2. [ ] Update version on Appveyor and Travis tests
+3. [ ] Update version number on website's `_config.yml`
+4. [ ] Update version number on `virtualbox/Vagrantfile`
+5. [ ] Update version number on `virtualbox/cloud_config.yml`
+6. [ ] Update microbadger badges (run `curl -X POST <webhook>` to refresh)
+7. [ ] Build website with version updated
+8. [ ] Mark commit as for release: `git commit -am "RLS: vX.X - Website built"`
+9. [ ] Tag version: `git tag -a vX.X -m "Version X.X"`
+10. [ ] Make release on Github
