@@ -37,4 +37,6 @@ docker build -t gds:latest . | tee gds_latest.log
 7. [ ] Build website with version updated
 8. [ ] Mark commit as for release: `git commit -am "RLS: vX.X - Website built"`
 9. [ ] Tag version: `git tag -a vX.X -m "Version X.X"`
-10. [ ] Make release on Github
+10. [ ] Push release version: `git push origin master`
+11. [ ] Push tags: `git push origin --tags`
+12. [ ] Make release on Github
