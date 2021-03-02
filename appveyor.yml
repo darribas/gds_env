@@ -16,11 +16,10 @@ install:
   - conda install conda-build psutil
   - conda update -q conda
   - conda info -a
-  - "conda-env create -f gds_py/gds_py.yml"
+  - conda-env create -f https://github.com/darribas/gds_env/raw/v6.0/gds_py/gds_py.yml
   - cmd: call %PYTHON%\Scripts\activate.bat
   - conda activate gds
-  - pip install -r gds_py/gds_py_pip.txt
-
+  - pip install -r https://github.com/darribas/gds_env/raw/v6.0/gds_py/gds_py_pip.txt
 test_script:
   - python -c "import os; print(os.getcwd())"
   - "jupyter nbconvert --to markdown --execute --ExecutePreprocessor.timeout=120 gds_py/check_py_stack.ipynb"

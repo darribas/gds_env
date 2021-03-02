@@ -14,9 +14,9 @@ before_install:
   - export PATH=`pwd`/miniconda/bin:$PATH
   - conda update --yes conda
   - conda install --yes psutil yaml pyyaml
-  - conda-env create -f gds_py/gds_py.yml
+  - conda-env create -f https://github.com/darribas/gds_env/raw/v6.0/gds_py/gds_py.yml
   - source activate gds
-  - pip install -r gds_py/gds_py_pip.txt
+  - pip install -r https://github.com/darribas/gds_env/raw/v6.0/gds_py/gds_py_pip.txt
 
 script: 
     #- jupyter nbconvert --to markdown --execute --ExecutePreprocessor.timeout=480 --allow-errors check_gds_stack.ipynb --stdout
