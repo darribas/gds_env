@@ -72,10 +72,18 @@ WORKDIR $HOME/.decktape
 
 USER $NB_UID
 
-RUN npm install decktape \
+RUN cd $HOME/.decktape \
+ && wget https://github.com/astefanutti/decktape/archive/refs/tags/v3.1.0.zip \
+ && unzip v3.1.0.zip \
+ && cd decktape-3.1.0 \
+ && npm install \
+ && cp decktape.js decktape \
  && npm cache clean --force
 
-ENV PATH="$HOME/.decktape/node_modules/.bin:${PATH}"
+#RUN npm install decktape \
+# && npm cache clean --force
+
+ENV PATH="$HOME/.decktape:${PATH}"
 
 WORKDIR $HOME/
 
@@ -119,8 +127,8 @@ RUN mamba create -n dev --yes -c conda-forge \
         rb-jekyll-scholar \
  && source activate dev \
  && gem install just-the-docs \
- && source activate base \
- && pyppeteer-install
+ && source activate base 
+# && pyppeteer-install
 
 #---    Vim   ---#
 USER root
