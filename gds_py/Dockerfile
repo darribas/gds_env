@@ -47,6 +47,7 @@ RUN conda install --freeze-installed --yes mamba \
      'nbdime==2.1.0' \
      'netCDF4==1.5.6' \
      'networkx==2.5' \
+     'openpyxl' \
      'osmnx==1.0.1' \
      'palettable==3.3.0' \
      'pandana==0.6' \
