@@ -78,12 +78,13 @@ RUN cd $HOME/.decktape \
  && cd decktape-3.1.0 \
  && npm install \
  && cp decktape.js decktape \
- && npm cache clean --force
+ && npm cache clean --force \
+ && rm $HOME/.decktape/v3.1.0.zip
 
 #RUN npm install decktape \
 # && npm cache clean --force
 
-ENV PATH="$HOME/.decktape:${PATH}"
+ENV PATH="$HOME/.decktape/decktape-3.1.0:${PATH}"
 
 WORKDIR $HOME/
 
@@ -103,8 +104,8 @@ USER $NB_UID
 #--- Texbuild ---#
 
 USER root
-RUN wget https://gist.github.com/darribas/e2a560e562139b139b67b7d1c998257c/raw/b2ec84e8eb671f3ebc2149a4d94d28a460ef9a7e/texBuild.py \
- && wget https://gist.github.com/darribas/e2a560e562139b139b67b7d1c998257c/raw/92b64d2d95768f1edc34a79dd13f957cc0b87bb3/install_texbuild.py \
+RUN wget https://gist.github.com/darribas/e2a560e562139b139b67b7d1c998257c/raw/d0011d30639389dc98f980afc79c377282f7086c/texBuild.py \
+ && wget https://gist.github.com/darribas/e2a560e562139b139b67b7d1c998257c/raw/d0011d30639389dc98f980afc79c377282f7086c/install_texbuild.py \
  && cp texBuild.py /bin/texBuild.py \
  && python install_texbuild.py \
  && rm install_texbuild.py texBuild*
@@ -128,7 +129,7 @@ RUN mamba create -n dev --yes -c conda-forge \
  && source activate dev \
  && gem install just-the-docs \
  && source activate base 
-# && pyppeteer-install
+ && pyppeteer-install
 
 #---    Vim   ---#
 USER root
