@@ -1,5 +1,5 @@
-# March 1st'21
-FROM jupyter/minimal-notebook:29edefbcb06a
+# March 21st'21
+FROM jupyter/minimal-notebook:9fe5186aba96
 
 MAINTAINER Dani Arribas-Bel <D.Arribas-Bel@liverpool.ac.uk>
 
