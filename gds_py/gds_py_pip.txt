@@ -1,13 +1,14 @@
 ablog
 download==0.3.5
 geoalchemy2==0.8.4
-jupyter-blog
+jupyter-blook
 #keplergl
 matplotlib-scalebar==0.7.2
 pygeoda==0.0.4
 pytest-cov==2.11.1
 pytest-tornasync==0.6.0.post2
 simplification==0.5.12
+tobler==0.7.0
 topojson==1.0
 urbangrammar-graphics==1.2.1
 git+git://github.com/jsignell/dask-geopandas
