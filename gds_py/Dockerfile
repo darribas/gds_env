@@ -25,7 +25,7 @@ RUN conda install --freeze-installed --yes mamba \
      'dask==2021.2.0' \
      'dask-kubernetes==0.11.0' \
      'dask-ml==1.8.0' \
-     'datashader==0.12.0' \
+     'datashader==0.12.2a0' \
      'feather-format==0.4.1' \
      'flake8==3.8.4' \
      'geocube==0.0.16' \
