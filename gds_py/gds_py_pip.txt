@@ -1,5 +1,7 @@
+ablog
 download==0.3.5
 geoalchemy2==0.8.4
+jupyter-blog
 #keplergl
 matplotlib-scalebar==0.7.2
 pygeoda==0.0.4

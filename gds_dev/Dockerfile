@@ -117,13 +117,10 @@ USER $NB_UID
 RUN mamba create -n dev --yes -c conda-forge \
         rb-github-pages \
         rb-jekyll-scholar \
-        pip \
-        pyppeteer \
  && source activate dev \
- && pip install ablog jupyter-book \
- && pyppeteer-install \
  && gem install just-the-docs \
- && source activate base
+ && source activate base \
+ && pyppeteer-install
 
 #---    Vim   ---#
 USER root

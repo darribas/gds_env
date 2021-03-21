@@ -54,6 +54,7 @@ RUN conda install --freeze-installed --yes mamba \
      'psycopg2==2.8.6' \
      'pyarrow==3.0.0' \
      'pygeos==0.9' \
+     'pyppeteer' \
      'pyrosm==0.6.0' \
      'pysal=2.3.0' \
      #'qgrid' \
