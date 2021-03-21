@@ -14,67 +14,67 @@ RUN conda install --freeze-installed --yes mamba \
     && conda config --set channel_priority strict \
     && mamba install --freeze-installed --yes --quiet \
      'conda-forge::blas=*=openblas' \
-     'black==20.8b1' \
-     'bokeh==2.3.0' \
-     'boto3==1.17.7' \
-     'bottleneck==1.3.2' \
-     'cenpy==1.0.0.post4' \
-     'clustergram==0.3.0' \
-     'contextily==1.1.0' \
-     'cython==0.29.22' \
-     'dask==2021.2.0' \
-     'dask-kubernetes==0.11.0' \
-     'dask-ml==1.8.0' \
-     'datashader==0.12.2a0' \
-     'feather-format==0.4.1' \
-     'flake8==3.8.4' \
-     'geocube==0.0.16' \
-     'geopandas==0.9.0' \
-     'geopy==2.1.0' \
-     'h3-py==3.7.0' \
-     'hdbscan==0.8.27' \
-     'intake-stac==0.3.0' \
-     'ipyleaflet==0.13.6' \
-     'ipympl==0.6.3' \
-     'ipyparallel==6.3.0' \
-     'ipywidgets==7.6.3' \
-     'jupyter-server-proxy==1.6.0' \
-     'jupytext==1.10.2' \
-     'legendgram==0.0.3' \
-     'lxml==4.6.2' \
+     'black' \
+     'bokeh' \
+     'boto3' \
+     'bottleneck' \
+     'cenpy' \
+     'clustergram' \
+     'contextily' \
+     'cython' \
+     'dask' \
+     'dask-kubernetes' \
+     'dask-ml' \
+     'datashader==0.12.1' \
+     'feather-format' \
+     'flake8' \
+     'geocube' \
+     'geopandas' \
+     'geopy' \
+     'h3-py' \
+     'hdbscan' \
+     'intake-stac' \
+     'ipyleaflet' \
+     'ipympl' \
+     'ipyparallel' \
+     'ipywidgets' \
+     'jupyter-server-proxy' \
+     'jupytext' \
+     'legendgram' \
+     'lxml' \
      #'mkl-service' \
-     'momepy==0.4.3' \
-     'nbdime==2.1.0' \
-     'netCDF4==1.5.6' \
-     'networkx==2.5' \
+     'momepy' \
+     'nbdime' \
+     'netCDF4' \
+     'networkx' \
      'openpyxl' \
-     'osmnx==1.0.1' \
-     'palettable==3.3.0' \
-     'pandana==0.6' \
-     'polyline==1.4.0' \
-     'psycopg2==2.8.6' \
-     'pyarrow==3.0.0' \
-     'pygeos==0.9' \
+     'osmnx' \
+     'palettable' \
+     'pandana' \
+     'polyline' \
+     'psycopg2' \
+     'pyarrow' \
+     'pygeos' \
      'pyppeteer' \
-     'pyrosm==0.6.0' \
+     'pyrosm' \
      'pysal=2.3.0' \
      #'qgrid' \
-     'rasterio==1.2.0' \
-     'rasterstats==0.14.0' \
-     'rio-cogeo==2.0.1' \
-     'rioxarray==0.3.1' \
-     'scikit-image==0.18.1' \
-     'scikit-learn==0.24.1' \
-     'seaborn==0.11.1' \
-     'spatialpandas==0.3.6' \
-     'sqlalchemy==1.3.23' \
-     'statsmodels==0.12.2' \
-     'tabulate==0.8.9' \
-     'urbanaccess==0.2.2' \
-     'xarray_leaflet==0.1.13' \
-     'xarray-spatial==0.1.2' \
-     'xlrd==2.0.1' \
-     'xlsxwriter==1.3.7' \
+     'rasterio' \
+     'rasterstats' \
+     'rio-cogeo' \
+     'rioxarray' \
+     'scikit-image' \
+     'scikit-learn' \
+     'seaborn' \
+     'spatialpandas' \
+     'sqlalchemy' \
+     'statsmodels' \
+     'tabulate' \
+     'urbanaccess' \
+     'xarray_leaflet' \
+     'xarray-spatial' \
+     'xlrd' \
+     'xlsxwriter' \
  && conda clean --all --yes --force-pkgs-dirs \
  && find /opt/conda/ -follow -type f -name '*.a' -delete \
  && find /opt/conda/ -follow -type f -name '*.pyc' -delete \
@@ -98,8 +98,6 @@ RUN echo "c.NotebookApp.default_url = '/lab'"\
  >> /home/$NB_USER/.jupyter/jupyter_notebook_config.py \
 # Jupyter server proxy
  && jupyter labextension install @jupyterlab/server-proxy --no-build \
-# GeoJSON
- && jupyter labextension install @jupyterlab/geojson-extension --no-build \
 # Kepler.gl
 #&& jupyter labextension install @jupyter-widgets/jupyterlab-manager keplergl-jupyter --no-build \
 # qgrid
