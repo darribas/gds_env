@@ -12,4 +12,5 @@ simplification
 tobler
 topojson
 urbangrammar-graphics
-git+git://github.com/jsignell/dask-geopandas
+git+git://github.com/geopandas/dask-geopandas
+git+git://github.com/martinfleis/geopandas-view
