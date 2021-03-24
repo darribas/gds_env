@@ -97,8 +97,6 @@ RUN echo "c.NotebookApp.default_url = '/lab'"\
  && echo "c.NotebookApp.contents_manager_class = "\
          "'jupytext.TextFileContentsManager'" \
  >> /home/$NB_USER/.jupyter/jupyter_notebook_config.py \
-# Jupyter server proxy
- && jupyter labextension install @jupyterlab/server-proxy --no-build \
 # Kepler.gl
 #&& jupyter labextension install @jupyter-widgets/jupyterlab-manager keplergl-jupyter --no-build \
 # qgrid
