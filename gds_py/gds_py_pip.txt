@@ -5,6 +5,7 @@ jupyter-book
 jupyterlab-geojson
 #keplergl
 matplotlib-scalebar
+pandas-bokeh
 pygeoda
 pytest-cov
 pytest-tornasync
