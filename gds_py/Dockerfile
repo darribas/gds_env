@@ -39,6 +39,7 @@ RUN conda install --freeze-installed --yes mamba \
      'ipyparallel' \
      'ipywidgets' \
      'jupyter-server-proxy' \
+     'jupyter_bokeh' \
      'jupytext' \
      'legendgram' \
      'lxml' \
