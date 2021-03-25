@@ -1,4 +1,5 @@
 ablog
+dask-geopandas
 download
 geoalchemy2
 jupyter-book
@@ -13,6 +14,5 @@ simplification
 tobler
 topojson
 urbangrammar-graphics
-git+git://github.com/geopandas/dask-geopandas
 # March 23rd 2021
 git+https://github.com/martinfleis/geopandas-view.git@4b711033d2c221595556341c2fb06ddc80a6118c
