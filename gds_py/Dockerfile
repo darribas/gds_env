@@ -135,5 +135,5 @@ RUN apt-get update \
 USER $NB_UID
 
 # Set version
-ENV GDS_ENV_VERSION "6.0"
+ENV GDS_ENV_VERSION "6.1"
 
