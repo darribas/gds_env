@@ -103,8 +103,6 @@ RUN echo "c.NotebookApp.default_url = '/lab'"\
 #&& jupyter labextension install qgrid2 --no-build \
 # nbdime
  && jupyter labextension install nbdime-jupyterlab --no-build \
-# Variable inspector
- && pip install lckr-jupyterlab-variableinspector \
 # Build
  && jupyter lab build -y \
 # Clean cache up

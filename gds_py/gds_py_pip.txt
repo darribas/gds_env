@@ -4,6 +4,7 @@ download
 geoalchemy2
 jupyter-book
 jupyterlab-geojson
+lckr-jupyterlab-variableinspector 
 #keplergl
 matplotlib-scalebar
 pandas-bokeh
