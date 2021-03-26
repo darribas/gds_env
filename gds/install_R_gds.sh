@@ -83,6 +83,6 @@ R -e "install.packages(c( \
             ), repos='https://cran.rstudio.com');"
 
 ## Geocomputation in R meta-package
-R -e "library(devtools); \
-      devtools::install_github('geocompr/geocompkg');"
+#R -e "library(devtools); \
+#      devtools::install_github('geocompr/geocompkg');"
 
