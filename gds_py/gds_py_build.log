@@ -1,21 +1,47 @@
-Sending build context to Docker daemon  1.149MB
+Sending build context to Docker daemon  1.133MB
 Step 1/15 : FROM jupyter/minimal-notebook:3395de4db93a
  ---> d5d472d7c4f8
 Step 2/15 : MAINTAINER Dani Arribas-Bel <D.Arribas-Bel@liverpool.ac.uk>
- ---> Running in db35107a9aa8
-Removing intermediate container db35107a9aa8
+ ---> Using cache
  ---> d387edb3bcf5
 Step 3/15 : ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
- ---> Running in ea01e2c2abf1
-Removing intermediate container ea01e2c2abf1
+ ---> Using cache
  ---> 826105479c13
-Step 4/15 : RUN conda install --freeze-installed --yes mamba     && conda config --add channels conda-forge     && conda config --add channels pyviz     && conda config --set channel_priority strict     && mamba install --freeze-installed --yes --quiet      'conda-forge::blas=*=openblas'      'black'      'bokeh'      'boto3'      'bottleneck'      'cenpy'      'clustergram'      'contextily'      'cython'      'dask'      'dask-kubernetes'      'dask-ml'      'datashader==0.12.1'      'feather-format'      'flake8'      'geocube'      'geopandas'      'geopy'      'h3-py'      'hdbscan'      'intake-stac'      'ipyleaflet'      'ipympl'      'ipyparallel'      'ipywidgets'      'jupyter-server-proxy'      'jupyter_bokeh'      'jupytext'      'legendgram'      'lxml'      'momepy'      'nbdime'      'netCDF4'      'networkx'      'openpyxl'      'osmnx'      'palettable'      'pandana'      'polyline'      'psycopg2'      'pyarrow'      'pygeos'      'pyppeteer'      'pyrosm'      'pysal=2.3.0'      'rasterio'      'rasterstats'      'rio-cogeo'      'rioxarray'      'scikit-image'      'scikit-learn'      'seaborn'      'spatialpandas'      'sqlalchemy'      'statsmodels'      'tabulate'      'urbanaccess'      'xarray_leaflet'      'xarray-spatial'      'xlrd'      'xlsxwriter'  && conda clean --all --yes --force-pkgs-dirs  && find /opt/conda/ -follow -type f -name '*.a' -delete  && find /opt/conda/ -follow -type f -name '*.pyc' -delete  && find /opt/conda/ -follow -type f -name '*.js.map' -delete  && find /opt/conda/lib/python*/site-packages/bokeh/server/static     -follow -type f -name '*.js' ! -name '*.min.js' -delete
- ---> Running in 7a67ff47097d
+Step 4/15 : RUN conda install --freeze-installed --yes mamba     && conda config --add channels conda-forge     && conda config --add channels pyviz     && conda config --set channel_priority strict     && mamba install --freeze-installed --yes --quiet      'conda-forge::blas=*=openblas'      'black==20.8b1'      'bokeh==2.3.0'      'boto3==1.17.7'      'bottleneck==1.3.2'      'cenpy==1.0.0.post4'      'clustergram==0.3.0'      'contextily==1.1.0'      'cython==0.29.22'      'dask==2021.3.0'      'dask-kubernetes==2021.3.0'      'dask-ml==1.8.0'      'datashader==0.12.1'      'feather-format==0.4.1'      'flake8==3.9.0'      'geocube==0.0.16'      'geopandas==0.9.0'      'geopy==2.1.0'      'h3-py==3.7.0'      'hdbscan==0.8.27'      'intake-stac==0.3.0'      'ipyleaflet==0.13.6'      'ipympl==0.7.0'      'ipyparallel==6.3.0'      'ipywidgets==7.6.3'      'jupyter-server-proxy==3.0.2'      'jupyter_bokeh==3.0.0'      'jupytext==1.10.3'      'legendgram==0.0.3'      'lxml==4.6.3'      'momepy==0.4.3'      'nbdime==2.1.0'      'netCDF4==1.5.6'      'networkx==2.5'      'openpyxl==3.0.7'      'osmnx==1.0.1'      'palettable==3.3.0'      'pandana==0.6.1'      'polyline==1.4.0'      'psycopg2==2.8.6'      'pyarrow==3.0.0'      'pygeos==0.9'      'pyppeteer==0.0.25'      'pyrosm==0.6.0'      'pysal=2.3.0'      'rasterio==1.2.1'      'rasterstats==0.14.0'      'rio-cogeo==2.0.1'      'rioxarray==0.3.1'      'scikit-image==0.18.1'      'scikit-learn==0.24.1'      'seaborn==0.11.1'      'spatialpandas==0.3.6'      'sqlalchemy==1.3.23'      'statsmodels==0.12.2'      'tabulate==0.8.9'      'urbanaccess==0.2.2'      'xarray-spatial==0.1.2'      'xarray_leaflet==0.1.13'      'xlrd==2.0.1'      'xlsxwriter==1.3.7'  && conda clean --all --yes --force-pkgs-dirs  && find /opt/conda/ -follow -type f -name '*.a' -delete  && find /opt/conda/ -follow -type f -name '*.pyc' -delete  && find /opt/conda/ -follow -type f -name '*.js.map' -delete  && find /opt/conda/lib/python*/site-packages/bokeh/server/static     -follow -type f -name '*.js' ! -name '*.min.js' -delete
+ ---> Running in eae8f3e16e34
 Collecting package metadata (current_repodata.json): ...working... done
 Solving environment: ...working... done
 
-# All requested packages already installed.
+## Package Plan ##
 
+  environment location: /opt/conda
+
+  added / updated specs:
+    - mamba
+
+
+The following packages will be downloaded:
+
+    package                    |            build
+    ---------------------------|-----------------
+    mamba-0.9.0                |   py38h2aa5da1_0         644 KB  conda-forge
+    openssl-1.1.1k             |       h7f98852_0         2.1 MB  conda-forge
+    ------------------------------------------------------------
+                                           Total:         2.7 MB
+
+The following packages will be UPDATED:
+
+  mamba                                0.8.2-py38h2aa5da1_0 --> 0.9.0-py38h2aa5da1_0
+  openssl                                 1.1.1j-h7f98852_0 --> 1.1.1k-h7f98852_0
+
+
+
+Downloading and Extracting Packages
+openssl-1.1.1k       | 2.1 MB    |            |   0% openssl-1.1.1k       | 2.1 MB    | ########## | 100% openssl-1.1.1k       | 2.1 MB    | ########## | 100% 
+mamba-0.9.0          | 644 KB    |            |   0% mamba-0.9.0          | 644 KB    | ########## | 100% mamba-0.9.0          | 644 KB    | ########## | 100% 
+Preparing transaction: ...working... done
+Verifying transaction: ...working... done
+Executing transaction: ...working... done
   Package                   Version  Build                   Channel                     Size
 ───────────────────────────────────────────────────────────────────────────────────────────────
   Install:
@@ -117,7 +143,7 @@ Solving environment: ...working... done
   glog                        0.4.0  h49b9bf7_3              conda-forge/linux-64      104 KB
   gmp                         6.2.1  h58526e2_0              conda-forge/linux-64      806 KB
   gmpy2                     2.1.0b1  py38hd744826_1          conda-forge/linux-64      213 KB
-  google-auth                1.24.0  pyhd3deb0d_0            conda-forge/noarch         62 KB
+  google-auth                1.26.1  pyh44b312d_0            conda-forge/noarch         63 KB
   grpc-cpp                   1.36.4  h7919d58_0              conda-forge/linux-64        3 MB
   h3-py                       3.7.0  py38h950e882_0          conda-forge/linux-64      493 KB
   hdbscan                    0.8.27  py38h5c078b8_0          conda-forge/linux-64      703 KB
@@ -144,7 +170,7 @@ Solving environment: ...working... done
   jupyter-server-proxy        3.0.2  pyhd8ed1ab_0            conda-forge/noarch         27 KB
   jupyter_bokeh               3.0.0  pyhd8ed1ab_0            conda-forge/noarch          1 MB
   jupyterlab_widgets          1.0.0  pyhd8ed1ab_1            conda-forge/noarch        130 KB
-  jupytext                   1.11.0  pyh44b312d_0            conda-forge/noarch        191 KB
+  jupytext                   1.10.3  pyh44b312d_0            conda-forge/noarch        191 KB
   jxrlib                        1.1  h516909a_2              conda-forge/linux-64      236 KB
   kealib                     1.4.14  hcc255d8_2              conda-forge/linux-64      186 KB
   kiwisolver                  1.3.1  py38h1fd1430_1          conda-forge/linux-64       80 KB
@@ -212,7 +238,7 @@ Solving environment: ...working... done
   netcdf4                     1.5.6  nompi_py38h1cdf482_100  conda-forge/linux-64      555 KB
   networkx                      2.5  py_0                    conda-forge/noarch          1 MB
   nose                        1.3.7  py38h32f6830_1004       conda-forge/linux-64      213 KB
-  numba                      0.53.0  py38h5e62926_1          conda-forge/linux-64        4 MB
+  numba                      0.53.1  py38h0e12cce_0          conda-forge/linux-64        4 MB
   numcodecs                   0.7.3  py38h709712a_0          conda-forge/linux-64     1000 KB
   numexpr                     2.7.3  py38h51da96c_0          conda-forge/linux-64      201 KB
   numpy                      1.20.1  py38h18fd61f_0          conda-forge/linux-64        6 MB
@@ -348,7 +374,7 @@ Solving environment: ...working... done
   xorg-xextproto              7.3.0  h14c3975_1002           conda-forge/linux-64       27 KB
   xorg-xproto                7.0.31  h14c3975_1007           conda-forge/linux-64       72 KB
   yarl                        1.6.3  py38h497a2fe_1          conda-forge/linux-64      143 KB
-  zarr                        2.6.1  pyhd8ed1ab_0            conda-forge/noarch        100 KB
+  zarr                        2.7.0  pyhd8ed1ab_0            conda-forge/noarch        104 KB
   zfp                         0.5.5  he1b5a44_4              conda-forge/linux-64      191 KB
   zict                        2.0.0  py_0                    conda-forge/noarch         10 KB
 
@@ -361,8 +387,12 @@ Solving environment: ...working... done
   Downgrade:
 ───────────────────────────────────────────────────────────────────────────────────────────────
 
+  nbconvert                   6.0.7  py38h578d9bd_3          installed                       
+  nbconvert                   5.6.1  py38h32f6830_1          conda-forge/linux-64      488 KB
   python-dateutil             2.8.1  py_0                    installed                       
   python-dateutil             2.7.5  py_0                    conda-forge/noarch        218 KB
+  sqlalchemy                  1.4.2  py38h497a2fe_0          installed                       
+  sqlalchemy                 1.3.23  py38h497a2fe_0          conda-forge/linux-64        2 MB
   urllib3                    1.26.4  pyhd8ed1ab_0            installed                       
   urllib3                    1.24.3  py38_0                  conda-forge/linux-64      152 KB
 
@@ -370,11 +400,16 @@ Solving environment: ...working... done
 
   Install: 330 packages
   Change: 1 packages
-  Downgrade: 2 packages
+  Downgrade: 4 packages
 
-  Total download: 407 MB
+  Total download: 410 MB
 
 ───────────────────────────────────────────────────────────────────────────────────────────────
+
+
+  Pinned packages:
+
+  - conda 4.9.2  - python 3.8.*  - tini 0.18.0
 
 Preparing transaction: ...working... done
 Verifying transaction: ...working... done
@@ -384,30 +419,31 @@ Executing transaction: ...working... Enabling notebook extension jupyter-js-widg
 done
 Remove all contents from the following package caches?
   - /opt/conda/pkgs
-Removing intermediate container 7a67ff47097d
- ---> 5fbe392cf5d3
+Removing intermediate container eae8f3e16e34
+ ---> 63a2a41c3818
 Step 5/15 : ADD ./gds_py_pip.txt ./
- ---> 3297ebf3b630
+ ---> a199ccb4dc75
 Step 6/15 : RUN pip install -r gds_py_pip.txt  && pip cache purge  && rm -rf /home/$NB_USER/.cache/pip  && rm ./gds_py_pip.txt
- ---> Running in 4ebfec051434
+ ---> Running in 5d5ec3fca98d
 Collecting git+https://github.com/martinfleis/geopandas-view.git@4b711033d2c221595556341c2fb06ddc80a6118c (from -r gds_py_pip.txt (line 19))
-  Cloning https://github.com/martinfleis/geopandas-view.git (to revision 4b711033d2c221595556341c2fb06ddc80a6118c) to /tmp/pip-req-build-si_166hv
-[91m  Running command git clone -q https://github.com/martinfleis/geopandas-view.git /tmp/pip-req-build-si_166hv
+  Cloning https://github.com/martinfleis/geopandas-view.git (to revision 4b711033d2c221595556341c2fb06ddc80a6118c) to /tmp/pip-req-build-9727rbqo
+[91m  Running command git clone -q https://github.com/martinfleis/geopandas-view.git /tmp/pip-req-build-9727rbqo
 [0m[91m  Running command git rev-parse -q --verify 'sha^4b711033d2c221595556341c2fb06ddc80a6118c'
 [0m[91m  Running command git fetch -q https://github.com/martinfleis/geopandas-view.git 4b711033d2c221595556341c2fb06ddc80a6118c
-[0mCollecting ablog
+[0m[91m  Running command git checkout -q 4b711033d2c221595556341c2fb06ddc80a6118c
+[0mCollecting ablog==0.10.17
   Downloading ablog-0.10.17-py3-none-any.whl (55 kB)
-Collecting dask-geopandas
+Collecting dask-geopandas==0.1.0a2
   Downloading dask_geopandas-0.1.0a2-py3-none-any.whl (15 kB)
-Collecting download
+Collecting download==0.3.5
   Downloading download-0.3.5-py3-none-any.whl (8.8 kB)
-Collecting geoalchemy2
+Collecting geoalchemy2==0.8.4
   Downloading GeoAlchemy2-0.8.4-py2.py3-none-any.whl (25 kB)
-Collecting jupyter-book
+Collecting jupyter-book==0.10.1
   Downloading jupyter_book-0.10.1-py3-none-any.whl (47 kB)
-Collecting jupyterlab-geojson
+Collecting jupyterlab-geojson==3.1.2
   Downloading jupyterlab_geojson-3.1.2-py3-none-any.whl (134 kB)
-Collecting lckr-jupyterlab-variableinspector
+Collecting lckr-jupyterlab-variableinspector==3.0.6
   Downloading lckr_jupyterlab_variableinspector-3.0.6.tar.gz (57 kB)
   Installing build dependencies: started
   Installing build dependencies: finished with status 'done'
@@ -415,313 +451,301 @@ Collecting lckr-jupyterlab-variableinspector
   Getting requirements to build wheel: finished with status 'done'
     Preparing wheel metadata: started
     Preparing wheel metadata: finished with status 'done'
-Collecting matplotlib-scalebar
+Collecting matplotlib-scalebar==0.7.2
   Downloading matplotlib_scalebar-0.7.2-py2.py3-none-any.whl (17 kB)
-Collecting pandas-bokeh
+Collecting pandas-bokeh==0.5.4
   Downloading pandas_bokeh-0.5.4-py2.py3-none-any.whl (29 kB)
-Collecting pygeoda
+Collecting pygeoda==0.0.8
   Downloading pygeoda-0.0.8-cp38-cp38-manylinux2010_x86_64.whl (13.0 MB)
-Requirement already satisfied: pytest-cov in /opt/conda/lib/python3.8/site-packages (from -r gds_py_pip.txt (line 12)) (2.11.1)
-Collecting pytest-tornasync
+Requirement already satisfied: pytest-cov==2.11.1 in /opt/conda/lib/python3.8/site-packages (from -r gds_py_pip.txt (line 12)) (2.11.1)
+Collecting pytest-tornasync==0.6.0.post2
   Downloading pytest_tornasync-0.6.0.post2-py3-none-any.whl (6.6 kB)
-Collecting simplification
+Collecting simplification==0.5.12
   Downloading simplification-0.5.12-cp38-cp38-manylinux1_x86_64.whl (687 kB)
-Requirement already satisfied: tobler in /opt/conda/lib/python3.8/site-packages (from -r gds_py_pip.txt (line 15)) (0.6.0)
-Collecting topojson
+Collecting tobler==0.7.0
+  Downloading tobler-0.7.0-py3-none-any.whl (26 kB)
+Collecting topojson==1.0
   Downloading topojson-1.0-py2.py3-none-any.whl (78 kB)
-Collecting urbangrammar-graphics
+Collecting urbangrammar-graphics==1.2.2
   Downloading urbangrammar_graphics-1.2.2-py3-none-any.whl (5.9 kB)
 Requirement already satisfied: geopandas in /opt/conda/lib/python3.8/site-packages (from geopandas-view==0.0.1->-r gds_py_pip.txt (line 19)) (0.9.0)
 Requirement already satisfied: folium in /opt/conda/lib/python3.8/site-packages (from geopandas-view==0.0.1->-r gds_py_pip.txt (line 19)) (0.0.0)
 Requirement already satisfied: mapclassify in /opt/conda/lib/python3.8/site-packages (from geopandas-view==0.0.1->-r gds_py_pip.txt (line 19)) (2.4.2)
 Requirement already satisfied: matplotlib in /opt/conda/lib/python3.8/site-packages (from geopandas-view==0.0.1->-r gds_py_pip.txt (line 19)) (3.3.4)
-Requirement already satisfied: docutils in /opt/conda/lib/python3.8/site-packages (from ablog->-r gds_py_pip.txt (line 1)) (0.15.2)
-Collecting feedgen
-  Downloading feedgen-0.9.0.tar.gz (217 kB)
 Collecting watchdog
   Downloading watchdog-2.0.2-py3-none-manylinux2014_x86_64.whl (74 kB)
-Requirement already satisfied: python-dateutil in /opt/conda/lib/python3.8/site-packages (from ablog->-r gds_py_pip.txt (line 1)) (2.7.5)
+Requirement already satisfied: python-dateutil in /opt/conda/lib/python3.8/site-packages (from ablog==0.10.17->-r gds_py_pip.txt (line 1)) (2.7.5)
 Collecting sphinx
   Downloading Sphinx-3.5.3-py3-none-any.whl (2.8 MB)
 Collecting invoke
   Downloading invoke-1.5.0-py3-none-any.whl (211 kB)
-Requirement already satisfied: distributed>=2.2.0 in /opt/conda/lib/python3.8/site-packages (from dask-geopandas->-r gds_py_pip.txt (line 2)) (2021.3.0)
-Requirement already satisfied: dask>=2.2.0 in /opt/conda/lib/python3.8/site-packages (from dask-geopandas->-r gds_py_pip.txt (line 2)) (2021.3.0)
-Requirement already satisfied: pyyaml in /opt/conda/lib/python3.8/site-packages (from dask>=2.2.0->dask-geopandas->-r gds_py_pip.txt (line 2)) (5.4.1)
-Requirement already satisfied: cloudpickle>=1.5.0 in /opt/conda/lib/python3.8/site-packages (from distributed>=2.2.0->dask-geopandas->-r gds_py_pip.txt (line 2)) (1.6.0)
-Requirement already satisfied: tornado>=6.0.3 in /opt/conda/lib/python3.8/site-packages (from distributed>=2.2.0->dask-geopandas->-r gds_py_pip.txt (line 2)) (6.1)
-Requirement already satisfied: zict>=0.1.3 in /opt/conda/lib/python3.8/site-packages (from distributed>=2.2.0->dask-geopandas->-r gds_py_pip.txt (line 2)) (2.0.0)
-Requirement already satisfied: toolz>=0.8.2 in /opt/conda/lib/python3.8/site-packages (from distributed>=2.2.0->dask-geopandas->-r gds_py_pip.txt (line 2)) (0.11.1)
-Requirement already satisfied: setuptools in /opt/conda/lib/python3.8/site-packages (from distributed>=2.2.0->dask-geopandas->-r gds_py_pip.txt (line 2)) (49.6.0.post20210108)
-Requirement already satisfied: msgpack>=0.6.0 in /opt/conda/lib/python3.8/site-packages (from distributed>=2.2.0->dask-geopandas->-r gds_py_pip.txt (line 2)) (1.0.2)
-Requirement already satisfied: click>=6.6 in /opt/conda/lib/python3.8/site-packages (from distributed>=2.2.0->dask-geopandas->-r gds_py_pip.txt (line 2)) (7.1.2)
-Requirement already satisfied: tblib>=1.6.0 in /opt/conda/lib/python3.8/site-packages (from distributed>=2.2.0->dask-geopandas->-r gds_py_pip.txt (line 2)) (1.7.0)
-Requirement already satisfied: sortedcontainers!=2.0.0,!=2.0.1 in /opt/conda/lib/python3.8/site-packages (from distributed>=2.2.0->dask-geopandas->-r gds_py_pip.txt (line 2)) (2.3.0)
-Requirement already satisfied: psutil>=5.0 in /opt/conda/lib/python3.8/site-packages (from distributed>=2.2.0->dask-geopandas->-r gds_py_pip.txt (line 2)) (5.8.0)
-Requirement already satisfied: heapdict in /opt/conda/lib/python3.8/site-packages (from zict>=0.1.3->distributed>=2.2.0->dask-geopandas->-r gds_py_pip.txt (line 2)) (1.0.1)
-Requirement already satisfied: six in /opt/conda/lib/python3.8/site-packages (from download->-r gds_py_pip.txt (line 3)) (1.15.0)
-Requirement already satisfied: tqdm in /opt/conda/lib/python3.8/site-packages (from download->-r gds_py_pip.txt (line 3)) (4.59.0)
-Requirement already satisfied: requests in /opt/conda/lib/python3.8/site-packages (from download->-r gds_py_pip.txt (line 3)) (2.25.1)
-Requirement already satisfied: SQLAlchemy>=0.8 in /opt/conda/lib/python3.8/site-packages (from geoalchemy2->-r gds_py_pip.txt (line 4)) (1.4.2)
-Requirement already satisfied: greenlet!=0.4.17 in /opt/conda/lib/python3.8/site-packages (from SQLAlchemy>=0.8->geoalchemy2->-r gds_py_pip.txt (line 4)) (1.0.0)
-Collecting jupytext<1.11,>=1.8
-  Downloading jupytext-1.10.3-py3-none-any.whl (290 kB)
-Collecting sphinx-book-theme>=0.0.39
-  Downloading sphinx_book_theme-0.0.42-py3-none-any.whl (89 kB)
-Requirement already satisfied: jsonschema in /opt/conda/lib/python3.8/site-packages (from jupyter-book->-r gds_py_pip.txt (line 5)) (3.2.0)
-Requirement already satisfied: nbformat in /opt/conda/lib/python3.8/site-packages (from jupyter-book->-r gds_py_pip.txt (line 5)) (5.1.2)
-Collecting linkify-it-py~=1.0.1
-  Downloading linkify_it_py-1.0.1-py3-none-any.whl (19 kB)
-Collecting sphinx-togglebutton
-  Downloading sphinx_togglebutton-0.2.3-py3-none-any.whl (6.1 kB)
-Collecting sphinx-copybutton
-  Downloading sphinx_copybutton-0.3.1-py3-none-any.whl (10 kB)
-Collecting nested-lookup~=0.2.21
-  Downloading nested-lookup-0.2.22.tar.gz (10 kB)
+Collecting feedgen
+  Downloading feedgen-0.9.0.tar.gz (217 kB)
+Requirement already satisfied: docutils in /opt/conda/lib/python3.8/site-packages (from ablog==0.10.17->-r gds_py_pip.txt (line 1)) (0.15.2)
+Requirement already satisfied: distributed>=2.2.0 in /opt/conda/lib/python3.8/site-packages (from dask-geopandas==0.1.0a2->-r gds_py_pip.txt (line 2)) (2021.3.0)
+Requirement already satisfied: dask>=2.2.0 in /opt/conda/lib/python3.8/site-packages (from dask-geopandas==0.1.0a2->-r gds_py_pip.txt (line 2)) (2021.3.0)
+Requirement already satisfied: tqdm in /opt/conda/lib/python3.8/site-packages (from download==0.3.5->-r gds_py_pip.txt (line 3)) (4.59.0)
+Requirement already satisfied: six in /opt/conda/lib/python3.8/site-packages (from download==0.3.5->-r gds_py_pip.txt (line 3)) (1.15.0)
+Requirement already satisfied: requests in /opt/conda/lib/python3.8/site-packages (from download==0.3.5->-r gds_py_pip.txt (line 3)) (2.25.1)
+Requirement already satisfied: SQLAlchemy>=0.8 in /opt/conda/lib/python3.8/site-packages (from geoalchemy2==0.8.4->-r gds_py_pip.txt (line 4)) (1.3.23)
 Collecting sphinx-thebe>=0.0.6
   Downloading sphinx_thebe-0.0.8-py3-none-any.whl (7.4 kB)
-Collecting sphinx-comments
-  Downloading sphinx_comments-0.0.3-py3-none-any.whl (4.6 kB)
-Collecting sphinxcontrib-bibtex~=2.1.0
-  Downloading sphinxcontrib_bibtex-2.1.4-py3-none-any.whl (17 kB)
-Collecting nbconvert<6
-  Downloading nbconvert-5.6.1-py2.py3-none-any.whl (455 kB)
-Collecting myst-nb~=0.12.0
-  Downloading myst_nb-0.12.0-py3-none-any.whl (37 kB)
+Requirement already satisfied: setuptools in /opt/conda/lib/python3.8/site-packages (from jupyter-book==0.10.1->-r gds_py_pip.txt (line 5)) (49.6.0.post20210108)
+Requirement already satisfied: jupytext<1.11,>=1.8 in /opt/conda/lib/python3.8/site-packages (from jupyter-book==0.10.1->-r gds_py_pip.txt (line 5)) (1.10.3)
+Collecting sphinx-book-theme>=0.0.39
+  Downloading sphinx_book_theme-0.0.42-py3-none-any.whl (89 kB)
+Collecting linkify-it-py~=1.0.1
+  Downloading linkify_it_py-1.0.1-py3-none-any.whl (19 kB)
+Requirement already satisfied: nbconvert<6 in /opt/conda/lib/python3.8/site-packages (from jupyter-book==0.10.1->-r gds_py_pip.txt (line 5)) (5.6.1)
 Collecting sphinx-panels~=0.5.2
   Downloading sphinx_panels-0.5.2-py3-none-any.whl (87 kB)
-Requirement already satisfied: markdown-it-py~=0.6.0 in /opt/conda/lib/python3.8/site-packages (from jupytext<1.11,>=1.8->jupyter-book->-r gds_py_pip.txt (line 5)) (0.6.2)
-Requirement already satisfied: toml in /opt/conda/lib/python3.8/site-packages (from jupytext<1.11,>=1.8->jupyter-book->-r gds_py_pip.txt (line 5)) (0.10.2)
+Requirement already satisfied: click in /opt/conda/lib/python3.8/site-packages (from jupyter-book==0.10.1->-r gds_py_pip.txt (line 5)) (7.1.2)
+Requirement already satisfied: nbformat in /opt/conda/lib/python3.8/site-packages (from jupyter-book==0.10.1->-r gds_py_pip.txt (line 5)) (5.1.2)
+Collecting sphinx-togglebutton
+  Downloading sphinx_togglebutton-0.2.3-py3-none-any.whl (6.1 kB)
+Requirement already satisfied: jsonschema in /opt/conda/lib/python3.8/site-packages (from jupyter-book==0.10.1->-r gds_py_pip.txt (line 5)) (3.2.0)
+Collecting sphinxcontrib-bibtex~=2.1.0
+  Downloading sphinxcontrib_bibtex-2.1.4-py3-none-any.whl (17 kB)
+Collecting sphinx-copybutton
+  Downloading sphinx_copybutton-0.3.1-py3-none-any.whl (10 kB)
+Requirement already satisfied: pyyaml in /opt/conda/lib/python3.8/site-packages (from jupyter-book==0.10.1->-r gds_py_pip.txt (line 5)) (5.4.1)
+Collecting myst-nb~=0.12.0
+  Downloading myst_nb-0.12.0-py3-none-any.whl (37 kB)
+Collecting sphinx-comments
+  Downloading sphinx_comments-0.0.3-py3-none-any.whl (4.6 kB)
+Collecting nested-lookup~=0.2.21
+  Downloading nested-lookup-0.2.22.tar.gz (10 kB)
+Requirement already satisfied: jupyterlab~=3.0 in /opt/conda/lib/python3.8/site-packages (from jupyterlab-geojson==3.1.2->-r gds_py_pip.txt (line 6)) (3.0.11)
+Requirement already satisfied: pandas>=0.22.0 in /opt/conda/lib/python3.8/site-packages (from pandas-bokeh==0.5.4->-r gds_py_pip.txt (line 10)) (1.2.3)
+Requirement already satisfied: bokeh>=2.0 in /opt/conda/lib/python3.8/site-packages (from pandas-bokeh==0.5.4->-r gds_py_pip.txt (line 10)) (2.3.0)
+Requirement already satisfied: coverage>=5.2.1 in /opt/conda/lib/python3.8/site-packages (from pytest-cov==2.11.1->-r gds_py_pip.txt (line 12)) (5.5)
+Requirement already satisfied: pytest>=4.6 in /opt/conda/lib/python3.8/site-packages (from pytest-cov==2.11.1->-r gds_py_pip.txt (line 12)) (6.2.2)
+Requirement already satisfied: tornado>=5.0 in /opt/conda/lib/python3.8/site-packages (from pytest-tornasync==0.6.0.post2->-r gds_py_pip.txt (line 13)) (6.1)
+Requirement already satisfied: numpy>=1.11.0 in /opt/conda/lib/python3.8/site-packages (from simplification==0.5.12->-r gds_py_pip.txt (line 14)) (1.20.1)
+Requirement already satisfied: rasterstats in /opt/conda/lib/python3.8/site-packages (from tobler==0.7.0->-r gds_py_pip.txt (line 15)) (0.14.0)
+Requirement already satisfied: libpysal in /opt/conda/lib/python3.8/site-packages (from tobler==0.7.0->-r gds_py_pip.txt (line 15)) (4.4.0)
+Requirement already satisfied: statsmodels in /opt/conda/lib/python3.8/site-packages (from tobler==0.7.0->-r gds_py_pip.txt (line 15)) (0.12.2)
+Requirement already satisfied: pygeos in /opt/conda/lib/python3.8/site-packages (from tobler==0.7.0->-r gds_py_pip.txt (line 15)) (0.9)
+Requirement already satisfied: rasterio in /opt/conda/lib/python3.8/site-packages (from tobler==0.7.0->-r gds_py_pip.txt (line 15)) (1.2.1)
+Requirement already satisfied: joblib in /opt/conda/lib/python3.8/site-packages (from tobler==0.7.0->-r gds_py_pip.txt (line 15)) (1.0.1)
+Requirement already satisfied: scipy in /opt/conda/lib/python3.8/site-packages (from tobler==0.7.0->-r gds_py_pip.txt (line 15)) (1.6.1)
+Requirement already satisfied: shapely in /opt/conda/lib/python3.8/site-packages (from topojson==1.0->-r gds_py_pip.txt (line 16)) (1.7.1)
+Requirement already satisfied: contextily in /opt/conda/lib/python3.8/site-packages (from urbangrammar-graphics==1.2.2->-r gds_py_pip.txt (line 17)) (1.1.0)
+Requirement already satisfied: seaborn in /opt/conda/lib/python3.8/site-packages (from urbangrammar-graphics==1.2.2->-r gds_py_pip.txt (line 17)) (0.11.1)
+Requirement already satisfied: jupyter-core in /opt/conda/lib/python3.8/site-packages (from jupyterlab~=3.0->jupyterlab-geojson==3.1.2->-r gds_py_pip.txt (line 6)) (4.7.1)
+Requirement already satisfied: jupyterlab-server~=2.3 in /opt/conda/lib/python3.8/site-packages (from jupyterlab~=3.0->jupyterlab-geojson==3.1.2->-r gds_py_pip.txt (line 6)) (2.3.0)
+Requirement already satisfied: jupyter-packaging~=0.7.3 in /opt/conda/lib/python3.8/site-packages (from jupyterlab~=3.0->jupyterlab-geojson==3.1.2->-r gds_py_pip.txt (line 6)) (0.7.12)
+Requirement already satisfied: jupyter-server~=1.4 in /opt/conda/lib/python3.8/site-packages (from jupyterlab~=3.0->jupyterlab-geojson==3.1.2->-r gds_py_pip.txt (line 6)) (1.4.1)
+Requirement already satisfied: jinja2>=2.10 in /opt/conda/lib/python3.8/site-packages (from jupyterlab~=3.0->jupyterlab-geojson==3.1.2->-r gds_py_pip.txt (line 6)) (2.11.3)
+Requirement already satisfied: packaging in /opt/conda/lib/python3.8/site-packages (from jupyterlab~=3.0->jupyterlab-geojson==3.1.2->-r gds_py_pip.txt (line 6)) (20.9)
+Requirement already satisfied: nbclassic~=0.2 in /opt/conda/lib/python3.8/site-packages (from jupyterlab~=3.0->jupyterlab-geojson==3.1.2->-r gds_py_pip.txt (line 6)) (0.2.6)
+Requirement already satisfied: ipython in /opt/conda/lib/python3.8/site-packages (from jupyterlab~=3.0->jupyterlab-geojson==3.1.2->-r gds_py_pip.txt (line 6)) (7.21.0)
+Requirement already satisfied: pillow>=7.1.0 in /opt/conda/lib/python3.8/site-packages (from bokeh>=2.0->pandas-bokeh==0.5.4->-r gds_py_pip.txt (line 10)) (8.1.2)
+Requirement already satisfied: typing-extensions>=3.7.4 in /opt/conda/lib/python3.8/site-packages (from bokeh>=2.0->pandas-bokeh==0.5.4->-r gds_py_pip.txt (line 10)) (3.7.4.3)
+Requirement already satisfied: toolz>=0.8.2 in /opt/conda/lib/python3.8/site-packages (from distributed>=2.2.0->dask-geopandas==0.1.0a2->-r gds_py_pip.txt (line 2)) (0.11.1)
+Requirement already satisfied: msgpack>=0.6.0 in /opt/conda/lib/python3.8/site-packages (from distributed>=2.2.0->dask-geopandas==0.1.0a2->-r gds_py_pip.txt (line 2)) (1.0.2)
+Requirement already satisfied: sortedcontainers!=2.0.0,!=2.0.1 in /opt/conda/lib/python3.8/site-packages (from distributed>=2.2.0->dask-geopandas==0.1.0a2->-r gds_py_pip.txt (line 2)) (2.3.0)
+Requirement already satisfied: zict>=0.1.3 in /opt/conda/lib/python3.8/site-packages (from distributed>=2.2.0->dask-geopandas==0.1.0a2->-r gds_py_pip.txt (line 2)) (2.0.0)
+Requirement already satisfied: cloudpickle>=1.5.0 in /opt/conda/lib/python3.8/site-packages (from distributed>=2.2.0->dask-geopandas==0.1.0a2->-r gds_py_pip.txt (line 2)) (1.6.0)
+Requirement already satisfied: tblib>=1.6.0 in /opt/conda/lib/python3.8/site-packages (from distributed>=2.2.0->dask-geopandas==0.1.0a2->-r gds_py_pip.txt (line 2)) (1.7.0)
+Requirement already satisfied: psutil>=5.0 in /opt/conda/lib/python3.8/site-packages (from distributed>=2.2.0->dask-geopandas==0.1.0a2->-r gds_py_pip.txt (line 2)) (5.8.0)
+Requirement already satisfied: MarkupSafe>=0.23 in /opt/conda/lib/python3.8/site-packages (from jinja2>=2.10->jupyterlab~=3.0->jupyterlab-geojson==3.1.2->-r gds_py_pip.txt (line 6)) (1.1.1)
+Requirement already satisfied: prometheus-client in /opt/conda/lib/python3.8/site-packages (from jupyter-server~=1.4->jupyterlab~=3.0->jupyterlab-geojson==3.1.2->-r gds_py_pip.txt (line 6)) (0.9.0)
+Requirement already satisfied: pyzmq>=17 in /opt/conda/lib/python3.8/site-packages (from jupyter-server~=1.4->jupyterlab~=3.0->jupyterlab-geojson==3.1.2->-r gds_py_pip.txt (line 6)) (22.0.3)
+Requirement already satisfied: anyio>=2.0.2 in /opt/conda/lib/python3.8/site-packages (from jupyter-server~=1.4->jupyterlab~=3.0->jupyterlab-geojson==3.1.2->-r gds_py_pip.txt (line 6)) (2.2.0)
+Requirement already satisfied: jupyter-client>=6.1.1 in /opt/conda/lib/python3.8/site-packages (from jupyter-server~=1.4->jupyterlab~=3.0->jupyterlab-geojson==3.1.2->-r gds_py_pip.txt (line 6)) (6.1.12)
+Requirement already satisfied: terminado>=0.8.3 in /opt/conda/lib/python3.8/site-packages (from jupyter-server~=1.4->jupyterlab~=3.0->jupyterlab-geojson==3.1.2->-r gds_py_pip.txt (line 6)) (0.9.3)
+Requirement already satisfied: ipython-genutils in /opt/conda/lib/python3.8/site-packages (from jupyter-server~=1.4->jupyterlab~=3.0->jupyterlab-geojson==3.1.2->-r gds_py_pip.txt (line 6)) (0.2.0)
+Requirement already satisfied: Send2Trash in /opt/conda/lib/python3.8/site-packages (from jupyter-server~=1.4->jupyterlab~=3.0->jupyterlab-geojson==3.1.2->-r gds_py_pip.txt (line 6)) (1.5.0)
+Requirement already satisfied: traitlets>=4.2.1 in /opt/conda/lib/python3.8/site-packages (from jupyter-server~=1.4->jupyterlab~=3.0->jupyterlab-geojson==3.1.2->-r gds_py_pip.txt (line 6)) (5.0.5)
+Requirement already satisfied: idna>=2.8 in /opt/conda/lib/python3.8/site-packages (from anyio>=2.0.2->jupyter-server~=1.4->jupyterlab~=3.0->jupyterlab-geojson==3.1.2->-r gds_py_pip.txt (line 6)) (2.10)
+Requirement already satisfied: sniffio>=1.1 in /opt/conda/lib/python3.8/site-packages (from anyio>=2.0.2->jupyter-server~=1.4->jupyterlab~=3.0->jupyterlab-geojson==3.1.2->-r gds_py_pip.txt (line 6)) (1.2.0)
+Requirement already satisfied: babel in /opt/conda/lib/python3.8/site-packages (from jupyterlab-server~=2.3->jupyterlab~=3.0->jupyterlab-geojson==3.1.2->-r gds_py_pip.txt (line 6)) (2.9.0)
+Requirement already satisfied: json5 in /opt/conda/lib/python3.8/site-packages (from jupyterlab-server~=2.3->jupyterlab~=3.0->jupyterlab-geojson==3.1.2->-r gds_py_pip.txt (line 6)) (0.9.5)
+Requirement already satisfied: pyrsistent>=0.14.0 in /opt/conda/lib/python3.8/site-packages (from jsonschema->jupyter-book==0.10.1->-r gds_py_pip.txt (line 5)) (0.17.3)
+Requirement already satisfied: attrs>=17.4.0 in /opt/conda/lib/python3.8/site-packages (from jsonschema->jupyter-book==0.10.1->-r gds_py_pip.txt (line 5)) (20.3.0)
+Requirement already satisfied: toml in /opt/conda/lib/python3.8/site-packages (from jupytext<1.11,>=1.8->jupyter-book==0.10.1->-r gds_py_pip.txt (line 5)) (0.10.2)
+Requirement already satisfied: markdown-it-py~=0.6.0 in /opt/conda/lib/python3.8/site-packages (from jupytext<1.11,>=1.8->jupyter-book==0.10.1->-r gds_py_pip.txt (line 5)) (0.6.2)
 Collecting uc-micro-py
   Downloading uc_micro_py-1.0.1-py3-none-any.whl (6.2 kB)
-Requirement already satisfied: attrs<21,>=19 in /opt/conda/lib/python3.8/site-packages (from markdown-it-py~=0.6.0->jupytext<1.11,>=1.8->jupyter-book->-r gds_py_pip.txt (line 5)) (20.3.0)
-Requirement already satisfied: mdit-py-plugins~=0.2.1 in /opt/conda/lib/python3.8/site-packages (from markdown-it-py~=0.6.0->jupytext<1.11,>=1.8->jupyter-book->-r gds_py_pip.txt (line 5)) (0.2.6)
-Requirement already satisfied: importlib-metadata in /opt/conda/lib/python3.8/site-packages (from myst-nb~=0.12.0->jupyter-book->-r gds_py_pip.txt (line 5)) (3.7.3)
-Requirement already satisfied: ipython in /opt/conda/lib/python3.8/site-packages (from myst-nb~=0.12.0->jupyter-book->-r gds_py_pip.txt (line 5)) (7.21.0)
+Requirement already satisfied: mdit-py-plugins~=0.2.1 in /opt/conda/lib/python3.8/site-packages (from markdown-it-py~=0.6.0->jupytext<1.11,>=1.8->jupyter-book==0.10.1->-r gds_py_pip.txt (line 5)) (0.2.6)
 Collecting jupyter-cache~=0.4.1
   Downloading jupyter_cache-0.4.2-py3-none-any.whl (31 kB)
+Requirement already satisfied: ipywidgets<8,>=7.0.0 in /opt/conda/lib/python3.8/site-packages (from myst-nb~=0.12.0->jupyter-book==0.10.1->-r gds_py_pip.txt (line 5)) (7.6.3)
 Collecting jupyter-sphinx==0.3.1
   Downloading jupyter_sphinx-0.3.1-py3-none-any.whl (19 kB)
-Requirement already satisfied: ipywidgets<8,>=7.0.0 in /opt/conda/lib/python3.8/site-packages (from myst-nb~=0.12.0->jupyter-book->-r gds_py_pip.txt (line 5)) (7.6.3)
 Collecting myst-parser~=0.13.3
   Downloading myst_parser-0.13.5-py3-none-any.whl (44 kB)
-Requirement already satisfied: jupyterlab-widgets>=1.0.0 in /opt/conda/lib/python3.8/site-packages (from ipywidgets<8,>=7.0.0->myst-nb~=0.12.0->jupyter-book->-r gds_py_pip.txt (line 5)) (1.0.0)
-Requirement already satisfied: traitlets>=4.3.1 in /opt/conda/lib/python3.8/site-packages (from ipywidgets<8,>=7.0.0->myst-nb~=0.12.0->jupyter-book->-r gds_py_pip.txt (line 5)) (5.0.5)
-Requirement already satisfied: widgetsnbextension~=3.5.0 in /opt/conda/lib/python3.8/site-packages (from ipywidgets<8,>=7.0.0->myst-nb~=0.12.0->jupyter-book->-r gds_py_pip.txt (line 5)) (3.5.1)
-Requirement already satisfied: ipykernel>=4.5.1 in /opt/conda/lib/python3.8/site-packages (from ipywidgets<8,>=7.0.0->myst-nb~=0.12.0->jupyter-book->-r gds_py_pip.txt (line 5)) (5.5.0)
-Requirement already satisfied: jupyter-client in /opt/conda/lib/python3.8/site-packages (from ipykernel>=4.5.1->ipywidgets<8,>=7.0.0->myst-nb~=0.12.0->jupyter-book->-r gds_py_pip.txt (line 5)) (6.1.12)
-Requirement already satisfied: prompt-toolkit!=3.0.0,!=3.0.1,<3.1.0,>=2.0.0 in /opt/conda/lib/python3.8/site-packages (from ipython->myst-nb~=0.12.0->jupyter-book->-r gds_py_pip.txt (line 5)) (3.0.17)
-Requirement already satisfied: backcall in /opt/conda/lib/python3.8/site-packages (from ipython->myst-nb~=0.12.0->jupyter-book->-r gds_py_pip.txt (line 5)) (0.2.0)
-Requirement already satisfied: jedi>=0.16 in /opt/conda/lib/python3.8/site-packages (from ipython->myst-nb~=0.12.0->jupyter-book->-r gds_py_pip.txt (line 5)) (0.18.0)
-Requirement already satisfied: pickleshare in /opt/conda/lib/python3.8/site-packages (from ipython->myst-nb~=0.12.0->jupyter-book->-r gds_py_pip.txt (line 5)) (0.7.5)
-Requirement already satisfied: pygments in /opt/conda/lib/python3.8/site-packages (from ipython->myst-nb~=0.12.0->jupyter-book->-r gds_py_pip.txt (line 5)) (2.8.1)
-Requirement already satisfied: pexpect>4.3 in /opt/conda/lib/python3.8/site-packages (from ipython->myst-nb~=0.12.0->jupyter-book->-r gds_py_pip.txt (line 5)) (4.8.0)
-Requirement already satisfied: decorator in /opt/conda/lib/python3.8/site-packages (from ipython->myst-nb~=0.12.0->jupyter-book->-r gds_py_pip.txt (line 5)) (4.4.2)
-Requirement already satisfied: parso<0.9.0,>=0.8.0 in /opt/conda/lib/python3.8/site-packages (from jedi>=0.16->ipython->myst-nb~=0.12.0->jupyter-book->-r gds_py_pip.txt (line 5)) (0.8.1)
-Collecting SQLAlchemy>=0.8
-  Downloading SQLAlchemy-1.3.23-cp38-cp38-manylinux2010_x86_64.whl (1.3 MB)
-Requirement already satisfied: nbdime in /opt/conda/lib/python3.8/site-packages (from jupyter-cache~=0.4.1->myst-nb~=0.12.0->jupyter-book->-r gds_py_pip.txt (line 5)) (2.1.0)
-Requirement already satisfied: nbclient<0.6,>=0.2 in /opt/conda/lib/python3.8/site-packages (from jupyter-cache~=0.4.1->myst-nb~=0.12.0->jupyter-book->-r gds_py_pip.txt (line 5)) (0.5.3)
-Requirement already satisfied: jinja2 in /opt/conda/lib/python3.8/site-packages (from myst-parser~=0.13.3->myst-nb~=0.12.0->jupyter-book->-r gds_py_pip.txt (line 5)) (2.11.3)
-Requirement already satisfied: nest-asyncio in /opt/conda/lib/python3.8/site-packages (from nbclient<0.6,>=0.2->jupyter-cache~=0.4.1->myst-nb~=0.12.0->jupyter-book->-r gds_py_pip.txt (line 5)) (1.4.3)
-Requirement already satisfied: async-generator in /opt/conda/lib/python3.8/site-packages (from nbclient<0.6,>=0.2->jupyter-cache~=0.4.1->myst-nb~=0.12.0->jupyter-book->-r gds_py_pip.txt (line 5)) (1.10)
-Requirement already satisfied: jupyter-core>=4.6.0 in /opt/conda/lib/python3.8/site-packages (from jupyter-client->ipykernel>=4.5.1->ipywidgets<8,>=7.0.0->myst-nb~=0.12.0->jupyter-book->-r gds_py_pip.txt (line 5)) (4.7.1)
-Requirement already satisfied: pyzmq>=13 in /opt/conda/lib/python3.8/site-packages (from jupyter-client->ipykernel>=4.5.1->ipywidgets<8,>=7.0.0->myst-nb~=0.12.0->jupyter-book->-r gds_py_pip.txt (line 5)) (22.0.3)
-Requirement already satisfied: mistune<2,>=0.8.1 in /opt/conda/lib/python3.8/site-packages (from nbconvert<6->jupyter-book->-r gds_py_pip.txt (line 5)) (0.8.4)
-Requirement already satisfied: entrypoints>=0.2.2 in /opt/conda/lib/python3.8/site-packages (from nbconvert<6->jupyter-book->-r gds_py_pip.txt (line 5)) (0.3)
-Requirement already satisfied: bleach in /opt/conda/lib/python3.8/site-packages (from nbconvert<6->jupyter-book->-r gds_py_pip.txt (line 5)) (3.3.0)
-Requirement already satisfied: pandocfilters>=1.4.1 in /opt/conda/lib/python3.8/site-packages (from nbconvert<6->jupyter-book->-r gds_py_pip.txt (line 5)) (1.4.2)
-Requirement already satisfied: defusedxml in /opt/conda/lib/python3.8/site-packages (from nbconvert<6->jupyter-book->-r gds_py_pip.txt (line 5)) (0.7.1)
-Requirement already satisfied: testpath in /opt/conda/lib/python3.8/site-packages (from nbconvert<6->jupyter-book->-r gds_py_pip.txt (line 5)) (0.4.4)
-Requirement already satisfied: MarkupSafe>=0.23 in /opt/conda/lib/python3.8/site-packages (from jinja2->myst-parser~=0.13.3->myst-nb~=0.12.0->jupyter-book->-r gds_py_pip.txt (line 5)) (1.1.1)
-Requirement already satisfied: ipython-genutils in /opt/conda/lib/python3.8/site-packages (from nbformat->jupyter-book->-r gds_py_pip.txt (line 5)) (0.2.0)
-Requirement already satisfied: pyrsistent>=0.14.0 in /opt/conda/lib/python3.8/site-packages (from jsonschema->jupyter-book->-r gds_py_pip.txt (line 5)) (0.17.3)
-Requirement already satisfied: ptyprocess>=0.5 in /opt/conda/lib/python3.8/site-packages (from pexpect>4.3->ipython->myst-nb~=0.12.0->jupyter-book->-r gds_py_pip.txt (line 5)) (0.7.0)
-Requirement already satisfied: wcwidth in /opt/conda/lib/python3.8/site-packages (from prompt-toolkit!=3.0.0,!=3.0.1,<3.1.0,>=2.0.0->ipython->myst-nb~=0.12.0->jupyter-book->-r gds_py_pip.txt (line 5)) (0.2.5)
-Requirement already satisfied: packaging in /opt/conda/lib/python3.8/site-packages (from sphinx->ablog->-r gds_py_pip.txt (line 1)) (20.9)
-Collecting sphinxcontrib-serializinghtml
-  Downloading sphinxcontrib_serializinghtml-1.1.4-py2.py3-none-any.whl (89 kB)
-Collecting sphinxcontrib-devhelp
-  Downloading sphinxcontrib_devhelp-1.0.2-py2.py3-none-any.whl (84 kB)
-Collecting sphinxcontrib-qthelp
-  Downloading sphinxcontrib_qthelp-1.0.3-py2.py3-none-any.whl (90 kB)
-Collecting sphinxcontrib-jsmath
-  Downloading sphinxcontrib_jsmath-1.0.1-py2.py3-none-any.whl (5.1 kB)
-Collecting sphinxcontrib-applehelp
-  Downloading sphinxcontrib_applehelp-1.0.2-py2.py3-none-any.whl (121 kB)
-Collecting alabaster<0.8,>=0.7
-  Downloading alabaster-0.7.12-py2.py3-none-any.whl (14 kB)
-Collecting imagesize
-  Downloading imagesize-1.2.0-py2.py3-none-any.whl (4.8 kB)
+Requirement already satisfied: importlib-metadata in /opt/conda/lib/python3.8/site-packages (from myst-nb~=0.12.0->jupyter-book==0.10.1->-r gds_py_pip.txt (line 5)) (3.7.3)
+Requirement already satisfied: ipykernel>=4.5.1 in /opt/conda/lib/python3.8/site-packages (from ipywidgets<8,>=7.0.0->myst-nb~=0.12.0->jupyter-book==0.10.1->-r gds_py_pip.txt (line 5)) (5.5.0)
+Requirement already satisfied: widgetsnbextension~=3.5.0 in /opt/conda/lib/python3.8/site-packages (from ipywidgets<8,>=7.0.0->myst-nb~=0.12.0->jupyter-book==0.10.1->-r gds_py_pip.txt (line 5)) (3.5.1)
+Requirement already satisfied: jupyterlab-widgets>=1.0.0 in /opt/conda/lib/python3.8/site-packages (from ipywidgets<8,>=7.0.0->myst-nb~=0.12.0->jupyter-book==0.10.1->-r gds_py_pip.txt (line 5)) (1.0.0)
+Requirement already satisfied: pexpect>4.3 in /opt/conda/lib/python3.8/site-packages (from ipython->jupyterlab~=3.0->jupyterlab-geojson==3.1.2->-r gds_py_pip.txt (line 6)) (4.8.0)
+Requirement already satisfied: pygments in /opt/conda/lib/python3.8/site-packages (from ipython->jupyterlab~=3.0->jupyterlab-geojson==3.1.2->-r gds_py_pip.txt (line 6)) (2.8.1)
+Requirement already satisfied: jedi>=0.16 in /opt/conda/lib/python3.8/site-packages (from ipython->jupyterlab~=3.0->jupyterlab-geojson==3.1.2->-r gds_py_pip.txt (line 6)) (0.18.0)
+Requirement already satisfied: decorator in /opt/conda/lib/python3.8/site-packages (from ipython->jupyterlab~=3.0->jupyterlab-geojson==3.1.2->-r gds_py_pip.txt (line 6)) (4.4.2)
+Requirement already satisfied: prompt-toolkit!=3.0.0,!=3.0.1,<3.1.0,>=2.0.0 in /opt/conda/lib/python3.8/site-packages (from ipython->jupyterlab~=3.0->jupyterlab-geojson==3.1.2->-r gds_py_pip.txt (line 6)) (3.0.17)
+Requirement already satisfied: pickleshare in /opt/conda/lib/python3.8/site-packages (from ipython->jupyterlab~=3.0->jupyterlab-geojson==3.1.2->-r gds_py_pip.txt (line 6)) (0.7.5)
+Requirement already satisfied: backcall in /opt/conda/lib/python3.8/site-packages (from ipython->jupyterlab~=3.0->jupyterlab-geojson==3.1.2->-r gds_py_pip.txt (line 6)) (0.2.0)
+Requirement already satisfied: parso<0.9.0,>=0.8.0 in /opt/conda/lib/python3.8/site-packages (from jedi>=0.16->ipython->jupyterlab~=3.0->jupyterlab-geojson==3.1.2->-r gds_py_pip.txt (line 6)) (0.8.1)
+Requirement already satisfied: nbdime in /opt/conda/lib/python3.8/site-packages (from jupyter-cache~=0.4.1->myst-nb~=0.12.0->jupyter-book==0.10.1->-r gds_py_pip.txt (line 5)) (2.1.0)
+Requirement already satisfied: nbclient<0.6,>=0.2 in /opt/conda/lib/python3.8/site-packages (from jupyter-cache~=0.4.1->myst-nb~=0.12.0->jupyter-book==0.10.1->-r gds_py_pip.txt (line 5)) (0.5.3)
+Requirement already satisfied: notebook<7 in /opt/conda/lib/python3.8/site-packages (from nbclassic~=0.2->jupyterlab~=3.0->jupyterlab-geojson==3.1.2->-r gds_py_pip.txt (line 6)) (6.2.0)
+Requirement already satisfied: nest-asyncio in /opt/conda/lib/python3.8/site-packages (from nbclient<0.6,>=0.2->jupyter-cache~=0.4.1->myst-nb~=0.12.0->jupyter-book==0.10.1->-r gds_py_pip.txt (line 5)) (1.4.3)
+Requirement already satisfied: async-generator in /opt/conda/lib/python3.8/site-packages (from nbclient<0.6,>=0.2->jupyter-cache~=0.4.1->myst-nb~=0.12.0->jupyter-book==0.10.1->-r gds_py_pip.txt (line 5)) (1.10)
+Requirement already satisfied: defusedxml in /opt/conda/lib/python3.8/site-packages (from nbconvert<6->jupyter-book==0.10.1->-r gds_py_pip.txt (line 5)) (0.7.1)
+Requirement already satisfied: entrypoints>=0.2.2 in /opt/conda/lib/python3.8/site-packages (from nbconvert<6->jupyter-book==0.10.1->-r gds_py_pip.txt (line 5)) (0.3)
+Requirement already satisfied: pandocfilters>=1.4.1 in /opt/conda/lib/python3.8/site-packages (from nbconvert<6->jupyter-book==0.10.1->-r gds_py_pip.txt (line 5)) (1.4.2)
+Requirement already satisfied: bleach in /opt/conda/lib/python3.8/site-packages (from nbconvert<6->jupyter-book==0.10.1->-r gds_py_pip.txt (line 5)) (3.3.0)
+Requirement already satisfied: mistune<2,>=0.8.1 in /opt/conda/lib/python3.8/site-packages (from nbconvert<6->jupyter-book==0.10.1->-r gds_py_pip.txt (line 5)) (0.8.4)
+Requirement already satisfied: testpath in /opt/conda/lib/python3.8/site-packages (from nbconvert<6->jupyter-book==0.10.1->-r gds_py_pip.txt (line 5)) (0.4.4)
+Requirement already satisfied: argon2-cffi in /opt/conda/lib/python3.8/site-packages (from notebook<7->nbclassic~=0.2->jupyterlab~=3.0->jupyterlab-geojson==3.1.2->-r gds_py_pip.txt (line 6)) (20.1.0)
+Requirement already satisfied: pyparsing>=2.0.2 in /opt/conda/lib/python3.8/site-packages (from packaging->jupyterlab~=3.0->jupyterlab-geojson==3.1.2->-r gds_py_pip.txt (line 6)) (2.4.7)
+Requirement already satisfied: pytz>=2017.3 in /opt/conda/lib/python3.8/site-packages (from pandas>=0.22.0->pandas-bokeh==0.5.4->-r gds_py_pip.txt (line 10)) (2021.1)
+Requirement already satisfied: ptyprocess>=0.5 in /opt/conda/lib/python3.8/site-packages (from pexpect>4.3->ipython->jupyterlab~=3.0->jupyterlab-geojson==3.1.2->-r gds_py_pip.txt (line 6)) (0.7.0)
+Requirement already satisfied: wcwidth in /opt/conda/lib/python3.8/site-packages (from prompt-toolkit!=3.0.0,!=3.0.1,<3.1.0,>=2.0.0->ipython->jupyterlab~=3.0->jupyterlab-geojson==3.1.2->-r gds_py_pip.txt (line 6)) (0.2.5)
+Requirement already satisfied: iniconfig in /opt/conda/lib/python3.8/site-packages (from pytest>=4.6->pytest-cov==2.11.1->-r gds_py_pip.txt (line 12)) (1.1.1)
+Requirement already satisfied: pluggy<1.0.0a1,>=0.12 in /opt/conda/lib/python3.8/site-packages (from pytest>=4.6->pytest-cov==2.11.1->-r gds_py_pip.txt (line 12)) (0.13.1)
+Requirement already satisfied: py>=1.8.2 in /opt/conda/lib/python3.8/site-packages (from pytest>=4.6->pytest-cov==2.11.1->-r gds_py_pip.txt (line 12)) (1.10.0)
 Collecting snowballstemmer>=1.1
   Downloading snowballstemmer-2.1.0-py2.py3-none-any.whl (93 kB)
+Collecting imagesize
+  Downloading imagesize-1.2.0-py2.py3-none-any.whl (4.8 kB)
+Collecting alabaster<0.8,>=0.7
+  Downloading alabaster-0.7.12-py2.py3-none-any.whl (14 kB)
+Collecting sphinxcontrib-serializinghtml
+  Downloading sphinxcontrib_serializinghtml-1.1.4-py2.py3-none-any.whl (89 kB)
+Collecting sphinxcontrib-qthelp
+  Downloading sphinxcontrib_qthelp-1.0.3-py2.py3-none-any.whl (90 kB)
+Collecting sphinxcontrib-devhelp
+  Downloading sphinxcontrib_devhelp-1.0.2-py2.py3-none-any.whl (84 kB)
 Collecting sphinxcontrib-htmlhelp
   Downloading sphinxcontrib_htmlhelp-1.0.3-py2.py3-none-any.whl (96 kB)
-Requirement already satisfied: babel>=1.3 in /opt/conda/lib/python3.8/site-packages (from sphinx->ablog->-r gds_py_pip.txt (line 1)) (2.9.0)
-Requirement already satisfied: pytz>=2015.7 in /opt/conda/lib/python3.8/site-packages (from babel>=1.3->sphinx->ablog->-r gds_py_pip.txt (line 1)) (2021.1)
-Requirement already satisfied: idna<3,>=2.5 in /opt/conda/lib/python3.8/site-packages (from requests->download->-r gds_py_pip.txt (line 3)) (2.10)
-Requirement already satisfied: certifi>=2017.4.17 in /opt/conda/lib/python3.8/site-packages (from requests->download->-r gds_py_pip.txt (line 3)) (2020.12.5)
-Requirement already satisfied: urllib3<1.27,>=1.21.1 in /opt/conda/lib/python3.8/site-packages (from requests->download->-r gds_py_pip.txt (line 3)) (1.24.3)
-Requirement already satisfied: chardet<5,>=3.0.2 in /opt/conda/lib/python3.8/site-packages (from requests->download->-r gds_py_pip.txt (line 3)) (4.0.0)
-Requirement already satisfied: beautifulsoup4<5,>=4.6.1 in /opt/conda/lib/python3.8/site-packages (from sphinx-book-theme>=0.0.39->jupyter-book->-r gds_py_pip.txt (line 5)) (4.9.3)
+Collecting sphinxcontrib-applehelp
+  Downloading sphinxcontrib_applehelp-1.0.2-py2.py3-none-any.whl (121 kB)
+Collecting sphinxcontrib-jsmath
+  Downloading sphinxcontrib_jsmath-1.0.1-py2.py3-none-any.whl (5.1 kB)
+Requirement already satisfied: urllib3<1.27,>=1.21.1 in /opt/conda/lib/python3.8/site-packages (from requests->download==0.3.5->-r gds_py_pip.txt (line 3)) (1.24.3)
+Requirement already satisfied: certifi>=2017.4.17 in /opt/conda/lib/python3.8/site-packages (from requests->download==0.3.5->-r gds_py_pip.txt (line 3)) (2020.12.5)
+Requirement already satisfied: chardet<5,>=3.0.2 in /opt/conda/lib/python3.8/site-packages (from requests->download==0.3.5->-r gds_py_pip.txt (line 3)) (4.0.0)
+Requirement already satisfied: beautifulsoup4<5,>=4.6.1 in /opt/conda/lib/python3.8/site-packages (from sphinx-book-theme>=0.0.39->jupyter-book==0.10.1->-r gds_py_pip.txt (line 5)) (4.9.3)
 Collecting pydata-sphinx-theme~=0.4.1
   Downloading pydata_sphinx_theme-0.4.3-py3-none-any.whl (2.1 MB)
-Requirement already satisfied: soupsieve>1.2 in /opt/conda/lib/python3.8/site-packages (from beautifulsoup4<5,>=4.6.1->sphinx-book-theme>=0.0.39->jupyter-book->-r gds_py_pip.txt (line 5)) (2.0.1)
-Requirement already satisfied: wheel in /opt/conda/lib/python3.8/site-packages (from sphinx-togglebutton->jupyter-book->-r gds_py_pip.txt (line 5)) (0.36.2)
-Collecting pybtex>=0.20
-  Downloading pybtex-0.24.0-py2.py3-none-any.whl (561 kB)
+Requirement already satisfied: soupsieve>1.2 in /opt/conda/lib/python3.8/site-packages (from beautifulsoup4<5,>=4.6.1->sphinx-book-theme>=0.0.39->jupyter-book==0.10.1->-r gds_py_pip.txt (line 5)) (2.0.1)
+Requirement already satisfied: wheel in /opt/conda/lib/python3.8/site-packages (from sphinx-togglebutton->jupyter-book==0.10.1->-r gds_py_pip.txt (line 5)) (0.36.2)
 Collecting pybtex-docutils>=0.2.2
   Downloading pybtex_docutils-1.0.0-py3-none-any.whl (4.7 kB)
+Collecting pybtex>=0.20
+  Downloading pybtex-0.24.0-py2.py3-none-any.whl (561 kB)
 Collecting latexcodec>=1.0.4
   Downloading latexcodec-2.0.1-py2.py3-none-any.whl (18 kB)
-Requirement already satisfied: notebook>=4.4.1 in /opt/conda/lib/python3.8/site-packages (from widgetsnbextension~=3.5.0->ipywidgets<8,>=7.0.0->myst-nb~=0.12.0->jupyter-book->-r gds_py_pip.txt (line 5)) (6.2.0)
-Requirement already satisfied: prometheus-client in /opt/conda/lib/python3.8/site-packages (from notebook>=4.4.1->widgetsnbextension~=3.5.0->ipywidgets<8,>=7.0.0->myst-nb~=0.12.0->jupyter-book->-r gds_py_pip.txt (line 5)) (0.9.0)
-Requirement already satisfied: terminado>=0.8.3 in /opt/conda/lib/python3.8/site-packages (from notebook>=4.4.1->widgetsnbextension~=3.5.0->ipywidgets<8,>=7.0.0->myst-nb~=0.12.0->jupyter-book->-r gds_py_pip.txt (line 5)) (0.9.3)
-Requirement already satisfied: Send2Trash>=1.5.0 in /opt/conda/lib/python3.8/site-packages (from notebook>=4.4.1->widgetsnbextension~=3.5.0->ipywidgets<8,>=7.0.0->myst-nb~=0.12.0->jupyter-book->-r gds_py_pip.txt (line 5)) (1.5.0)
-Requirement already satisfied: argon2-cffi in /opt/conda/lib/python3.8/site-packages (from notebook>=4.4.1->widgetsnbextension~=3.5.0->ipywidgets<8,>=7.0.0->myst-nb~=0.12.0->jupyter-book->-r gds_py_pip.txt (line 5)) (20.1.0)
-Requirement already satisfied: jupyterlab~=3.0 in /opt/conda/lib/python3.8/site-packages (from jupyterlab-geojson->-r gds_py_pip.txt (line 6)) (3.0.11)
-Requirement already satisfied: jupyter-server~=1.4 in /opt/conda/lib/python3.8/site-packages (from jupyterlab~=3.0->jupyterlab-geojson->-r gds_py_pip.txt (line 6)) (1.4.1)
-Requirement already satisfied: nbclassic~=0.2 in /opt/conda/lib/python3.8/site-packages (from jupyterlab~=3.0->jupyterlab-geojson->-r gds_py_pip.txt (line 6)) (0.2.6)
-Requirement already satisfied: jupyter-packaging~=0.7.3 in /opt/conda/lib/python3.8/site-packages (from jupyterlab~=3.0->jupyterlab-geojson->-r gds_py_pip.txt (line 6)) (0.7.12)
-Requirement already satisfied: jupyterlab-server~=2.3 in /opt/conda/lib/python3.8/site-packages (from jupyterlab~=3.0->jupyterlab-geojson->-r gds_py_pip.txt (line 6)) (2.3.0)
-Requirement already satisfied: anyio>=2.0.2 in /opt/conda/lib/python3.8/site-packages (from jupyter-server~=1.4->jupyterlab~=3.0->jupyterlab-geojson->-r gds_py_pip.txt (line 6)) (2.2.0)
-Requirement already satisfied: sniffio>=1.1 in /opt/conda/lib/python3.8/site-packages (from anyio>=2.0.2->jupyter-server~=1.4->jupyterlab~=3.0->jupyterlab-geojson->-r gds_py_pip.txt (line 6)) (1.2.0)
-Requirement already satisfied: json5 in /opt/conda/lib/python3.8/site-packages (from jupyterlab-server~=2.3->jupyterlab~=3.0->jupyterlab-geojson->-r gds_py_pip.txt (line 6)) (0.9.5)
-Requirement already satisfied: bokeh>=2.0 in /opt/conda/lib/python3.8/site-packages (from pandas-bokeh->-r gds_py_pip.txt (line 10)) (2.3.0)
-Requirement already satisfied: pandas>=0.22.0 in /opt/conda/lib/python3.8/site-packages (from pandas-bokeh->-r gds_py_pip.txt (line 10)) (1.2.3)
-Requirement already satisfied: typing-extensions>=3.7.4 in /opt/conda/lib/python3.8/site-packages (from bokeh>=2.0->pandas-bokeh->-r gds_py_pip.txt (line 10)) (3.7.4.3)
-Requirement already satisfied: numpy>=1.11.3 in /opt/conda/lib/python3.8/site-packages (from bokeh>=2.0->pandas-bokeh->-r gds_py_pip.txt (line 10)) (1.20.1)
-Requirement already satisfied: pillow>=7.1.0 in /opt/conda/lib/python3.8/site-packages (from bokeh>=2.0->pandas-bokeh->-r gds_py_pip.txt (line 10)) (8.1.2)
-Requirement already satisfied: pyparsing>=2.0.2 in /opt/conda/lib/python3.8/site-packages (from packaging->sphinx->ablog->-r gds_py_pip.txt (line 1)) (2.4.7)
-Requirement already satisfied: coverage>=5.2.1 in /opt/conda/lib/python3.8/site-packages (from pytest-cov->-r gds_py_pip.txt (line 12)) (5.5)
-Requirement already satisfied: pytest>=4.6 in /opt/conda/lib/python3.8/site-packages (from pytest-cov->-r gds_py_pip.txt (line 12)) (6.2.2)
-Requirement already satisfied: iniconfig in /opt/conda/lib/python3.8/site-packages (from pytest>=4.6->pytest-cov->-r gds_py_pip.txt (line 12)) (1.1.1)
-Requirement already satisfied: pluggy<1.0.0a1,>=0.12 in /opt/conda/lib/python3.8/site-packages (from pytest>=4.6->pytest-cov->-r gds_py_pip.txt (line 12)) (0.13.1)
-Requirement already satisfied: py>=1.8.2 in /opt/conda/lib/python3.8/site-packages (from pytest>=4.6->pytest-cov->-r gds_py_pip.txt (line 12)) (1.10.0)
-Requirement already satisfied: scipy in /opt/conda/lib/python3.8/site-packages (from tobler->-r gds_py_pip.txt (line 15)) (1.6.1)
-Requirement already satisfied: libpysal in /opt/conda/lib/python3.8/site-packages (from tobler->-r gds_py_pip.txt (line 15)) (4.4.0)
-Requirement already satisfied: rasterio in /opt/conda/lib/python3.8/site-packages (from tobler->-r gds_py_pip.txt (line 15)) (1.2.1)
-Requirement already satisfied: pygeos in /opt/conda/lib/python3.8/site-packages (from tobler->-r gds_py_pip.txt (line 15)) (0.9)
-Requirement already satisfied: rasterstats in /opt/conda/lib/python3.8/site-packages (from tobler->-r gds_py_pip.txt (line 15)) (0.14.0)
-Requirement already satisfied: statsmodels in /opt/conda/lib/python3.8/site-packages (from tobler->-r gds_py_pip.txt (line 15)) (0.12.2)
-Requirement already satisfied: shapely in /opt/conda/lib/python3.8/site-packages (from topojson->-r gds_py_pip.txt (line 16)) (1.7.1)
-Requirement already satisfied: contextily in /opt/conda/lib/python3.8/site-packages (from urbangrammar-graphics->-r gds_py_pip.txt (line 17)) (1.1.0)
-Requirement already satisfied: seaborn in /opt/conda/lib/python3.8/site-packages (from urbangrammar-graphics->-r gds_py_pip.txt (line 17)) (0.11.1)
-Requirement already satisfied: cffi>=1.0.0 in /opt/conda/lib/python3.8/site-packages (from argon2-cffi->notebook>=4.4.1->widgetsnbextension~=3.5.0->ipywidgets<8,>=7.0.0->myst-nb~=0.12.0->jupyter-book->-r gds_py_pip.txt (line 5)) (1.14.5)
-Requirement already satisfied: pycparser in /opt/conda/lib/python3.8/site-packages (from cffi>=1.0.0->argon2-cffi->notebook>=4.4.1->widgetsnbextension~=3.5.0->ipywidgets<8,>=7.0.0->myst-nb~=0.12.0->jupyter-book->-r gds_py_pip.txt (line 5)) (2.20)
-Requirement already satisfied: webencodings in /opt/conda/lib/python3.8/site-packages (from bleach->nbconvert<6->jupyter-book->-r gds_py_pip.txt (line 5)) (0.5.1)
-Requirement already satisfied: mercantile in /opt/conda/lib/python3.8/site-packages (from contextily->urbangrammar-graphics->-r gds_py_pip.txt (line 17)) (1.1.6)
-Requirement already satisfied: joblib in /opt/conda/lib/python3.8/site-packages (from contextily->urbangrammar-graphics->-r gds_py_pip.txt (line 17)) (1.0.1)
-Requirement already satisfied: geopy in /opt/conda/lib/python3.8/site-packages (from contextily->urbangrammar-graphics->-r gds_py_pip.txt (line 17)) (2.1.0)
-Requirement already satisfied: lxml in /opt/conda/lib/python3.8/site-packages (from feedgen->ablog->-r gds_py_pip.txt (line 1)) (4.6.3)
+Requirement already satisfied: heapdict in /opt/conda/lib/python3.8/site-packages (from zict>=0.1.3->distributed>=2.2.0->dask-geopandas==0.1.0a2->-r gds_py_pip.txt (line 2)) (1.0.1)
+Requirement already satisfied: cffi>=1.0.0 in /opt/conda/lib/python3.8/site-packages (from argon2-cffi->notebook<7->nbclassic~=0.2->jupyterlab~=3.0->jupyterlab-geojson==3.1.2->-r gds_py_pip.txt (line 6)) (1.14.5)
+Requirement already satisfied: pycparser in /opt/conda/lib/python3.8/site-packages (from cffi>=1.0.0->argon2-cffi->notebook<7->nbclassic~=0.2->jupyterlab~=3.0->jupyterlab-geojson==3.1.2->-r gds_py_pip.txt (line 6)) (2.20)
+Requirement already satisfied: webencodings in /opt/conda/lib/python3.8/site-packages (from bleach->nbconvert<6->jupyter-book==0.10.1->-r gds_py_pip.txt (line 5)) (0.5.1)
+Requirement already satisfied: geopy in /opt/conda/lib/python3.8/site-packages (from contextily->urbangrammar-graphics==1.2.2->-r gds_py_pip.txt (line 17)) (2.1.0)
+Requirement already satisfied: mercantile in /opt/conda/lib/python3.8/site-packages (from contextily->urbangrammar-graphics==1.2.2->-r gds_py_pip.txt (line 17)) (1.1.6)
+Requirement already satisfied: lxml in /opt/conda/lib/python3.8/site-packages (from feedgen->ablog==0.10.17->-r gds_py_pip.txt (line 1)) (4.6.3)
 Requirement already satisfied: branca>=0.3.0 in /opt/conda/lib/python3.8/site-packages (from folium->geopandas-view==0.0.1->-r gds_py_pip.txt (line 19)) (0.4.2)
-Requirement already satisfied: pyproj>=2.2.0 in /opt/conda/lib/python3.8/site-packages (from geopandas->geopandas-view==0.0.1->-r gds_py_pip.txt (line 19)) (3.0.1)
 Requirement already satisfied: fiona>=1.8 in /opt/conda/lib/python3.8/site-packages (from geopandas->geopandas-view==0.0.1->-r gds_py_pip.txt (line 19)) (1.8.18)
+Requirement already satisfied: pyproj>=2.2.0 in /opt/conda/lib/python3.8/site-packages (from geopandas->geopandas-view==0.0.1->-r gds_py_pip.txt (line 19)) (3.0.1)
 Requirement already satisfied: cligj>=0.5 in /opt/conda/lib/python3.8/site-packages (from fiona>=1.8->geopandas->geopandas-view==0.0.1->-r gds_py_pip.txt (line 19)) (0.7.1)
 Requirement already satisfied: click-plugins>=1.0 in /opt/conda/lib/python3.8/site-packages (from fiona>=1.8->geopandas->geopandas-view==0.0.1->-r gds_py_pip.txt (line 19)) (1.1.1)
 Requirement already satisfied: munch in /opt/conda/lib/python3.8/site-packages (from fiona>=1.8->geopandas->geopandas-view==0.0.1->-r gds_py_pip.txt (line 19)) (2.5.0)
-Requirement already satisfied: geographiclib<2,>=1.49 in /opt/conda/lib/python3.8/site-packages (from geopy->contextily->urbangrammar-graphics->-r gds_py_pip.txt (line 17)) (1.50)
-Requirement already satisfied: zipp>=0.5 in /opt/conda/lib/python3.8/site-packages (from importlib-metadata->myst-nb~=0.12.0->jupyter-book->-r gds_py_pip.txt (line 5)) (3.4.1)
+Requirement already satisfied: geographiclib<2,>=1.49 in /opt/conda/lib/python3.8/site-packages (from geopy->contextily->urbangrammar-graphics==1.2.2->-r gds_py_pip.txt (line 17)) (1.50)
+Requirement already satisfied: zipp>=0.5 in /opt/conda/lib/python3.8/site-packages (from importlib-metadata->myst-nb~=0.12.0->jupyter-book==0.10.1->-r gds_py_pip.txt (line 5)) (3.4.1)
 Requirement already satisfied: scikit-learn in /opt/conda/lib/python3.8/site-packages (from mapclassify->geopandas-view==0.0.1->-r gds_py_pip.txt (line 19)) (0.24.1)
 Requirement already satisfied: networkx in /opt/conda/lib/python3.8/site-packages (from mapclassify->geopandas-view==0.0.1->-r gds_py_pip.txt (line 19)) (2.5)
-Requirement already satisfied: cycler>=0.10 in /opt/conda/lib/python3.8/site-packages (from matplotlib->geopandas-view==0.0.1->-r gds_py_pip.txt (line 19)) (0.10.0)
 Requirement already satisfied: kiwisolver>=1.0.1 in /opt/conda/lib/python3.8/site-packages (from matplotlib->geopandas-view==0.0.1->-r gds_py_pip.txt (line 19)) (1.3.1)
-Requirement already satisfied: colorama in /opt/conda/lib/python3.8/site-packages (from nbdime->jupyter-cache~=0.4.1->myst-nb~=0.12.0->jupyter-book->-r gds_py_pip.txt (line 5)) (0.4.4)
-Requirement already satisfied: GitPython!=2.1.4,!=2.1.5,!=2.1.6 in /opt/conda/lib/python3.8/site-packages (from nbdime->jupyter-cache~=0.4.1->myst-nb~=0.12.0->jupyter-book->-r gds_py_pip.txt (line 5)) (3.1.14)
-Requirement already satisfied: gitdb<5,>=4.0.1 in /opt/conda/lib/python3.8/site-packages (from GitPython!=2.1.4,!=2.1.5,!=2.1.6->nbdime->jupyter-cache~=0.4.1->myst-nb~=0.12.0->jupyter-book->-r gds_py_pip.txt (line 5)) (4.0.6)
-Requirement already satisfied: smmap<4,>=3.0.1 in /opt/conda/lib/python3.8/site-packages (from gitdb<5,>=4.0.1->GitPython!=2.1.4,!=2.1.5,!=2.1.6->nbdime->jupyter-cache~=0.4.1->myst-nb~=0.12.0->jupyter-book->-r gds_py_pip.txt (line 5)) (3.0.5)
-Requirement already satisfied: affine in /opt/conda/lib/python3.8/site-packages (from rasterio->tobler->-r gds_py_pip.txt (line 15)) (2.3.0)
-Requirement already satisfied: snuggs>=1.4.1 in /opt/conda/lib/python3.8/site-packages (from rasterio->tobler->-r gds_py_pip.txt (line 15)) (1.4.7)
-Requirement already satisfied: simplejson in /opt/conda/lib/python3.8/site-packages (from rasterstats->tobler->-r gds_py_pip.txt (line 15)) (3.17.2)
+Requirement already satisfied: cycler>=0.10 in /opt/conda/lib/python3.8/site-packages (from matplotlib->geopandas-view==0.0.1->-r gds_py_pip.txt (line 19)) (0.10.0)
+Requirement already satisfied: colorama in /opt/conda/lib/python3.8/site-packages (from nbdime->jupyter-cache~=0.4.1->myst-nb~=0.12.0->jupyter-book==0.10.1->-r gds_py_pip.txt (line 5)) (0.4.4)
+Requirement already satisfied: GitPython!=2.1.4,!=2.1.5,!=2.1.6 in /opt/conda/lib/python3.8/site-packages (from nbdime->jupyter-cache~=0.4.1->myst-nb~=0.12.0->jupyter-book==0.10.1->-r gds_py_pip.txt (line 5)) (3.1.14)
+Requirement already satisfied: gitdb<5,>=4.0.1 in /opt/conda/lib/python3.8/site-packages (from GitPython!=2.1.4,!=2.1.5,!=2.1.6->nbdime->jupyter-cache~=0.4.1->myst-nb~=0.12.0->jupyter-book==0.10.1->-r gds_py_pip.txt (line 5)) (4.0.6)
+Requirement already satisfied: smmap<4,>=3.0.1 in /opt/conda/lib/python3.8/site-packages (from gitdb<5,>=4.0.1->GitPython!=2.1.4,!=2.1.5,!=2.1.6->nbdime->jupyter-cache~=0.4.1->myst-nb~=0.12.0->jupyter-book==0.10.1->-r gds_py_pip.txt (line 5)) (3.0.5)
+Requirement already satisfied: affine in /opt/conda/lib/python3.8/site-packages (from rasterio->tobler==0.7.0->-r gds_py_pip.txt (line 15)) (2.3.0)
+Requirement already satisfied: snuggs>=1.4.1 in /opt/conda/lib/python3.8/site-packages (from rasterio->tobler==0.7.0->-r gds_py_pip.txt (line 15)) (1.4.7)
+Requirement already satisfied: simplejson in /opt/conda/lib/python3.8/site-packages (from rasterstats->tobler==0.7.0->-r gds_py_pip.txt (line 15)) (3.17.2)
 Requirement already satisfied: threadpoolctl>=2.0.0 in /opt/conda/lib/python3.8/site-packages (from scikit-learn->mapclassify->geopandas-view==0.0.1->-r gds_py_pip.txt (line 19)) (2.1.0)
-Requirement already satisfied: patsy>=0.5 in /opt/conda/lib/python3.8/site-packages (from statsmodels->tobler->-r gds_py_pip.txt (line 15)) (0.5.1)
-Building wheels for collected packages: geopandas-view, nested-lookup, lckr-jupyterlab-variableinspector, feedgen
+Requirement already satisfied: patsy>=0.5 in /opt/conda/lib/python3.8/site-packages (from statsmodels->tobler==0.7.0->-r gds_py_pip.txt (line 15)) (0.5.1)
+Building wheels for collected packages: geopandas-view, lckr-jupyterlab-variableinspector, nested-lookup, feedgen
   Building wheel for geopandas-view (setup.py): started
   Building wheel for geopandas-view (setup.py): finished with status 'done'
-  Created wheel for geopandas-view: filename=geopandas_view-0.0.1-py3-none-any.whl size=12430 sha256=a48516e753acc0a420c17024b469915ffe4870f28455273836c3ec5818f7da7f
+  Created wheel for geopandas-view: filename=geopandas_view-0.0.1-py3-none-any.whl size=12430 sha256=5db7795c33250b6f59e5d0bc5623a836c9996a148e6777e2494943854e535baf
   Stored in directory: /home/jovyan/.cache/pip/wheels/32/bf/6a/1c060d6841516e8e12c352d8438362cbbc4fb601d87f1ad0ec
-  Building wheel for nested-lookup (setup.py): started
-  Building wheel for nested-lookup (setup.py): finished with status 'done'
-  Created wheel for nested-lookup: filename=nested_lookup-0.2.22-py3-none-any.whl size=7684 sha256=08c782709e36979e06461a07f164a68fa2dfc3e0e2cdffcd18f35497490565d7
-  Stored in directory: /home/jovyan/.cache/pip/wheels/df/27/70/9718d662d1b80e9cf0e20e9872dfa65922f477c0526b615ada
   Building wheel for lckr-jupyterlab-variableinspector (PEP 517): started
   Building wheel for lckr-jupyterlab-variableinspector (PEP 517): finished with status 'done'
-  Created wheel for lckr-jupyterlab-variableinspector: filename=lckr_jupyterlab_variableinspector-3.0.6-py3-none-any.whl size=89423 sha256=c1cfadf1a33ad314f428933f8b2f90dcc434267dadee48519f6d1ae6883604cd
+  Created wheel for lckr-jupyterlab-variableinspector: filename=lckr_jupyterlab_variableinspector-3.0.6-py3-none-any.whl size=89423 sha256=8a46bab01b632dbc4f88755068d91d6f291355a24670c53aaa6ce41d8c706497
   Stored in directory: /home/jovyan/.cache/pip/wheels/0f/1d/d4/b834824ba7bacdc5b04543abd3e2390fec6c77c48a8ba091ef
+  Building wheel for nested-lookup (setup.py): started
+  Building wheel for nested-lookup (setup.py): finished with status 'done'
+  Created wheel for nested-lookup: filename=nested_lookup-0.2.22-py3-none-any.whl size=7684 sha256=565a77873c9432a90f4aae9991f03bb0e7bd7b56a490ef78bea8fa2c57606157
+  Stored in directory: /home/jovyan/.cache/pip/wheels/df/27/70/9718d662d1b80e9cf0e20e9872dfa65922f477c0526b615ada
   Building wheel for feedgen (setup.py): started
   Building wheel for feedgen (setup.py): finished with status 'done'
-  Created wheel for feedgen: filename=feedgen-0.9.0-py2.py3-none-any.whl size=44384 sha256=25a8e7a1c21dcf033904a64826f49704a320dafbed6c0c359c63125f9d5e36f1
+  Created wheel for feedgen: filename=feedgen-0.9.0-py2.py3-none-any.whl size=44384 sha256=4250dbb4cac152a4fb5ed3dbdfaf2b9ac9d16e307ceff87a57ad3daefc7691b6
   Stored in directory: /home/jovyan/.cache/pip/wheels/61/0a/49/65b1337d4437d400c0587ebb58031f2d42ed1c7b5fe3a6b03d
-Successfully built geopandas-view nested-lookup lckr-jupyterlab-variableinspector feedgen
-Installing collected packages: nbconvert, sphinxcontrib-serializinghtml, sphinxcontrib-qthelp, sphinxcontrib-jsmath, sphinxcontrib-htmlhelp, sphinxcontrib-devhelp, sphinxcontrib-applehelp, snowballstemmer, latexcodec, imagesize, alabaster, SQLAlchemy, sphinx, pybtex, uc-micro-py, sphinx-togglebutton, pydata-sphinx-theme, pybtex-docutils, myst-parser, jupyter-sphinx, jupyter-cache, watchdog, sphinxcontrib-bibtex, sphinx-thebe, sphinx-panels, sphinx-copybutton, sphinx-comments, sphinx-book-theme, nested-lookup, myst-nb, linkify-it-py, jupytext, invoke, feedgen, urbangrammar-graphics, topojson, simplification, pytest-tornasync, pygeoda, pandas-bokeh, matplotlib-scalebar, lckr-jupyterlab-variableinspector, jupyterlab-geojson, jupyter-book, geopandas-view, geoalchemy2, download, dask-geopandas, ablog
-  Attempting uninstall: nbconvert
-    Found existing installation: nbconvert 6.0.7
-    Uninstalling nbconvert-6.0.7:
-      Successfully uninstalled nbconvert-6.0.7
-  Attempting uninstall: SQLAlchemy
-    Found existing installation: SQLAlchemy 1.4.2
-    Uninstalling SQLAlchemy-1.4.2:
-      Successfully uninstalled SQLAlchemy-1.4.2
-  Attempting uninstall: jupytext
-    Found existing installation: jupytext 1.11.0
-    Uninstalling jupytext-1.11.0:
-      Successfully uninstalled jupytext-1.11.0
-Successfully installed SQLAlchemy-1.3.23 ablog-0.10.17 alabaster-0.7.12 dask-geopandas-0.1.0a2 download-0.3.5 feedgen-0.9.0 geoalchemy2-0.8.4 geopandas-view-0.0.1 imagesize-1.2.0 invoke-1.5.0 jupyter-book-0.10.1 jupyter-cache-0.4.2 jupyter-sphinx-0.3.1 jupyterlab-geojson-3.1.2 jupytext-1.10.3 latexcodec-2.0.1 lckr-jupyterlab-variableinspector-3.0.6 linkify-it-py-1.0.1 matplotlib-scalebar-0.7.2 myst-nb-0.12.0 myst-parser-0.13.5 nbconvert-5.6.1 nested-lookup-0.2.22 pandas-bokeh-0.5.4 pybtex-0.24.0 pybtex-docutils-1.0.0 pydata-sphinx-theme-0.4.3 pygeoda-0.0.8 pytest-tornasync-0.6.0.post2 simplification-0.5.12 snowballstemmer-2.1.0 sphinx-3.5.3 sphinx-book-theme-0.0.42 sphinx-comments-0.0.3 sphinx-copybutton-0.3.1 sphinx-panels-0.5.2 sphinx-thebe-0.0.8 sphinx-togglebutton-0.2.3 sphinxcontrib-applehelp-1.0.2 sphinxcontrib-bibtex-2.1.4 sphinxcontrib-devhelp-1.0.2 sphinxcontrib-htmlhelp-1.0.3 sphinxcontrib-jsmath-1.0.1 sphinxcontrib-qthelp-1.0.3 sphinxcontrib-serializinghtml-1.1.4 topojson-1.0 uc-micro-py-1.0.1 urbangrammar-graphics-1.2.2 watchdog-2.0.2
-Files removed: 231
-Removing intermediate container 4ebfec051434
- ---> f67ccd8cdce7
+Successfully built geopandas-view lckr-jupyterlab-variableinspector nested-lookup feedgen
+Installing collected packages: sphinxcontrib-serializinghtml, sphinxcontrib-qthelp, sphinxcontrib-jsmath, sphinxcontrib-htmlhelp, sphinxcontrib-devhelp, sphinxcontrib-applehelp, snowballstemmer, latexcodec, imagesize, alabaster, sphinx, pybtex, uc-micro-py, sphinx-togglebutton, pydata-sphinx-theme, pybtex-docutils, myst-parser, jupyter-sphinx, jupyter-cache, watchdog, sphinxcontrib-bibtex, sphinx-thebe, sphinx-panels, sphinx-copybutton, sphinx-comments, sphinx-book-theme, nested-lookup, myst-nb, linkify-it-py, invoke, feedgen, urbangrammar-graphics, topojson, tobler, simplification, pytest-tornasync, pygeoda, pandas-bokeh, matplotlib-scalebar, lckr-jupyterlab-variableinspector, jupyterlab-geojson, jupyter-book, geopandas-view, geoalchemy2, download, dask-geopandas, ablog
+  Attempting uninstall: tobler
+    Found existing installation: tobler 0.6.0
+    Uninstalling tobler-0.6.0:
+      Successfully uninstalled tobler-0.6.0
+Successfully installed ablog-0.10.17 alabaster-0.7.12 dask-geopandas-0.1.0a2 download-0.3.5 feedgen-0.9.0 geoalchemy2-0.8.4 geopandas-view-0.0.1 imagesize-1.2.0 invoke-1.5.0 jupyter-book-0.10.1 jupyter-cache-0.4.2 jupyter-sphinx-0.3.1 jupyterlab-geojson-3.1.2 latexcodec-2.0.1 lckr-jupyterlab-variableinspector-3.0.6 linkify-it-py-1.0.1 matplotlib-scalebar-0.7.2 myst-nb-0.12.0 myst-parser-0.13.5 nested-lookup-0.2.22 pandas-bokeh-0.5.4 pybtex-0.24.0 pybtex-docutils-1.0.0 pydata-sphinx-theme-0.4.3 pygeoda-0.0.8 pytest-tornasync-0.6.0.post2 simplification-0.5.12 snowballstemmer-2.1.0 sphinx-3.5.3 sphinx-book-theme-0.0.42 sphinx-comments-0.0.3 sphinx-copybutton-0.3.1 sphinx-panels-0.5.2 sphinx-thebe-0.0.8 sphinx-togglebutton-0.2.3 sphinxcontrib-applehelp-1.0.2 sphinxcontrib-bibtex-2.1.4 sphinxcontrib-devhelp-1.0.2 sphinxcontrib-htmlhelp-1.0.3 sphinxcontrib-jsmath-1.0.1 sphinxcontrib-qthelp-1.0.3 sphinxcontrib-serializinghtml-1.1.4 tobler-0.7.0 topojson-1.0 uc-micro-py-1.0.1 urbangrammar-graphics-1.2.2 watchdog-2.0.2
+Files removed: 228
+Removing intermediate container 5d5ec3fca98d
+ ---> 433c9215cc26
 Step 7/15 : USER root
- ---> Running in 0307e661e357
-Removing intermediate container 0307e661e357
- ---> f75aa1571a36
+ ---> Running in 88947a59cb20
+Removing intermediate container 88947a59cb20
+ ---> 8744403bb39d
 Step 8/15 : RUN echo "c.NotebookApp.default_url = '/lab'" >> /home/$NB_USER/.jupyter/jupyter_notebook_config.py  && echo "c.NotebookApp.contents_manager_class = "         "'jupytext.TextFileContentsManager'"  >> /home/$NB_USER/.jupyter/jupyter_notebook_config.py  && jupyter labextension install nbdime-jupyterlab --no-build  && jupyter lab build -y  && jupyter lab clean -y  && conda clean --all -f -y  && npm cache clean --force  && rm -rf $CONDA_DIR/share/jupyter/lab/staging  && rm -rf "/home/${NB_USER}/.node-gyp"  && rm -rf /home/$NB_USER/.cache/yarn  && fix-permissions "${CONDA_DIR}"  && fix-permissions "/home/${NB_USER}"
- ---> Running in 6725043a2c85
--\|/-\-\|/-\|/-\|/-\|/-\|-\|[91m[LabBuildApp] JupyterLab 3.0.11
+ ---> Running in f089a84d40de
+-\|/-\|/-\|/-\|/-\-\|/--\|[91m[LabBuildApp] JupyterLab 3.0.11
 [0m[91m[LabBuildApp] Building in /opt/conda/share/jupyter/lab
 [0m[91m[LabBuildApp] Building jupyterlab assets (production, minimized)
-[0m-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\[91m[LabCleanApp] Cleaning /opt/conda/share/jupyter/lab...
+[0m-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-[91m[LabCleanApp] Cleaning /opt/conda/share/jupyter/lab...
 [0m[91m[LabCleanApp] Removing staging...
 [0m[91m[LabCleanApp] Success!
 [0mRemove all contents from the following package caches?
 [91mnpm[0m[91m WARN using --force[0m[91m Recommended protections disabled.
-[0mRemoving intermediate container 6725043a2c85
- ---> 53f676734edf
+[0mRemoving intermediate container f089a84d40de
+ ---> 77389db7bb88
 Step 9/15 : USER $NB_UID
- ---> Running in 3101af61ee4c
-Removing intermediate container 3101af61ee4c
- ---> a3483c4d5b0e
+ ---> Running in b920725082e1
+Removing intermediate container b920725082e1
+ ---> 5118d8050d0a
 Step 10/15 : ENV XDG_CACHE_HOME="/home/${NB_USER}/.cache/"
- ---> Running in e3766bf9d3f9
-Removing intermediate container e3766bf9d3f9
- ---> e46b4681ed97
+ ---> Running in dd8a61df5171
+Removing intermediate container dd8a61df5171
+ ---> 5c298e5eb2ea
 Step 11/15 : RUN MPLBACKEND=Agg python -c "import matplotlib.pyplot" &&     fix-permissions "/home/${NB_USER}"
- ---> Running in 5e02ae84ee58
-Removing intermediate container 5e02ae84ee58
- ---> 0b9a4f8f4816
+ ---> Running in 2fb8bc7fdee6
+Removing intermediate container 2fb8bc7fdee6
+ ---> 29e2f688043b
 Step 12/15 : USER root
- ---> Running in abfc204b32a2
-Removing intermediate container abfc204b32a2
- ---> a889b2325828
+ ---> Running in 093f63b9e148
+Removing intermediate container 093f63b9e148
+ ---> 837edd04ad42
 Step 13/15 : RUN apt-get update  && apt-get install -y --no-install-recommends htop  && apt-get clean  && rm -rf /var/lib/apt/lists/*
- ---> Running in fa4aaaed3911
+ ---> Running in 431a8888b122
 Get:1 http://archive.ubuntu.com/ubuntu focal InRelease [265 kB]
-Get:2 http://security.ubuntu.com/ubuntu focal-security InRelease [109 kB]
-Get:3 http://archive.ubuntu.com/ubuntu focal-updates InRelease [114 kB]
-Get:4 http://archive.ubuntu.com/ubuntu focal-backports InRelease [101 kB]
-Get:5 http://security.ubuntu.com/ubuntu focal-security/multiverse amd64 Packages [21.6 kB]
-Get:6 http://security.ubuntu.com/ubuntu focal-security/main amd64 Packages [716 kB]
-Get:7 http://archive.ubuntu.com/ubuntu focal/multiverse amd64 Packages [177 kB]
-Get:8 http://security.ubuntu.com/ubuntu focal-security/universe amd64 Packages [682 kB]
-Get:9 http://archive.ubuntu.com/ubuntu focal/main amd64 Packages [1275 kB]
-Get:10 http://security.ubuntu.com/ubuntu focal-security/restricted amd64 Packages [197 kB]
-Get:11 http://archive.ubuntu.com/ubuntu focal/restricted amd64 Packages [33.4 kB]
-Get:12 http://archive.ubuntu.com/ubuntu focal/universe amd64 Packages [11.3 MB]
+Get:2 http://archive.ubuntu.com/ubuntu focal-updates InRelease [114 kB]
+Get:3 http://archive.ubuntu.com/ubuntu focal-backports InRelease [101 kB]
+Get:4 http://security.ubuntu.com/ubuntu focal-security InRelease [109 kB]
+Get:5 http://archive.ubuntu.com/ubuntu focal/multiverse amd64 Packages [177 kB]
+Get:6 http://archive.ubuntu.com/ubuntu focal/universe amd64 Packages [11.3 MB]
+Get:7 http://archive.ubuntu.com/ubuntu focal/main amd64 Packages [1275 kB]
+Get:8 http://security.ubuntu.com/ubuntu focal-security/restricted amd64 Packages [197 kB]
+Get:9 http://archive.ubuntu.com/ubuntu focal/restricted amd64 Packages [33.4 kB]
+Get:10 http://archive.ubuntu.com/ubuntu focal-updates/universe amd64 Packages [945 kB]
+Get:11 http://archive.ubuntu.com/ubuntu focal-updates/multiverse amd64 Packages [29.6 kB]
+Get:12 http://archive.ubuntu.com/ubuntu focal-updates/main amd64 Packages [1122 kB]
 Get:13 http://archive.ubuntu.com/ubuntu focal-updates/restricted amd64 Packages [229 kB]
-Get:14 http://archive.ubuntu.com/ubuntu focal-updates/main amd64 Packages [1122 kB]
-Get:15 http://archive.ubuntu.com/ubuntu focal-updates/multiverse amd64 Packages [29.6 kB]
-Get:16 http://archive.ubuntu.com/ubuntu focal-updates/universe amd64 Packages [945 kB]
-Get:17 http://archive.ubuntu.com/ubuntu focal-backports/universe amd64 Packages [4305 B]
-Fetched 17.4 MB in 1s (15.5 MB/s)
+Get:14 http://archive.ubuntu.com/ubuntu focal-backports/universe amd64 Packages [4305 B]
+Get:15 http://security.ubuntu.com/ubuntu focal-security/main amd64 Packages [717 kB]
+Get:16 http://security.ubuntu.com/ubuntu focal-security/multiverse amd64 Packages [21.6 kB]
+Get:17 http://security.ubuntu.com/ubuntu focal-security/universe amd64 Packages [682 kB]
+Fetched 17.4 MB in 2s (7803 kB/s)
 Reading package lists...
 Reading package lists...
 Building dependency tree...
@@ -735,22 +759,22 @@ Need to get 80.5 kB of archives.
 After this operation, 225 kB of additional disk space will be used.
 Get:1 http://archive.ubuntu.com/ubuntu focal/main amd64 htop amd64 2.2.0-2build1 [80.5 kB]
 [91mdebconf: delaying package configuration, since apt-utils is not installed
-[0mFetched 80.5 kB in 0s (1420 kB/s)
+[0mFetched 80.5 kB in 0s (1387 kB/s)
 Selecting previously unselected package htop.
 (Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 59036 files and directories currently installed.)
 Preparing to unpack .../htop_2.2.0-2build1_amd64.deb ...
 Unpacking htop (2.2.0-2build1) ...
 Setting up htop (2.2.0-2build1) ...
 Processing triggers for mime-support (3.64ubuntu1) ...
-Removing intermediate container fa4aaaed3911
- ---> dbb3bb721fab
+Removing intermediate container 431a8888b122
+ ---> 71a07aba820d
 Step 14/15 : USER $NB_UID
- ---> Running in edf422880fce
-Removing intermediate container edf422880fce
- ---> 268b435e383f
+ ---> Running in f8980295539b
+Removing intermediate container f8980295539b
+ ---> 594093ccb40b
 Step 15/15 : ENV GDS_ENV_VERSION "6.1"
- ---> Running in dee31993fece
-Removing intermediate container dee31993fece
- ---> 5ba48faf71d2
-Successfully built 5ba48faf71d2
+ ---> Running in 479b3f078eea
+Removing intermediate container 479b3f078eea
+ ---> 09a7165e2ff3
+Successfully built 09a7165e2ff3
 Successfully tagged gds_py:6.1
