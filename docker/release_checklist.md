@@ -33,7 +33,6 @@ docker build -t gds:latest . | tee gds_latest.log
 ## Release
 
 1. [ ] Update version number on `README.md`
-2. [ ] Update version on Appveyor and Travis tests
 3. [ ] Update version number on website's `_config.yml`
 4. [ ] Update version number on `virtualbox/Vagrantfile`
 5. [ ] Update version number on `virtualbox/cloud_config.yml`
