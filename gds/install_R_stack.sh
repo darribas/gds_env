@@ -78,7 +78,8 @@ R -e "install.packages(c( \
         ### Geospatial ###
 # https://github.com/rocker-org/rocker-versioned2/blob/dee65b3f0cb1cae3a185d7b54342abef276a4643/scripts/install_geospatial.sh
 # Skip wgrib2 as not relevant
-apt-get update -qq \
+add-apt-repository -y ppa:ubuntugis/ubuntugis-unstable \
+  && apt-get update -qq \
   && apt-get install -y --no-install-recommends \
     gdal-bin \
     lbzip2 \

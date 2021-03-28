@@ -9,7 +9,7 @@ export DEBIAN_FRONTEND=noninteractive
 
 apt-get update -qq \
   && apt-get install -y --no-install-recommends software-properties-common \
-  && add-apt-repository -y ppa:ubuntugis/ubuntugis-experimental \
+  && add-apt-repository -y ppa:ubuntugis/ubuntugis-unstable \
   && apt-get update -qq \
   && apt-get install -y --no-install-recommends \
     gpg-agent \
@@ -83,6 +83,6 @@ R -e "install.packages(c( \
             ), repos='https://cran.rstudio.com');"
 
 ## Geocomputation in R meta-package
-#R -e "library(devtools); \
-#      devtools::install_github('geocompr/geocompkg');"
+R -e "library(devtools); \
+      devtools::install_github('geocompr/geocompkg');"
 
