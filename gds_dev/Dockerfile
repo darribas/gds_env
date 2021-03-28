@@ -1,4 +1,4 @@
-FROM darribas/gds:6.0
+FROM darribas/gds:6.1
 
 #--- Decktape ---#
 USER root
@@ -128,7 +128,7 @@ RUN mamba create -n dev --yes -c conda-forge \
         rb-jekyll-scholar \
  && source activate dev \
  && gem install just-the-docs \
- && source activate base 
+ && source activate base \
  && pyppeteer-install
 
 #---    Vim   ---#
