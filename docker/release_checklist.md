@@ -16,17 +16,19 @@ docker build -t gds:latest . | tee gds_latest.log
 1. [ ] Potentially update check notebook for `gds_py`
 1. [ ] Pin versions to `Dockerfile` and pip
 1. [ ] Run check for `gds_py`
-1. [ ] Push `gds_py` image
-1. [ ] Update dependency version on `Dockerfile` for `gds` (and other potential changes to `gds`)
-1. [ ] Build `gds`
-1. [ ] Potentially update check notebook for `gds`
-1. [ ] Run check for `gds` R stack
-1. [ ] Push `gds` image
-1. [ ] Write stacks (amend `tini` in `.yml` for CI)
-2. [ ] Commit version changes on git (preferably use `"Package version changes from X to Y"` for commit message)
-3. [ ] Update dependency version on `Dockerfile` for `gds_dev` (and other potential changes to `gds_dev`)
-4. [ ] Build `gds_dev`
-5. [ ] Push `gds_dev` image
+1. [ ] Generate `.yml` file
+3. [ ] Confirm CI works (building env with `.yml` and `pip` install files)
+4. [ ] Push `gds_py` image
+5. [ ] Update dependency version on `Dockerfile` for `gds` (and other potential changes to `gds`)
+6. [ ] Build `gds`
+7. [ ] Potentially update check notebook for `gds`
+8. [ ] Run check for `gds` R stack
+9. [ ] Push `gds` image
+10. [ ] Write stacks (amend `tini` in `.yml` for CI)
+11. [ ] Commit version changes on git (preferably use `"Package version changes from X to Y"` for commit message)
+12. [ ] Update dependency version on `Dockerfile` for `gds_dev` (and other potential changes to `gds_dev`)
+13. [ ] Build `gds_dev`
+14. [ ] Push `gds_dev` image
 
 ## Release
 
