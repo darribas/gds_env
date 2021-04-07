@@ -42,5 +42,4 @@ docker build -t gds:latest . | tee gds_latest.log
 9. [ ] Tag version: `git tag -a vX.X -m "Version X.X"`
 10. [ ] Push release version: `git push origin master`
 11. [ ] Push tags: `git push origin --tags`
-1. [ ] Update URLs on Windows installer to point to latest (released) version
 12. [ ] Make release on Github
