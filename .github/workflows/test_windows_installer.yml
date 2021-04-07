@@ -2,17 +2,12 @@ name: Test Windows Installer
 
 on:
   push:
-    branches: [ master ]
+    branches:
+      - master
 
 jobs:
-
   Test:
-    name: ${{ matrix.os }}
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [windows-latest]
-
+    runs-on: windows-latest
     steps:
       - uses: actions/checkout@v2
 
