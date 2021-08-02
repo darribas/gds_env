@@ -44,6 +44,7 @@ The `gds_env` is an open-source project. To join the conversation, please read t
   url = {https://darribas.org/gds_env},
   version = {6.1},
   date = {2019-08-06},
+  doi  = {10.5281/zenodo.4642516},
 }
 ```
 
