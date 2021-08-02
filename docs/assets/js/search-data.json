@@ -187,7 +187,7 @@
   },"31": {
     "doc": "Home",
     "title": "Citation",
-    "content": ". @software{gds_env, author = { Dani Arribas-Bel }, title = {\\texttt{gds\\_env}: A containerised platform for Geographic Data Science}, url = {https://darribas.org/gds_env}, version = {6.1}, date = {2019-08-06}, } . ",
+    "content": ". @software{gds_env, author = { Dani Arribas-Bel }, title = {\\texttt{gds\\_env}: A containerised platform for Geographic Data Science}, url = {https://darribas.org/gds_env}, version = {6.1}, date = {2019-08-06}, doi = {10.5281/zenodo.4642516}, } . ",
     "url": "https://darribas.org/gds_env/#citation",
     "relUrl": "/#citation"
   },"32": {
