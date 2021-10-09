@@ -12,6 +12,5 @@ pygeoda
 pytest-cov
 pytest-tornasync
 simplification
-tobler
 topojson
 urbangrammar-graphics

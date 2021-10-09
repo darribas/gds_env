@@ -31,7 +31,7 @@ RUN conda install --freeze-installed --yes mamba \
      'geocube' \
      'geopandas' \
      'geopy' \
-     'gstools' \
+     #'gstools==1.3.3' \
      'h3-py' \
      'hdbscan' \
      'pystac-client' \
