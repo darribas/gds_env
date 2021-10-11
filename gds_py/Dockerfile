@@ -1,5 +1,7 @@
-# October 8th'21
-FROM jupyter/minimal-notebook:2021-10-07
+FROM jupyter/minimal-notebook:2021-10-11
+# This pins to the last available for `python-3.8.8`
+# from May 6th'21
+#FROM jupyter/minimal-notebook:59c973d16bca
 
 MAINTAINER Dani Arribas-Bel <D.Arribas-Bel@liverpool.ac.uk>
 
@@ -14,6 +16,7 @@ RUN conda install --freeze-installed --yes mamba \
     && conda config --set channel_priority strict \
     && mamba install --freeze-installed --yes --quiet \
      'conda-forge::blas=*=openblas' \
+     '_openmp_mutex=*=*_llvm' \
      'black' \
      'bokeh' \
      'boto3' \
@@ -23,21 +26,19 @@ RUN conda install --freeze-installed --yes mamba \
      'contextily' \
      'cython' \
      'dask' \
-     'dask-kubernetes' \
+     #'dask-kubernetes' \
      'dask-ml' \
      'datashader' \
-     'feather-format' \
      'flake8' \
      'geocube' \
      'geopandas' \
      'geopy' \
-     #'gstools==1.3.3' \
+     'gstools==1.3.3' \
      'h3-py' \
      'hdbscan' \
      'pystac-client' \
      'ipyleaflet' \
      'ipympl' \
-     'ipyparallel' \
      'ipywidgets' \
      'jupyter-server-proxy' \
      'jupyter_bokeh' \
@@ -52,20 +53,22 @@ RUN conda install --freeze-installed --yes mamba \
      'osmnx' \
      'palettable' \
      'pandana' \
+     'pip' \
      'polyline' \
      'psycopg2' \
      'pyarrow' \
      'pygeos' \
      'pyogrio' \
      'pyppeteer' \
-     #'pyrosm==0.6' \
-     'pysal' \
+     'pyrosm==0.6.1' \
+     #'pysal==2.5' \
      'rasterio' \
      'rasterstats' \
      'rio-cogeo' \
      'rioxarray' \
      'scikit-image' \
      'scikit-learn' \
+     'scikit-mobility' \
      'seaborn' \
      'spatialpandas' \
      'sqlalchemy' \
