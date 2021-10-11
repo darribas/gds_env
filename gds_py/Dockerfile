@@ -16,7 +16,6 @@ RUN conda install --freeze-installed --yes mamba \
     && conda config --set channel_priority strict \
     && mamba install --freeze-installed --yes --quiet \
      'conda-forge::blas=*=openblas' \
-     '_openmp_mutex=*=*_llvm' \
      'black' \
      'bokeh' \
      'boto3' \
@@ -33,7 +32,7 @@ RUN conda install --freeze-installed --yes mamba \
      'geocube' \
      'geopandas' \
      'geopy' \
-     'gstools==1.3.3' \
+     'gstools=1.3.3=py39he80948d_1' \
      'h3-py' \
      'hdbscan' \
      'pystac-client' \
