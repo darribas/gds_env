@@ -76,6 +76,7 @@ R -e "install.packages(c( \
             'randomForest', \
             'RCurl', \
             'rpostgis', \
+            'sfarrow', \
             'shiny', \
             'splancs', \
             'TraMineR', \
