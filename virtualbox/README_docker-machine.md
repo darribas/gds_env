@@ -88,6 +88,16 @@ docker-machine ssh gdsbox -t
 sudo vi /var/lib/rancher/conf/cloud-config.yml
 ```
 
+Alternatively, you can copy the cloud-config.yml on the host machine into the docker-machine and appened it using:
+```shell
+# Copy the file via scp to the docker-machine
+docker-machine scp ~/Desktop/cloud-config.yml gdsbox:
+# Now ssh into the docker-machine
+docker-machine ssh gdsbox -t
+# And append it to the cloud-config.yml on the docker-machine using sudo
+sudo sh -c 'cat "/home/docker/cloud-config.yml" >> /var/lib/rancher/conf/cloud-config.yml'
+```
+
 - Enable and start the VirtualBox tools to make it easy to share folders:
 
 ```shell
