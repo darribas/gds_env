@@ -76,12 +76,20 @@ R -e "install.packages(c( \
             'randomForest', \
             'RCurl', \
             'rpostgis', \
-            'sfarrow', \
             'shiny', \
             'splancs', \
             'TraMineR', \
             'tufte' \
             ), repos='https://cran.rstudio.com');"
+
+# sfarrow
+# Following https://github.com/wcjochem/sfarrow/issues/10#issuecomment-867639952
+R -e "Sys.setenv(ARROW_S3='ON'); \
+      Sys.setenv(NOT_CRAN='true'); \
+      install.packages( \
+        'arrow', repos = 'https://arrow-r-nightly.s3.amazonaws.com' \
+        );\
+      install.packages('sfarrow', repos='https://cran.rstudio.com');"
 
 ## Geocomputation in R meta-package
 R -e "library(devtools); \

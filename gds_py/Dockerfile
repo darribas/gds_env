@@ -44,7 +44,6 @@ RUN conda install --freeze-installed --yes mamba \
      'jupytext' \
      'legendgram' \
      'lxml' \
-     'momepy' \
      'nbdime' \
      'netCDF4' \
      'networkx' \
@@ -60,7 +59,28 @@ RUN conda install --freeze-installed --yes mamba \
      'pyogrio' \
      'pyppeteer' \
      'pyrosm==0.6.1' \
-     #'pysal==2.5' \
+     ##############################
+     # PySAL fix for https://github.com/pysal/pysal/issues/1234
+     #'pysal==2.5' 
+     'libpysal' \
+     'access' \
+     'esda' \
+     'giddy' \
+     'inequality' \
+     'pointpats' \
+     'segregation' \
+     'spaghetti' \
+     'mgwr' \
+     'spglm' \
+     'spint' \
+     'spreg' \
+     'spvcm' \
+     'tobler' \
+     'mapclassify' \
+     'momepy' \
+     'splot' \
+     'spopt' \
+     ##############################
      'rasterio' \
      'rasterstats' \
      'rio-cogeo' \
@@ -88,6 +108,9 @@ RUN conda install --freeze-installed --yes mamba \
 # pip libraries
 ADD ./gds_py_pip.txt ./
 RUN pip install -r gds_py_pip.txt \
+# PySAL fix for https://github.com/pysal/pysal/issues/1234
+ && pip install --no-deps pysal==2.5.0 \
+     ##############################
  && pip cache purge \
  && rm -rf /home/$NB_USER/.cache/pip \
  && rm ./gds_py_pip.txt
