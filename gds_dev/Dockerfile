@@ -122,6 +122,19 @@ RUN mkdir texcount_tmp \
 
 USER $NB_UID
 
+#--- Dask Jupyter extension ---#
+RUN pip install dask-labextension \
+ && mamba install python-graphviz \
+ && pip cache purge \
+ && conda clean --all --yes --force-pkgs-dirs
+
+USER root
+RUN find /opt/conda/ -follow -type f -name '*.a' -delete \
+ && find /opt/conda/ -follow -type f -name '*.pyc' -delete \
+ && find /opt/conda/ -follow -type f -name '*.js.map' -delete \
+ && rm -rf /home/$NB_USER/.cache/pip 
+USER $NB_UID
+
 #--- jekyll ---#
 RUN mamba create -n dev --yes -c conda-forge \
         rb-github-pages \
