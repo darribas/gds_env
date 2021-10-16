@@ -14,6 +14,7 @@ mobilkit==0.1.7
 pandas-bokeh==0.5.5
 pygeoda==0.0.8.post1
 pymorton==1.0.5
+pysal==2.5.0 # Fix for https://github.com/pysal/pysal/issues/1234
 pytest-cov==3.0.0
 pytest-tornasync==0.6.0.post2
 simplification==0.5.13
