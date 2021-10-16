@@ -1,9 +1,11 @@
-export GDS_VERSION=6.1
+export GDS_VERSION=7.0
+DOCKERRUN = docker run --rm --user root -e GRANT_SUDO=yes -e NB_UID=1002 -e NB_GID=100 -v `pwd`:/home/jovyan/test
+#DOCKERRUN = docker run -v `pwd`:/home/jovyan/test
 test: test_py test_r
 test_py:
-	docker run -v `pwd`:/home/jovyan/test darribas/gds_py:${GDS_VERSION} start.sh jupyter nbconvert --to html --execute /home/jovyan/test/gds_py/check_py_stack.ipynb
+	$(DOCKERRUN) darribas/gds_py:${GDS_VERSION} start.sh jupyter nbconvert --to html --execute /home/jovyan/test/gds_py/check_py_stack.ipynb
 test_r:
-	docker run -v `pwd`:/home/jovyan/test darribas/gds:${GDS_VERSION} start.sh jupyter nbconvert --to html --execute /home/jovyan/test/gds/check_r_stack.ipynb
+	$(DOCKERRUN) darribas/gds:${GDS_VERSION} start.sh jupyter nbconvert --to html --execute /home/jovyan/test/gds/check_r_stack.ipynb
 write_stacks: yml
 	# Python
 	docker run -v ${PWD}:/home/jovyan --rm darribas/gds:${GDS_VERSION} start.sh conda list > gds_py/stack_py.txt
@@ -16,12 +18,12 @@ write_stacks: yml
 	docker run -v ${PWD}:/home/jovyan --rm darribas/gds:${GDS_VERSION} start.sh Rscript -e "library(knitr); ip <- as.data.frame(installed.packages()[,c(1,3:4)]); fc <- file('gds/stack_r.md'); writeLines(kable(ip, format = 'markdown'), fc); close(fc);"
 	docker run -v ${PWD}:/home/jovyan --rm darribas/gds:${GDS_VERSION} start.sh sed -i "1s/^/\n/" gds/stack_r.md
 yml:
-	docker run -v ${PWD}:/home/jovyan/work --rm darribas/gds_py:${GDS_VERSION} start.sh sh -c \
+	$(DOCKERRUN) darribas/gds_py:${GDS_VERSION} start.sh sh -c \
 	"conda env export -n base --from-history > \
-	work/gds_py/gds_py.yml && \
-	sed -i 's/name: base/name: gds/g' work/gds_py/gds_py.yml && \
-	sed -i '/  - tini/d' work/gds_py/gds_py.yml && \
-	sed -i 's/prefix: \/opt\/conda/gds_env_version: ${GDS_VERSION}/g' work/gds_py/gds_py.yml"
+	test/gds_py/gds_py.yml && \
+	sed -i 's/name: base/name: gds/g' test/gds_py/gds_py.yml && \
+	sed -i '/  - tini/d' test/gds_py/gds_py.yml && \
+	sed -i 's/prefix: \/opt\/conda/gds_env_version: ${GDS_VERSION}/g' test/gds_py/gds_py.yml"
 website_build:
 	cd website && \
 	rm -rf _includes && \
