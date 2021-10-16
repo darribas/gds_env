@@ -10,8 +10,7 @@ ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
 
 #--- Python ---#
 
-RUN conda install --freeze-installed --yes mamba \
-    && conda config --add channels conda-forge \
+RUN conda config --add channels conda-forge \
     && conda config --add channels pyviz \
     && conda config --set channel_priority strict \
     && mamba install --freeze-installed --yes --quiet \
@@ -32,7 +31,7 @@ RUN conda install --freeze-installed --yes mamba \
      'geocube==0.0.18' \
      'geopandas==0.10.2' \
      'geopy==2.2.0' \
-     'gstools=1.3.3=py39he80948d_1' \
+     'gstools==1.3.3' \
      'h3-py==3.7.3' \
      'hdbscan==0.8.27' \
      'ipyleaflet==0.14.0' \
