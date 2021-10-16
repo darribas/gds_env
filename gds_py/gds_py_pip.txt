@@ -3,6 +3,7 @@ git+git://github.com/geopandas/dask-geopandas.git@393dcb558dfaa8bfbfc0cd98a8a528
 download
 geoalchemy2
 gpxpy
+hilbertcurve
 jupyterlab-geojson
 jupyter-server-proxy
 lckr-jupyterlab-variableinspector
@@ -10,6 +11,7 @@ matplotlib-scalebar
 mobilkit
 pandas-bokeh
 pygeoda
+pymorton
 pytest-cov
 pytest-tornasync
 simplification
