@@ -29,7 +29,7 @@ jobs:
           conda --version
           conda env create -f gds_py/gds_py.yml
           conda activate gds
-          pip install -r gds_py/gds_py_pip.txt
+          pip install --user -r gds_py/gds_py_pip.txt
       - name: Check and Log Environment
         shell: bash -l {0}
         run: |
