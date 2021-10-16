@@ -7,8 +7,8 @@ REM Activate environment
 call conda activate gds
 REM Add pip packages
 call conda install -y -c conda-forge git
-REM pip install -r https://github.com/darribas/gds_env/raw/v6.1/gds_py/gds_py_pip.txt
-pip install -r https://github.com/darribas/gds_env/raw/master/gds_py/gds_py_pip.txt
+REM pip install --user -r https://github.com/darribas/gds_env/raw/v6.1/gds_py/gds_py_pip.txt
+pip install --user -r https://github.com/darribas/gds_env/raw/master/gds_py/gds_py_pip.txt
 REM JupyterLab old plugin's
 jupyter labextension install nbdime-jupyterlab --no-build
 jupyter lab build -y
