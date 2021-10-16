@@ -22,7 +22,7 @@ RUN conda install --freeze-installed --yes mamba \
      'bottleneck' \
      'cenpy' \
      'clustergram' \
-     'contextily' \
+     #'contextily' \
      'cython' \
      'dask' \
      #'dask-kubernetes' \
@@ -40,7 +40,6 @@ RUN conda install --freeze-installed --yes mamba \
      'ipympl' \
      'ipywidgets' \
      'jupyter_bokeh' \
-     'jupyter-book' \
      'jupytext' \
      'legendgram' \
      'lxml' \

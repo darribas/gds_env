@@ -1,10 +1,12 @@
 ablog
+contextily
 git+git://github.com/geopandas/dask-geopandas.git@393dcb558dfaa8bfbfc0cd98a8a52891b8046186
 download
 geoalchemy2
 gpxpy
 hilbertcurve
 jupyterlab-geojson
+jupyter-book
 jupyter-server-proxy
 lckr-jupyterlab-variableinspector
 matplotlib-scalebar
