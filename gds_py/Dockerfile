@@ -1,7 +1,4 @@
 FROM jupyter/minimal-notebook:2021-10-11
-# This pins to the last available for `python-3.8.8`
-# from May 6th'21
-#FROM jupyter/minimal-notebook:59c973d16bca
 
 MAINTAINER Dani Arribas-Bel <D.Arribas-Bel@liverpool.ac.uk>
 
