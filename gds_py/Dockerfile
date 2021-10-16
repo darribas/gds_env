@@ -43,6 +43,7 @@ RUN conda install --freeze-installed --yes mamba \
      'jupytext' \
      'legendgram' \
      'lxml' \
+     'momepy' \
      'nbdime' \
      'netCDF4' \
      'networkx' \
@@ -76,7 +77,6 @@ RUN conda install --freeze-installed --yes mamba \
      'spvcm' \
      'tobler' \
      'mapclassify' \
-     'momepy' \
      'splot' \
      'spopt' \
      ##############################
