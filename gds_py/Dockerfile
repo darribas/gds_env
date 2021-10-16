@@ -152,9 +152,10 @@ RUN apt-get update \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/*
 
+# Set version
+ENV GDS_ENV_VERSION "7.0"
+
 # Switch back to user to avoid accidental container runs as root
 USER $NB_UID
 
-# Set version
-ENV GDS_ENV_VERSION "7.0"
 
