@@ -1,4 +1,4 @@
-FROM gds:7.0
+FROM darribas/gds:7.0
 
 #--- Decktape ---#
 USER root
