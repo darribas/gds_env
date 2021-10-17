@@ -103,9 +103,6 @@ RUN conda config --add channels conda-forge \
 # pip libraries
 ADD ./gds_py_pip.txt ./
 RUN pip install -r gds_py_pip.txt \
-# PySAL fix for https://github.com/pysal/pysal/issues/1234
- && pip install --no-deps pysal==2.5.0 \
-     ##############################
  && pip cache purge \
  && rm -rf /home/$NB_USER/.cache/pip \
  && rm ./gds_py_pip.txt
