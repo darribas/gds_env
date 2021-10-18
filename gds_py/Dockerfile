@@ -18,7 +18,7 @@ RUN conda config --add channels conda-forge \
      'bottleneck==1.3.2' \
      'cenpy==1.0.0.post4' \
      'clustergram==0.5.1' \
-     #'contextily' \
+     'contextily==1.2.0' \
      'cython==0.29.24' \
      'dask==2021.9.1' \
      #'dask-kubernetes' \
