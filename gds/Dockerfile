@@ -1,6 +1,6 @@
 FROM darribas/gds_py:7.0
 
-MAINTAINER Dani Arribas-Bel <D.Arribas-Bel@liverpool.ac.uk>
+LABEL maintainer="Dani Arribas-Bel <D.Arribas-Bel@liverpool.ac.uk>"
 
 # https://github.com/ContinuumIO/docker-images/blob/master/miniconda3/Dockerfile
 ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
