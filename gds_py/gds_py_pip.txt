@@ -10,6 +10,7 @@ jupyter-server-proxy==3.1.0
 lckr-jupyterlab-variableinspector==3.0.9
 matplotlib-scalebar==0.7.2
 mobilkit==0.1.7
+momepy==0.5.1 # Moved from conda 
 pandas-bokeh==0.5.5
 pygeoda==0.0.8.post1
 pymorton==1.0.5
