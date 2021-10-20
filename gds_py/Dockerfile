@@ -38,7 +38,7 @@ RUN conda config --add channels conda-forge \
      'jupytext==1.11.5' \
      'legendgram==0.0.3' \
      'lxml==4.6.3' \
-     'momepy==0.5.1' \
+     #'momepy==0.5.1' \ # Moved to pip
      'nbdime==3.1.0' \
      'netCDF4==1.5.7' \
      'networkx==2.5' \

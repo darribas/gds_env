@@ -18,6 +18,7 @@ pysal==2.5.0 # Fix for https://github.com/pysal/pysal/issues/1234
 pytest-cov==3.0.0
 pytest-tornasync==0.6.0.post2
 #simplification==0.5.13 # Does not support Windows in Python3.9
+scikit-fusion==0.2.1
 topojson==1.3
 trackintel==1.1.4
 urbangrammar-graphics==1.2.3
