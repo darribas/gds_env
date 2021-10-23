@@ -32,7 +32,7 @@ backcall                  0.2.0              pyh9f0ad1d_0    conda-forge
 backports                 1.0                        py_2    conda-forge
 backports.functools_lru_cache 1.6.4              pyhd8ed1ab_0    conda-forge
 beautifulsoup4            4.10.0             pyha770c72_0    conda-forge
-black                     21.9b0             pyhd8ed1ab_0    conda-forge
+black                     21.9b0             pyhd8ed1ab_1    conda-forge
 blas                      2.14                   openblas    conda-forge
 bleach                    4.1.0              pyhd8ed1ab_0    conda-forge
 blinker                   1.4                        py_1    conda-forge
@@ -40,7 +40,7 @@ blosc                     1.21.0               h9c3ff4c_0    conda-forge
 bokeh                     2.4.1            py39hf3d152e_1    conda-forge
 boost-cpp                 1.74.0               h312852a_4    conda-forge
 boto3                     1.18.63            pyhd8ed1ab_0    conda-forge
-botocore                  1.21.63            pyhd8ed1ab_0    conda-forge
+botocore                  1.21.65            pyhd8ed1ab_0    conda-forge
 bottleneck                1.3.2            py39hce5d2b2_4    conda-forge
 branca                    0.4.2              pyhd8ed1ab_0    conda-forge
 brotli                    1.0.9                h7f98852_5    conda-forge
@@ -76,7 +76,7 @@ colorcet                  2.0.6                      py_0    pyviz
 conda                     4.10.3           py39hf3d152e_2    conda-forge
 conda-package-handling    1.7.3            py39h3811e60_0    conda-forge
 configurable-http-proxy   4.5.0           node15_he6ea98c_0    conda-forge
-contextily                1.2.0                    pypi_0    pypi
+contextily                1.2.0              pyhd8ed1ab_0    conda-forge
 coverage                  6.0.2                    pypi_0    pypi
 cryptography              3.4.7            py39hbca0aa6_0    conda-forge
 curl                      7.79.1               h2574ce0_1    conda-forge
@@ -229,7 +229,7 @@ libgcc-ng                 11.2.0              h1d223b6_10    conda-forge
 libgdal                   3.3.1                h07ae0cd_2    conda-forge
 libgfortran-ng            7.5.0               h14aa051_19    conda-forge
 libgfortran4              7.5.0               h14aa051_19    conda-forge
-libglib                   2.68.4               h174f98d_1    conda-forge
+libglib                   2.70.0               h174f98d_0    conda-forge
 libgomp                   11.2.0              h1d223b6_10    conda-forge
 libiconv                  1.16                 h516909a_0    conda-forge
 libkml                    1.3.0             h238a007_1014    conda-forge
@@ -286,7 +286,7 @@ mgwr                      2.1.2                      py_0    conda-forge
 mistune                   0.8.4           py39h3811e60_1004    conda-forge
 mobilkit                  0.1.7                    pypi_0    pypi
 mock                      4.0.3            py39hf3d152e_1    conda-forge
-momepy                    0.5.0              pyhd8ed1ab_1    conda-forge
+momepy                    0.5.1              pyhd8ed1ab_0    conda-forge
 morecantile               3.0.0              pyhd8ed1ab_0    conda-forge
 mpc                       1.2.1                h9f54685_0    conda-forge
 mpfr                      4.1.0                h9202a9a_1    conda-forge
@@ -329,7 +329,7 @@ packaging                 21.0               pyhd8ed1ab_0    conda-forge
 palettable                3.3.0                      py_0    conda-forge
 pamela                    1.0.0                      py_0    conda-forge
 pandana                   0.6.1            py39hde0f152_0    conda-forge
-pandas                    1.3.3            py39hde0f152_0    conda-forge
+pandas                    1.3.4            py39hde0f152_0    conda-forge
 pandas-bokeh              0.5.5                    pypi_0    pypi
 pandoc                    2.14.2               h7f98852_0    conda-forge
 pandocfilters             1.5.0              pyhd8ed1ab_0    conda-forge
@@ -408,6 +408,7 @@ python-rapidjson          1.5              py39he80948d_0    conda-forge
 python-snappy             0.6.0            py39h300dd49_0    conda-forge
 python_abi                3.9                      2_cp39    conda-forge
 pytz                      2021.3             pyhd8ed1ab_0    conda-forge
+pytz-deprecation-shim     0.1.0.post0              pypi_0    pypi
 pywavelets                1.1.1            py39hce5d2b2_3    conda-forge
 pyyaml                    6.0              py39h3811e60_0    conda-forge
 pyzmq                     22.3.0           py39h37b5a0c_0    conda-forge
@@ -432,10 +433,11 @@ rtree                     0.9.7            py39hb102c33_2    conda-forge
 ruamel.yaml               0.17.16          py39h3811e60_0    conda-forge
 ruamel.yaml.clib          0.2.2            py39h3811e60_2    conda-forge
 ruamel_yaml               0.15.80         py39h3811e60_1004    conda-forge
-rvlib                     0.0.5            py39hce5d2b2_0    conda-forge
+rvlib                     0.0.6            py39hce5d2b2_0    conda-forge
 s2n                       1.0.10               h9b69904_0    conda-forge
 s3transfer                0.5.0              pyhd8ed1ab_0    conda-forge
 schwimmbad                0.3.2            py39hf3d152e_0    conda-forge
+scikit-fusion             0.2.1                    pypi_0    pypi
 scikit-image              0.18.3           py39hde0f152_0    conda-forge
 scikit-learn              1.0              py39h7c5d8c9_1    conda-forge
 scikit-mobility           1.2.2              pyhd3deb0d_0    conda-forge
@@ -465,7 +467,7 @@ sphinx-book-theme         0.1.6                    pypi_0    pypi
 sphinx-comments           0.0.3                    pypi_0    pypi
 sphinx-copybutton         0.4.0                    pypi_0    pypi
 sphinx-external-toc       0.2.3                    pypi_0    pypi
-sphinx-jupyterbook-latex  0.4.4                    pypi_0    pypi
+sphinx-jupyterbook-latex  0.4.5                    pypi_0    pypi
 sphinx-multitoc-numbering 0.1.3                    pypi_0    pypi
 sphinx-panels             0.6.0                    pypi_0    pypi
 sphinx-thebe              0.0.10                   pypi_0    pypi
@@ -513,9 +515,10 @@ typing-extensions         3.10.0.2             hd8ed1ab_0    conda-forge
 typing_extensions         3.10.0.2           pyha770c72_0    conda-forge
 tzcode                    2021d                h7f98852_0    conda-forge
 tzdata                    2021c                he74cb21_0    conda-forge
-tzlocal                   3.0                      pypi_0    pypi
+tzlocal                   4.0.1                    pypi_0    pypi
 uc-micro-py               1.0.1                    pypi_0    pypi
 urbanaccess               0.2.2              pyhd3deb0d_0    conda-forge
+urbangrammar-graphics     1.2.3                    pypi_0    pypi
 urllib3                   1.26.7             pyhd8ed1ab_0    conda-forge
 watchdog                  2.1.6                    pypi_0    pypi
 wcwidth                   0.2.5              pyh9f0ad1d_2    conda-forge
@@ -542,7 +545,7 @@ xorg-libxrender           0.9.10            h7f98852_1003    conda-forge
 xorg-renderproto          0.11.1            h7f98852_1002    conda-forge
 xorg-xextproto            7.3.0             h7f98852_1002    conda-forge
 xorg-xproto               7.0.31            h7f98852_1007    conda-forge
-xyzservices               2021.9.1           pyhd8ed1ab_0    conda-forge
+xyzservices               2021.10.0          pyhd8ed1ab_0    conda-forge
 xz                        5.2.5                h516909a_1    conda-forge
 yaml                      0.2.5                h516909a_0    conda-forge
 yarl                      1.7.0                    pypi_0    pypi
