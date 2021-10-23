@@ -113,4 +113,4 @@ compress_html:
   
 # Added gds_env variables
 gds_env:
-  version: "6.1"
+  version: "7.0"
