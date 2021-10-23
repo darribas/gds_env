@@ -39,7 +39,7 @@ ENV LD_LIBRARY_PATH /usr/local/lib/R/lib/:${LD_LIBRARY_PATH}
 RUN fix-permissions $HOME \
   && fix-permissions $CONDA_DIR
 
-RUN pip install -U --no-deps rpy2 rpy2-arrow pytz jinja2 'cffi>=1.10.0' tzlocal \
+RUN pip install -U --no-deps rpy2 rpy2-arrow pytz pytz_deprecation_shim jinja2 'cffi>=1.10.0' tzlocal \
  && rm -rf /home/$NB_USER/.cache/pip \
  && rm -rf /tmp/downloaded_packages/ /tmp/*.rds
 

@@ -66,9 +66,11 @@ R -e "install.packages(c( \
 # Other
 R -e "install.packages(c( \
             'areal', \
+            'brms', \
             'deldir', \
             'feather', \
             'geojsonio', \
+            'glmmTMB', \
             'hexbin', \
             'igraph', \
             'nlme', \
