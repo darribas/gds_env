@@ -1,5 +1,5 @@
 ablog==0.10.20
-git+git://github.com/geopandas/dask-geopandas.git@393dcb558dfaa8bfbfc0cd98a8a52891b8046186
+git+https://github.com/geopandas/dask-geopandas.git@393dcb558dfaa8bfbfc0cd98a8a52891b8046186
 download==0.3.5
 geoalchemy2==0.9.4
 gpxpy==1.4.2
