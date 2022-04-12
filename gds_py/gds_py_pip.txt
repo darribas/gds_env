@@ -4,6 +4,7 @@ download==0.3.5
 geoalchemy2==0.9.4
 gpxpy==1.4.2
 hilbertcurve==2.0.5
+Jinja2==3.0.3 # IMPORTANT: work around in late 7.0, remove in 8.0
 jupyterlab-geojson==3.1.2
 jupyter-book==0.12.0
 jupyter-server-proxy==3.1.0
