@@ -60,6 +60,7 @@ dependencies:
   - giddy==2.3.3
   - inequality==1.0.0
   - pointpats==2.2.0
+  - scipy==1.5.3 # IMPORTANT: pinned just for compatibility, remove in the future
   - segregation==2.1.0
   - spaghetti==1.6.4
   - mgwr==2.1.2
