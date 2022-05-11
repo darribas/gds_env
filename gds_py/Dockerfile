@@ -7,13 +7,14 @@ ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
 
 #--- Python ---#
 
-RUN conda config --add channels conda-forge \
-    && conda config --add channels pyviz \
-    && conda config --set channel_priority strict \
-    && mamba install --freeze-installed --yes --quiet \
+#RUN conda config --add channels conda-forge \
+    #&& conda config --add channels pyviz \
+    #&& conda config --set channel_priority strict \
+    #&& mamba install --freeze-installed --yes --quiet \
+RUN mamba install --freeze-installed --yes -v \
      'conda-forge::blas=*=openblas' \
      'black' \
-     'bokeh' \
+     #'bokeh' \
      'boto3' \
      'bottleneck' \
      'cenpy' \
@@ -34,7 +35,7 @@ RUN conda config --add channels conda-forge \
      'ipyleaflet' \
      'ipympl' \
      'ipywidgets' \
-     'jupyter_bokeh' \
+     #'jupyter_bokeh' \
      'jupytext' \
      'legendgram' \
      'lxml' \
@@ -80,7 +81,7 @@ RUN conda config --add channels conda-forge \
      'rasterstats' \
      'rio-cogeo' \
      'rioxarray' \
-     'scikit-image' \
+     #'scikit-image' \
      'scikit-learn' \
      'scikit-mobility' \
      'seaborn' \
