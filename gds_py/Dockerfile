@@ -1,4 +1,4 @@
-FROM jupyter/minimal-notebook:2021-10-11
+FROM jupyter/minimal-notebook:2022-05-09
 
 LABEL maintainer="Dani Arribas-Bel <D.Arribas-Bel@liverpool.ac.uk>"
 
