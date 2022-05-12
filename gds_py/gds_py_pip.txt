@@ -1,4 +1,4 @@
-abloggit+https://github.com/geopandas/dask-geopandas.git@393dcb558dfaa8bfbfc0cd98a8a52891b8046186
+ablog
 download
 geoalchemy2
 gpxpy
@@ -9,13 +9,12 @@ jupyter-server-proxy
 lckr-jupyterlab-variableinspector
 matplotlib-scalebar
 mobilkit
-momepy # Moved from conda 
 pandas-bokeh
 pygeoda
 pymorton
 pytest-cov
 pytest-tornasync
-simplification # Does not support Windows in Python3.9
+#simplification # Does not support Windows in Python3.9
 scikit-fusion
 topojson
 trackintel

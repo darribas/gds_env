@@ -11,10 +11,10 @@ ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
     #&& conda config --add channels pyviz \
     #&& conda config --set channel_priority strict \
     #&& mamba install --freeze-installed --yes --quiet \
-RUN mamba install --freeze-installed --yes -v \
+RUN mamba install --yes --quiet \
      'conda-forge::blas=*=openblas' \
      'black' \
-     #'bokeh' \
+     'bokeh' \
      'boto3' \
      'bottleneck' \
      'cenpy' \
@@ -23,6 +23,7 @@ RUN mamba install --freeze-installed --yes -v \
      'cython' \
      'dask' \
      #'dask-kubernetes' \
+     'dask-geopandas' \
      'dask-ml' \
      'datashader' \
      'flake8' \
@@ -35,11 +36,11 @@ RUN mamba install --freeze-installed --yes -v \
      'ipyleaflet' \
      'ipympl' \
      'ipywidgets' \
-     #'jupyter_bokeh' \
+     'jupyter_bokeh' \
      'jupytext' \
      'legendgram' \
      'lxml' \
-     #'momepy==0.5.1' \ # Moved to pip
+     'momepy' \
      'nbdime' \
      'netCDF4' \
      'networkx' \
@@ -55,33 +56,13 @@ RUN mamba install --freeze-installed --yes -v \
      'pyogrio' \
      'pyppeteer' \
      'pyrosm' \
-     ##############################
-     # PySAL fix for https://github.com/pysal/pysal/issues/1234
      'pysal' \
-#    'libpysal==4.5.1' \
-#    'access==1.1.3' \
-#    'esda==2.4.1' \
-#    'giddy==2.3.3' \
-#    'inequality==1.0.0' \
-#    'pointpats==2.2.0' \
-#    'segregation==2.1.0' \
-#    'spaghetti==1.6.4' \
-#    'mgwr==2.1.2' \
-#    'spglm==1.0.8' \
-#    'spint==1.0.7' \
-#    'spreg==1.2.4' \
-#    'spvcm==0.3.0' \
-#    'tobler==0.8.2' \
-#    'mapclassify==2.4.3' \
-#    'splot==1.1.4' \
-#    'spopt==0.1.2' \
-     ##############################
      'pystac-client' \
      'rasterio' \
      'rasterstats' \
      'rio-cogeo' \
      'rioxarray' \
-     #'scikit-image' \
+     'scikit-image' \
      'scikit-learn' \
      'scikit-mobility' \
      'seaborn' \
