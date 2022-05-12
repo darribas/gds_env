@@ -19,3 +19,4 @@ scikit-fusion
 topojson
 trackintel
 urbangrammar-graphics
+watermark

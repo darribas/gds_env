@@ -62,7 +62,7 @@ RUN mamba install --yes --quiet \
      'rasterstats' \
      'rio-cogeo' \
      'rioxarray' \
-     'scikit-image' \
+     #'scikit-image' \
      'scikit-learn' \
      'scikit-mobility' \
      'seaborn' \
@@ -91,17 +91,8 @@ RUN pip install -r gds_py_pip.txt \
 
 #--- Jupyter config ---#
 USER root
-RUN echo "c.NotebookApp.default_url = '/lab'"\
- >> /home/$NB_USER/.jupyter/jupyter_notebook_config.py \
- && echo "c.NotebookApp.contents_manager_class = "\
-         "'jupytext.TextFileContentsManager'" \
- >> /home/$NB_USER/.jupyter/jupyter_notebook_config.py \
-# nbdime
- && jupyter labextension install nbdime-jupyterlab --no-build \
-# Build
- && jupyter lab build -y \
 # Clean cache up
- && jupyter lab clean -y \
+RUN jupyter lab clean -y \
  && conda clean --all -f -y \
  && npm cache clean --force \
  && rm -rf $CONDA_DIR/share/jupyter/lab/staging \
@@ -127,7 +118,7 @@ RUN apt-get update \
  && rm -rf /var/lib/apt/lists/*
 
 # Set version
-ENV GDS_ENV_VERSION "7.0"
+ENV GDS_ENV_VERSION "8.0"
 
 # Switch back to user to avoid accidental container runs as root
 USER $NB_UID
