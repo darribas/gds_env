@@ -1,5 +1,4 @@
 ablog
-download
 geoalchemy2
 gpxpy
 hilbertcurve

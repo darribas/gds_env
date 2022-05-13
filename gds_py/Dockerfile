@@ -50,6 +50,7 @@ RUN mamba install --yes --quiet \
      'pandana' \
      'pip' \
      'polyline' \
+     'pooch' \
      'psycopg2' \
      'pyarrow' \
      'pygeos' \
