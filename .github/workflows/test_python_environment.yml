@@ -7,12 +7,11 @@ on:
 jobs:
 
   Test:
-    name: ${{ matrix.os }} - ${{ matrix.arch }}
+    name: ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-latest]
-        arch: [x86_64, arm64]
+        os: [ubuntu-latest, macos-latest, windows-latest]
 
     steps:
       - uses: actions/checkout@v2
@@ -52,13 +51,13 @@ jobs:
         continue-on-error: false
         run: |
           conda activate gds
-          conda list --explicit gds_py/gds_py_explicit_${{ matrix.os }}_${{ matrix.arch }}.txt
+          conda list --explicit > gds_py/gds_py_explicit_${{ matrix.os }}.txt
 
       - name: Commit file
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git add gds_py/gds_py_explicit_${{ matrix.os }}_${{ matrix.arch }}.txt
+          git add gds_py/gds_py_explicit_${{ matrix.os }}.txt
           git commit -m "Update explicit {{ matrix.os }} file" --allow-empty
 
       - name: Push changes
