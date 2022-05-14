@@ -1,6 +1,6 @@
-export GDS_VERSION=7.0
-DOCKERRUN = docker run --rm --user root -e GRANT_SUDO=yes -e NB_UID=1002 -e NB_GID=100 -v `pwd`:/home/jovyan/test
-#DOCKERRUN = docker run -v `pwd`:/home/jovyan/test
+export GDS_VERSION=8.0
+#DOCKERRUN = docker run --rm --user root -e GRANT_SUDO=yes -e NB_UID=1002 -e NB_GID=100 -v `pwd`:/home/jovyan/test
+DOCKERRUN = docker run -v `pwd`:/home/jovyan/test
 test: test_py test_r
 test_py:
 	$(DOCKERRUN) darribas/gds_py:${GDS_VERSION} start.sh jupyter nbconvert --to html --execute /home/jovyan/test/gds_py/check_py_stack.ipynb
