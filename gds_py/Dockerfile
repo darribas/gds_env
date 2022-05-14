@@ -1,4 +1,4 @@
-FROM jupyter/minimal-notebook:2022-05-09
+FROM jupyter/minimal-notebook:2022-05-13
 
 LABEL maintainer="Dani Arribas-Bel <D.Arribas-Bel@liverpool.ac.uk>"
 
@@ -24,7 +24,7 @@ RUN mamba install --yes --quiet \
      'dask' \
      #'dask-kubernetes' \
      'dask-geopandas' \
-     'dask-ml' \
+     #'dask-ml' \ #  https://github.com/dask/dask-ml/issues/908
      'datashader' \
      'flake8' \
      'geocube' \
