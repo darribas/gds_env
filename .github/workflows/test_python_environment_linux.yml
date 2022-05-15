@@ -1,4 +1,4 @@
-name: [Linux] Test GDS Environment (Python)
+name: Linux-Test GDS Environment (Python)
 
 on:
   push:

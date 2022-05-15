@@ -1,4 +1,4 @@
-name: [MacOS] Test GDS Environment (Python)
+name: MacOS-Test GDS Environment (Python)
 
 on:
   push:
