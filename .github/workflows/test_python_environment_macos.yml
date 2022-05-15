@@ -1,13 +1,18 @@
-name: Test Windows Installer
+name: Test GDS Environment (Python) - MacOS
 
 on:
   push:
-    branches:
-      - master
+    branches: [ master ]
 
 jobs:
+
   Test:
-    runs-on: windows-latest
+    name: ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+
     steps:
       - uses: actions/checkout@v2
 
@@ -16,11 +21,17 @@ jobs:
         with:
             auto-update-conda: true
             auto-activate-base: true
+            miniforge-version: latest
+            miniforge-variant: Mambaforge
+            use-mamba: true
 
-      - name: Run installer
+      - name: Set up GDS Env
         shell: bash -l {0}
         run: |
-          ./gds_py/gds_py_win_installer.bat
+          mamba env create -f gds_py/gds_py.yml
+          conda activate gds
+          pip install --user -r gds_py/gds_py_pip.txt
+
       - name: Check and Log Environment
         shell: bash -l {0}
         run: |
@@ -29,7 +40,7 @@ jobs:
           # Print conda list
           conda list
           
-      - name: Test Install
+      - name: Test Environment
         shell: bash -l {0}
         continue-on-error: false
         run: |
@@ -41,14 +52,14 @@ jobs:
         continue-on-error: false
         run: |
           conda activate gds
-          conda list --explicit > gds_py/gds_py_explicit_windows-latest.txt
+          conda list --explicit > gds_py/gds_py_explicit_${{ matrix.os }}.txt
 
       - name: Commit file
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git add gds_py/gds_py_explicit_windows-latest.txt
-          git commit -m "Update explicit windows-latest file" --allow-empty
+          git add gds_py/gds_py_explicit_${{ matrix.os }}.txt
+          git commit -m "Update explicit {{ matrix.os }} file" --allow-empty
 
       - name: Push changes
         uses: ad-m/github-push-action@master
