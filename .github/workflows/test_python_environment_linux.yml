@@ -55,8 +55,8 @@ jobs:
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git add gds_py/gds_py_explicit_${{ matrix.os }}.txt
-          git commit -m "Update explicit {{ matrix.os }} file" --allow-empty
+          git add gds_py/gds_py_explicit_ubuntu-latest.txt
+          git commit -m "Update explicit Linux file" --allow-empty
 
       - name: Push changes
         uses: ad-m/github-push-action@master
