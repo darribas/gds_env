@@ -49,7 +49,7 @@ jobs:
         continue-on-error: false
         run: |
           conda activate gds
-          conda list --explicit > gds_py/gds_py_explicit_${{ matrix.os }}.txt
+          conda list --explicit > gds_py/gds_py_explicit_macos-latest.txt
 
       - name: Commit file
         run: |
