@@ -1,4 +1,4 @@
-name: Test GDS Environment (Python) - Linux
+name: [Linux] Test GDS Environment (Python)
 
 on:
   push:
@@ -7,11 +7,8 @@ on:
 jobs:
 
   Test:
-    name: ${{ matrix.os }}
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-latest, macos-latest]
+    name: ubuntu-latest
+    runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v2
