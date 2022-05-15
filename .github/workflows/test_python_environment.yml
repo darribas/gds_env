@@ -21,13 +21,14 @@ jobs:
         with:
             auto-update-conda: true
             auto-activate-base: true
+            miniforge-version: latest
+            miniforge-variant: Mambaforge
+            use-mamba: true
 
       - name: Set up GDS Env
         shell: bash -l {0}
         run: |
-          conda update -y -n base -c defaults conda
-          conda --version
-          conda env create -f gds_py/gds_py.yml
+          mamba env create -f gds_py/gds_py.yml
           conda activate gds
           pip install --user -r gds_py/gds_py_pip.txt
 
