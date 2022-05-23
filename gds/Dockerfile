@@ -1,4 +1,4 @@
-FROM darribas/gds_py:7.0
+FROM darribas/gds_py:8.0
 
 LABEL maintainer="Dani Arribas-Bel <D.Arribas-Bel@liverpool.ac.uk>"
 
@@ -42,6 +42,11 @@ RUN fix-permissions $HOME \
 RUN pip install -U --no-deps rpy2 rpy2-arrow pytz pytz_deprecation_shim jinja2 'cffi>=1.10.0' tzlocal \
  && rm -rf /home/$NB_USER/.cache/pip \
  && rm -rf /tmp/downloaded_packages/ /tmp/*.rds
+
+# Quarto (as of May 19th'22
+RUN wget https://github.com/quarto-dev/quarto-cli/releases/download/v0.9.426/quarto-0.9.426-linux-amd64.deb \
+ && dpkg -i quarto-0.9.426-linux-amd64.deb \
+ && rm quarto-0.9.426-linux-amd64.deb
 
 # Switch back to jovyan to avoid accidental container runs as root
 USER $NB_UID

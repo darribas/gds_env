@@ -12,12 +12,14 @@ apt-get update -qq \
   && add-apt-repository -y ppa:ubuntugis/ubuntugis-unstable \
   && apt-get update -qq \
   && apt-get install -y --no-install-recommends \
+    cmake \
     gpg-agent \
     jq \
     libatk1.0-0 \
     libv8-dev \
     libx11-6 \
     libxtst6 \
+    lmodern \
  && apt-get autoclean \
  && apt-get autoremove \
  && apt-get clean \
@@ -66,6 +68,7 @@ R -e "install.packages(c( \
 # Other
 R -e "install.packages(c( \
             'areal', \
+            'bookdown', \
             'brms', \
             'deldir', \
             'feather', \
