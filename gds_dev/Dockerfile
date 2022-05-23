@@ -1,4 +1,4 @@
-FROM darribas/gds:7.0
+FROM darribas/gds:8.0
 
 #--- Decktape ---#
 USER root
@@ -89,9 +89,9 @@ ENV PATH="$HOME/.decktape/decktape-3.1.0:${PATH}"
 WORKDIR $HOME/
 
 #--- tippecanoe ---#
-RUN git clone https://github.com/mapbox/tippecanoe.git \
+RUN git clone https://github.com/protomaps/tippecanoe.git \
  && cd tippecanoe \
- && make
+ && make -j
 
 USER root
 RUN cd tippecanoe \
