@@ -1,21 +1,6 @@
-ablog
-geoalchemy2
-gpxpy
-hilbertcurve
-jupyterlab-geojson
-jupyter-book
-jupyter-server-proxy
-lckr-jupyterlab-variableinspector
-matplotlib-scalebar
 mobilkit
 pandas-bokeh
-pygeoda
 pymorton
-pytest-cov
-pytest-tornasync
 #simplification # Does not support Windows in Python3.9
 scikit-fusion
-topojson
-trackintel
 urbangrammar-graphics
-watermark

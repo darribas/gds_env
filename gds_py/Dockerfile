@@ -13,6 +13,7 @@ ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
     #&& mamba install --freeze-installed --yes --quiet \
 RUN mamba install --yes --quiet \
      'conda-forge::blas=*=openblas' \
+    'ablog' \
      'black' \
      'bokeh' \
      'boto3' \
@@ -27,19 +28,27 @@ RUN mamba install --yes --quiet \
      #'dask-ml' \ #  https://github.com/dask/dask-ml/issues/908
      'datashader' \
      'flake8' \
+    'geoalchemy2' \
      'geocube' \
      'geopandas' \
      'geopy' \
+    'gpxpy' \
      'gstools' \
      'h3-py' \
      'hdbscan' \
+    'hilbertcurve' \
      'ipyleaflet' \
      'ipympl' \
      'ipywidgets' \
      'jupyter_bokeh' \
+    'jupyter-book' \
+    'jupyter-server-proxy' \
      'jupytext' \
+    'jupyterlab-geojson' \
+    'jupyterlab-variableinspector' \
      'legendgram' \
      'lxml' \
+    'matplotlib-scalebar' \
      'momepy' \
      'nbdime' \
      'netCDF4' \
@@ -48,17 +57,21 @@ RUN mamba install --yes --quiet \
      'osmnx' \
      'palettable' \
      'pandana' \
+    'pint' \
      'pip' \
      'polyline' \
      'pooch' \
      'psycopg2' \
      'pyarrow' \
+    'pygeoda' \
      'pygeos' \
      'pyogrio' \
      'pyppeteer' \
      'pyrosm' \
      'pysal' \
      'pystac-client' \
+    'pytest-cov' \
+    'pytest-tornasync' \
      'rasterio' \
      'rasterstats' \
      'rio-cogeo' \
@@ -67,15 +80,18 @@ RUN mamba install --yes --quiet \
      'scikit-learn' \
      'scikit-mobility' \
      'seaborn' \
+    'similaritymeasures' \
      'spatialpandas' \
      'sqlalchemy' \
      'statsmodels' \
      'tabulate' \
+    'topojson' \
      'urbanaccess' \
      'xarray-spatial' \
      'xarray_leaflet' \
      'xlrd' \
-     'xlsxwriter' \
+    'xlsxwriter' \
+    'watermark' \
  && conda clean --all --yes --force-pkgs-dirs \
  && find /opt/conda/ -follow -type f -name '*.a' -delete \
  && find /opt/conda/ -follow -type f -name '*.pyc' -delete \
@@ -86,9 +102,10 @@ RUN mamba install --yes --quiet \
 # pip libraries
 ADD ./gds_py_pip.txt ./
 RUN pip install -r gds_py_pip.txt \
- && pip cache purge \
- && rm -rf /home/$NB_USER/.cache/pip \
- && rm ./gds_py_pip.txt
+    && pip install trackintel --no-deps \
+    && pip cache purge \
+    && rm -rf /home/$NB_USER/.cache/pip \
+    && rm ./gds_py_pip.txt
 
 #--- Jupyter config ---#
 USER root
