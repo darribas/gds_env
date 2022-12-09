@@ -15,6 +15,7 @@ pytest-cov
 pytest-tornasync
 #simplification # Does not support Windows in Python3.9
 scikit-fusion
+scivision
 topojson
 trackintel
 urbangrammar-graphics

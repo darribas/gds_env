@@ -1,4 +1,4 @@
-FROM jupyter/minimal-notebook:2022-05-13
+FROM jupyter/minimal-notebook:2022-12-05
 
 LABEL maintainer="Dani Arribas-Bel <D.Arribas-Bel@liverpool.ac.uk>"
 
@@ -42,6 +42,7 @@ RUN mamba install --yes --quiet \
      'lxml' \
      'momepy' \
      'nbdime' \
+     'nbsphinx' \
      'netCDF4' \
      'networkx' \
      'openpyxl' \
@@ -51,6 +52,7 @@ RUN mamba install --yes --quiet \
      'pip' \
      'polyline' \
      'pooch' \
+     'protobuf' \
      'psycopg2' \
      'pyarrow' \
      'pygeos' \
@@ -59,6 +61,7 @@ RUN mamba install --yes --quiet \
      'pyrosm' \
      'pysal' \
      'pystac-client' \
+     'python-duckdb' \
      'rasterio' \
      'rasterstats' \
      'rio-cogeo' \
