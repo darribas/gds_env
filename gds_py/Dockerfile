@@ -1,4 +1,4 @@
-FROM jupyter/minimal-notebook:2022-12-05
+FROM jupyter/minimal-notebook:2023-03-27
 
 LABEL maintainer="Dani Arribas-Bel <D.Arribas-Bel@liverpool.ac.uk>"
 
@@ -11,8 +11,12 @@ ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
     #&& conda config --add channels pyviz \
     #&& conda config --set channel_priority strict \
     #&& mamba install --freeze-installed --yes --quiet \
-RUN mamba install --yes --quiet \
+RUN mamba install \
+          #--freeze-installed \
+          --yes \
+          --quiet \
      'conda-forge::blas=*=openblas' \
+     #'ablog' \
      'black' \
      'bokeh' \
      'boto3' \
@@ -20,29 +24,37 @@ RUN mamba install --yes --quiet \
      'cenpy' \
      'clustergram' \
      'contextily' \
+     'cubo' \
      'cython' \
      'dask' \
      #'dask-kubernetes' \
      'dask-geopandas' \
-     #'dask-ml' \ #  https://github.com/dask/dask-ml/issues/908
+     #'dask-ml' \
      'datashader' \
      'flake8' \
+     'geoalchemy2' \
      'geocube' \
      'geopandas' \
      'geopy' \
+     'gpxpy' \
      'gstools' \
      'h3-py' \
+     'hilbertcurve' \
      'hdbscan' \
      'ipyleaflet' \
      'ipympl' \
      'ipywidgets' \
      'jupyter_bokeh' \
+     'jupyter-book' \
+     'jupyter-server-proxy' \
+     'jupyterlab-variableinspector' \
      'jupytext' \
      'legendgram' \
+     'libgdal-arrow-parquet' \
      'lxml' \
      'momepy' \
      'nbdime' \
-     'nbsphinx' \
+     #'nbsphinx' \
      'netCDF4' \
      'networkx' \
      'openpyxl' \
@@ -74,11 +86,13 @@ RUN mamba install --yes --quiet \
      'sqlalchemy' \
      'statsmodels' \
      'tabulate' \
+     'topojson' \
      'urbanaccess' \
      'xarray-spatial' \
      'xarray_leaflet' \
      'xlrd' \
      'xlsxwriter' \
+     'xvec' \
  && conda clean --all --yes --force-pkgs-dirs \
  && find /opt/conda/ -follow -type f -name '*.a' -delete \
  && find /opt/conda/ -follow -type f -name '*.pyc' -delete \
@@ -122,7 +136,7 @@ RUN apt-get update \
  && rm -rf /var/lib/apt/lists/*
 
 # Set version
-ENV GDS_ENV_VERSION "8.0"
+ENV GDS_ENV_VERSION "9.0"
 
 # Switch back to user to avoid accidental container runs as root
 USER $NB_UID

@@ -1,22 +1,14 @@
-ablog
-geoalchemy2
-gpxpy
-hilbertcurve
 jupyterlab-geojson
-jupyter-book
-jupyter-server-proxy
-lckr-jupyterlab-variableinspector
 matplotlib-scalebar
-mobilkit
-pandas-bokeh
+##mobilkit
+##pandas-bokeh
+polars
 pygeoda
 pymorton
 pytest-cov
 pytest-tornasync
-#simplification # Does not support Windows in Python3.9
-scikit-fusion
-scivision
-topojson
-trackintel
+simplification
+##scivision
+##trackintel # working on conda release
 urbangrammar-graphics
 watermark
