@@ -1,4 +1,4 @@
-FROM jupyter/minimal-notebook:2023-03-27
+FROM jupyter/minimal-notebook:2023-04-03
 
 LABEL maintainer="Dani Arribas-Bel <D.Arribas-Bel@liverpool.ac.uk>"
 
@@ -109,8 +109,10 @@ RUN pip install -r gds_py_pip.txt \
 
 #--- Jupyter config ---#
 USER root
+# Turn off notifications
+RUN jupyter labextension disable "@jupyterlab/apputils-extension:announcements" \
 # Clean cache up
-RUN jupyter lab clean -y \
+ && jupyter lab clean -y \
  && conda clean --all -f -y \
  && npm cache clean --force \
  && rm -rf $CONDA_DIR/share/jupyter/lab/staging \
