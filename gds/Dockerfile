@@ -1,4 +1,4 @@
-FROM darribas/gds_py:8.0
+FROM darribas/gds_py:9.0
 
 LABEL maintainer="Dani Arribas-Bel <D.Arribas-Bel@liverpool.ac.uk>"
 
@@ -43,10 +43,28 @@ RUN pip install -U --no-deps rpy2 rpy2-arrow pytz pytz_deprecation_shim jinja2 '
  && rm -rf /home/$NB_USER/.cache/pip \
  && rm -rf /tmp/downloaded_packages/ /tmp/*.rds
 
+#--------------------------------------------------------------------------
+RUN R -e "install.packages(c( \
+            'tidyverse', \
+            'tidycensus' \
+            ), repos='https://cran.rstudio.com');"
+#--------------------------------------------------------------------------
+
 # Quarto (as of May 19th'22
-RUN wget https://github.com/quarto-dev/quarto-cli/releases/download/v0.9.426/quarto-0.9.426-linux-amd64.deb \
- && dpkg -i quarto-0.9.426-linux-amd64.deb \
- && rm quarto-0.9.426-linux-amd64.deb
+RUN wget https://github.com/quarto-dev/quarto-cli/releases/download/v1.3.302/quarto-1.3.302-linux-amd64.deb \
+ && dpkg -i quarto-1.3.302-linux-amd64.deb \
+ && rm quarto-1.3.302-linux-amd64.deb
+
+#--- tippecanoe (here for mapboxapi) ---#
+RUN git clone https://github.com/felt/tippecanoe.git \
+ && cd tippecanoe \
+ && make -j
+
+USER root
+RUN cd tippecanoe \
+ && make install \
+ && cd .. \
+ && rm -rf tippecanoe
 
 # Switch back to jovyan to avoid accidental container runs as root
 USER $NB_UID

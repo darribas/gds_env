@@ -16,6 +16,7 @@ apt-get update -qq \
     gpg-agent \
     jq \
     libatk1.0-0 \
+    libmagick++-dev \
     libv8-dev \
     libx11-6 \
     libxtst6 \
@@ -71,22 +72,51 @@ R -e "install.packages(c( \
             'bookdown', \
             'brms', \
             'deldir', \
+            'factoextra', \
             'feather', \
             'geojsonio', \
+            'geojsonsf', \
+            'ggcorrplot', \
+            'ggthemes', \
             'glmmTMB', \
             'hexbin', \
             'igraph', \
+            'mapdeck', \
+            'mapboxapi', \
             'nlme', \
+            'osrm', \
             'patchwork', \
+            'plotrix', \
             'randomForest', \
             'RCurl', \
+            'RedditExtractoR', \
             'rpostgis', \
+            'rtweet', \
             'shiny', \
+            'showtext', \
+            'SnowballC', \
             'splancs', \
+            'stm', \
+            'stplanr', \
+            'tidygeocoder', \
+            'tidytext', \
+            'textdata', \
+            'tm', \
+            'topicmodels', \
             'TraMineR', \
-            'tufte' \
+            'tufte', \
+            'vader', \
+            'wellknown' \
             ), repos='https://cran.rstudio.com');"
 
+# Arrow libs and other GH installs
+R -e "install.packages(c( \
+            'remotes' \
+            ), repos='https://cran.rstudio.com'); \
+      library(remotes); \
+      remotes::install_github('wpgp/wpgpDownloadR'); \
+      remotes::install_github('maraab23/ggseqplot'); \
+      remotes::install_github('paleolimbot/geoarrow');"
 # sfarrow
 # Following https://github.com/wcjochem/sfarrow/issues/10#issuecomment-867639952
 R -e "Sys.setenv(ARROW_S3='ON'); \
@@ -95,8 +125,12 @@ R -e "Sys.setenv(ARROW_S3='ON'); \
         'arrow', repos = 'https://arrow-r-nightly.s3.amazonaws.com' \
         );\
       install.packages('sfarrow', repos='https://cran.rstudio.com');"
+# geoarrow: https://paleolimbot.github.io/geoarrow/
+R -e "library(remotes); \
+      remotes::install_github('paleolimbot/geoarrow');"
 
 ## Geocomputation in R meta-package
-R -e "library(devtools); \
-      devtools::install_github('geocompr/geocompkg');"
+R -e "library(remotes); \
+      remotes::install_github('geocompr/geocompkg');"
+
 

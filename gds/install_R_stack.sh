@@ -25,9 +25,10 @@ apt-get update -qq \
 #--- R ---#
 # https://github.com/rocker-org/rocker-versioned/blob/master/r-ver/Dockerfile
 # Look at: http://sites.psu.edu/theubunturblog/installing-r-in-ubuntu/
+# And: https://cloud.r-project.org/
 
-echo "deb https://cloud.r-project.org/bin/linux/ubuntu focal-cran40/" >> /etc/apt/sources.list \
- && sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9 \
+echo "deb https://cloud.r-project.org/bin/linux/ubuntu $(lsb_release -cs)-cran40/" >> /etc/apt/sources.list \
+ && wget -qO- https://cloud.r-project.org/bin/linux/ubuntu/marutter_pubkey.asc | sudo tee -a /etc/apt/trusted.gpg.d/cran_ubuntu_key.asc \
  && apt-get update \
  && apt-get install -y \
     r-base \
@@ -46,7 +47,9 @@ apt-get update -qq \
   && apt-get install -y --no-install-recommends \
     libxml2-dev \
     libcairo2-dev \
+    libfribidi-dev \
     libgit2-dev \
+    libharfbuzz-dev \
     default-libmysqlclient-dev \
     libpq-dev \
     libsasl2-dev \
