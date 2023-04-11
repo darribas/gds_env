@@ -41,6 +41,7 @@ jobs:
         continue-on-error: false
         run: |
           conda activate gds
+          conda list --explicit
           conda list --explicit > gds_py/gds_py_explicit_windows-latest.txt
 
       - name: Commit file

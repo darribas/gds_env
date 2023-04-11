@@ -49,6 +49,7 @@ jobs:
         continue-on-error: false
         run: |
           conda activate gds
+          conda list --explicit
           conda list --explicit > gds_py/gds_py_explicit_macos-latest.txt
 
       - name: Commit file
