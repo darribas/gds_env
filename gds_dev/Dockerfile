@@ -1,4 +1,4 @@
-FROM darribas/gds:8.0
+FROM darribas/gds:9.0
 
 #--- Decktape ---#
 USER root
@@ -72,43 +72,32 @@ WORKDIR $HOME/.decktape
 
 USER $NB_UID
 
-RUN cd $HOME/.decktape \
- && wget https://github.com/astefanutti/decktape/archive/refs/tags/v3.1.0.zip \
- && unzip v3.1.0.zip \
- && cd decktape-3.1.0 \
- && npm install \
- && cp decktape.js decktape \
- && npm cache clean --force \
- && rm $HOME/.decktape/v3.1.0.zip
-
-#RUN npm install decktape \
-# && npm cache clean --force
-
-ENV PATH="$HOME/.decktape/decktape-3.1.0:${PATH}"
-
-WORKDIR $HOME/
-
-#--- tippecanoe ---#
-RUN git clone https://github.com/protomaps/tippecanoe.git \
- && cd tippecanoe \
- && make -j
+#RUN cd $HOME/.decktape \
+# && wget https://github.com/astefanutti/decktape/archive/refs/tags/v3.7.0.zip \
+# && unzip v3.7.0.zip \
+# && cd decktape-3.7.0 \
+# && npm install \
+# && cp decktape.js decktape \
+# && npm cache clean --force \
+# && rm $HOME/.decktape/v3.7.0.zip
 
 USER root
-RUN cd tippecanoe \
- && make install \
- && cd .. \
- && rm -rf tippecanoe
-
+RUN npm install -g decktape \
+ && npm cache clean --force
 USER $NB_UID
+
+ENV PATH="$HOME/.decktape/decktape-3.7.0:${PATH}"
+
+WORKDIR $HOME/
 
 #--- Texbuild ---#
 
 USER root
-RUN wget https://gist.github.com/darribas/e2a560e562139b139b67b7d1c998257c/raw/d0011d30639389dc98f980afc79c377282f7086c/texBuild.py \
- && wget https://gist.github.com/darribas/e2a560e562139b139b67b7d1c998257c/raw/d0011d30639389dc98f980afc79c377282f7086c/install_texbuild.py \
- && cp texBuild.py /bin/texBuild.py \
- && python install_texbuild.py \
- && rm install_texbuild.py texBuild*
+ADD ./texBuild.py $HOME/
+ADD ./install_texbuild.py $HOME/
+RUN cp $HOME/texBuild.py /bin/texBuild.py \
+ && python $HOME/install_texbuild.py \
+ && rm $HOME/install_texbuild.py $HOME/texBuild*
 
 #--- Texcount ---#
 RUN mkdir texcount_tmp \
@@ -122,8 +111,9 @@ RUN mkdir texcount_tmp \
 
 USER $NB_UID
 
-#--- Dask Jupyter extension ---#
-RUN pip install dask-labextension \
+#--- Dask Jupyter extension & Bash kernel ---#
+RUN pip install dask-labextension bash_kernel \
+ && python -m bash_kernel.install \
  && mamba install python-graphviz \
  && pip cache purge \
  && conda clean --all --yes --force-pkgs-dirs

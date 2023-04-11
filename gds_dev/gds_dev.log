@@ -1,0 +1,1064 @@
+Sending build context to Docker daemon  227.8kB
+Step 1/29 : FROM darribas/gds:9.0
+ ---> b693a69fe22c
+Step 2/29 : USER root
+ ---> Running in fdb523eb03d4
+Removing intermediate container fdb523eb03d4
+ ---> 57eefc9def67
+Step 3/29 : RUN apt-get update -qq  && apt-get install -y --no-install-recommends     gconf-service     libasound2     libatk1.0-0     libatk-bridge2.0-0     libc6     libcairo2     libcups2     libdbus-1-3     libexpat1     libfontconfig1     libgcc1     libgconf-2-4     libgdk-pixbuf2.0-0     libglib2.0-0     libgtk-3-0     libnspr4     libpango-1.0-0     libpangocairo-1.0-0     libstdc++6     libx11-6     libx11-xcb1     libxcb1     libxcomposite1     libxcursor1     libxdamage1     libxext6     libxfixes3     libxi6     libxrandr2     libxrender1     libxss1     libxtst6     ca-certificates     fonts-liberation     libappindicator1     libnss3     lsb-release     xdg-utils     wget 	libcairo2-dev 	libasound2-dev 	libpangocairo-1.0-0 	libatk1.0-0 	libatk-bridge2.0-0 	libgtk-3-0 	libx11-xcb-dev     libxcomposite1 	libxcursor-dev 	libxdamage-dev 	libxi-dev 	libxtst-dev 	libnss3 	libcups2 	libxss-dev 	libxrandr-dev  && apt-get autoclean  && apt-get autoremove  && apt-get clean
+ ---> Running in a6858266d2ba
+Reading package lists...
+Building dependency tree...
+Reading state information...
+fonts-liberation is already the newest version (1:1.07.4-11).
+libatk1.0-0 is already the newest version (2.36.0-3build1).
+libcairo2 is already the newest version (1.16.0-5ubuntu2).
+libcairo2 set to manually installed.
+libcairo2-dev is already the newest version (1.16.0-5ubuntu2).
+libfontconfig1 is already the newest version (2.13.1-4.2ubuntu5).
+libfontconfig1 set to manually installed.
+libnspr4 is already the newest version (2:4.32-3build1).
+libnspr4 set to manually installed.
+libx11-6 is already the newest version (2:1.7.5-1).
+libx11-xcb1 is already the newest version (2:1.7.5-1).
+libx11-xcb1 set to manually installed.
+libxcb1 is already the newest version (1.14-3ubuntu3).
+libxcb1 set to manually installed.
+libxext6 is already the newest version (2:1.3.4-1build1).
+libxext6 set to manually installed.
+libxfixes3 is already the newest version (1:6.0.0-1).
+libxfixes3 set to manually installed.
+libxi6 is already the newest version (2:1.8-1build1).
+libxi6 set to manually installed.
+libxrender1 is already the newest version (1:0.9.10-1build4).
+libxrender1 set to manually installed.
+libxss-dev is already the newest version (1:1.2.3-1build2).
+libxss-dev set to manually installed.
+libxss1 is already the newest version (1:1.2.3-1build2).
+libxss1 set to manually installed.
+libxtst6 is already the newest version (2:1.2.3-1build4).
+lsb-release is already the newest version (11.1.0ubuntu4).
+wget is already the newest version (1.21.2-2ubuntu1).
+ca-certificates is already the newest version (20211016ubuntu0.22.04.1).
+libc6 is already the newest version (2.35-0ubuntu3.1).
+libdbus-1-3 is already the newest version (1.12.20-2ubuntu4.1).
+libdbus-1-3 set to manually installed.
+libexpat1 is already the newest version (2.4.7-1ubuntu0.2).
+libexpat1 set to manually installed.
+libgcc-s1 is already the newest version (12.1.0-2ubuntu1~22.04).
+libglib2.0-0 is already the newest version (2.72.4-0ubuntu1).
+libglib2.0-0 set to manually installed.
+libnss3 is already the newest version (2:3.68.2-0ubuntu1.2).
+libnss3 set to manually installed.
+libpango-1.0-0 is already the newest version (1.50.6+ds-2ubuntu1).
+libpango-1.0-0 set to manually installed.
+libpangocairo-1.0-0 is already the newest version (1.50.6+ds-2ubuntu1).
+libpangocairo-1.0-0 set to manually installed.
+libstdc++6 is already the newest version (12.1.0-2ubuntu1~22.04).
+xdg-utils is already the newest version (1.1.3-4.1ubuntu3~22.04.1).
+xdg-utils set to manually installed.
+The following additional packages will be installed:
+  adwaita-icon-theme dbus-user-session dconf-gsettings-backend dconf-service
+  gconf-service-backend gconf2-common gtk-update-icon-cache hicolor-icon-theme
+  humanity-icon-theme libasound2-data libatspi2.0-0 libavahi-client3
+  libavahi-common-data libavahi-common3 libcolord2 libdbus-glib-1-2
+  libdbusmenu-glib4 libdbusmenu-gtk4 libdconf1 libepoxy0
+  libgdk-pixbuf-xlib-2.0-0 libgtk-3-common libgtk2.0-0 libgtk2.0-common
+  libwayland-cursor0 libwayland-egl1 libxfixes-dev libxinerama1 libxkbcommon0
+  ubuntu-mono xkb-data
+Suggested packages:
+  indicator-application libasound2-plugins alsa-utils libasound2-doc colord
+  cups-common gvfs
+Recommended packages:
+  alsa-ucm-conf alsa-topology-conf at-spi2-core libgtk-3-bin libgail-common
+  libgtk2.0-bin
+The following NEW packages will be installed:
+  adwaita-icon-theme dbus-user-session dconf-gsettings-backend dconf-service
+  gconf-service gconf-service-backend gconf2-common gtk-update-icon-cache
+  hicolor-icon-theme humanity-icon-theme libappindicator1 libasound2
+  libasound2-data libasound2-dev libatk-bridge2.0-0 libatspi2.0-0
+  libavahi-client3 libavahi-common-data libavahi-common3 libcolord2 libcups2
+  libdbus-glib-1-2 libdbusmenu-glib4 libdbusmenu-gtk4 libdconf1 libepoxy0
+  libgconf-2-4 libgdk-pixbuf-xlib-2.0-0 libgdk-pixbuf2.0-0 libgtk-3-0
+  libgtk-3-common libgtk2.0-0 libgtk2.0-common libwayland-cursor0
+  libwayland-egl1 libx11-xcb-dev libxcomposite1 libxcursor-dev libxcursor1
+  libxdamage-dev libxdamage1 libxfixes-dev libxi-dev libxinerama1
+  libxkbcommon0 libxrandr-dev libxrandr2 libxtst-dev ubuntu-mono xkb-data
+0 upgraded, 50 newly installed, 0 to remove and 6 not upgraded.
+Need to get 13.8 MB of archives.
+After this operation, 71.6 MB of additional disk space will be used.
+Get:1 http://archive.ubuntu.com/ubuntu jammy/main amd64 xkb-data all 2.33-1 [394 kB]
+Get:2 http://archive.ubuntu.com/ubuntu jammy/main amd64 hicolor-icon-theme all 0.17-2 [9976 B]
+Get:3 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 gtk-update-icon-cache amd64 3.24.33-1ubuntu2 [31.4 kB]
+Get:4 http://archive.ubuntu.com/ubuntu jammy/main amd64 humanity-icon-theme all 0.6.16 [1282 kB]
+Get:5 http://archive.ubuntu.com/ubuntu jammy/main amd64 ubuntu-mono all 20.10-0ubuntu2 [153 kB]
+Get:6 http://archive.ubuntu.com/ubuntu jammy/main amd64 adwaita-icon-theme all 41.0-1ubuntu1 [3444 kB]
+Get:7 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 dbus-user-session amd64 1.12.20-2ubuntu4.1 [9442 B]
+Get:8 http://archive.ubuntu.com/ubuntu jammy/main amd64 libdconf1 amd64 0.40.0-3 [40.5 kB]
+Get:9 http://archive.ubuntu.com/ubuntu jammy/main amd64 dconf-service amd64 0.40.0-3 [28.5 kB]
+Get:10 http://archive.ubuntu.com/ubuntu jammy/main amd64 dconf-gsettings-backend amd64 0.40.0-3 [22.8 kB]
+Get:11 http://archive.ubuntu.com/ubuntu jammy/main amd64 libdbus-glib-1-2 amd64 0.112-2build1 [65.4 kB]
+Get:12 http://archive.ubuntu.com/ubuntu jammy/universe amd64 gconf2-common all 3.2.6-7ubuntu2 [698 kB]
+Get:13 http://archive.ubuntu.com/ubuntu jammy/universe amd64 libgconf-2-4 amd64 3.2.6-7ubuntu2 [86.0 kB]
+Get:14 http://archive.ubuntu.com/ubuntu jammy/universe amd64 gconf-service-backend amd64 3.2.6-7ubuntu2 [59.3 kB]
+Get:15 http://archive.ubuntu.com/ubuntu jammy/universe amd64 gconf-service amd64 3.2.6-7ubuntu2 [17.4 kB]
+Get:16 http://archive.ubuntu.com/ubuntu jammy/main amd64 libdbusmenu-glib4 amd64 16.04.1+18.10.20180917-0ubuntu8 [45.4 kB]
+Get:17 http://archive.ubuntu.com/ubuntu jammy/universe amd64 libdbusmenu-gtk4 amd64 16.04.1+18.10.20180917-0ubuntu8 [30.9 kB]
+Get:18 http://archive.ubuntu.com/ubuntu jammy/main amd64 libgtk2.0-common all 2.24.33-2ubuntu2 [125 kB]
+Get:19 http://archive.ubuntu.com/ubuntu jammy/main amd64 libavahi-common-data amd64 0.8-5ubuntu5 [23.9 kB]
+Get:20 http://archive.ubuntu.com/ubuntu jammy/main amd64 libavahi-common3 amd64 0.8-5ubuntu5 [23.7 kB]
+Get:21 http://archive.ubuntu.com/ubuntu jammy/main amd64 libavahi-client3 amd64 0.8-5ubuntu5 [28.1 kB]
+Get:22 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 libcups2 amd64 2.4.1op1-1ubuntu4.1 [264 kB]
+Get:23 http://archive.ubuntu.com/ubuntu jammy/main amd64 libxcomposite1 amd64 1:0.4.5-1build2 [7192 B]
+Get:24 http://archive.ubuntu.com/ubuntu jammy/main amd64 libxcursor1 amd64 1:1.2.0-2build4 [20.9 kB]
+Get:25 http://archive.ubuntu.com/ubuntu jammy/main amd64 libxdamage1 amd64 1:1.1.5-2build2 [7154 B]
+Get:26 http://archive.ubuntu.com/ubuntu jammy/main amd64 libxinerama1 amd64 2:1.1.4-3 [7382 B]
+Get:27 http://archive.ubuntu.com/ubuntu jammy/main amd64 libxrandr2 amd64 2:1.5.2-1build1 [20.4 kB]
+Get:28 http://archive.ubuntu.com/ubuntu jammy/main amd64 libgtk2.0-0 amd64 2.24.33-2ubuntu2 [2037 kB]
+Get:29 http://archive.ubuntu.com/ubuntu jammy/universe amd64 libappindicator1 amd64 12.10.1+20.10.20200706.1-0ubuntu1 [23.1 kB]
+Get:30 http://archive.ubuntu.com/ubuntu jammy/main amd64 libasound2-data all 1.2.6.1-1ubuntu1 [19.1 kB]
+Get:31 http://archive.ubuntu.com/ubuntu jammy/main amd64 libasound2 amd64 1.2.6.1-1ubuntu1 [390 kB]
+Get:32 http://archive.ubuntu.com/ubuntu jammy/main amd64 libasound2-dev amd64 1.2.6.1-1ubuntu1 [110 kB]
+Get:33 http://archive.ubuntu.com/ubuntu jammy/main amd64 libatspi2.0-0 amd64 2.44.0-3 [80.9 kB]
+Get:34 http://archive.ubuntu.com/ubuntu jammy/main amd64 libatk-bridge2.0-0 amd64 2.38.0-3 [66.6 kB]
+Get:35 http://archive.ubuntu.com/ubuntu jammy/main amd64 libcolord2 amd64 1.4.6-1 [155 kB]
+Get:36 http://archive.ubuntu.com/ubuntu jammy/main amd64 libepoxy0 amd64 1.5.10-1 [237 kB]
+Get:37 http://archive.ubuntu.com/ubuntu jammy/main amd64 libgdk-pixbuf-xlib-2.0-0 amd64 2.40.2-2build4 [42.6 kB]
+Get:38 http://archive.ubuntu.com/ubuntu jammy/universe amd64 libgdk-pixbuf2.0-0 amd64 2.40.2-2build4 [2454 B]
+Get:39 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 libwayland-cursor0 amd64 1.20.0-1ubuntu0.1 [10.7 kB]
+Get:40 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 libwayland-egl1 amd64 1.20.0-1ubuntu0.1 [5582 B]
+Get:41 http://archive.ubuntu.com/ubuntu jammy/main amd64 libxkbcommon0 amd64 1.4.0-1 [125 kB]
+Get:42 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 libgtk-3-common all 3.24.33-1ubuntu2 [239 kB]
+Get:43 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 libgtk-3-0 amd64 3.24.33-1ubuntu2 [3053 kB]
+Get:44 http://archive.ubuntu.com/ubuntu jammy/main amd64 libx11-xcb-dev amd64 2:1.7.5-1 [10.1 kB]
+Get:45 http://archive.ubuntu.com/ubuntu jammy/main amd64 libxfixes-dev amd64 1:6.0.0-1 [12.2 kB]
+Get:46 http://archive.ubuntu.com/ubuntu jammy/main amd64 libxcursor-dev amd64 1:1.2.0-2build4 [28.2 kB]
+Get:47 http://archive.ubuntu.com/ubuntu jammy/main amd64 libxdamage-dev amd64 1:1.1.5-2build2 [5264 B]
+Get:48 http://archive.ubuntu.com/ubuntu jammy/main amd64 libxi-dev amd64 2:1.8-1build1 [193 kB]
+Get:49 http://archive.ubuntu.com/ubuntu jammy/main amd64 libxrandr-dev amd64 2:1.5.2-1build1 [26.7 kB]
+Get:50 http://archive.ubuntu.com/ubuntu jammy/main amd64 libxtst-dev amd64 2:1.2.3-1build4 [16.3 kB]
+[91mdebconf: delaying package configuration, since apt-utils is not installed
+[0mFetched 13.8 MB in 3s (4579 kB/s)
+Selecting previously unselected package xkb-data.
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 89676 files and directories currently installed.)
+Preparing to unpack .../00-xkb-data_2.33-1_all.deb ...
+Unpacking xkb-data (2.33-1) ...
+Selecting previously unselected package hicolor-icon-theme.
+Preparing to unpack .../01-hicolor-icon-theme_0.17-2_all.deb ...
+Unpacking hicolor-icon-theme (0.17-2) ...
+Selecting previously unselected package gtk-update-icon-cache.
+Preparing to unpack .../02-gtk-update-icon-cache_3.24.33-1ubuntu2_amd64.deb ...
+Unpacking gtk-update-icon-cache (3.24.33-1ubuntu2) ...
+Selecting previously unselected package humanity-icon-theme.
+Preparing to unpack .../03-humanity-icon-theme_0.6.16_all.deb ...
+Unpacking humanity-icon-theme (0.6.16) ...
+Selecting previously unselected package ubuntu-mono.
+Preparing to unpack .../04-ubuntu-mono_20.10-0ubuntu2_all.deb ...
+Unpacking ubuntu-mono (20.10-0ubuntu2) ...
+Selecting previously unselected package adwaita-icon-theme.
+Preparing to unpack .../05-adwaita-icon-theme_41.0-1ubuntu1_all.deb ...
+Unpacking adwaita-icon-theme (41.0-1ubuntu1) ...
+Selecting previously unselected package dbus-user-session.
+Preparing to unpack .../06-dbus-user-session_1.12.20-2ubuntu4.1_amd64.deb ...
+Unpacking dbus-user-session (1.12.20-2ubuntu4.1) ...
+Selecting previously unselected package libdconf1:amd64.
+Preparing to unpack .../07-libdconf1_0.40.0-3_amd64.deb ...
+Unpacking libdconf1:amd64 (0.40.0-3) ...
+Selecting previously unselected package dconf-service.
+Preparing to unpack .../08-dconf-service_0.40.0-3_amd64.deb ...
+Unpacking dconf-service (0.40.0-3) ...
+Selecting previously unselected package dconf-gsettings-backend:amd64.
+Preparing to unpack .../09-dconf-gsettings-backend_0.40.0-3_amd64.deb ...
+Unpacking dconf-gsettings-backend:amd64 (0.40.0-3) ...
+Selecting previously unselected package libdbus-glib-1-2:amd64.
+Preparing to unpack .../10-libdbus-glib-1-2_0.112-2build1_amd64.deb ...
+Unpacking libdbus-glib-1-2:amd64 (0.112-2build1) ...
+Selecting previously unselected package gconf2-common.
+Preparing to unpack .../11-gconf2-common_3.2.6-7ubuntu2_all.deb ...
+Unpacking gconf2-common (3.2.6-7ubuntu2) ...
+Selecting previously unselected package libgconf-2-4:amd64.
+Preparing to unpack .../12-libgconf-2-4_3.2.6-7ubuntu2_amd64.deb ...
+Unpacking libgconf-2-4:amd64 (3.2.6-7ubuntu2) ...
+Selecting previously unselected package gconf-service-backend.
+Preparing to unpack .../13-gconf-service-backend_3.2.6-7ubuntu2_amd64.deb ...
+Unpacking gconf-service-backend (3.2.6-7ubuntu2) ...
+Selecting previously unselected package gconf-service.
+Preparing to unpack .../14-gconf-service_3.2.6-7ubuntu2_amd64.deb ...
+Unpacking gconf-service (3.2.6-7ubuntu2) ...
+Selecting previously unselected package libdbusmenu-glib4:amd64.
+Preparing to unpack .../15-libdbusmenu-glib4_16.04.1+18.10.20180917-0ubuntu8_amd64.deb ...
+Unpacking libdbusmenu-glib4:amd64 (16.04.1+18.10.20180917-0ubuntu8) ...
+Selecting previously unselected package libdbusmenu-gtk4:amd64.
+Preparing to unpack .../16-libdbusmenu-gtk4_16.04.1+18.10.20180917-0ubuntu8_amd64.deb ...
+Unpacking libdbusmenu-gtk4:amd64 (16.04.1+18.10.20180917-0ubuntu8) ...
+Selecting previously unselected package libgtk2.0-common.
+Preparing to unpack .../17-libgtk2.0-common_2.24.33-2ubuntu2_all.deb ...
+Unpacking libgtk2.0-common (2.24.33-2ubuntu2) ...
+Selecting previously unselected package libavahi-common-data:amd64.
+Preparing to unpack .../18-libavahi-common-data_0.8-5ubuntu5_amd64.deb ...
+Unpacking libavahi-common-data:amd64 (0.8-5ubuntu5) ...
+Selecting previously unselected package libavahi-common3:amd64.
+Preparing to unpack .../19-libavahi-common3_0.8-5ubuntu5_amd64.deb ...
+Unpacking libavahi-common3:amd64 (0.8-5ubuntu5) ...
+Selecting previously unselected package libavahi-client3:amd64.
+Preparing to unpack .../20-libavahi-client3_0.8-5ubuntu5_amd64.deb ...
+Unpacking libavahi-client3:amd64 (0.8-5ubuntu5) ...
+Selecting previously unselected package libcups2:amd64.
+Preparing to unpack .../21-libcups2_2.4.1op1-1ubuntu4.1_amd64.deb ...
+Unpacking libcups2:amd64 (2.4.1op1-1ubuntu4.1) ...
+Selecting previously unselected package libxcomposite1:amd64.
+Preparing to unpack .../22-libxcomposite1_1%3a0.4.5-1build2_amd64.deb ...
+Unpacking libxcomposite1:amd64 (1:0.4.5-1build2) ...
+Selecting previously unselected package libxcursor1:amd64.
+Preparing to unpack .../23-libxcursor1_1%3a1.2.0-2build4_amd64.deb ...
+Unpacking libxcursor1:amd64 (1:1.2.0-2build4) ...
+Selecting previously unselected package libxdamage1:amd64.
+Preparing to unpack .../24-libxdamage1_1%3a1.1.5-2build2_amd64.deb ...
+Unpacking libxdamage1:amd64 (1:1.1.5-2build2) ...
+Selecting previously unselected package libxinerama1:amd64.
+Preparing to unpack .../25-libxinerama1_2%3a1.1.4-3_amd64.deb ...
+Unpacking libxinerama1:amd64 (2:1.1.4-3) ...
+Selecting previously unselected package libxrandr2:amd64.
+Preparing to unpack .../26-libxrandr2_2%3a1.5.2-1build1_amd64.deb ...
+Unpacking libxrandr2:amd64 (2:1.5.2-1build1) ...
+Selecting previously unselected package libgtk2.0-0:amd64.
+Preparing to unpack .../27-libgtk2.0-0_2.24.33-2ubuntu2_amd64.deb ...
+Unpacking libgtk2.0-0:amd64 (2.24.33-2ubuntu2) ...
+Selecting previously unselected package libappindicator1.
+Preparing to unpack .../28-libappindicator1_12.10.1+20.10.20200706.1-0ubuntu1_amd64.deb ...
+Unpacking libappindicator1 (12.10.1+20.10.20200706.1-0ubuntu1) ...
+Selecting previously unselected package libasound2-data.
+Preparing to unpack .../29-libasound2-data_1.2.6.1-1ubuntu1_all.deb ...
+Unpacking libasound2-data (1.2.6.1-1ubuntu1) ...
+Selecting previously unselected package libasound2:amd64.
+Preparing to unpack .../30-libasound2_1.2.6.1-1ubuntu1_amd64.deb ...
+Unpacking libasound2:amd64 (1.2.6.1-1ubuntu1) ...
+Selecting previously unselected package libasound2-dev:amd64.
+Preparing to unpack .../31-libasound2-dev_1.2.6.1-1ubuntu1_amd64.deb ...
+Unpacking libasound2-dev:amd64 (1.2.6.1-1ubuntu1) ...
+Selecting previously unselected package libatspi2.0-0:amd64.
+Preparing to unpack .../32-libatspi2.0-0_2.44.0-3_amd64.deb ...
+Unpacking libatspi2.0-0:amd64 (2.44.0-3) ...
+Selecting previously unselected package libatk-bridge2.0-0:amd64.
+Preparing to unpack .../33-libatk-bridge2.0-0_2.38.0-3_amd64.deb ...
+Unpacking libatk-bridge2.0-0:amd64 (2.38.0-3) ...
+Selecting previously unselected package libcolord2:amd64.
+Preparing to unpack .../34-libcolord2_1.4.6-1_amd64.deb ...
+Unpacking libcolord2:amd64 (1.4.6-1) ...
+Selecting previously unselected package libepoxy0:amd64.
+Preparing to unpack .../35-libepoxy0_1.5.10-1_amd64.deb ...
+Unpacking libepoxy0:amd64 (1.5.10-1) ...
+Selecting previously unselected package libgdk-pixbuf-xlib-2.0-0:amd64.
+Preparing to unpack .../36-libgdk-pixbuf-xlib-2.0-0_2.40.2-2build4_amd64.deb ...
+Unpacking libgdk-pixbuf-xlib-2.0-0:amd64 (2.40.2-2build4) ...
+Selecting previously unselected package libgdk-pixbuf2.0-0:amd64.
+Preparing to unpack .../37-libgdk-pixbuf2.0-0_2.40.2-2build4_amd64.deb ...
+Unpacking libgdk-pixbuf2.0-0:amd64 (2.40.2-2build4) ...
+Selecting previously unselected package libwayland-cursor0:amd64.
+Preparing to unpack .../38-libwayland-cursor0_1.20.0-1ubuntu0.1_amd64.deb ...
+Unpacking libwayland-cursor0:amd64 (1.20.0-1ubuntu0.1) ...
+Selecting previously unselected package libwayland-egl1:amd64.
+Preparing to unpack .../39-libwayland-egl1_1.20.0-1ubuntu0.1_amd64.deb ...
+Unpacking libwayland-egl1:amd64 (1.20.0-1ubuntu0.1) ...
+Selecting previously unselected package libxkbcommon0:amd64.
+Preparing to unpack .../40-libxkbcommon0_1.4.0-1_amd64.deb ...
+Unpacking libxkbcommon0:amd64 (1.4.0-1) ...
+Selecting previously unselected package libgtk-3-common.
+Preparing to unpack .../41-libgtk-3-common_3.24.33-1ubuntu2_all.deb ...
+Unpacking libgtk-3-common (3.24.33-1ubuntu2) ...
+Selecting previously unselected package libgtk-3-0:amd64.
+Preparing to unpack .../42-libgtk-3-0_3.24.33-1ubuntu2_amd64.deb ...
+Unpacking libgtk-3-0:amd64 (3.24.33-1ubuntu2) ...
+Selecting previously unselected package libx11-xcb-dev:amd64.
+Preparing to unpack .../43-libx11-xcb-dev_2%3a1.7.5-1_amd64.deb ...
+Unpacking libx11-xcb-dev:amd64 (2:1.7.5-1) ...
+Selecting previously unselected package libxfixes-dev:amd64.
+Preparing to unpack .../44-libxfixes-dev_1%3a6.0.0-1_amd64.deb ...
+Unpacking libxfixes-dev:amd64 (1:6.0.0-1) ...
+Selecting previously unselected package libxcursor-dev:amd64.
+Preparing to unpack .../45-libxcursor-dev_1%3a1.2.0-2build4_amd64.deb ...
+Unpacking libxcursor-dev:amd64 (1:1.2.0-2build4) ...
+Selecting previously unselected package libxdamage-dev:amd64.
+Preparing to unpack .../46-libxdamage-dev_1%3a1.1.5-2build2_amd64.deb ...
+Unpacking libxdamage-dev:amd64 (1:1.1.5-2build2) ...
+Selecting previously unselected package libxi-dev:amd64.
+Preparing to unpack .../47-libxi-dev_2%3a1.8-1build1_amd64.deb ...
+Unpacking libxi-dev:amd64 (2:1.8-1build1) ...
+Selecting previously unselected package libxrandr-dev:amd64.
+Preparing to unpack .../48-libxrandr-dev_2%3a1.5.2-1build1_amd64.deb ...
+Unpacking libxrandr-dev:amd64 (2:1.5.2-1build1) ...
+Selecting previously unselected package libxtst-dev:amd64.
+Preparing to unpack .../49-libxtst-dev_2%3a1.2.3-1build4_amd64.deb ...
+Unpacking libxtst-dev:amd64 (2:1.2.3-1build4) ...
+Setting up gtk-update-icon-cache (3.24.33-1ubuntu2) ...
+Setting up libx11-xcb-dev:amd64 (2:1.7.5-1) ...
+Setting up libxdamage1:amd64 (1:1.1.5-2build2) ...
+Setting up libgdk-pixbuf-xlib-2.0-0:amd64 (2.40.2-2build4) ...
+Setting up hicolor-icon-theme (0.17-2) ...
+Setting up libdbusmenu-glib4:amd64 (16.04.1+18.10.20180917-0ubuntu8) ...
+Setting up libxcursor1:amd64 (1:1.2.0-2build4) ...
+Setting up xkb-data (2.33-1) ...
+Setting up libatspi2.0-0:amd64 (2.44.0-3) ...
+Setting up libcolord2:amd64 (1.4.6-1) ...
+Setting up libdconf1:amd64 (0.40.0-3) ...
+Setting up libxfixes-dev:amd64 (1:6.0.0-1) ...
+Setting up libasound2-data (1.2.6.1-1ubuntu1) ...
+Setting up libatk-bridge2.0-0:amd64 (2.38.0-3) ...
+Setting up dbus-user-session (1.12.20-2ubuntu4.1) ...
+Setting up gconf2-common (3.2.6-7ubuntu2) ...
+
+Creating config file /etc/gconf/2/path with new version
+Setting up libepoxy0:amd64 (1.5.10-1) ...
+Setting up libdbus-glib-1-2:amd64 (0.112-2build1) ...
+Setting up libgdk-pixbuf2.0-0:amd64 (2.40.2-2build4) ...
+Setting up libavahi-common-data:amd64 (0.8-5ubuntu5) ...
+Setting up libxinerama1:amd64 (2:1.1.4-3) ...
+Setting up libxrandr2:amd64 (2:1.5.2-1build1) ...
+Setting up libwayland-cursor0:amd64 (1.20.0-1ubuntu0.1) ...
+Setting up libasound2:amd64 (1.2.6.1-1ubuntu1) ...
+Setting up libgtk2.0-common (2.24.33-2ubuntu2) ...
+Setting up libwayland-egl1:amd64 (1.20.0-1ubuntu0.1) ...
+Setting up libxi-dev:amd64 (2:1.8-1build1) ...
+Setting up libdbusmenu-gtk4:amd64 (16.04.1+18.10.20180917-0ubuntu8) ...
+Setting up libasound2-dev:amd64 (1.2.6.1-1ubuntu1) ...
+Setting up libxcomposite1:amd64 (1:0.4.5-1build2) ...
+Setting up libxtst-dev:amd64 (2:1.2.3-1build4) ...
+Setting up libxkbcommon0:amd64 (1.4.0-1) ...
+Setting up libxdamage-dev:amd64 (1:1.1.5-2build2) ...
+Setting up libgconf-2-4:amd64 (3.2.6-7ubuntu2) ...
+Setting up libxcursor-dev:amd64 (1:1.2.0-2build4) ...
+Setting up libavahi-common3:amd64 (0.8-5ubuntu5) ...
+Setting up dconf-service (0.40.0-3) ...
+Setting up libxrandr-dev:amd64 (2:1.5.2-1build1) ...
+Setting up libavahi-client3:amd64 (0.8-5ubuntu5) ...
+Setting up dconf-gsettings-backend:amd64 (0.40.0-3) ...
+Setting up libcups2:amd64 (2.4.1op1-1ubuntu4.1) ...
+Setting up libgtk-3-common (3.24.33-1ubuntu2) ...
+Setting up adwaita-icon-theme (41.0-1ubuntu1) ...
+update-alternatives: using /usr/share/icons/Adwaita/cursor.theme to provide /usr/share/icons/default/index.theme (x-cursor-theme) in auto mode
+Setting up gconf-service (3.2.6-7ubuntu2) ...
+Setting up libgtk2.0-0:amd64 (2.24.33-2ubuntu2) ...
+Setting up libappindicator1 (12.10.1+20.10.20200706.1-0ubuntu1) ...
+Setting up humanity-icon-theme (0.6.16) ...
+Setting up gconf-service-backend (3.2.6-7ubuntu2) ...
+Setting up ubuntu-mono (20.10-0ubuntu2) ...
+Processing triggers for libglib2.0-0:amd64 (2.72.4-0ubuntu1) ...
+Setting up libgtk-3-0:amd64 (3.24.33-1ubuntu2) ...
+Processing triggers for libc-bin (2.35-0ubuntu3.1) ...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+0 upgraded, 0 newly installed, 0 to remove and 6 not upgraded.
+Removing intermediate container a6858266d2ba
+ ---> 3a22bb873476
+Step 4/29 : RUN mkdir $HOME/.decktape  && fix-permissions $HOME/.decktape
+ ---> Running in d1962715ef05
+Removing intermediate container d1962715ef05
+ ---> dd9fbc142c7e
+Step 5/29 : WORKDIR $HOME/.decktape
+ ---> Running in 348f9dec3463
+Removing intermediate container 348f9dec3463
+ ---> 2ea6b9980127
+Step 6/29 : USER $NB_UID
+ ---> Running in 706858b69b2a
+Removing intermediate container 706858b69b2a
+ ---> b9f430d02099
+Step 7/29 : USER root
+ ---> Running in 850d4d8c423f
+Removing intermediate container 850d4d8c423f
+ ---> 60714de16ae7
+Step 8/29 : RUN npm install -g decktape  && npm cache clean --force
+ ---> Running in 9715117d369e
+
+added 79 packages, and audited 80 packages in 10s
+
+9 packages are looking for funding
+  run `npm fund` for details
+
+found 0 vulnerabilities
+[91mnpm notice 
+npm notice New major version of npm available! 8.19.3 -> 9.6.4
+npm notice Changelog: <https://github.com/npm/cli/releases/tag/v9.6.4>
+npm notice[0m[91m Run `npm install -g npm@9.6.4` to update!
+npm notice 
+[0m[91mnpm[0m[91m WARN using --force Recommended protections disabled.
+[0mRemoving intermediate container 9715117d369e
+ ---> 1b2e264f4e67
+Step 9/29 : USER $NB_UID
+ ---> Running in 6da1b3c344d5
+Removing intermediate container 6da1b3c344d5
+ ---> 8981870c37be
+Step 10/29 : ENV PATH="$HOME/.decktape/decktape-3.7.0:${PATH}"
+ ---> Running in 3e8d4081328c
+Removing intermediate container 3e8d4081328c
+ ---> d62b81bddf0e
+Step 11/29 : WORKDIR $HOME/
+ ---> Running in 2032ee006937
+Removing intermediate container 2032ee006937
+ ---> a69651d88204
+Step 12/29 : USER root
+ ---> Running in 212dda64243d
+Removing intermediate container 212dda64243d
+ ---> d80b66ce305f
+Step 13/29 : ADD ./texBuild.py $HOME/
+ ---> 5fd4a759884c
+Step 14/29 : ADD ./install_texbuild.py $HOME/
+ ---> 25f4db5bc80d
+Step 15/29 : RUN cp $HOME/texBuild.py /bin/texBuild.py  && python $HOME/install_texbuild.py  && rm $HOME/install_texbuild.py $HOME/texBuild*
+ ---> Running in ea2204c8a2f5
+Successfully installed!!!
+Removing intermediate container ea2204c8a2f5
+ ---> ee79c7b1bd61
+Step 16/29 : RUN mkdir texcount_tmp  && cd texcount_tmp  && wget https://app.uio.no/ifi/texcount/download.php?file=texcount_3_2_0_41.zip  && unzip download.php?file=texcount_3_2_0_41.zip  && mv texcount.pl /usr/bin/texcount  && chmod +x /usr/bin/texcount  && cd ..  && rm -rf texcount_tmp
+ ---> Running in 7b2fb8687104
+[91m--2023-04-11 18:49:54--  https://app.uio.no/ifi/texcount/download.php?file=texcount_3_2_0_41.zip
+[0m[91mResolving app.uio.no (app.uio.no)... [0m[91m129.240.118.41, 2001:700:100:118::41
+Connecting to app.uio.no (app.uio.no)|129.240.118.41|:443... [0m[91mconnected.
+[0m[91mHTTP request sent, awaiting response... [0m[91m200 OK
+Length: unspecified [application/zip]
+[0m[91mSaving to: ‘download.php?file=texcount_3_2_0_41.zip’
+[0m[91m
+     0K ........[0m[91m.. .......... ...[0m[91m....... .........[0m[91m. ..........[0m[91m  861K
+    50K .....[0m[91m..... .......... .[0m[91m......... .......... .....[0m[91m..... 1.67M
+   100K ...[0m[91m....... .[0m[91m........[0m[91m. .......... .....[0m[91m..... ..........  125M
+   150K .[0m[91m......... .......[0m[91m... .......... ...[0m[91m....... .........[0m[91m. 1.68M
+   200K .......[0m[91m... .....[0m[91m..... .......... .[0m[91m......... ...[0m[91m....[0m[91m...  100M
+   250K .[0m[91m....[0m[91m..... ...[0m[91m....... .........[0m[91m. .......... .....[0m[91m..... 95.6M
+   300K ...[0m[91m....... .[0m[91m......... .......[0m[91m... .......... ...[0m[91m....... 1.78M
+   350K .........[0m[91m. .......... .......... ...[0m[91m....... .[0m[91m......... 49.7M
+   400K .......[0m[91m... .......... ...[0m[91m....... .........[0m[91m. ..........  113M
+   450K [0m[91m.....[0m[91m..... .......... .[0m[91m......... ......[0m[91m.[0m[91m... .....[0m[91m.....  123M
+   500K ..[0m[91m........ .[0m[91m.......[0m[91m.[0m[91m. .......[0m[91m... ....[0m[91m...... ...[0m[91m.......  101M[0m[91m
+   550K ........[0m[91m.[0m[91m. ......[0m[91m.... .....[0m[91m..... ..[0m[91m........ .[0m[91m.......[0m[91m..  101M
+   600K[0m[91m .......[0m[91m... ....[0m[91m...... ...[0m[91m.......[0m[91m .[0m[91m......... .[0m[91m.....   [0m[91m   127M=0.1s[0m[91m
+
+[0m[91m2023-04-11 18:49:55 (4.25 MB/s) - ‘download.php?file=texcount_3_2_0_41.zip’ saved [661766]
+
+[0mArchive:  download.php?file=texcount_3_2_0_41.zip
+  inflating: Doc/macros.tex          
+  inflating: Doc/QuickReference.pdf  
+  inflating: Doc/QuickReference.tex  
+  inflating: Doc/sub_addrules.tex    
+  inflating: Doc/sub_options.tex     
+  inflating: Doc/sub_ruletypes.tex   
+  inflating: Doc/sub_tc_other.tex    
+  inflating: Doc/TechDoc.pdf         
+  inflating: Doc/TechDoc.tex         
+  inflating: Doc/TeXcount.pdf        
+  inflating: Doc/TeXcount.tex        
+  inflating: texcount.pl             
+Removing intermediate container 7b2fb8687104
+ ---> 76a96eb8c180
+Step 17/29 : USER $NB_UID
+ ---> Running in fad745bc5724
+Removing intermediate container fad745bc5724
+ ---> 77de90877156
+Step 18/29 : RUN pip install dask-labextension bash_kernel  && python -m bash_kernel.install  && mamba install python-graphviz  && pip cache purge  && conda clean --all --yes --force-pkgs-dirs
+ ---> Running in 011e29103a84
+Collecting dask-labextension
+  Downloading dask_labextension-6.1.0-py3-none-any.whl (66 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 66.1/66.1 kB 3.3 MB/s eta 0:00:00
+Collecting bash_kernel
+  Downloading bash_kernel-0.9.0-py2.py3-none-any.whl (11 kB)
+Requirement already satisfied: distributed>=1.24.1 in /opt/conda/lib/python3.10/site-packages (from dask-labextension) (2022.11.0)
+Requirement already satisfied: jupyter-server-proxy>=1.3.2 in /opt/conda/lib/python3.10/site-packages (from dask-labextension) (3.2.2)
+Requirement already satisfied: bokeh!=2.0.0,>=1.0.0 in /opt/conda/lib/python3.10/site-packages (from dask-labextension) (3.1.0)
+Requirement already satisfied: jupyterlab>=3.0.0 in /opt/conda/lib/python3.10/site-packages (from dask-labextension) (3.6.3)
+Requirement already satisfied: ipykernel in /opt/conda/lib/python3.10/site-packages (from bash_kernel) (6.22.0)
+Requirement already satisfied: pexpect>=4.0 in /opt/conda/lib/python3.10/site-packages (from bash_kernel) (4.8.0)
+Requirement already satisfied: numpy>=1.16 in /opt/conda/lib/python3.10/site-packages (from bokeh!=2.0.0,>=1.0.0->dask-labextension) (1.23.5)
+Requirement already satisfied: tornado>=5.1 in /opt/conda/lib/python3.10/site-packages (from bokeh!=2.0.0,>=1.0.0->dask-labextension) (6.1)
+Requirement already satisfied: contourpy>=1 in /opt/conda/lib/python3.10/site-packages (from bokeh!=2.0.0,>=1.0.0->dask-labextension) (1.0.7)
+Requirement already satisfied: PyYAML>=3.10 in /opt/conda/lib/python3.10/site-packages (from bokeh!=2.0.0,>=1.0.0->dask-labextension) (6.0)
+Requirement already satisfied: xyzservices>=2021.09.1 in /opt/conda/lib/python3.10/site-packages (from bokeh!=2.0.0,>=1.0.0->dask-labextension) (2023.2.0)
+Requirement already satisfied: packaging>=16.8 in /opt/conda/lib/python3.10/site-packages (from bokeh!=2.0.0,>=1.0.0->dask-labextension) (23.0)
+Requirement already satisfied: pandas>=1.2 in /opt/conda/lib/python3.10/site-packages (from bokeh!=2.0.0,>=1.0.0->dask-labextension) (1.5.3)
+Requirement already satisfied: Jinja2>=2.9 in /opt/conda/lib/python3.10/site-packages (from bokeh!=2.0.0,>=1.0.0->dask-labextension) (3.1.2)
+Requirement already satisfied: pillow>=7.1.0 in /opt/conda/lib/python3.10/site-packages (from bokeh!=2.0.0,>=1.0.0->dask-labextension) (9.4.0)
+Requirement already satisfied: dask==2022.11.0 in /opt/conda/lib/python3.10/site-packages (from distributed>=1.24.1->dask-labextension) (2022.11.0)
+Requirement already satisfied: locket>=1.0.0 in /opt/conda/lib/python3.10/site-packages (from distributed>=1.24.1->dask-labextension) (1.0.0)
+Requirement already satisfied: toolz>=0.8.2 in /opt/conda/lib/python3.10/site-packages (from distributed>=1.24.1->dask-labextension) (0.12.0)
+Requirement already satisfied: tblib>=1.6.0 in /opt/conda/lib/python3.10/site-packages (from distributed>=1.24.1->dask-labextension) (1.7.0)
+Requirement already satisfied: click>=7.0 in /opt/conda/lib/python3.10/site-packages (from distributed>=1.24.1->dask-labextension) (8.1.3)
+Requirement already satisfied: zict>=0.1.3 in /opt/conda/lib/python3.10/site-packages (from distributed>=1.24.1->dask-labextension) (2.2.0)
+Requirement already satisfied: cloudpickle>=1.5.0 in /opt/conda/lib/python3.10/site-packages (from distributed>=1.24.1->dask-labextension) (2.2.1)
+Requirement already satisfied: urllib3 in /opt/conda/lib/python3.10/site-packages (from distributed>=1.24.1->dask-labextension) (1.26.15)
+Requirement already satisfied: psutil>=5.0 in /opt/conda/lib/python3.10/site-packages (from distributed>=1.24.1->dask-labextension) (5.9.4)
+Requirement already satisfied: msgpack>=0.6.0 in /opt/conda/lib/python3.10/site-packages (from distributed>=1.24.1->dask-labextension) (1.0.5)
+Requirement already satisfied: sortedcontainers!=2.0.0,!=2.0.1 in /opt/conda/lib/python3.10/site-packages (from distributed>=1.24.1->dask-labextension) (2.4.0)
+Requirement already satisfied: fsspec>=0.6.0 in /opt/conda/lib/python3.10/site-packages (from dask==2022.11.0->distributed>=1.24.1->dask-labextension) (2023.3.0)
+Requirement already satisfied: partd>=0.3.10 in /opt/conda/lib/python3.10/site-packages (from dask==2022.11.0->distributed>=1.24.1->dask-labextension) (1.3.0)
+Requirement already satisfied: jupyter-server>=1.0 in /opt/conda/lib/python3.10/site-packages (from jupyter-server-proxy>=1.3.2->dask-labextension) (1.23.6)
+Requirement already satisfied: aiohttp in /opt/conda/lib/python3.10/site-packages (from jupyter-server-proxy>=1.3.2->dask-labextension) (3.7.4.post0)
+Requirement already satisfied: simpervisor>=0.4 in /opt/conda/lib/python3.10/site-packages (from jupyter-server-proxy>=1.3.2->dask-labextension) (0.4)
+Requirement already satisfied: notebook<7 in /opt/conda/lib/python3.10/site-packages (from jupyterlab>=3.0.0->dask-labextension) (6.5.3)
+Requirement already satisfied: ipython in /opt/conda/lib/python3.10/site-packages (from jupyterlab>=3.0.0->dask-labextension) (8.12.0)
+Requirement already satisfied: nbclassic in /opt/conda/lib/python3.10/site-packages (from jupyterlab>=3.0.0->dask-labextension) (0.5.3)
+Requirement already satisfied: jupyter-core in /opt/conda/lib/python3.10/site-packages (from jupyterlab>=3.0.0->dask-labextension) (5.3.0)
+Requirement already satisfied: tomli in /opt/conda/lib/python3.10/site-packages (from jupyterlab>=3.0.0->dask-labextension) (2.0.1)
+Requirement already satisfied: jupyterlab-server~=2.19 in /opt/conda/lib/python3.10/site-packages (from jupyterlab>=3.0.0->dask-labextension) (2.22.0)
+Requirement already satisfied: jupyter-server-ydoc~=0.8.0 in /opt/conda/lib/python3.10/site-packages (from jupyterlab>=3.0.0->dask-labextension) (0.8.0)
+Requirement already satisfied: jupyter-ydoc~=0.2.3 in /opt/conda/lib/python3.10/site-packages (from jupyterlab>=3.0.0->dask-labextension) (0.2.3)
+Requirement already satisfied: ptyprocess>=0.5 in /opt/conda/lib/python3.10/site-packages (from pexpect>=4.0->bash_kernel) (0.7.0)
+Requirement already satisfied: comm>=0.1.1 in /opt/conda/lib/python3.10/site-packages (from ipykernel->bash_kernel) (0.1.3)
+Requirement already satisfied: jupyter-client>=6.1.12 in /opt/conda/lib/python3.10/site-packages (from ipykernel->bash_kernel) (7.3.4)
+Requirement already satisfied: traitlets>=5.4.0 in /opt/conda/lib/python3.10/site-packages (from ipykernel->bash_kernel) (5.9.0)
+Requirement already satisfied: pyzmq>=20 in /opt/conda/lib/python3.10/site-packages (from ipykernel->bash_kernel) (25.0.2)
+Requirement already satisfied: nest-asyncio in /opt/conda/lib/python3.10/site-packages (from ipykernel->bash_kernel) (1.5.6)
+Requirement already satisfied: matplotlib-inline>=0.1 in /opt/conda/lib/python3.10/site-packages (from ipykernel->bash_kernel) (0.1.6)
+Requirement already satisfied: debugpy>=1.6.5 in /opt/conda/lib/python3.10/site-packages (from ipykernel->bash_kernel) (1.6.6)
+Requirement already satisfied: stack-data in /opt/conda/lib/python3.10/site-packages (from ipython->jupyterlab>=3.0.0->dask-labextension) (0.6.2)
+Requirement already satisfied: prompt-toolkit!=3.0.37,<3.1.0,>=3.0.30 in /opt/conda/lib/python3.10/site-packages (from ipython->jupyterlab>=3.0.0->dask-labextension) (3.0.38)
+Requirement already satisfied: jedi>=0.16 in /opt/conda/lib/python3.10/site-packages (from ipython->jupyterlab>=3.0.0->dask-labextension) (0.18.2)
+Requirement already satisfied: decorator in /opt/conda/lib/python3.10/site-packages (from ipython->jupyterlab>=3.0.0->dask-labextension) (5.1.1)
+Requirement already satisfied: pickleshare in /opt/conda/lib/python3.10/site-packages (from ipython->jupyterlab>=3.0.0->dask-labextension) (0.7.5)
+Requirement already satisfied: pygments>=2.4.0 in /opt/conda/lib/python3.10/site-packages (from ipython->jupyterlab>=3.0.0->dask-labextension) (2.14.0)
+Requirement already satisfied: backcall in /opt/conda/lib/python3.10/site-packages (from ipython->jupyterlab>=3.0.0->dask-labextension) (0.2.0)
+Requirement already satisfied: MarkupSafe>=2.0 in /opt/conda/lib/python3.10/site-packages (from Jinja2>=2.9->bokeh!=2.0.0,>=1.0.0->dask-labextension) (2.1.2)
+Requirement already satisfied: python-dateutil>=2.8.2 in /opt/conda/lib/python3.10/site-packages (from jupyter-client>=6.1.12->ipykernel->bash_kernel) (2.8.2)
+Requirement already satisfied: entrypoints in /opt/conda/lib/python3.10/site-packages (from jupyter-client>=6.1.12->ipykernel->bash_kernel) (0.4)
+Requirement already satisfied: platformdirs>=2.5 in /opt/conda/lib/python3.10/site-packages (from jupyter-core->jupyterlab>=3.0.0->dask-labextension) (3.2.0)
+Requirement already satisfied: websocket-client in /opt/conda/lib/python3.10/site-packages (from jupyter-server>=1.0->jupyter-server-proxy>=1.3.2->dask-labextension) (1.5.1)
+Requirement already satisfied: nbformat>=5.2.0 in /opt/conda/lib/python3.10/site-packages (from jupyter-server>=1.0->jupyter-server-proxy>=1.3.2->dask-labextension) (5.8.0)
+Requirement already satisfied: anyio<4,>=3.1.0 in /opt/conda/lib/python3.10/site-packages (from jupyter-server>=1.0->jupyter-server-proxy>=1.3.2->dask-labextension) (3.6.2)
+Requirement already satisfied: argon2-cffi in /opt/conda/lib/python3.10/site-packages (from jupyter-server>=1.0->jupyter-server-proxy>=1.3.2->dask-labextension) (21.3.0)
+Requirement already satisfied: nbconvert>=6.4.4 in /opt/conda/lib/python3.10/site-packages (from jupyter-server>=1.0->jupyter-server-proxy>=1.3.2->dask-labextension) (7.2.10)
+Requirement already satisfied: terminado>=0.8.3 in /opt/conda/lib/python3.10/site-packages (from jupyter-server>=1.0->jupyter-server-proxy>=1.3.2->dask-labextension) (0.17.1)
+Requirement already satisfied: Send2Trash in /opt/conda/lib/python3.10/site-packages (from jupyter-server>=1.0->jupyter-server-proxy>=1.3.2->dask-labextension) (1.8.0)
+Requirement already satisfied: prometheus-client in /opt/conda/lib/python3.10/site-packages (from jupyter-server>=1.0->jupyter-server-proxy>=1.3.2->dask-labextension) (0.16.0)
+Requirement already satisfied: jupyter-server-fileid<1,>=0.6.0 in /opt/conda/lib/python3.10/site-packages (from jupyter-server-ydoc~=0.8.0->jupyterlab>=3.0.0->dask-labextension) (0.8.0)
+Requirement already satisfied: ypy-websocket<0.9.0,>=0.8.2 in /opt/conda/lib/python3.10/site-packages (from jupyter-server-ydoc~=0.8.0->jupyterlab>=3.0.0->dask-labextension) (0.8.2)
+Requirement already satisfied: y-py<0.6.0,>=0.5.3 in /opt/conda/lib/python3.10/site-packages (from jupyter-ydoc~=0.2.3->jupyterlab>=3.0.0->dask-labextension) (0.5.9)
+Requirement already satisfied: requests>=2.28 in /opt/conda/lib/python3.10/site-packages (from jupyterlab-server~=2.19->jupyterlab>=3.0.0->dask-labextension) (2.28.2)
+Requirement already satisfied: jsonschema>=4.17.3 in /opt/conda/lib/python3.10/site-packages (from jupyterlab-server~=2.19->jupyterlab>=3.0.0->dask-labextension) (4.17.3)
+Requirement already satisfied: babel>=2.10 in /opt/conda/lib/python3.10/site-packages (from jupyterlab-server~=2.19->jupyterlab>=3.0.0->dask-labextension) (2.12.1)
+Requirement already satisfied: json5>=0.9.0 in /opt/conda/lib/python3.10/site-packages (from jupyterlab-server~=2.19->jupyterlab>=3.0.0->dask-labextension) (0.9.5)
+Requirement already satisfied: ipython-genutils in /opt/conda/lib/python3.10/site-packages (from notebook<7->jupyterlab>=3.0.0->dask-labextension) (0.2.0)
+Requirement already satisfied: notebook-shim>=0.1.0 in /opt/conda/lib/python3.10/site-packages (from nbclassic->jupyterlab>=3.0.0->dask-labextension) (0.2.2)
+Requirement already satisfied: pytz>=2020.1 in /opt/conda/lib/python3.10/site-packages (from pandas>=1.2->bokeh!=2.0.0,>=1.0.0->dask-labextension) (2023.3)
+Requirement already satisfied: heapdict in /opt/conda/lib/python3.10/site-packages (from zict>=0.1.3->distributed>=1.24.1->dask-labextension) (1.0.1)
+Requirement already satisfied: async-timeout<4.0,>=3.0 in /opt/conda/lib/python3.10/site-packages (from aiohttp->jupyter-server-proxy>=1.3.2->dask-labextension) (3.0.1)
+Requirement already satisfied: multidict<7.0,>=4.5 in /opt/conda/lib/python3.10/site-packages (from aiohttp->jupyter-server-proxy>=1.3.2->dask-labextension) (6.0.4)
+Requirement already satisfied: attrs>=17.3.0 in /opt/conda/lib/python3.10/site-packages (from aiohttp->jupyter-server-proxy>=1.3.2->dask-labextension) (21.4.0)
+Requirement already satisfied: yarl<2.0,>=1.0 in /opt/conda/lib/python3.10/site-packages (from aiohttp->jupyter-server-proxy>=1.3.2->dask-labextension) (1.8.2)
+Requirement already satisfied: chardet<5.0,>=2.0 in /opt/conda/lib/python3.10/site-packages (from aiohttp->jupyter-server-proxy>=1.3.2->dask-labextension) (4.0.0)
+Requirement already satisfied: typing-extensions>=3.6.5 in /opt/conda/lib/python3.10/site-packages (from aiohttp->jupyter-server-proxy>=1.3.2->dask-labextension) (4.5.0)
+Requirement already satisfied: idna>=2.8 in /opt/conda/lib/python3.10/site-packages (from anyio<4,>=3.1.0->jupyter-server>=1.0->jupyter-server-proxy>=1.3.2->dask-labextension) (3.4)
+Requirement already satisfied: sniffio>=1.1 in /opt/conda/lib/python3.10/site-packages (from anyio<4,>=3.1.0->jupyter-server>=1.0->jupyter-server-proxy>=1.3.2->dask-labextension) (1.3.0)
+Requirement already satisfied: parso<0.9.0,>=0.8.0 in /opt/conda/lib/python3.10/site-packages (from jedi>=0.16->ipython->jupyterlab>=3.0.0->dask-labextension) (0.8.3)
+Requirement already satisfied: pyrsistent!=0.17.0,!=0.17.1,!=0.17.2,>=0.14.0 in /opt/conda/lib/python3.10/site-packages (from jsonschema>=4.17.3->jupyterlab-server~=2.19->jupyterlab>=3.0.0->dask-labextension) (0.19.3)
+Requirement already satisfied: jupyter-events>=0.5.0 in /opt/conda/lib/python3.10/site-packages (from jupyter-server-fileid<1,>=0.6.0->jupyter-server-ydoc~=0.8.0->jupyterlab>=3.0.0->dask-labextension) (0.6.3)
+Requirement already satisfied: defusedxml in /opt/conda/lib/python3.10/site-packages (from nbconvert>=6.4.4->jupyter-server>=1.0->jupyter-server-proxy>=1.3.2->dask-labextension) (0.7.1)
+Requirement already satisfied: mistune<3,>=2.0.3 in /opt/conda/lib/python3.10/site-packages (from nbconvert>=6.4.4->jupyter-server>=1.0->jupyter-server-proxy>=1.3.2->dask-labextension) (2.0.5)
+Requirement already satisfied: jupyterlab-pygments in /opt/conda/lib/python3.10/site-packages (from nbconvert>=6.4.4->jupyter-server>=1.0->jupyter-server-proxy>=1.3.2->dask-labextension) (0.2.2)
+Requirement already satisfied: nbclient>=0.5.0 in /opt/conda/lib/python3.10/site-packages (from nbconvert>=6.4.4->jupyter-server>=1.0->jupyter-server-proxy>=1.3.2->dask-labextension) (0.5.13)
+Requirement already satisfied: beautifulsoup4 in /opt/conda/lib/python3.10/site-packages (from nbconvert>=6.4.4->jupyter-server>=1.0->jupyter-server-proxy>=1.3.2->dask-labextension) (4.12.0)
+Requirement already satisfied: tinycss2 in /opt/conda/lib/python3.10/site-packages (from nbconvert>=6.4.4->jupyter-server>=1.0->jupyter-server-proxy>=1.3.2->dask-labextension) (1.2.1)
+Requirement already satisfied: bleach in /opt/conda/lib/python3.10/site-packages (from nbconvert>=6.4.4->jupyter-server>=1.0->jupyter-server-proxy>=1.3.2->dask-labextension) (6.0.0)
+Requirement already satisfied: pandocfilters>=1.4.1 in /opt/conda/lib/python3.10/site-packages (from nbconvert>=6.4.4->jupyter-server>=1.0->jupyter-server-proxy>=1.3.2->dask-labextension) (1.5.0)
+Requirement already satisfied: fastjsonschema in /opt/conda/lib/python3.10/site-packages (from nbformat>=5.2.0->jupyter-server>=1.0->jupyter-server-proxy>=1.3.2->dask-labextension) (2.16.3)
+Requirement already satisfied: wcwidth in /opt/conda/lib/python3.10/site-packages (from prompt-toolkit!=3.0.37,<3.1.0,>=3.0.30->ipython->jupyterlab>=3.0.0->dask-labextension) (0.2.6)
+Requirement already satisfied: six>=1.5 in /opt/conda/lib/python3.10/site-packages (from python-dateutil>=2.8.2->jupyter-client>=6.1.12->ipykernel->bash_kernel) (1.16.0)
+Requirement already satisfied: charset-normalizer<4,>=2 in /opt/conda/lib/python3.10/site-packages (from requests>=2.28->jupyterlab-server~=2.19->jupyterlab>=3.0.0->dask-labextension) (3.1.0)
+Requirement already satisfied: certifi>=2017.4.17 in /opt/conda/lib/python3.10/site-packages (from requests>=2.28->jupyterlab-server~=2.19->jupyterlab>=3.0.0->dask-labextension) (2022.12.7)
+Requirement already satisfied: aiofiles<23,>=22.1.0 in /opt/conda/lib/python3.10/site-packages (from ypy-websocket<0.9.0,>=0.8.2->jupyter-server-ydoc~=0.8.0->jupyterlab>=3.0.0->dask-labextension) (22.1.0)
+Requirement already satisfied: aiosqlite<1,>=0.17.0 in /opt/conda/lib/python3.10/site-packages (from ypy-websocket<0.9.0,>=0.8.2->jupyter-server-ydoc~=0.8.0->jupyterlab>=3.0.0->dask-labextension) (0.18.0)
+Requirement already satisfied: argon2-cffi-bindings in /opt/conda/lib/python3.10/site-packages (from argon2-cffi->jupyter-server>=1.0->jupyter-server-proxy>=1.3.2->dask-labextension) (21.2.0)
+Requirement already satisfied: pure-eval in /opt/conda/lib/python3.10/site-packages (from stack-data->ipython->jupyterlab>=3.0.0->dask-labextension) (0.2.2)
+Requirement already satisfied: executing>=1.2.0 in /opt/conda/lib/python3.10/site-packages (from stack-data->ipython->jupyterlab>=3.0.0->dask-labextension) (1.2.0)
+Requirement already satisfied: asttokens>=2.1.0 in /opt/conda/lib/python3.10/site-packages (from stack-data->ipython->jupyterlab>=3.0.0->dask-labextension) (2.2.1)
+Requirement already satisfied: rfc3986-validator>=0.1.1 in /opt/conda/lib/python3.10/site-packages (from jupyter-events>=0.5.0->jupyter-server-fileid<1,>=0.6.0->jupyter-server-ydoc~=0.8.0->jupyterlab>=3.0.0->dask-labextension) (0.1.1)
+Requirement already satisfied: python-json-logger>=2.0.4 in /opt/conda/lib/python3.10/site-packages (from jupyter-events>=0.5.0->jupyter-server-fileid<1,>=0.6.0->jupyter-server-ydoc~=0.8.0->jupyterlab>=3.0.0->dask-labextension) (2.0.7)
+Requirement already satisfied: rfc3339-validator in /opt/conda/lib/python3.10/site-packages (from jupyter-events>=0.5.0->jupyter-server-fileid<1,>=0.6.0->jupyter-server-ydoc~=0.8.0->jupyterlab>=3.0.0->dask-labextension) (0.1.4)
+Requirement already satisfied: cffi>=1.0.1 in /opt/conda/lib/python3.10/site-packages (from argon2-cffi-bindings->argon2-cffi->jupyter-server>=1.0->jupyter-server-proxy>=1.3.2->dask-labextension) (1.15.1)
+Requirement already satisfied: soupsieve>1.2 in /opt/conda/lib/python3.10/site-packages (from beautifulsoup4->nbconvert>=6.4.4->jupyter-server>=1.0->jupyter-server-proxy>=1.3.2->dask-labextension) (2.3.2.post1)
+Requirement already satisfied: webencodings in /opt/conda/lib/python3.10/site-packages (from bleach->nbconvert>=6.4.4->jupyter-server>=1.0->jupyter-server-proxy>=1.3.2->dask-labextension) (0.5.1)
+Requirement already satisfied: pycparser in /opt/conda/lib/python3.10/site-packages (from cffi>=1.0.1->argon2-cffi-bindings->argon2-cffi->jupyter-server>=1.0->jupyter-server-proxy>=1.3.2->dask-labextension) (2.21)
+Collecting uri-template
+  Downloading uri_template-1.2.0-py3-none-any.whl (10 kB)
+Collecting webcolors>=1.11
+  Downloading webcolors-1.13-py3-none-any.whl (14 kB)
+Collecting fqdn
+  Downloading fqdn-1.5.1-py3-none-any.whl (9.1 kB)
+Collecting isoduration
+  Downloading isoduration-20.11.0-py3-none-any.whl (11 kB)
+Requirement already satisfied: jsonpointer>1.13 in /opt/conda/lib/python3.10/site-packages (from jsonschema>=4.17.3->jupyterlab-server~=2.19->jupyterlab>=3.0.0->dask-labextension) (2.0)
+Collecting arrow>=0.15.0
+  Downloading arrow-1.2.3-py3-none-any.whl (66 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 66.4/66.4 kB 10.8 MB/s eta 0:00:00
+Installing collected packages: webcolors, uri-template, fqdn, arrow, isoduration, bash_kernel, dask-labextension
+Successfully installed arrow-1.2.3 bash_kernel-0.9.0 dask-labextension-6.1.0 fqdn-1.5.1 isoduration-20.11.0 uri-template-1.2.0 webcolors-1.13
+Installing IPython kernel spec
+Transaction
+
+  Prefix: /opt/conda
+
+  Updating specs:
+
+   - python-graphviz
+   - ca-certificates
+   - certifi
+   - openssl
+
+
+  Package                  Version  Build               Channel                   Size
+────────────────────────────────────────────────────────────────────────────────────────
+  Install:
+────────────────────────────────────────────────────────────────────────────────────────
+
+  + atk-1.0                 2.38.0  hd4edc92_1          conda-forge/linux-64     552kB
+  + fribidi                 1.0.10  h36c2ea0_0          conda-forge/linux-64     114kB
+  + gdk-pixbuf             2.42.10  h05c8ddd_0          conda-forge/linux-64     574kB
+  + graphite2               1.3.13  h58526e2_1001       conda-forge/linux-64     105kB
+  + graphviz                 7.1.0  h2e5815a_0          conda-forge/linux-64       2MB
+  + gtk2                   2.24.33  h90689f9_2          conda-forge/linux-64       8MB
+  + gts                      0.7.6  h64030ff_2          conda-forge/linux-64     421kB
+  + harfbuzz                 6.0.0  h8e241bc_0          conda-forge/linux-64       1MB
+  + jpeg                        9e  h166bdaf_2          conda-forge/linux-64     275kB
+  + libgd                    2.3.3  h5aea950_4          conda-forge/linux-64     222kB
+  + librsvg                 2.54.4  h7abd40a_0          conda-forge/linux-64       7MB
+  + libtool                  2.4.7  h27087fc_0          conda-forge/linux-64     412kB
+  + libwebp                  1.2.4  h1daa5a0_1          conda-forge/linux-64      84kB
+  + pango                  1.50.14  hd33c08f_0          conda-forge/linux-64     438kB
+  + python-graphviz         0.20.1  pyh22cad53_0        conda-forge/noarch        36kB
+
+  Change:
+────────────────────────────────────────────────────────────────────────────────────────
+
+  - geotiff                  1.7.1  hb963b44_7          conda-forge                   
+  + geotiff                  1.7.1  h7a142b4_6          conda-forge/linux-64     259kB
+  - hdf4                    4.2.15  h501b40f_6          conda-forge                   
+  + hdf4                    4.2.15  h9772cbc_5          conda-forge/linux-64     974kB
+  - lcms2                     2.15  haa2dc70_1          conda-forge                   
+  + lcms2                     2.15  hfd0df8a_0          conda-forge/linux-64     241kB
+  - libnetcdf                4.9.1  nompi_hd2e9713_102  conda-forge                   
+  + libnetcdf                4.9.1  nompi_h34a3ff0_101  conda-forge/linux-64     812kB
+  - librttopo                1.1.0  h0d5128d_13         conda-forge                   
+  + librttopo                1.1.0  ha49c73b_12         conda-forge/linux-64     242kB
+  - libspatialite            5.0.1  h2d2bb50_24         conda-forge                   
+  + libspatialite            5.0.1  h221c8f1_23         conda-forge/linux-64       4MB
+  - libtiff                  4.5.0  hddfeb54_5          conda-forge                   
+  + libtiff                  4.5.0  h6adf6a1_2          conda-forge/linux-64     407kB
+  - pillow                   9.4.0  py310h065c6d2_2     conda-forge                   
+  + pillow                   9.4.0  py310h023d228_1     conda-forge/linux-64      46MB
+  - poppler                23.03.0  hf052cbe_1          conda-forge                   
+  + poppler                23.03.0  h091648b_0          conda-forge/linux-64      16MB
+  - pygeos                    0.14  py310h056c13c_1     conda-forge                   
+  + pygeos                    0.14  py310h8b84c32_0     conda-forge/linux-64     400kB
+  - shapely                  2.0.1  py310h056c13c_1     conda-forge                   
+  + shapely                  2.0.1  py310h8b84c32_0     conda-forge/linux-64     422kB
+
+  Downgrade:
+────────────────────────────────────────────────────────────────────────────────────────
+
+  - gdal                     3.6.3  py310hc1b7723_1     conda-forge                   
+  + gdal                     3.6.2  py310hc1b7723_9     conda-forge/linux-64       1MB
+  - geos                    3.11.2  hcb278e6_0          conda-forge                   
+  + geos                    3.11.1  h27087fc_0          conda-forge/linux-64       2MB
+  - libgdal                  3.6.3  h93ed92d_1          conda-forge                   
+  + libgdal                  3.6.2  h6c674c2_9          conda-forge/linux-64      10MB
+  - libgdal-arrow-parquet    3.6.3  hb7abe79_1          conda-forge                   
+  + libgdal-arrow-parquet    3.6.2  hd3fdf3e_9          conda-forge/linux-64     685kB
+  - libjpeg-turbo          2.1.5.1  h0b41bf4_0          conda-forge                   
+  + libjpeg-turbo            2.1.4  h166bdaf_0          conda-forge/linux-64       1MB
+  - libwebp-base             1.3.0  h0b41bf4_0          conda-forge                   
+  + libwebp-base             1.2.4  h166bdaf_0          conda-forge/linux-64     413kB
+
+  Summary:
+
+  Install: 15 packages
+  Change: 11 packages
+  Downgrade: 6 packages
+
+  Total download: 107MB
+
+────────────────────────────────────────────────────────────────────────────────────────
+
+
+Confirm changes: [Y/n] 
+Looking for: ['python-graphviz']
+
+
+Pinned packages:
+  - python 3.10.*
+  - python 3.10.10
+
+
+
+Downloading and Extracting Packages
+
+Preparing transaction: ...working... done
+Verifying transaction: ...working... done
+Executing transaction: ...working... 
+
+done
+Files removed: 15
+Will remove 1 package cache(s).
+Removing intermediate container 011e29103a84
+ ---> e5fc6b431a45
+Step 19/29 : USER root
+ ---> Running in ce292bedf81a
+Removing intermediate container ce292bedf81a
+ ---> f6cd1f3de6a7
+Step 20/29 : RUN find /opt/conda/ -follow -type f -name '*.a' -delete  && find /opt/conda/ -follow -type f -name '*.pyc' -delete  && find /opt/conda/ -follow -type f -name '*.js.map' -delete  && rm -rf /home/$NB_USER/.cache/pip
+ ---> Running in ace02cf3c1d0
+Removing intermediate container ace02cf3c1d0
+ ---> de2e1bc4cce6
+Step 21/29 : USER $NB_UID
+ ---> Running in c31e45bf977b
+Removing intermediate container c31e45bf977b
+ ---> 6b6416121295
+Step 22/29 : RUN mamba create -n dev --yes -c conda-forge         rb-github-pages         rb-jekyll-scholar  && source activate dev  && gem install just-the-docs  && source activate base  && pyppeteer-install
+ ---> Running in cd3b1f0bf60b
+Transaction
+
+  Prefix: /opt/conda/envs/dev
+
+  Updating specs:
+
+   - rb-github-pages
+   - rb-jekyll-scholar
+
+
+  Package                              Version  Build        Channel                   Size
+─────────────────────────────────────────────────────────────────────────────────────────────
+  Install:
+─────────────────────────────────────────────────────────────────────────────────────────────
+
+  + _libgcc_mutex                          0.1  conda_forge  conda-forge/linux-64       3kB
+  + _openmp_mutex                          4.5  2_gnu        conda-forge/linux-64      24kB
+  + ca-certificates                  2022.12.7  ha878542_0   conda-forge/linux-64     146kB
+  + gdbm                                  1.18  h0a1914f_2   conda-forge/linux-64     195kB
+  + gmp                                  6.2.1  h58526e2_0   conda-forge/linux-64     826kB
+  + icu                                   72.1  hcb278e6_0   conda-forge/linux-64      12MB
+  + libffi                               3.4.2  h7f98852_5   conda-forge/linux-64      58kB
+  + libgcc-ng                           12.2.0  h65d4601_19  conda-forge/linux-64     954kB
+  + libgomp                             12.2.0  h65d4601_19  conda-forge/linux-64     466kB
+  + libiconv                              1.17  h166bdaf_0   conda-forge/linux-64       1MB
+  + libstdcxx-ng                        12.2.0  h46fd767_19  conda-forge/linux-64       4MB
+  + libxml2                             2.10.4  hfdac1af_0   conda-forge/linux-64     714kB
+  + libxslt                             1.1.37  h873f0b0_0   conda-forge/linux-64     258kB
+  + libzlib                             1.2.13  h166bdaf_4   conda-forge/linux-64      66kB
+  + ncurses                                6.3  h27087fc_1   conda-forge/linux-64       1MB
+  + openssl                             1.1.1t  h0b41bf4_0   conda-forge/linux-64       2MB
+  + rb-activesupport                  4.2.11.1  hc42de5b_0   conda-forge/noarch       618kB
+  + rb-addressable                       2.7.0  hc42de5b_0   conda-forge/noarch       232kB
+  + rb-bibtex-ruby                       4.4.7  hc42de5b_0   conda-forge/noarch       187kB
+  + rb-citeproc                          1.0.9  hc42de5b_0   conda-forge/noarch        86kB
+  + rb-citeproc-ruby                    1.1.10  hc42de5b_0   conda-forge/noarch        67kB
+  + rb-coffee-script                     2.4.1  hc42de5b_0   conda-forge/noarch        10kB
+  + rb-coffee-script-source             1.11.1  hc42de5b_0   conda-forge/noarch       120kB
+  + rb-colorator                         1.1.0  hc42de5b_0   conda-forge/noarch        15kB
+  + rb-commonmarker                    0.17.13  h16e5e93_0   conda-forge/linux-64     525kB
+  + rb-concurrent-ruby                   1.1.6  hc42de5b_0   conda-forge/noarch       863kB
+  + rb-csl                               1.5.0  hc42de5b_0   conda-forge/noarch       115kB
+  + rb-csl-styles                      1.0.1.9  hc42de5b_0   conda-forge/noarch         4MB
+  + rb-dnsruby                          1.61.3  hc42de5b_0   conda-forge/noarch       492kB
+  + rb-em-websocket                      0.5.1  hc42de5b_1   conda-forge/noarch        63kB
+  + rb-ethon                             0.9.1  hc42de5b_0   conda-forge/noarch       109kB
+  + rb-eventmachine                      1.2.7  h07ebd69_2   conda-forge/linux-64     569kB
+  + rb-execjs                            2.7.0  hc42de5b_0   conda-forge/noarch        34kB
+  + rb-faraday                          0.17.0  hc42de5b_0   conda-forge/noarch        78kB
+  + rb-ffi                              1.11.1  ha4ff606_3   conda-forge/linux-64       2MB
+  + rb-forwardable-extended              2.6.0  hc42de5b_0   conda-forge/noarch        13kB
+  + rb-gemoji                            3.0.1  hc42de5b_0   conda-forge/noarch       143kB
+  + rb-github-pages                        201  hc42de5b_0   conda-forge/noarch        22kB
+  + rb-github-pages-health-check        1.16.1  hc42de5b_0   conda-forge/noarch        38kB
+  + rb-html-pipeline                    2.12.3  hc42de5b_0   conda-forge/noarch        60kB
+  + rb-http_parser.rb                    0.6.0  hb89128f_1   conda-forge/linux-64     353kB
+  + rb-i18n                              0.9.5  hc42de5b_1   conda-forge/noarch       121kB
+  + rb-jekyll                            3.8.5  hc42de5b_0   conda-forge/noarch       219kB
+  + rb-jekyll-avatar                     0.6.0  hc42de5b_0   conda-forge/noarch        26kB
+  + rb-jekyll-coffeescript               1.1.1  hc42de5b_0   conda-forge/noarch         7kB
+  + rb-jekyll-commonmark                 1.3.1  hc42de5b_0   conda-forge/noarch        18kB
+  + rb-jekyll-commonmark-ghpages         0.1.6  hc42de5b_0   conda-forge/noarch        15kB
+  + rb-jekyll-default-layout             0.1.4  hc42de5b_0   conda-forge/noarch         8kB
+  + rb-jekyll-feed                      0.11.0  hc42de5b_0   conda-forge/noarch        37kB
+  + rb-jekyll-gist                       1.5.0  hc42de5b_0   conda-forge/noarch        24kB
+  + rb-jekyll-github-metadata           2.12.1  hc42de5b_0   conda-forge/noarch        26kB
+  + rb-jekyll-mentions                   1.4.1  hc42de5b_0   conda-forge/noarch        10kB
+  + rb-jekyll-optional-front-matter      0.3.0  hc42de5b_0   conda-forge/noarch         9kB
+  + rb-jekyll-paginate                   1.1.0  hc42de5b_0   conda-forge/noarch        22kB
+  + rb-jekyll-readme-index               0.2.0  hc42de5b_0   conda-forge/noarch         9kB
+  + rb-jekyll-redirect-from             0.14.0  hc42de5b_0   conda-forge/noarch        32kB
+  + rb-jekyll-relative-links             0.6.0  hc42de5b_0   conda-forge/noarch        10kB
+  + rb-jekyll-remote-theme               0.4.0  hc42de5b_0   conda-forge/noarch        14kB
+  + rb-jekyll-sass-converter             1.5.2  hc42de5b_0   conda-forge/noarch        13kB
+  + rb-jekyll-scholar                    5.9.1  hc42de5b_0   conda-forge/noarch        63kB
+  + rb-jekyll-seo-tag                    2.5.0  hc42de5b_0   conda-forge/noarch        35kB
+  + rb-jekyll-sitemap                    1.2.0  hc42de5b_0   conda-forge/noarch       123kB
+  + rb-jekyll-swiss                      0.4.0  hc42de5b_0   conda-forge/noarch        30kB
+  + rb-jekyll-theme-architect            0.1.1  hc42de5b_0   conda-forge/noarch       160kB
+  + rb-jekyll-theme-cayman               0.1.1  hc42de5b_0   conda-forge/noarch        27kB
+  + rb-jekyll-theme-dinky                0.1.1  hc42de5b_0   conda-forge/noarch        27kB
+  + rb-jekyll-theme-hacker               0.1.1  hc42de5b_0   conda-forge/noarch        28kB
+  + rb-jekyll-theme-leap-day             0.1.1  hc42de5b_0   conda-forge/noarch         1MB
+  + rb-jekyll-theme-merlot               0.1.1  hc42de5b_0   conda-forge/noarch       866kB
+  + rb-jekyll-theme-midnight             0.1.1  hc42de5b_0   conda-forge/noarch       789kB
+  + rb-jekyll-theme-minimal              0.1.1  hc42de5b_0   conda-forge/noarch       653kB
+  + rb-jekyll-theme-modernist            0.1.1  hc42de5b_0   conda-forge/noarch        24kB
+  + rb-jekyll-theme-primer               0.5.3  hc42de5b_0   conda-forge/noarch       163kB
+  + rb-jekyll-theme-slate                0.1.1  hc42de5b_0   conda-forge/noarch        58kB
+  + rb-jekyll-theme-tactile              0.1.1  hc42de5b_0   conda-forge/noarch        92kB
+  + rb-jekyll-theme-time-machine         0.1.1  hc42de5b_0   conda-forge/noarch        47kB
+  + rb-jekyll-titles-from-headings       0.5.1  hc42de5b_0   conda-forge/noarch        13kB
+  + rb-jekyll-watch                      2.2.1  hc42de5b_1   conda-forge/noarch        11kB
+  + rb-jemoji                           0.10.2  hc42de5b_0   conda-forge/noarch         9kB
+  + rb-kramdown                         1.17.0  hc42de5b_1   conda-forge/noarch       536kB
+  + rb-latex-decode                      0.3.1  hc42de5b_0   conda-forge/noarch        51kB
+  + rb-liquid                            4.0.0  hc42de5b_0   conda-forge/noarch       140kB
+  + rb-listen                            3.1.5  hc42de5b_1   conda-forge/noarch        55kB
+  + rb-mercenary                         0.3.6  hc42de5b_0   conda-forge/noarch        40kB
+  + rb-mini_portile2                     2.4.0  hc42de5b_0   conda-forge/noarch        52kB
+  + rb-minima                            2.5.0  hc42de5b_0   conda-forge/noarch        40kB
+  + rb-minitest                         5.12.2  hc42de5b_0   conda-forge/noarch       154kB
+  + rb-multipart-post                    2.1.1  hc42de5b_0   conda-forge/noarch        27kB
+  + rb-namae                             1.0.1  hc42de5b_0   conda-forge/noarch        83kB
+  + rb-nokogiri                         1.10.8  he0b3888_0   conda-forge/linux-64      10MB
+  + rb-octokit                          4.14.0  hc42de5b_0   conda-forge/noarch       152kB
+  + rb-pathutil                         0.16.2  hc42de5b_0   conda-forge/noarch        30kB
+  + rb-public_suffix                     3.1.1  hc42de5b_0   conda-forge/noarch       216kB
+  + rb-rb-fsevent                       0.10.3  hc42de5b_1   conda-forge/noarch       101kB
+  + rb-rb-inotify                       0.10.1  hc42de5b_0   conda-forge/noarch        31kB
+  + rb-rouge                            3.11.0  hc42de5b_0   conda-forge/noarch       769kB
+  + rb-ruby-enum                         0.7.2  hc42de5b_0   conda-forge/noarch        46kB
+  + rb-ruby_dep                          1.5.0  hc42de5b_1   conda-forge/noarch        22kB
+  + rb-rubyzip                           1.3.0  hc42de5b_0   conda-forge/noarch       306kB
+  + rb-safe_yaml                         1.0.5  hc42de5b_0   conda-forge/noarch        73kB
+  + rb-sass                              3.7.4  hc42de5b_0   conda-forge/noarch       604kB
+  + rb-sass-listen                       4.0.0  hc42de5b_0   conda-forge/noarch        78kB
+  + rb-sawyer                            0.8.2  hc42de5b_0   conda-forge/noarch        24kB
+  + rb-terminal-table                    1.8.0  hc42de5b_0   conda-forge/noarch        34kB
+  + rb-thread_safe                       0.3.6  hc42de5b_0   conda-forge/noarch       208kB
+  + rb-typhoeus                          1.3.1  hc42de5b_0   conda-forge/noarch       109kB
+  + rb-tzinfo                            1.2.5  hc42de5b_0   conda-forge/noarch       289kB
+  + rb-unicode-display_width             1.6.0  hc42de5b_0   conda-forge/noarch        25kB
+  + readline                               8.2  h8228510_1   conda-forge/linux-64     281kB
+  + ruby                                 2.6.6  h86e321c_3   conda-forge/linux-64       6MB
+  + xz                                   5.2.6  h166bdaf_0   conda-forge/linux-64     418kB
+  + yaml                                 0.2.5  h7f98852_2   conda-forge/linux-64      89kB
+
+  Summary:
+
+  Install: 112 packages
+
+  Total download: 61MB
+
+─────────────────────────────────────────────────────────────────────────────────────────────
+
+
+
+Looking for: ['rb-github-pages', 'rb-jekyll-scholar']
+
+
+Downloading and Extracting Packages
+
+Preparing transaction: ...working... done
+Verifying transaction: ...working... done
+Executing transaction: ...working... done
+
+To activate this environment, use
+
+     $ mamba activate dev
+
+To deactivate an active environment, use
+
+     $ mamba deactivate
+
+Successfully installed just-the-docs-0.4.2
+Parsing documentation for just-the-docs-0.4.2
+Installing ri documentation for just-the-docs-0.4.2
+Done installing documentation for just-the-docs after 0 seconds
+1 gem installed
+[91m[INFO] Starting Chromium download.
+[0m[91m  0%|          | 0.00/109M [00:00<?, ?b/s][0m[91m  7%|▋         | 7.41M/109M [00:00<00:01, 74.1Mb/s][0m[91m 17%|█▋        | 19.0M/109M [00:00<00:00, 98.4Mb/s][0m[91m 27%|██▋       | 29.9M/109M [00:00<00:00, 103Mb/s] [0m[91m 38%|███▊      | 41.4M/109M [00:00<00:00, 108Mb/s][0m[91m 49%|████▊     | 52.9M/109M [00:00<00:00, 110Mb/s][0m[91m 59%|█████▊    | 63.9M/109M [00:00<00:00, 105Mb/s][0m[91m 69%|██████▉   | 75.5M/109M [00:00<00:00, 109Mb/s][0m[91m 79%|███████▉  | 86.4M/109M [00:00<00:00, 107Mb/s][0m[91m 89%|████████▉ | 97.1M/109M [00:00<00:00, 101Mb/s][0m[91m 99%|█████████▉| 108M/109M [00:01<00:00, 102Mb/s] [0m[91m100%|██████████| 109M/109M [00:01<00:00, 104Mb/s]
+[0m[91m[INFO] Beginning extraction
+[0m[91m[INFO] Chromium extracted to: /home/jovyan/.local/share/pyppeteer/local-chromium/588429
+[0mRemoving intermediate container cd3b1f0bf60b
+ ---> 65e3740674f0
+Step 23/29 : USER root
+ ---> Running in 3df8fcead930
+Removing intermediate container 3df8fcead930
+ ---> 90f3e58127cd
+Step 24/29 : ADD ./vimrc $HOME/.vimrc
+ ---> 27f77380cfc6
+Step 25/29 : RUN apt-get update  && apt-get install -y vim  && curl -fLo $HOME/.vim/autoload/plug.vim --create-dirs     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim  && vim +PlugInstall +qall
+ ---> Running in ee74f4b2cebc
+Hit:1 https://cloud.r-project.org/bin/linux/ubuntu jammy-cran40/ InRelease
+Hit:2 https://cloud.r-project.org/bin/linux/ubuntu focal-cran40/ InRelease
+Hit:3 https://ppa.launchpadcontent.net/ubuntugis/ubuntugis-unstable/ubuntu jammy InRelease
+Hit:4 http://security.ubuntu.com/ubuntu jammy-security InRelease
+Hit:5 http://archive.ubuntu.com/ubuntu jammy InRelease
+Hit:6 http://archive.ubuntu.com/ubuntu jammy-updates InRelease
+Hit:7 http://archive.ubuntu.com/ubuntu jammy-backports InRelease
+Reading package lists...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+The following additional packages will be installed:
+  libgpm2 libpython3.10 libsodium23 vim-common vim-runtime vim-tiny
+Suggested packages:
+  gpm ctags vim-doc vim-scripts indent
+The following NEW packages will be installed:
+  libgpm2 libpython3.10 libsodium23 vim vim-runtime
+The following packages will be upgraded:
+  vim-common vim-tiny
+2 upgraded, 5 newly installed, 0 to remove and 4 not upgraded.
+Need to get 11.5 MB of archives.
+After this operation, 44.0 MB of additional disk space will be used.
+Get:1 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 vim-tiny amd64 2:8.2.3995-1ubuntu2.5 [707 kB]
+Get:2 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 vim-common all 2:8.2.3995-1ubuntu2.5 [81.5 kB]
+Get:3 http://archive.ubuntu.com/ubuntu jammy/main amd64 libgpm2 amd64 1.20.7-10build1 [15.3 kB]
+Get:4 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 libpython3.10 amd64 3.10.6-1~22.04.2ubuntu1 [1958 kB]
+Get:5 http://archive.ubuntu.com/ubuntu jammy/main amd64 libsodium23 amd64 1.0.18-1build2 [164 kB]
+Get:6 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 vim-runtime all 2:8.2.3995-1ubuntu2.5 [6826 kB]
+Get:7 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 vim amd64 2:8.2.3995-1ubuntu2.5 [1730 kB]
+[91mdebconf: delaying package configuration, since apt-utils is not installed
+[0mFetched 11.5 MB in 0s (60.3 MB/s)
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 104526 files and directories currently installed.)
+Preparing to unpack .../0-vim-tiny_2%3a8.2.3995-1ubuntu2.5_amd64.deb ...
+Unpacking vim-tiny (2:8.2.3995-1ubuntu2.5) over (2:8.2.3995-1ubuntu2.4) ...
+Preparing to unpack .../1-vim-common_2%3a8.2.3995-1ubuntu2.5_all.deb ...
+Unpacking vim-common (2:8.2.3995-1ubuntu2.5) over (2:8.2.3995-1ubuntu2.4) ...
+Selecting previously unselected package libgpm2:amd64.
+Preparing to unpack .../2-libgpm2_1.20.7-10build1_amd64.deb ...
+Unpacking libgpm2:amd64 (1.20.7-10build1) ...
+Selecting previously unselected package libpython3.10:amd64.
+Preparing to unpack .../3-libpython3.10_3.10.6-1~22.04.2ubuntu1_amd64.deb ...
+Unpacking libpython3.10:amd64 (3.10.6-1~22.04.2ubuntu1) ...
+Selecting previously unselected package libsodium23:amd64.
+Preparing to unpack .../4-libsodium23_1.0.18-1build2_amd64.deb ...
+Unpacking libsodium23:amd64 (1.0.18-1build2) ...
+Selecting previously unselected package vim-runtime.
+Preparing to unpack .../5-vim-runtime_2%3a8.2.3995-1ubuntu2.5_all.deb ...
+Adding 'diversion of /usr/share/vim/vim82/doc/help.txt to /usr/share/vim/vim82/doc/help.txt.vim-tiny by vim-runtime'
+Adding 'diversion of /usr/share/vim/vim82/doc/tags to /usr/share/vim/vim82/doc/tags.vim-tiny by vim-runtime'
+Unpacking vim-runtime (2:8.2.3995-1ubuntu2.5) ...
+Selecting previously unselected package vim.
+Preparing to unpack .../6-vim_2%3a8.2.3995-1ubuntu2.5_amd64.deb ...
+Unpacking vim (2:8.2.3995-1ubuntu2.5) ...
+Setting up libpython3.10:amd64 (3.10.6-1~22.04.2ubuntu1) ...
+Setting up libsodium23:amd64 (1.0.18-1build2) ...
+Setting up libgpm2:amd64 (1.20.7-10build1) ...
+Setting up vim-common (2:8.2.3995-1ubuntu2.5) ...
+Setting up vim-runtime (2:8.2.3995-1ubuntu2.5) ...
+Setting up vim (2:8.2.3995-1ubuntu2.5) ...
+update-alternatives: using /usr/bin/vim.basic to provide /usr/bin/vim (vim) in auto mode
+update-alternatives: using /usr/bin/vim.basic to provide /usr/bin/vimdiff (vimdiff) in auto mode
+update-alternatives: using /usr/bin/vim.basic to provide /usr/bin/rvim (rvim) in auto mode
+update-alternatives: using /usr/bin/vim.basic to provide /usr/bin/rview (rview) in auto mode
+update-alternatives: using /usr/bin/vim.basic to provide /usr/bin/vi (vi) in auto mode
+update-alternatives: warning: skip creation of /usr/share/man/man1/vi.1.gz because associated file /usr/share/man/man1/vim.1.gz (of link group vi) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/da/man1/vi.1.gz because associated file /usr/share/man/da/man1/vim.1.gz (of link group vi) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/de/man1/vi.1.gz because associated file /usr/share/man/de/man1/vim.1.gz (of link group vi) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/fr/man1/vi.1.gz because associated file /usr/share/man/fr/man1/vim.1.gz (of link group vi) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/it/man1/vi.1.gz because associated file /usr/share/man/it/man1/vim.1.gz (of link group vi) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/ja/man1/vi.1.gz because associated file /usr/share/man/ja/man1/vim.1.gz (of link group vi) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/pl/man1/vi.1.gz because associated file /usr/share/man/pl/man1/vim.1.gz (of link group vi) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/ru/man1/vi.1.gz because associated file /usr/share/man/ru/man1/vim.1.gz (of link group vi) doesn't exist
+update-alternatives: using /usr/bin/vim.basic to provide /usr/bin/view (view) in auto mode
+update-alternatives: warning: skip creation of /usr/share/man/man1/view.1.gz because associated file /usr/share/man/man1/vim.1.gz (of link group view) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/da/man1/view.1.gz because associated file /usr/share/man/da/man1/vim.1.gz (of link group view) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/de/man1/view.1.gz because associated file /usr/share/man/de/man1/vim.1.gz (of link group view) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/fr/man1/view.1.gz because associated file /usr/share/man/fr/man1/vim.1.gz (of link group view) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/it/man1/view.1.gz because associated file /usr/share/man/it/man1/vim.1.gz (of link group view) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/ja/man1/view.1.gz because associated file /usr/share/man/ja/man1/vim.1.gz (of link group view) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/pl/man1/view.1.gz because associated file /usr/share/man/pl/man1/vim.1.gz (of link group view) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/ru/man1/view.1.gz because associated file /usr/share/man/ru/man1/vim.1.gz (of link group view) doesn't exist
+update-alternatives: using /usr/bin/vim.basic to provide /usr/bin/ex (ex) in auto mode
+update-alternatives: warning: skip creation of /usr/share/man/man1/ex.1.gz because associated file /usr/share/man/man1/vim.1.gz (of link group ex) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/da/man1/ex.1.gz because associated file /usr/share/man/da/man1/vim.1.gz (of link group ex) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/de/man1/ex.1.gz because associated file /usr/share/man/de/man1/vim.1.gz (of link group ex) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/fr/man1/ex.1.gz because associated file /usr/share/man/fr/man1/vim.1.gz (of link group ex) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/it/man1/ex.1.gz because associated file /usr/share/man/it/man1/vim.1.gz (of link group ex) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/ja/man1/ex.1.gz because associated file /usr/share/man/ja/man1/vim.1.gz (of link group ex) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/pl/man1/ex.1.gz because associated file /usr/share/man/pl/man1/vim.1.gz (of link group ex) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/ru/man1/ex.1.gz because associated file /usr/share/man/ru/man1/vim.1.gz (of link group ex) doesn't exist
+update-alternatives: using /usr/bin/vim.basic to provide /usr/bin/editor (editor) in auto mode
+update-alternatives: warning: skip creation of /usr/share/man/man1/editor.1.gz because associated file /usr/share/man/man1/vim.1.gz (of link group editor) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/da/man1/editor.1.gz because associated file /usr/share/man/da/man1/vim.1.gz (of link group editor) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/de/man1/editor.1.gz because associated file /usr/share/man/de/man1/vim.1.gz (of link group editor) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/fr/man1/editor.1.gz because associated file /usr/share/man/fr/man1/vim.1.gz (of link group editor) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/it/man1/editor.1.gz because associated file /usr/share/man/it/man1/vim.1.gz (of link group editor) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/ja/man1/editor.1.gz because associated file /usr/share/man/ja/man1/vim.1.gz (of link group editor) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/pl/man1/editor.1.gz because associated file /usr/share/man/pl/man1/vim.1.gz (of link group editor) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/ru/man1/editor.1.gz because associated file /usr/share/man/ru/man1/vim.1.gz (of link group editor) doesn't exist
+Setting up vim-tiny (2:8.2.3995-1ubuntu2.5) ...
+Processing triggers for libc-bin (2.35-0ubuntu3.1) ...
+Processing triggers for hicolor-icon-theme (0.17-2) ...
+[91m  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0[0m[91m100 83127  100 83127    0     0   365k      0 --:--:-- --:--:-- --:--:--  367k
+[0m[91mVim: Warning: Output is not to a terminal
+Vim: Warning: Input is not from a terminal
+[0m[m[m[0m[H[2J[1;1H[33m  1 [0m[36C[7m|[0m
+[1m[4m[33m  2 [m[0m[1m[4m[34m                                    [m[0m[7m|[0m
+[33m  3 [0m[36C[7m|[4;41H|[5;41H|[6;41H|[7;41H|[8;41H|[9;41H|[10;41H|[11;41H|[12;41H|[13;41H|[14;41H|[15;41H|[16;41H|[17;41H|[18;41H|[19;41H|[20;41H|[21;41H|[22;41H|[0m[4;1H[1m[34m~                                       
+~                                       
+~                                       
+~                                       
+~                                       
+~                                       
+~                                       
+~                                       
+~                                       
+~                                       
+~                                       
+~                                       
+~                                       
+~                                       
+~                                       
+~                                       
+~                                       
+~                                       
+~                                       [0m
+[1m[7m[Plugins]             2,0-1          All [0m[1;42H[33m  1 [0m[2;42H[1m[34m~                                      [3;42H~                                      [4;42H~                                      [5;42H~                                      [6;42H~                                      [7;42H~                                      [8;42H~                                      [9;42H~                                      [10;42H~                                      [11;42H~                                      [12;42H~                                      [13;42H~                                      [14;42H~                                      [15;42H~                                      [16;42H~                                      [17;42H~                                      [18;42H~                                      [19;42H~                                      [20;42H~                                      [21;42H~                                      [22;42H~                                      [0m[23;42H[7m[No Name]            0,0-1          All[0m[1;5H[1m[33mInstalling plugins ([0m[33m0[0m[1m[33m/[0m[33m10[0m[1m[33m)[0m[2;5H[1m[4m[32m[[10C][m[0m[4m                        [m
+
+[33m  4 [0m[33m+[0m [33mFastFold[0m: Installing ...          [23;25H[1m[7m1  [0m[4;7H[33mtypewriter[0m: Installing ...
+[33m  5 [0m[33m+[0m [33mFastFold[0m: Installing ...          [4;7H[33mgoyo.vim[0m: Installing ...  [5;7H[33mtypewriter[0m: Installing ...
+[33m  6 [0m[33m+[0m [33mFastFold[0m: Installing ...          [4;7H[33mvim-easy-align[0m: Installing ...[5;7H[33mgoyo.vim[0m: Installing ...  [6;7H[33mtypewriter[0m: Installing ...
+[33m  7 [0m[33m+[0m [33mFastFold[0m: Installing ...          [4;11H[33mairline-themes[0m: Installing ...[5;7H[33mvim-easy-align[0m: Installing ...[6;7H[33mgoyo.vim[0m: Installing ...  [7;7H[33mtypewriter[0m: Installing ...
+[33m  8 [0m[33m+[0m [33mFastFold[0m: Installing ...          [4;18H: Installing ...       [5;11H[33mairline-themes[0m: Installing ...[6;7H[33mvim-easy-align[0m: Installing ...[7;7H[33mgoyo.vim[0m: Installing ...  [8;7H[33mtypewriter[0m: Installing ...
+[33m  9 [0m[33m+[0m [33mFastFold[0m: Installing ...          [4;7H[33mSimpylFold[0m: Installing ... [5;18H: Installing ...       [6;11H[33mairline-themes[0m: Installing ...[7;7H[33mvim-easy-align[0m: Installing ...[8;7H[33mgoyo.vim[0m: Installing ...  [9;7H[33mtypewriter[0m: Installing ...
+[33m 10 [0m[33m+[0m [33mFastFold[0m: Installing ...          [4;7H[33mvim-github-dashboard[0m: Installing .[5;7H[33mSimpylFold[0m: Installing ... [6;18H: Installing ...       [7;11H[33mairline-themes[0m: Installing ...[8;7H[33mvim-easy-align[0m: Installing ...[9;7H[33mgoyo.vim[0m: Installing ...  [10;7H[33mtypewriter[0m: Installing ...
+[33m 11 [0m[33m+[0m [33mFastFold[0m: Installing ...          [4;7H[33mchallenger-deep[0m: Installing ...   [5;7H[33mvim-github-dashboard[0m: Installing .[6;7H[33mSimpylFold[0m: Installing ... [7;18H: Installing ...       [8;11H[33mairline-themes[0m: Installing ...[9;7H[33mvim-easy-align[0m: Installing ...[10;7H[33mgoyo.vim[0m: Installing ...  [11;7H[33mtypewriter[0m: Installing ...
+[33m 12 [0m[33m+[0m [33mFastFold[0m: Installing ...          [4;7H[33mvim-latex[0m: Installing ...      [5;7H[33mchallenger-deep[0m: Installing ...   [6;7H[33mvim-github-dashboard[0m: Installing .[7;7H[33mSimpylFold[0m: Installing ... [8;18H: Installing ...       [9;11H[33mairline-themes[0m: Installing ...[10;7H[33mvim-easy-align[0m: Installing ...[11;7H[33mgoyo.vim[0m: Installing ...  [12;7H[33mtypewriter[0m: Installing ...
+[33m 13 [0m[33m+[0m [33mFastFold[0m: Installing ...          [2;5H[1;25H[33m10[0m[1m[33m/[0m[33m10[0m[1m[33m)[0m
+[33m  2 [0m[1m[32m[[0m[1m[34m==========[0m[1m[32m][0m                        
+
+[1m[4m[33m  4 [m[0m[4m[33m- [m[0m[4m[33mMerging origin/master (FastFold)[m[0m[4m  [m[5;5H[33m- [0m[1m[34mvim-latex:[0m Resolving deltas: 100%[6;5H[33m- [0m[1m[34mchallenger-deep:[0m Receiving objects[7;5H[33m- [0m[1m[34mvim-github-dashboard:[0m Resolving de[8;5H[33m- [0m[1m[34mSimpylFold:[0m Resolving deltas: 100%[9;5H[33m- [0m[1m[34mvim-airline:[0m Resolving deltas: 100[10;5H[33m- [0m[1m[34mvim-airline-themes:[0m Resolving delt[11;5H[33m- [0m[1m[34mvim-easy-align:[0m Resolving deltas:[12;5H[33m- [0m[1m[34mgoyo.vim:[0m Resolving deltas: 100% ([13;5H[33m- [0m[1m[34mtypewriter:[0m Resolving deltas: 100%
+[33m 14 [0m[33m- [0m[1m[34mFastFold:[0m Resolving deltas: 100% ([23;23H[1m[7m4[0m[4;30H[4m[33mtypewriter)[4;30Hgoyo.vim)[m[0m[4m  [m[4;30H[4m[33mvim-easy-al[4;34Hairline[4;30HSimpylFold)[4;30Hvim-github-[4;30Hchallenger[4;30Hvim-latex)[m[0m[4m [m[4;7H[4m[33mFinishing ... [m[0m[4m                   [m[4;21H[4m[33mDone![24;1H[m[0m[24;1HRemoving intermediate container ee74f4b2cebc
+ ---> cb32137c2c31
+Step 26/29 : RUN mkdir -p /home/$NB_USER/.jupyter/lab/user-settings/\@jupyterlab/codemirror-extension/  && echo '{"keyMap": "vim"}' >> /home/$NB_USER/.jupyter/lab/user-settings/\@jupyterlab/codemirror-extension/commands.jupyterlab-settings && fix-permissions /home/$NB_USER/.jupyter/lab/user-settings/\@jupyterlab/codemirror-extension/  && fix-permissions /home/$NB_USER/.jupyter/lab/
+ ---> Running in fcfb27006adc
+Removing intermediate container fcfb27006adc
+ ---> 57de90d0ffd9
+Step 27/29 : RUN cd $NB_HOME  && conda clean --yes --all  && rm -rf /home/$NB_USER/.cache/pip  && rm -rf /tmp/downloaded_packages/ /tmp/*.rds  && rm -rf $GEM_HOME/cache  && rm -rf /usr/local/bundle/cache  && apt-get autoclean  && apt-get autoremove  && apt-get clean  && rm -rf /var/lib/apt/lists/*
+ ---> Running in 6c516ba4fead
+Will remove 112 (58.4 MB) tarball(s).
+Will remove 1 index cache(s).
+Will remove 2 (105 KB) package(s).
+There are no tempfile(s) to remove.
+There are no logfile(s) to remove.
+Reading package lists...
+Building dependency tree...
+Reading state information...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+0 upgraded, 0 newly installed, 0 to remove and 4 not upgraded.
+Removing intermediate container 6c516ba4fead
+ ---> f45d77e3661c
+Step 28/29 : RUN fix-permissions $HOME   && fix-permissions $CONDA_DIR
+ ---> Running in 3ae37f27bad0
+Removing intermediate container 3ae37f27bad0
+ ---> 449e60e9d268
+Step 29/29 : USER $NB_UID
+ ---> Running in 2bd658535b90
+Removing intermediate container 2bd658535b90
+ ---> 0e953d4d89bc
+Successfully built 0e953d4d89bc
+Successfully tagged gds_dev:latest
