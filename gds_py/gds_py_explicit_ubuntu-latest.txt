@@ -343,7 +343,7 @@ https://conda.anaconda.org/conda-forge/noarch/munch-2.5.0-py_0.tar.bz2
 https://conda.anaconda.org/conda-forge/linux-64/numba-0.56.4-py310h0e39c9b_1.conda
 https://conda.anaconda.org/conda-forge/linux-64/numexpr-2.8.4-py310h690d005_100.conda
 https://conda.anaconda.org/conda-forge/linux-64/openpyxl-3.1.1-py310h1fa729e_0.conda
-https://conda.anaconda.org/conda-forge/noarch/partd-1.3.0-pyhd8ed1ab_0.tar.bz2
+https://conda.anaconda.org/conda-forge/noarch/partd-1.4.0-pyhd8ed1ab_0.conda
 https://conda.anaconda.org/conda-forge/noarch/pexpect-4.8.0-pyh1a96a4e_2.tar.bz2
 https://conda.anaconda.org/conda-forge/linux-64/pillow-9.5.0-py310h065c6d2_0.conda
 https://conda.anaconda.org/conda-forge/noarch/pip-23.0.1-pyhd8ed1ab_0.conda
@@ -455,7 +455,7 @@ https://conda.anaconda.org/conda-forge/noarch/prompt_toolkit-3.0.38-hd8ed1ab_0.c
 https://conda.anaconda.org/conda-forge/linux-64/rasterio-1.3.6-py310h3e853a9_0.conda
 https://conda.anaconda.org/conda-forge/noarch/urllib3-1.26.15-pyhd8ed1ab_0.conda
 https://conda.anaconda.org/conda-forge/noarch/xvec-0.1.0-pyhd8ed1ab_0.conda
-https://conda.anaconda.org/conda-forge/noarch/botocore-1.29.110-pyhd8ed1ab_0.conda
+https://conda.anaconda.org/conda-forge/noarch/botocore-1.29.111-pyhd8ed1ab_0.conda
 https://conda.anaconda.org/conda-forge/linux-64/coin-or-cbc-2.10.8-h3786ebc_0.tar.bz2
 https://conda.anaconda.org/conda-forge/noarch/distributed-2022.11.0-pyhd8ed1ab_0.tar.bz2
 https://conda.anaconda.org/conda-forge/linux-64/fiona-1.8.22-py310ha325b7b_5.conda
@@ -488,7 +488,7 @@ https://conda.anaconda.org/conda-forge/noarch/requests-futures-1.0.0-pyh9f0ad1d_
 https://conda.anaconda.org/conda-forge/noarch/rio-cogeo-3.5.1-pyhd8ed1ab_0.conda
 https://conda.anaconda.org/conda-forge/noarch/s3transfer-0.6.0-pyhd8ed1ab_0.tar.bz2
 https://conda.anaconda.org/conda-forge/noarch/sphinx-4.5.0-pyh6c4a22f_0.tar.bz2
-https://conda.anaconda.org/conda-forge/noarch/boto3-1.26.110-pyhd8ed1ab_0.conda
+https://conda.anaconda.org/conda-forge/noarch/boto3-1.26.111-pyhd8ed1ab_0.conda
 https://conda.anaconda.org/conda-forge/noarch/colorcet-3.0.1-pyhd8ed1ab_0.tar.bz2
 https://conda.anaconda.org/conda-forge/noarch/ipywidgets-8.0.6-pyhd8ed1ab_0.conda
 https://conda.anaconda.org/conda-forge/noarch/jupyter_server-1.23.6-pyhd8ed1ab_0.conda
