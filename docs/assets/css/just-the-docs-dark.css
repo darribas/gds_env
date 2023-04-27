@@ -199,9 +199,6 @@ pre.highlight {
 .highlight .gi {
   color: #43d089; }
 
-.highlight ::selection {
-  background-color: #fff; }
-
 .highlight .language-json .w + .s2 {
   color: #e35549; }
 
@@ -715,10 +712,6 @@ template {
 
 * {
   box-sizing: border-box; }
-
-::selection {
-  color: #fff;
-  background: #2c84fa; }
 
 html {
   font-size: 14px !important;
