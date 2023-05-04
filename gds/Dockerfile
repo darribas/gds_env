@@ -43,13 +43,6 @@ RUN pip install -U --no-deps rpy2 rpy2-arrow pytz pytz_deprecation_shim jinja2 '
  && rm -rf /home/$NB_USER/.cache/pip \
  && rm -rf /tmp/downloaded_packages/ /tmp/*.rds
 
-#--------------------------------------------------------------------------
-RUN R -e "install.packages(c( \
-            'tidyverse', \
-            'tidycensus' \
-            ), repos='https://cran.rstudio.com');"
-#--------------------------------------------------------------------------
-
 # Quarto (as of May 19th'22
 RUN wget https://github.com/quarto-dev/quarto-cli/releases/download/v1.3.302/quarto-1.3.302-linux-amd64.deb \
  && dpkg -i quarto-1.3.302-linux-amd64.deb \

@@ -16,7 +16,6 @@ apt-get update -qq \
     gpg-agent \
     jq \
     libatk1.0-0 \
-    libmagick++-dev \
     libv8-dev \
     libx11-6 \
     libxtst6 \
@@ -75,16 +74,14 @@ R -e "install.packages(c( \
             'factoextra', \
             'feather', \
             'geojsonio', \
-            'geojsonsf', \
             'ggcorrplot', \
             'ggthemes', \
             'glmmTMB', \
             'hexbin', \
             'igraph', \
-            'mapdeck', \
             'mapboxapi', \
             'nlme', \
-            'osrm', \
+            'osrmj', \
             'patchwork', \
             'plotrix', \
             'randomForest', \
@@ -93,19 +90,16 @@ R -e "install.packages(c( \
             'rpostgis', \
             'rtweet', \
             'shiny', \
-            'showtext', \
             'SnowballC', \
             'splancs', \
             'stm', \
-            'stplanr', \
-            'tidygeocoder', \
+            'tidycensus' \
             'tidytext', \
-            'textdata', \
             'tm', \
             'topicmodels', \
             'TraMineR', \
-            'tufte', \
-            'vader', \
+            'tufte' \
+            'vader' \
             'wellknown' \
             ), repos='https://cran.rstudio.com');"
 
@@ -132,5 +126,4 @@ R -e "library(remotes); \
 ## Geocomputation in R meta-package
 R -e "library(remotes); \
       remotes::install_github('geocompr/geocompkg');"
-
 
