@@ -1545,6 +1545,15 @@ h6,
   .btn-green.selected:hover {
     background-color: #0d8662; }
 
+.btn-reset {
+  background: none;
+  border: none;
+  margin: 0;
+  text-align: inherit;
+  font: inherit;
+  border-radius: 0;
+  appearance: none; }
+
 .search {
   position: relative;
   z-index: 2;
