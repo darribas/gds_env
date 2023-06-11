@@ -34,7 +34,7 @@ Mac users, please check the section on [known issues](#mac-known-issues).
 
 It's important to note these three steps are required to run only once, when
 setting the VM up in a machine for the first time. Once ready, [launching and running the
-VM](#Running-the-VM) is a one-click job.
+VM](#running-the-vm) is a one-click job.
 
 ### Appliance import
 
