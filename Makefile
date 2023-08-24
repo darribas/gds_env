@@ -7,7 +7,7 @@ test_py:
 test_r:
 	$(DOCKERRUN) darribas/gds:${GDS_VERSION} start.sh jupyter nbconvert --to html --execute /home/jovyan/test/gds/check_r_stack.ipynb
 write_stacks: write_py_stack write_r_stack
-write_py_stack: yml
+write_py_stack:
 	$(DOCKERRUN) darribas/gds_py:${GDS_VERSION} start.sh sh -c "conda list > /home/jovyan/test/gds_py/stack_py.txt"
 	$(DOCKERRUN) darribas/gds_py:${GDS_VERSION} start.sh sed -i '1iGDS version: ${GDS_VERSION}' /home/jovyan/test/gds_py/stack_py.txt
 	$(DOCKERRUN) darribas/gds_py:${GDS_VERSION} start.sh python -c "import subprocess, pandas; fo=open('/home/jovyan/test/gds_py/stack_py.md', 'w'); fo.write(pandas.read_json(subprocess.check_output(['conda', 'list', '--json']).decode())[['name', 'version', 'build_string', 'channel']].to_markdown());fo.close()"
@@ -17,13 +17,6 @@ write_r_stack:
 	$(DOCKERRUN) darribas/gds:${GDS_VERSION} start.sh sed -i '1iGDS version: ${GDS_VERSION}' /home/jovyan/test/gds/stack_r.txt
 	$(DOCKERRUN) darribas/gds:${GDS_VERSION} start.sh Rscript -e "library(knitr); ip <- as.data.frame(installed.packages()[,c(1,3:4)]); fc <- file('/home/jovyan/test/gds/stack_r.md'); writeLines(kable(ip, format = 'markdown'), fc); close(fc);"
 	$(DOCKERRUN) darribas/gds:${GDS_VERSION} start.sh sed -i "1s/^/\n/" /home/jovyan/test/gds/stack_r.md
-yml:
-	$(DOCKERRUN) darribas/gds_py:${GDS_VERSION} start.sh sh -c \
-	"conda env export -n base --from-history > \
-	test/gds_py/gds_py.yml && \
-	sed -i 's/name: base/name: gds/g' test/gds_py/gds_py.yml && \
-	sed -i '/  - tini/d' test/gds_py/gds_py.yml && \
-	sed -i 's/prefix: \/opt\/conda/gds_env_version: ${GDS_VERSION}/g' test/gds_py/gds_py.yml"
 write_py_explicit:
 	$(DOCKERRUN) darribas/gds_py:${GDS_VERSION} start.sh sh -c "conda list --explicit > /home/jovyan/test/gds_py/stack_py_explicit.txt"
 website_build:

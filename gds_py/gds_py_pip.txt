@@ -1,9 +1,10 @@
 jupyterlab-geojson
+jupyterlab_myst
 matplotlib-scalebar
 ##mobilkit
 ##pandas-bokeh
 polars
-pygeoda
+#pygeoda
 pymorton
 pytest-cov
 pytest-tornasync

@@ -1,4 +1,4 @@
-FROM jupyter/minimal-notebook:2023-04-03
+FROM jupyter/minimal-notebook:2023-08-21
 
 LABEL maintainer="Dani Arribas-Bel <D.Arribas-Bel@liverpool.ac.uk>"
 
@@ -7,105 +7,33 @@ ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
 
 #--- Python ---#
 
-#RUN conda config --add channels conda-forge \
-    #&& conda config --add channels pyviz \
-    #&& conda config --set channel_priority strict \
-    #&& mamba install --freeze-installed --yes --quiet \
-RUN mamba install \
-          #--freeze-installed \
-          --yes \
-          --quiet \
-     'conda-forge::blas=*=openblas' \
-     #'ablog' \
-     'black' \
-     'bokeh' \
-     'boto3' \
-     'bottleneck' \
-     'cenpy' \
-     'clustergram' \
-     'contextily' \
-     'cubo' \
-     'cython' \
-     'dask' \
-     #'dask-kubernetes' \
-     'dask-geopandas' \
-     #'dask-ml' \
-     'datashader' \
-     'flake8' \
-     'geoalchemy2' \
-     'geocube' \
-     'geopandas' \
-     'geopy' \
-     'gpxpy' \
-     'gstools' \
-     'h3-py' \
-     'hilbertcurve' \
-     'hdbscan' \
-     'ipyleaflet' \
-     'ipympl' \
-     'ipywidgets' \
-     'jupyter_bokeh' \
-     'jupyter-book' \
-     'jupyter-server-proxy' \
-     'jupyterlab-variableinspector' \
-     'jupytext' \
-     'legendgram' \
-     'libgdal-arrow-parquet' \
-     'lxml' \
-     'momepy' \
-     'nbdime' \
-     #'nbsphinx' \
-     'netCDF4' \
-     'networkx' \
-     'openpyxl' \
-     'osmnx' \
-     'palettable' \
-     'pandana' \
-     'pip' \
-     'polyline' \
-     'pooch' \
-     'protobuf' \
-     'psycopg2' \
-     'pyarrow' \
-     'pygeos' \
-     'pyogrio' \
-     'pyppeteer' \
-     'pyrosm' \
-     'pysal' \
-     'pystac-client' \
-     'python-duckdb' \
-     'rasterio' \
-     'rasterstats' \
-     'rio-cogeo' \
-     'rioxarray' \
-     #'scikit-image' \
-     'scikit-learn' \
-     'scikit-mobility' \
-     'seaborn' \
-     'spatialpandas' \
-     'sqlalchemy' \
-     'statsmodels' \
-     'tabulate' \
-     'topojson' \
-     'urbanaccess' \
-     'xarray-spatial' \
-     'xarray_leaflet' \
-     'xlrd' \
-     'xlsxwriter' \
-     'xvec' \
+ADD ./gds_py.yml /home/${NB_USER}/
+RUN mamba env create -f gds_py.yml \
+ && source activate gds \
+ && python -m ipykernel install --user --name gds --display-name "GDS (Python)" \
+ && conda deactivate \
+ && rm ./gds_py.yml \
  && conda clean --all --yes --force-pkgs-dirs \
  && find /opt/conda/ -follow -type f -name '*.a' -delete \
  && find /opt/conda/ -follow -type f -name '*.pyc' -delete \
  && find /opt/conda/ -follow -type f -name '*.js.map' -delete \
- && find /opt/conda/lib/python*/site-packages/bokeh/server/static \
+ && find /opt/conda/envs/gds//lib/python*/site-packages/bokeh/server/static \
     -follow -type f -name '*.js' ! -name '*.min.js' -delete
 
 # pip libraries
 ADD ./gds_py_pip.txt ./
-RUN pip install -r gds_py_pip.txt \
+RUN source activate gds \
+ && pip install -r gds_py_pip.txt \
  && pip cache purge \
  && rm -rf /home/$NB_USER/.cache/pip \
  && rm ./gds_py_pip.txt
+
+# Make GDS default
+RUN jupyter lab --generate-config \
+ && echo "c.MultiKernelManager.default_kernel_name='gds'" >> \
+ /home/${NB_USER}/.jupyter/jupyter_lab_config.py \
+ && echo "conda activate gds" >> /home/${NB_USER}/.bashrc
+ENV PATH="/opt/conda/envs/gds/bin/:${PATH}"
 
 #--- Jupyter config ---#
 USER root
@@ -125,7 +53,8 @@ RUN jupyter labextension disable "@jupyterlab/apputils-extension:announcements" 
 # https://github.com/jupyter/docker-stacks/blob/c3d5df67c8b158b0aded401a647ea97ada1dd085/scipy-notebook/Dockerfile#L59
 USER $NB_UID
 ENV XDG_CACHE_HOME="/home/${NB_USER}/.cache/"
-RUN MPLBACKEND=Agg python -c "import matplotlib.pyplot" && \
+RUN source activate gds \
+ && MPLBACKEND=Agg python -c "import matplotlib.pyplot" && \
     fix-permissions "/home/${NB_USER}"
 
 #--- htop ---#
@@ -138,7 +67,7 @@ RUN apt-get update \
  && rm -rf /var/lib/apt/lists/*
 
 # Set version
-ENV GDS_ENV_VERSION "9.0"
+ENV GDS_ENV_VERSION "10.0"
 
 # Switch back to user to avoid accidental container runs as root
 USER $NB_UID

@@ -2,16 +2,6 @@ name: gds
 channels:
   - conda-forge
 dependencies:
-  - python=3.10
-  - mamba
-  - jupyter_core
-  - notebook
-  - jupyterhub
-  - jupyterlab
-  - ca-certificates
-  - certifi
-  - openssl
-  - conda-forge::blas[build=openblas]
   - black
   - bokeh
   - boto3
@@ -22,7 +12,9 @@ dependencies:
   - cubo
   - cython
   - dask
+     #'dask-kubernetes
   - dask-geopandas
+     #'dask-ml
   - datashader
   - flake8
   - geoalchemy2
@@ -34,20 +26,21 @@ dependencies:
   - h3-py
   - hilbertcurve
   - hdbscan
+  - ipykernel
   - ipyleaflet
   - ipympl
   - ipywidgets
+  - jupyterlab>=4.0
   - jupyter_bokeh
   - jupyter-book
-  - jupyter-server-proxy
-  - jupyterlab-variableinspector
   - jupytext
   - legendgram
   - libgdal-arrow-parquet
   - lxml
   - momepy
-  - nbdime
-  - netcdf4
+  - movingpandas
+    #- nbdime # Migrating to Lab 4
+  - netCDF4
   - networkx
   - openpyxl
   - osmnx
@@ -56,20 +49,22 @@ dependencies:
   - pip
   - polyline
   - pooch
+  - pygeoda
   - protobuf
   - psycopg2
   - pyarrow
-  - pygeos
   - pyogrio
   - pyppeteer
-  - pyrosm
+  - pyrosm # Last update Oct'21
   - pysal
   - pystac-client
+  - pytest
   - python-duckdb
   - rasterio
   - rasterstats
   - rio-cogeo
   - rioxarray
+     #scikit-image
   - scikit-learn
   - scikit-mobility
   - seaborn
@@ -84,4 +79,3 @@ dependencies:
   - xlrd
   - xlsxwriter
   - xvec
-gds_env_version: 9.0
