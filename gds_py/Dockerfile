@@ -2,6 +2,9 @@ FROM jupyter/minimal-notebook:2023-08-21
 
 LABEL maintainer="Dani Arribas-Bel <D.Arribas-Bel@liverpool.ac.uk>"
 
+# Set version
+ENV GDS_ENV_VERSION "10.0"
+
 # https://github.com/ContinuumIO/docker-images/blob/master/miniconda3/Dockerfile
 ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
 
@@ -10,7 +13,7 @@ ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
 ADD ./gds_py.yml /home/${NB_USER}/
 RUN mamba env create -f gds_py.yml \
  && source activate gds \
- && python -m ipykernel install --user --name gds --display-name "GDS (Python)" \
+ && python -m ipykernel install --user --name gds --display-name "GDS-$GDS_ENV_VERSION" \
  && conda deactivate \
  && rm ./gds_py.yml \
  && conda clean --all --yes --force-pkgs-dirs \
@@ -32,7 +35,13 @@ RUN source activate gds \
 RUN jupyter lab --generate-config \
  && echo "c.MultiKernelManager.default_kernel_name='gds'" >> \
  /home/${NB_USER}/.jupyter/jupyter_lab_config.py \
- && echo "conda activate gds" >> /home/${NB_USER}/.bashrc
+ && echo "conda activate gds" >> /home/${NB_USER}/.bashrc \
+ && echo "c.KernelSpecManager.ensure_native_kernel = False" >> \
+ /home/${NB_USER}/.jupyter/jupyter_lab_config.py \
+# https://github.com/jupyter/notebook/issues/3674#issuecomment-397212982
+ && echo "c.KernelSpecManager.whitelist = {'gds'}" >> \
+ /home/${NB_USER}/.jupyter/jupyter_lab_config.py
+RUN jupyter kernelspec remove -y python3 
 ENV PATH="/opt/conda/envs/gds/bin/:${PATH}"
 
 #--- Jupyter config ---#
@@ -65,9 +74,6 @@ RUN apt-get update \
  && apt-get install -y --no-install-recommends htop \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/*
-
-# Set version
-ENV GDS_ENV_VERSION "10.0"
 
 # Switch back to user to avoid accidental container runs as root
 USER $NB_UID
