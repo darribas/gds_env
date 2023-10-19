@@ -16,6 +16,7 @@ apt-get update -qq \
     gpg-agent \
     jq \
     libatk1.0-0 \
+    libmagick++-dev \
     libv8-dev \
     libx11-6 \
     libxtst6 \
@@ -50,7 +51,6 @@ R -e "install.packages(c( \
             'FRK', \
             'gghighlight', \
             'ggmap', \
-            'GISTools', \
             'jtools', \
             'kableExtra', \
             'knitr', \
@@ -70,36 +70,50 @@ R -e "install.packages(c( \
             'areal', \
             'bookdown', \
             'brms', \
+            'caret', \
             'deldir', \
             'factoextra', \
             'feather', \
             'geojsonio', \
+            'ggimage', \
             'ggcorrplot', \
+            'ggformula', \
+            'ggpmisc', \
             'ggthemes', \
             'glmmTMB', \
             'hexbin', \
             'igraph', \
             'mapboxapi', \
+            'mapdeck', \
+            'Metrics', \
+            'modelsummary', \
             'nlme', \
             'osrmj', \
             'patchwork', \
+            'plotly', \
             'plotrix', \
             'randomForest', \
+            'ranger', \
             'RCurl', \
             'RedditExtractoR', \
+            'rpart.plot', \
             'rpostgis', \
             'rtweet', \
             'shiny', \
+            'showtext', \
             'SnowballC', \
             'splancs', \
             'stm', \
-            'tidycensus' \
+            'stplanr', \
+            'textdata', \
+            'tidycensus', \
+            'tidygeocoder', \
             'tidytext', \
             'tm', \
             'topicmodels', \
             'TraMineR', \
-            'tufte' \
-            'vader' \
+            'tufte', \
+            'vader', \
             'wellknown' \
             ), repos='https://cran.rstudio.com');"
 

@@ -1,4 +1,4 @@
-FROM darribas/gds_py:9.0
+FROM gds_py:test
 
 LABEL maintainer="Dani Arribas-Bel <D.Arribas-Bel@liverpool.ac.uk>"
 
@@ -25,28 +25,32 @@ RUN chmod +x $HOME/install_R_gds.sh \
  && rm $HOME/install_R_gds.sh
 
 # Re-attach conda to path
-ENV PATH="/opt/conda/bin:${PATH}"
+ENV PATH="/opt/conda/envs/gds/bin/:/opt/conda/condabin:/opt/conda/envs/gds/bin:/opt/conda/bin:${PATH}"
 
 #--- R/Python ---#
 
 USER root
 
-RUN ln -s /opt/conda/bin/jupyter /usr/local/bin
+RUN ln -s /opt/conda/envs/gds/bin/jupyter /usr/local/bin
 RUN R -e "install.packages('IRkernel'); \
           library(IRkernel); \
-          IRkernel::installspec(prefix='/opt/conda/');"
+          IRkernel::installspec(displayname='gdsR-$GDS_ENV_VERSION');"
 ENV LD_LIBRARY_PATH /usr/local/lib/R/lib/:${LD_LIBRARY_PATH}
 RUN fix-permissions $HOME \
   && fix-permissions $CONDA_DIR
+
+RUN sed -i "s/c.KernelSpecManager.whitelist = {'gds'}/c.KernelSpecManager.whitelist = {'gds', 'ir'}/g" \
+ /home/${NB_USER}/.jupyter/jupyter_lab_config.py
 
 RUN pip install -U --no-deps rpy2 rpy2-arrow pytz pytz_deprecation_shim jinja2 'cffi>=1.10.0' tzlocal \
  && rm -rf /home/$NB_USER/.cache/pip \
  && rm -rf /tmp/downloaded_packages/ /tmp/*.rds
 
-# Quarto (as of May 19th'22
-RUN wget https://github.com/quarto-dev/quarto-cli/releases/download/v1.3.302/quarto-1.3.302-linux-amd64.deb \
- && dpkg -i quarto-1.3.302-linux-amd64.deb \
- && rm quarto-1.3.302-linux-amd64.deb
+# Quarto (as of Oct'23)
+RUN wget https://github.com/quarto-dev/quarto-cli/releases/download/v1.3.450/quarto-1.3.450-linux-amd64.deb \
+ -O quarto.deb \
+ && dpkg -i quarto.deb \
+ && rm quarto.deb
 
 #--- tippecanoe (here for mapboxapi) ---#
 RUN git clone https://github.com/felt/tippecanoe.git \

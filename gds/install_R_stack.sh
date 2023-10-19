@@ -45,16 +45,21 @@ echo "deb https://cloud.r-project.org/bin/linux/ubuntu $(lsb_release -cs)-cran40
 # https://github.com/rocker-org/rocker-versioned2/blob/65309d4d9dac11d3a78dd26ee4bf7b715436db31/scripts/install_tidyverse.sh
 apt-get update -qq \
   && apt-get install -y --no-install-recommends \
+    default-libmysqlclient-dev \
     libxml2-dev \
     libcairo2-dev \
+    libfreetype6-dev \
     libfribidi-dev \
     libgit2-dev \
     libharfbuzz-dev \
-    default-libmysqlclient-dev \
+    libjpeg-dev \
+    libpng-dev \
     libpq-dev \
     libsasl2-dev \
     libsqlite3-dev \
     libssh2-1-dev \
+    libtiff5-dev \
+    libxtst6 \
     unixodbc-dev
 
 R -e "install.packages(c( \
@@ -72,6 +77,7 @@ R -e "install.packages(c( \
             'dbplyr', \
             'DBI', \
             'dtplyr', \
+            'duckdb', \
             'RMariaDB', \
             'RPostgres', \
             'RSQLite', \
@@ -102,7 +108,6 @@ add-apt-repository -y ppa:ubuntugis/ubuntugis-unstable \
     libsqlite3-dev \
     libssl-dev \
     libudunits2-dev \
-    lsb-release \
     netcdf-bin \
     postgis \
     protobuf-compiler \
@@ -135,10 +140,12 @@ R -e "install.packages(c( \
             'spatialreg', \
             'spdep', \
             'stars', \
+            'terra', \
             'tidync', \
             'tmap', \
             'geoR', \
-            'geosphere' \
+            'geosphere', \
+            'BiocManager' \
             ), repos='https://cran.rstudio.com');"
 
 ## from bioconductor
