@@ -1,4 +1,4 @@
-FROM darribas/gds:9.0
+FROM gds:test
 
 #--- Decktape ---#
 USER root
@@ -65,30 +65,16 @@ RUN apt-get update -qq \
  && apt-get autoclean \
  && apt-get autoremove \
  && apt-get clean 
+
 RUN mkdir $HOME/.decktape \
  && fix-permissions $HOME/.decktape
 
-WORKDIR $HOME/.decktape
-
 USER $NB_UID
-
-#RUN cd $HOME/.decktape \
-# && wget https://github.com/astefanutti/decktape/archive/refs/tags/v3.7.0.zip \
-# && unzip v3.7.0.zip \
-# && cd decktape-3.7.0 \
-# && npm install \
-# && cp decktape.js decktape \
-# && npm cache clean --force \
-# && rm $HOME/.decktape/v3.7.0.zip
 
 USER root
 RUN npm install -g decktape \
  && npm cache clean --force
 USER $NB_UID
-
-ENV PATH="$HOME/.decktape/decktape-3.7.0:${PATH}"
-
-WORKDIR $HOME/
 
 #--- Texbuild ---#
 
@@ -112,11 +98,14 @@ RUN mkdir texcount_tmp \
 USER $NB_UID
 
 #--- Dask Jupyter extension & Bash kernel ---#
-RUN pip install dask-labextension bash_kernel \
+RUN pip install dask-labextension bash_kernel jupyterlab_vim \
  && python -m bash_kernel.install \
  && mamba install python-graphviz \
  && pip cache purge \
  && conda clean --all --yes --force-pkgs-dirs
+
+RUN sed -i "s/c.KernelSpecManager.whitelist = {'gds', 'ir'}/c.KernelSpecManager.whitelist = {'gds', 'ir', 'bash'}/g" \
+ /home/${NB_USER}/.jupyter/jupyter_lab_config.py
 
 USER root
 RUN find /opt/conda/ -follow -type f -name '*.a' -delete \
@@ -142,11 +131,15 @@ RUN apt-get update \
  && curl -fLo $HOME/.vim/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim \
  && vim +PlugInstall +qall
-#--- default Vim ---#
-RUN mkdir -p /home/$NB_USER/.jupyter/lab/user-settings/\@jupyterlab/codemirror-extension/ \
- && echo '{"keyMap": "vim"}'\
- >> /home/$NB_USER/.jupyter/lab/user-settings/\@jupyterlab/codemirror-extension/commands.jupyterlab-settings\
- && fix-permissions /home/$NB_USER/.jupyter/lab/user-settings/\@jupyterlab/codemirror-extension/ \
+#--- Text editor / default Vim ---#
+# https://github.com/jupyterlab/jupyterlab/issues/14599
+#RUN mkdir -p /home/$NB_USER/.jupyter/lab/user-settings/\@jupyterlab/codemirror-extension/ \
+# && echo '{"keyMap": "vim"}' \
+# >> /home/$NB_USER/.jupyter/lab/user-settings/\@jupyterlab/codemirror-extension/commands.jupyterlab-settings \
+RUN mkdir -p /home/$NB_USER/.jupyter/lab/user-settings/\@jupyterlab/fileeditor-extension/ \
+ && echo '{"editorConfig": {"codeFolding": true, "highlightActiveLine": true, "highlightTrailingWhitespace": true}}' \
+ >> /home/$NB_USER/.jupyter/lab/user-settings/\@jupyterlab/fileeditor-extension/plugin.jupyterlab-settings \
+#&& fix-permissions /home/$NB_USER/.jupyter/lab/user-settings/\@jupyterlab/codemirror-extension/ \
  && fix-permissions /home/$NB_USER/.jupyter/lab/
 
 #--- Clean up ---#
@@ -162,6 +155,15 @@ RUN cd $NB_HOME \
  && rm -rf /var/lib/apt/lists/*
 RUN fix-permissions $HOME \
   && fix-permissions $CONDA_DIR
+
+# gpq
+RUN mkdir $HOME/gpq \
+ && wget -O $HOME/gpq/gpq.tar.gz https://github.com/planetlabs/gpq/releases/download/v0.20.0/gpq-linux-amd64.tar.gz \
+ && cd $HOME/gpq \
+ && tar -xzvf gpq.tar.gz \
+ && mv gpq /usr/bin/ \
+ && cd $HOME \
+ && rm -rf gpq
 
 # Switch back to jovyan to avoid accidental container runs as root
 USER $NB_UID

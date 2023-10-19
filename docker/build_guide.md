@@ -21,7 +21,12 @@ cd /path/to/folder/with/Dockerfile
 Then, run the following command:
 
 ```shell
-docker build -t <image-name> .
+docker build \
+        --no-cache \
+        -t <image-name> \
+        --progress=plain \
+        . 2>&1 \
+        | tee log.txt
 ```
 
 where `<image-name>` can be replaced by the name you want to give to the image you will create.
