@@ -65,7 +65,7 @@ dependencies:
   - pyarrow
   - pyogrio
   - pyppeteer
-  - pyrosm
+#  - pyrosm
   - pysal
   - pystac-client
   - pytest
