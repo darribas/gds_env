@@ -12,9 +12,7 @@ dependencies:
   - cubo
   - cython
   - dask
-     #'dask-kubernetes
   - dask-geopandas
-     #'dask-ml
   - datashader
   - flake8
   - geoalchemy2
@@ -47,6 +45,18 @@ dependencies:
   - palettable
   - pandana
   - pip
+  - pip:
+    - jupyterlab-geojson
+    - jupyterlab_myst
+    - matplotlib-scalebar
+    - polars
+#    - pygeoda
+    - pymorton
+    - pytest-cov
+    - pytest-tornasync
+    - simplification
+    - urbangrammar-graphics
+    - watermark
   - polyline
   - pooch
   - pygeoda
@@ -55,7 +65,7 @@ dependencies:
   - pyarrow
   - pyogrio
   - pyppeteer
-  - pyrosm # Last update Oct'21
+  - pyrosm
   - pysal
   - pystac-client
   - pytest
@@ -64,7 +74,6 @@ dependencies:
   - rasterstats
   - rio-cogeo
   - rioxarray
-     #scikit-image
   - scikit-learn
   - scikit-mobility
   - seaborn

@@ -1,4 +1,4 @@
-FROM jupyter/minimal-notebook:2023-08-21
+FROM jupyter/minimal-notebook:2023-09-11
 
 LABEL maintainer="Dani Arribas-Bel <D.Arribas-Bel@liverpool.ac.uk>"
 
@@ -21,15 +21,17 @@ RUN mamba env create -f gds_py.yml \
  && find /opt/conda/ -follow -type f -name '*.pyc' -delete \
  && find /opt/conda/ -follow -type f -name '*.js.map' -delete \
  && find /opt/conda/envs/gds//lib/python*/site-packages/bokeh/server/static \
-    -follow -type f -name '*.js' ! -name '*.min.js' -delete
+    -follow -type f -name '*.js' ! -name '*.min.js' -delete \
+ && pip cache purge \
+ && rm -rf /home/$NB_USER/.cache/pip
 
 # pip libraries
-ADD ./gds_py_pip.txt ./
-RUN source activate gds \
- && pip install -r gds_py_pip.txt \
- && pip cache purge \
- && rm -rf /home/$NB_USER/.cache/pip \
- && rm ./gds_py_pip.txt
+#ADD ./gds_py_pip.txt ./
+#RUN source activate gds \
+# && pip install -r gds_py_pip.txt \
+# && pip cache purge \
+# && rm -rf /home/$NB_USER/.cache/pip \
+# && rm ./gds_py_pip.txt
 
 # Make GDS default
 RUN jupyter lab --generate-config \
