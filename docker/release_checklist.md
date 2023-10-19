@@ -10,12 +10,11 @@ docker build -t gds:latest . | tee gds_latest.log
 
 ## Pre-release
 
-1. [ ] Update `Dockerfile` for `gds_py`
+1. [ ] Update `Dockerfile` and `.yml` files for `gds_py`
 1. [ ] Update version ENV variable
 1. [ ] Build `gds_py`
 1. [ ] Potentially update check notebook for `gds_py`
 1. [ ] Run check for `gds_py`
-1. [ ] Generate `.yml` file
 3. [ ] Confirm CI works and writes explicit files
 4. [ ] Push `gds_py` image
 5. [ ] Update dependency version on `Dockerfile` for `gds` (and other potential changes to `gds`)
