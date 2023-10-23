@@ -1,4 +1,4 @@
-export GDS_VERSION=9.0
+export GDS_VERSION=10.0
 #DOCKERRUN = docker run --rm --user root -e GRANT_SUDO=yes -e NB_UID=1002 -e NB_GID=100 -v `pwd`:/home/jovyan/test
 DOCKERRUN = docker run -v `pwd`:/home/jovyan/test
 test: test_py test_r
