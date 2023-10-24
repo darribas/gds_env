@@ -36,6 +36,5 @@ From `gds_py`, an environment file is automatically created for the stack built 
 
 [![Test Python GDS Environment (Windows/macOS/Linux)](https://github.com/darribas/gds_env/actions/workflows/test_python_environment.yml/badge.svg)](https://github.com/darribas/gds_env/actions/workflows/test_python_environment.yml)
 
-[Download `.yml`](https://github.com/darribas/gds_env/raw/master/gds_py/gds_py.yml){: .btn .btn }
-[Download pip `.txt`](https://github.com/darribas/gds_env/raw/master/gds_py/gds_py_pip.txt){: .btn .btn }
+[Download `.yml` (including `pip` installs)](https://github.com/darribas/gds_env/raw/master/gds_py/gds_py.yml){: .btn .btn }
 

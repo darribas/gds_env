@@ -10,7 +10,7 @@ write_stacks: write_py_stack write_r_stack
 write_py_stack:
 	$(DOCKERRUN) darribas/gds_py:${GDS_VERSION} start.sh bash -c "conda list -n gds > /home/jovyan/test/gds_py/stack_py.txt"
 	$(DOCKERRUN) darribas/gds_py:${GDS_VERSION} start.sh sed -i '1iGDS version: ${GDS_VERSION}' /home/jovyan/test/gds_py/stack_py.txt
-	$(DOCKERRUN) darribas/gds_py:${GDS_VERSION} start.sh python -c "import subprocess, pandas; fo=open('/home/jovyan/test/gds_py/stack_py.md', 'w'); fo.write(pandas.read_json(subprocess.check_output(['conda', 'list', '--json']).decode())[['name', 'version', 'build_string', 'channel']].to_markdown());fo.close()"
+	$(DOCKERRUN) darribas/gds_py:${GDS_VERSION} start.sh python -c "import subprocess, pandas; fo=open('/home/jovyan/test/gds_py/stack_py.md', 'w'); fo.write(pandas.read_json(subprocess.check_output(['conda', 'list', '-n', 'gds', '--json']).decode())[['name', 'version', 'build_string', 'channel']].to_markdown());fo.close()"
 	$(DOCKERRUN) darribas/gds_py:${GDS_VERSION} start.sh sed -i "1s/^/\n/" /home/jovyan/test/gds_py/stack_py.md
 write_r_stack:
 	$(DOCKERRUN) darribas/gds:${GDS_VERSION} start.sh sh -c 'Rscript -e "ip <- as.data.frame(installed.packages()[,c(1,3:4)]); print(ip)" > /home/jovyan/test/gds/stack_r.txt'
