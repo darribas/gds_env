@@ -12,7 +12,6 @@ RUN /usr/bin/code-server \
      --install-extension vscodevim.vim \
      --install-extension ms-toolsai.jupyter \
      --install-extension ms-python.python \
-     --install-extension tomoki1207.pdf \
      --install-extension james-yu.latex-workshop \
      --install-extension equinusocio.vsc-material-theme \
       && fix-permissions /home/$NB_USER/.local/share/code-server/
