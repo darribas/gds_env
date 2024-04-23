@@ -1,4 +1,4 @@
-FROM gds:test
+FROM gds:arm
 
 #--- Decktape ---#
 USER root
@@ -115,13 +115,14 @@ RUN find /opt/conda/ -follow -type f -name '*.a' -delete \
 USER $NB_UID
 
 #--- jekyll ---#
-RUN mamba create -n dev --yes -c conda-forge \
-        rb-github-pages \
-        rb-jekyll-scholar \
- && source activate dev \
- && gem install just-the-docs \
- && source activate base \
- && pyppeteer-install
+# Update w/ https://github.com/github/pages-gem/blob/master/Dockerfile
+# RUN mamba create -n dev --yes -c conda-forge \
+#         gcc \
+#         rb-bundler \
+# && source activate dev \
+# && gem install github-pages jekyll-scholar just-the-docs \
+# && source activate base \
+# && pyppeteer-install
 
 #---    Vim   ---#
 USER root
@@ -158,7 +159,7 @@ RUN fix-permissions $HOME \
 
 # gpq
 RUN mkdir $HOME/gpq \
- && wget -O $HOME/gpq/gpq.tar.gz https://github.com/planetlabs/gpq/releases/download/v0.20.0/gpq-linux-amd64.tar.gz \
+ && wget -O $HOME/gpq/gpq.tar.gz https://github.com/planetlabs/gpq/releases/download/v0.22.0/gpq-linux-arm64.tar.gz \
  && cd $HOME/gpq \
  && tar -xzvf gpq.tar.gz \
  && mv gpq /usr/bin/ \

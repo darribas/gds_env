@@ -1,4 +1,4 @@
-FROM gds_py:test
+FROM gds_py:arm
 
 LABEL maintainer="Dani Arribas-Bel <D.Arribas-Bel@liverpool.ac.uk>"
 
@@ -46,8 +46,8 @@ RUN pip install -U --no-deps rpy2 rpy2-arrow pytz pytz_deprecation_shim jinja2 '
  && rm -rf /home/$NB_USER/.cache/pip \
  && rm -rf /tmp/downloaded_packages/ /tmp/*.rds
 
-# Quarto (as of Oct'23)
-RUN wget https://github.com/quarto-dev/quarto-cli/releases/download/v1.3.450/quarto-1.3.450-linux-amd64.deb \
+# Quarto (as of Apr'24)
+RUN wget https://github.com/quarto-dev/quarto-cli/releases/download/v1.4.553/quarto-1.4.553-linux-arm64.deb \
  -O quarto.deb \
  && dpkg -i quarto.deb \
  && rm quarto.deb
