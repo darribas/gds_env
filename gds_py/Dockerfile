@@ -1,9 +1,9 @@
-FROM jupyter/minimal-notebook:2023-10-17
+FROM jupyter/minimal-notebook:latest
 
 LABEL maintainer="Dani Arribas-Bel <D.Arribas-Bel@liverpool.ac.uk>"
 
 # Set version
-ENV GDS_ENV_VERSION "10.0"
+ENV GDS_ENV_VERSION "arm"
 
 # https://github.com/ContinuumIO/docker-images/blob/master/miniconda3/Dockerfile
 ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
