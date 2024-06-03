@@ -23,15 +23,7 @@ RUN mamba env create -f gds_py.yml \
  && source activate gds \
  && python -m ipykernel install --user --name gds --display-name "GDS-$GDS_ENV_VERSION" \
  && conda deactivate \
- && rm ./gds_py.yml \
- && conda clean --all --yes --force-pkgs-dirs \
- && find /opt/conda/ -follow -type f -name '*.a' -delete \
- && find /opt/conda/ -follow -type f -name '*.pyc' -delete \
- && find /opt/conda/ -follow -type f -name '*.js.map' -delete \
- && find /opt/conda/envs/gds//lib/python*/site-packages/bokeh/server/static \
-    -follow -type f -name '*.js' ! -name '*.min.js' -delete \
- && pip cache purge \
- && rm -rf /home/$NB_USER/.cache/pip
+ && rm ./gds_py.yml
 
 # Make GDS default
 RUN jupyter lab --generate-config \
@@ -51,22 +43,16 @@ USER root
 # Turn off notifications
 RUN jupyter labextension disable "@jupyterlab/apputils-extension:announcements" \
 # Clean cache up
- && jupyter lab clean -y \
- && conda clean --all -f -y \
  && npm cache clean --force \
  && rm -rf $CONDA_DIR/share/jupyter/lab/staging \
  && rm -rf "/home/${NB_USER}/.node-gyp" \
  && rm -rf /home/$NB_USER/.cache/yarn \
-# Fix permissions
- && fix-permissions "${CONDA_DIR}" \
- && fix-permissions "/home/${NB_USER}"
 # Build mpl font cache
 # https://github.com/jupyter/docker-stacks/blob/c3d5df67c8b158b0aded401a647ea97ada1dd085/scipy-notebook/Dockerfile#L59
 USER $NB_UID
 ENV XDG_CACHE_HOME="/home/${NB_USER}/.cache/"
 RUN source activate gds \
- && MPLBACKEND=Agg python -c "import matplotlib.pyplot" && \
-    fix-permissions "/home/${NB_USER}"
+ && MPLBACKEND=Agg python -c "import matplotlib.pyplot"
 
                 #########
                 ### R ###
@@ -143,10 +129,14 @@ RUN $HOME/scripts/install_gpq.sh
 RUN find /opt/conda/ -follow -type f -name '*.a' -delete \
  && find /opt/conda/ -follow -type f -name '*.pyc' -delete \
  && find /opt/conda/ -follow -type f -name '*.js.map' -delete \
+ && find /opt/conda/envs/gds//lib/python*/site-packages/bokeh/server/static \
+    -follow -type f -name '*.js' ! -name '*.min.js' -delete \
+ && pip cache purge \
  && rm -rf /home/$NB_USER/.cache/pip 
 
 RUN cd $NB_HOME \
- && conda clean --yes --all \
+ && jupyter lab clean -y \
+ && conda clean --yes --all --force-pkgs-dirs \
  && rm -rf /home/$NB_USER/.cache/pip \
  && rm -rf /tmp/downloaded_packages/ /tmp/*.rds \
  && rm -rf $GEM_HOME/cache \
