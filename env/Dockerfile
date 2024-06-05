@@ -93,11 +93,11 @@ USER $NB_UID
 #--- Jupyter Dev ---#
 RUN $HOME/scripts/install_jupyter_dev.sh 
 
-#--- jekyll ---#
-RUN $HOME/scripts/install_jekyll.sh 
-
 
 USER root
+
+#--- jekyll ---#
+RUN $HOME/scripts/install_jekyll.sh 
 
 #--- tippecanoe ---#
 RUN $HOME/scripts/install_tippecanoe.sh 
@@ -116,11 +116,7 @@ RUN $HOME/scripts/install_latex_tools.sh
 
 #---    Vim   ---#
 ADD ./dev/vimrc $HOME/.vimrc
-RUN apt-get update \
- && apt-get install -y vim \
- && curl -fLo $HOME/.vim/autoload/plug.vim --create-dirs \
-    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim \
- && vim +PlugInstall +qall
+RUN $HOME/scripts/install_vim.sh 
 
 # GPQ
 RUN $HOME/scripts/install_gpq.sh 

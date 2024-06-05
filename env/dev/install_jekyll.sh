@@ -1,17 +1,9 @@
 #!/bin/bash
 
-#--- [Run under $NB_USER] ---#
+apt-get update \
+        && apt-get install -y ruby-full build-essential zlib1g-dev
+# https://github.com/sass-contrib/sass-embedded-host-ruby/issues/130#issuecomment-1588245011
+gem install sass-embedded
+gem install sass --force sass-embedded
+gem install jekyll bundler github-pages jekyll-scholar just-the-docs
 
-# Update w/ https://github.com/github/pages-gem/blob/master/Dockerfile
-
-if [ "$(uname -m)" = "x86_64" ]; then
-        mamba create -n dev --yes -c conda-forge \
-                 gcc \
-                 rb-bundler \
-         && source activate dev \
-         && gem install github-pages jekyll-scholar just-the-docs \
-         && source activate base \
-         && pyppeteer-install
-else
-        echo "Jekyll with Github Pages is only supported on x86_64 architectures"
-fi
