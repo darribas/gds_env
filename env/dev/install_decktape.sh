@@ -63,6 +63,7 @@ apt-get update -qq \
 	libcups2 \
 	libxss-dev \
 	libxrandr-dev \
+ && rm -rf /var/lib/apt/lists/* \
  && apt-get autoclean \
  && apt-get autoremove \
  && apt-get clean 

@@ -1,3 +1,5 @@
+# Set up links between Python/R (IRkernel, rpy2) and R/Python (reticulate)
+
 ln -s /opt/conda/envs/gds/bin/jupyter /usr/local/bin
 R -e "install.packages(c( \
         'IRkernel', 'reticulate' \

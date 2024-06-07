@@ -23,7 +23,15 @@ RUN mamba env create -f gds_py.yml \
  && source activate gds \
  && python -m ipykernel install --user --name gds --display-name "GDS-$GDS_ENV_VERSION" \
  && conda deactivate \
- && rm ./gds_py.yml
+ && rm ./gds_py.yml \
+ && conda clean --yes --all --force-pkgs-dirs \
+ && find /opt/conda/ -follow -type f -name '*.a' -delete \
+ && find /opt/conda/ -follow -type f -name '*.pyc' -delete \
+ && find /opt/conda/ -follow -type f -name '*.js.map' -delete \
+ && find /opt/conda/envs/gds//lib/python*/site-packages/bokeh/server/static \
+    -follow -type f -name '*.js' ! -name '*.min.js' -delete \
+ && pip cache purge \
+ && rm -rf $HOME/.cache/pip
 
 # Make GDS default
 RUN jupyter lab --generate-config \
@@ -38,15 +46,24 @@ RUN jupyter lab --generate-config \
 RUN jupyter kernelspec remove -y python3 
 ENV PATH="/opt/conda/envs/gds/bin/:${PATH}"
 
+#--- Jupyter Dev ---#
+RUN $HOME/scripts/install_jupyter_dev.sh 
+
 #--- Jupyter config ---#
+
 USER root
+
 # Turn off notifications
 RUN jupyter labextension disable "@jupyterlab/apputils-extension:announcements" \
 # Clean cache up
+ && jupyter lab clean -y \
+ && conda clean --yes --all --force-pkgs-dirs \
  && npm cache clean --force \
  && rm -rf $CONDA_DIR/share/jupyter/lab/staging \
  && rm -rf "/home/${NB_USER}/.node-gyp" \
  && rm -rf /home/$NB_USER/.cache/yarn \
+ && fix-permissions "${CONDA_DIR}" \
+ && fix-permissions "/home/${NB_USER}"
 # Build mpl font cache
 # https://github.com/jupyter/docker-stacks/blob/c3d5df67c8b158b0aded401a647ea97ada1dd085/scipy-notebook/Dockerfile#L59
 USER $NB_UID
@@ -88,14 +105,6 @@ RUN $HOME/scripts/install_quarto.sh
                 ### Dev ###
                 ###########
 
-USER $NB_UID
-
-#--- Jupyter Dev ---#
-RUN $HOME/scripts/install_jupyter_dev.sh 
-
-
-USER root
-
 #--- jekyll ---#
 RUN $HOME/scripts/install_jekyll.sh 
 
@@ -118,22 +127,25 @@ RUN $HOME/scripts/install_latex_tools.sh
 ADD ./dev/vimrc $HOME/.vimrc
 RUN $HOME/scripts/install_vim.sh 
 
-# GPQ
+#---    GPQ   ---#
 RUN $HOME/scripts/install_gpq.sh 
 
 #--- Clean up ---#
+RUN fix-permissions $HOME \
+  && fix-permissions $CONDA_DIR
+
+USER $NB_UID
+
 RUN find /opt/conda/ -follow -type f -name '*.a' -delete \
  && find /opt/conda/ -follow -type f -name '*.pyc' -delete \
  && find /opt/conda/ -follow -type f -name '*.js.map' -delete \
  && find /opt/conda/envs/gds//lib/python*/site-packages/bokeh/server/static \
     -follow -type f -name '*.js' ! -name '*.min.js' -delete \
  && pip cache purge \
- && rm -rf /home/$NB_USER/.cache/pip 
+ && rm -rf $HOME/.cache/pip
 
+USER root
 RUN cd $NB_HOME \
- && jupyter lab clean -y \
- && conda clean --yes --all --force-pkgs-dirs \
- && rm -rf /home/$NB_USER/.cache/pip \
  && rm -rf /tmp/downloaded_packages/ /tmp/*.rds \
  && rm -rf $GEM_HOME/cache \
  && rm -rf /usr/local/bundle/cache \
@@ -142,8 +154,5 @@ RUN cd $NB_HOME \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/* \
  && rm -rf $HOME/scripts
-RUN fix-permissions $HOME \
-  && fix-permissions $CONDA_DIR
 
-# Switch back to jovyan to avoid accidental container runs as root
 USER $NB_UID
