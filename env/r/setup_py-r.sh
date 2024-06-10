@@ -20,7 +20,8 @@ pip install -U --no-deps \
         pytz_deprecation_shim \
         jinja2 \
         'cffi>=1.10.0' \
-        tzlocal
+        tzlocal \
+ && pip cache purge
 
 rm -rf /home/$NB_USER/.cache/pip
 rm -rf /tmp/downloaded_packages/ /tmp/*.rds
