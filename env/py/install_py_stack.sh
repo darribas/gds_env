@@ -18,14 +18,14 @@ mamba env create -f gds_py.yml \
  && rm -rf $HOME/.cache/pip
 
 # Make GDS default
-RUN jupyter lab --generate-config \
+# https://github.com/jupyter/notebook/issues/3674#issuecomment-397212982
+jupyter lab --generate-config \
  && echo "c.MultiKernelManager.default_kernel_name='gds'" >> \
  /home/${NB_USER}/.jupyter/jupyter_lab_config.py \
  && echo "conda activate gds" >> /home/${NB_USER}/.bashrc \
  && echo "c.KernelSpecManager.ensure_native_kernel = False" >> \
  /home/${NB_USER}/.jupyter/jupyter_lab_config.py \
-# https://github.com/jupyter/notebook/issues/3674#issuecomment-397212982
  && echo "c.KernelSpecManager.whitelist = {'gds'}" >> \
  /home/${NB_USER}/.jupyter/jupyter_lab_config.py
-RUN jupyter kernelspec remove -y python3 
+jupyter kernelspec remove -y python3 
 
