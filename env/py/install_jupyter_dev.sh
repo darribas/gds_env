@@ -8,16 +8,24 @@ mkdir -p /home/$NB_USER/.jupyter/lab/user-settings/\@jupyterlab/fileeditor-exten
  && echo '{"editorConfig": {"codeFolding": true, "highlightActiveLine": true, "highlightTrailingWhitespace": true}}' \
  >> /home/$NB_USER/.jupyter/lab/user-settings/\@jupyterlab/fileeditor-extension/plugin.jupyterlab-settings
 
-#--- Dask Jupyter extension & Bash kernel ---#
-pip install dask-labextension bash_kernel jupyterlab_vim \
- && python -m bash_kernel.install \
- && mamba install python-graphviz \
- && pip cache purge \
- && conda clean --all --yes --force-pkgs-dirs
+#--- JupyterLab extensions & Bash kernel ---#
 
-sed -i "s/c.KernelSpecManager.whitelist = {'gds', 'ir'}/c.KernelSpecManager.whitelist = {'gds', 'ir', 'bash'}/g" \
- /home/${NB_USER}/.jupyter/jupyter_lab_config.py
-
-#--- Pypeteer ---#
-pyppeteer-install
+jupyter labextension disable "@jupyterlab/apputils-extension:announcements" \
+ && pip install \
+         bash_kernel \
+         jupyterlab-geojson \
+         jupyterlab_myst \
+         jupyterlab-quarto \
+         jupyterlab_vim \
+         jupyterlab_widgets \
+         jupytext
+# Bash kernel
+python -m bash_kernel.install
+# Required for dask extension
+mamba install python-graphviz
+# Clean
+pip cache purge \
+ && conda clean --all --yes --force-pkgs-dirs \
+ && jupyter lab clean -y \
+ && npm cache clean --force
 

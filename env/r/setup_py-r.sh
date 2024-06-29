@@ -10,7 +10,7 @@ LD_LIBRARY_PATH /usr/local/lib/R/lib/:${LD_LIBRARY_PATH}
 fix-permissions $HOME
 fix-permissions $CONDA_DIR
 
-sed -i "s/c.KernelSpecManager.whitelist = {'gds'}/c.KernelSpecManager.whitelist = {'gds', 'ir'}/g" \
+sed -i "s/c.KernelSpecManager.whitelist = {'gds', 'bash'}/c.KernelSpecManager.whitelist = {'gds', 'bash', 'ir'}/g" \
     me/${NB_USER}/.jupyter/jupyter_lab_config.py
 
 pip install -U --no-deps \

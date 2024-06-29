@@ -16,23 +16,22 @@ USER $NB_UID
                 ##############
                 ### Python ###
                 ##############
+
+#--- Jupyter Dev ---#
+RUN $HOME/scripts/install_jupyter_dev.sh 
+
 #--- Python ---#
 
 ADD ./py/gds_py.yml /home/${NB_USER}/
 RUN $HOME/scripts/install_py_stack.sh
 ENV PATH="/opt/conda/envs/gds/bin/:${PATH}"
 
-#--- Jupyter Dev ---#
-RUN $HOME/scripts/install_jupyter_dev.sh 
-
-#--- Jupyter config ---#
+#--- Clean up ---#
 
 USER root
 
-# Turn off notifications
-RUN jupyter labextension disable "@jupyterlab/apputils-extension:announcements" \
 # Clean cache up
- && jupyter lab clean -y \
+RUN jupyter lab clean -y \
  && conda clean --yes --all --force-pkgs-dirs \
  && npm cache clean --force \
  && rm -rf $CONDA_DIR/share/jupyter/lab/staging \
