@@ -60,8 +60,8 @@ add-apt-repository -y ppa:ubuntugis/ubuntugis-unstable \
     gdal-bin \
     lbzip2 \
     libfftw3-dev \
-    libgdal-dev \
-    libgeos-dev \
+    #libgdal-dev \
+    #libgeos-dev \
     libgsl0-dev \
     libgl1-mesa-dev \
     libglu1-mesa-dev \
@@ -69,7 +69,7 @@ add-apt-repository -y ppa:ubuntugis/ubuntugis-unstable \
     libhdf5-dev \
     libjq-dev \
     libpq-dev \
-    libproj-dev \
+    #libproj-dev \
     libprotobuf-dev \
     libnetcdf-dev \
     libsqlite3-dev \
