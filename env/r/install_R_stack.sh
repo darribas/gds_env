@@ -32,6 +32,7 @@ apt-get update -qq \
 R -e "install.packages(c( \
             'tidyverse', \
             'devtools', \
+            'curl', \
             'rmarkdown', \
             'BiocManager', \
             'vroom', \
@@ -60,16 +61,17 @@ add-apt-repository -y ppa:ubuntugis/ubuntugis-unstable \
     gdal-bin \
     lbzip2 \
     libfftw3-dev \
-    #libgdal-dev \
-    #libgeos-dev \
+    libgdal-dev \
+    libgeos-dev \
     libgsl0-dev \
     libgl1-mesa-dev \
     libglu1-mesa-dev \
     libhdf4-alt-dev \
     libhdf5-dev \
     libjq-dev \
+    liblwgeom-dev \
     libpq-dev \
-    #libproj-dev \
+    libproj-dev \
     libprotobuf-dev \
     libnetcdf-dev \
     libsqlite3-dev \

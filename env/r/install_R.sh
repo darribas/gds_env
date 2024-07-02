@@ -14,6 +14,7 @@ apt-get update -qq \
   && apt-get update -qq \
   && apt-get install -y --no-install-recommends \
     ca-certificates \
+    libcurl4-openssl-dev \
     less \
     libopenblas-base \
     locales \

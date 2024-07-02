@@ -53,9 +53,9 @@ RUN source activate gds \
 USER root
 
 # Remove Conda from path to not interfere with R install
-#RUN echo ${PATH}
-#ENV PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
-#RUN echo ${PATH}
+RUN echo ${PATH}
+ENV PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+RUN echo ${PATH}
 
 # install R
 RUN $HOME/scripts/install_R.sh
@@ -67,7 +67,7 @@ RUN $HOME/scripts/install_R_stack.sh
 RUN $HOME/scripts/install_R_gds.sh
 
 # re-attach conda to path
-#ENV PATH="/opt/conda/envs/gds/bin/:/opt/conda/condabin:/opt/conda/envs/gds/bin:/opt/conda/bin:${PATH}"
+ENV PATH="/opt/conda/envs/gds/bin/:/opt/conda/condabin:/opt/conda/envs/gds/bin:/opt/conda/bin:${PATH}"
 
 #--- R/Python ---#
 
