@@ -1,0 +1,16 @@
+---
+services:
+        gds_code:
+                image: gds_code:11.0alpha
+                container_name: gds_code
+                environment:
+                        - TZ=Etc/UTC
+                        - PASSWORD=<YOUR PASSWORD> #optional
+                        - DEFAULT_WORKSPACE=/home/jovyan #optional
+                volumes:
+                        - /HOST_PATH/:/home/jovyan/work
+                ports:
+                        - 8443:8080
+                        - 4000:4000
+                restart: unless-stopped
+

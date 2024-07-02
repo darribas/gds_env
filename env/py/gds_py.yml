@@ -29,7 +29,6 @@ dependencies:
   - ipympl
   - ipywidgets
   - jupyterlab>=4.0
-  - jupyter_bokeh
   - jupyter-book
   - jupytext
   - legendgram
@@ -46,8 +45,6 @@ dependencies:
   - pandana
   - pip
   - pip:
-    - jupyterlab-geojson
-    - jupyterlab_myst
     - matplotlib-scalebar
     - polars
 #    - pygeoda

@@ -1,3 +1,5 @@
+# Set up links between Python/R (IRkernel, rpy2) and R/Python (reticulate)
+
 ln -s /opt/conda/envs/gds/bin/jupyter /usr/local/bin
 R -e "install.packages(c( \
         'IRkernel', 'reticulate' \
@@ -8,8 +10,8 @@ LD_LIBRARY_PATH /usr/local/lib/R/lib/:${LD_LIBRARY_PATH}
 fix-permissions $HOME
 fix-permissions $CONDA_DIR
 
-sed -i "s/c.KernelSpecManager.whitelist = {'gds'}/c.KernelSpecManager.whitelist = {'gds', 'ir'}/g" \
-    me/${NB_USER}/.jupyter/jupyter_lab_config.py
+sed -i "s/c.KernelSpecManager.whitelist = {'gds', 'bash'}/c.KernelSpecManager.whitelist = {'gds', 'ir', 'bash'}/g" \
+  /home/${NB_USER}/.jupyter/jupyter_lab_config.py
 
 pip install -U --no-deps \
         rpy2 \
@@ -18,7 +20,8 @@ pip install -U --no-deps \
         pytz_deprecation_shim \
         jinja2 \
         'cffi>=1.10.0' \
-        tzlocal
+        tzlocal \
+ && pip cache purge
 
 rm -rf /home/$NB_USER/.cache/pip
 rm -rf /tmp/downloaded_packages/ /tmp/*.rds

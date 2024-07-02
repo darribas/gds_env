@@ -1,4 +1,4 @@
-FROM darribas/gds_dev:10.0
+FROM gds:11.0alpha
 
 USER root
 

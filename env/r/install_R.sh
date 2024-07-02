@@ -14,6 +14,7 @@ apt-get update -qq \
   && apt-get update -qq \
   && apt-get install -y --no-install-recommends \
     ca-certificates \
+    libcurl4-openssl-dev \
     less \
     libopenblas-base \
     locales \
@@ -56,6 +57,8 @@ apt-get update \
 && ln -s /usr/lib/R/site-library/littler/examples/testInstalled.r /usr/local/bin/testInstalled.r \
 && ln -s /usr/lib/R/site-library/littler/examples/update.r /usr/local/bin/update.r \
 && rm -rf /tmp/downloaded_packages/ /tmp/*.rds \
-&& rm -rf /var/lib/apt/lists/*
-
+&& rm -rf /var/lib/apt/lists/* \
+&& apt-get autoclean \
+&& apt-get autoremove \
+&& apt-get clean
 

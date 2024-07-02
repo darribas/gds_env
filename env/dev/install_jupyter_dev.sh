@@ -18,4 +18,6 @@ pip install dask-labextension bash_kernel jupyterlab_vim \
 sed -i "s/c.KernelSpecManager.whitelist = {'gds', 'ir'}/c.KernelSpecManager.whitelist = {'gds', 'ir', 'bash'}/g" \
  /home/${NB_USER}/.jupyter/jupyter_lab_config.py
 
+#--- Pypeteer ---#
+pyppeteer-install
 
