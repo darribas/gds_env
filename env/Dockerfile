@@ -8,77 +8,57 @@ ENV GDS_ENV_VERSION "11.0alpha"
 # https://github.com/ContinuumIO/docker-images/blob/master/miniconda3/Dockerfile
 ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
 
+RUN echo "Starting build of GDS env $GDS_ENV_VERSION at: $(date)"
+
 ADD ./*/*.sh $HOME/scripts/
 USER root
 RUN chmod +x $HOME/scripts/*.sh
 USER $NB_UID
 
-                ##############
-                ### Python ###
-                ##############
+                ##################
+                ### Python / R ###
+                ##################
 
 #--- Jupyter Dev ---#
 RUN $HOME/scripts/install_jupyter_dev.sh 
 
-#--- Python ---#
+#--- Python / R ---#
 
-ADD ./py/gds_py.yml /home/${NB_USER}/
-RUN $HOME/scripts/install_py_stack.sh
+ADD ./gds.yml /home/${NB_USER}/
+RUN mamba env create -f gds.yml \
+ && source activate gds \
+ && python -m ipykernel install --user --name gds --display-name "GDS-$GDS_ENV_VERSION" \
+ && conda deactivate \
+ && rm ./gds.yml \
+ && conda clean --yes --all --force-pkgs-dirs \
+ && find /opt/conda/ -follow -type f -name '*.a' -delete \
+ && find /opt/conda/ -follow -type f -name '*.pyc' -delete \
+ && find /opt/conda/ -follow -type f -name '*.js.map' -delete \
+ && pip cache purge \
+ && rm -rf $HOME/.cache/pip
+
 ENV PATH="/opt/conda/envs/gds/bin/:${PATH}"
 
-#--- Clean up ---#
+#--- R kernel ---#
+RUN R -e "library(IRkernel); \
+      IRkernel::installspec(displayname='gdsR-$GDS_ENV_VERSION');"
 
-USER root
-
-# Clean cache up
-RUN jupyter lab clean -y \
- && conda clean --yes --all --force-pkgs-dirs \
- && npm cache clean --force \
- && rm -rf $CONDA_DIR/share/jupyter/lab/staging \
- && rm -rf "/home/${NB_USER}/.node-gyp" \
- && rm -rf /home/$NB_USER/.cache/yarn \
- && fix-permissions "${CONDA_DIR}" \
- && fix-permissions "/home/${NB_USER}"
-# Build mpl font cache
-# https://github.com/jupyter/docker-stacks/blob/c3d5df67c8b158b0aded401a647ea97ada1dd085/scipy-notebook/Dockerfile#L59
-USER $NB_UID
-ENV XDG_CACHE_HOME="/home/${NB_USER}/.cache/"
-RUN source activate gds \
- && MPLBACKEND=Agg python -c "import matplotlib.pyplot"
-
-                #########
-                ### R ###
-                #########
-
-USER root
-
-# Remove Conda from path to not interfere with R install
-RUN echo ${PATH}
-ENV PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
-RUN echo ${PATH}
-
-# install R
-RUN $HOME/scripts/install_R.sh
-
-# Install Tidyverse + Geospatial
-RUN $HOME/scripts/install_R_stack.sh
-
-# install R GDS stack
-RUN $HOME/scripts/install_R_gds.sh
-
-# re-attach conda to path
-ENV PATH="/opt/conda/envs/gds/bin/:/opt/conda/condabin:/opt/conda/envs/gds/bin:/opt/conda/bin:${PATH}"
-
-#--- R/Python ---#
-
-RUN $HOME/scripts/setup_py-r.sh
-
-#--- Quarto ---#
-RUN $HOME/scripts/install_quarto.sh
+#--- GDS as default ---#
+RUN jupyter lab --generate-config \
+ && echo "c.MultiKernelManager.default_kernel_name='gds'" >> \
+ /home/${NB_USER}/.jupyter/jupyter_lab_config.py \
+ && echo "conda activate gds" >> /home/${NB_USER}/.bashrc \
+ && echo "c.KernelSpecManager.ensure_native_kernel = False" >> \
+ /home/${NB_USER}/.jupyter/jupyter_lab_config.py \
+ && echo "c.KernelSpecManager.whitelist = {'gds', 'ir', 'bash'}" >> \
+ /home/${NB_USER}/.jupyter/jupyter_lab_config.py \
+ && jupyter kernelspec remove -y python3 
 
                 ###########
                 ### Dev ###
                 ###########
+
+USER root
 
 #--- jekyll ---#
 RUN $HOME/scripts/install_jekyll.sh 
@@ -109,17 +89,6 @@ RUN $HOME/scripts/install_gpq.sh
 RUN fix-permissions $HOME \
   && fix-permissions $CONDA_DIR
 
-USER $NB_UID
-
-RUN find /opt/conda/ -follow -type f -name '*.a' -delete \
- && find /opt/conda/ -follow -type f -name '*.pyc' -delete \
- && find /opt/conda/ -follow -type f -name '*.js.map' -delete \
- && find /opt/conda/envs/gds//lib/python*/site-packages/bokeh/server/static \
-    -follow -type f -name '*.js' ! -name '*.min.js' -delete \
- && pip cache purge \
- && rm -rf $HOME/.cache/pip
-
-USER root
 RUN cd $NB_HOME \
  && rm -rf /tmp/downloaded_packages/ /tmp/*.rds \
  && rm -rf $GEM_HOME/cache \
@@ -131,3 +100,11 @@ RUN cd $NB_HOME \
  && rm -rf $HOME/scripts
 
 USER $NB_UID
+
+RUN find /opt/conda/ -follow -type f -name '*.a' -delete \
+ && find /opt/conda/ -follow -type f -name '*.pyc' -delete \
+ && find /opt/conda/ -follow -type f -name '*.js.map' -delete \
+ && pip cache purge \
+ && rm -rf $HOME/.cache/pip
+
+RUN echo "Completing build at: $(date)"
