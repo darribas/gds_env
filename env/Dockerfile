@@ -4,63 +4,35 @@ LABEL maintainer="Dani Arribas-Bel <D.Arribas-Bel@liverpool.ac.uk>"
 
 # Set version
 ENV GDS_ENV_VERSION "11.0alpha"
+ARG BUILDARCH
 
 # https://github.com/ContinuumIO/docker-images/blob/master/miniconda3/Dockerfile
 ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
 
-RUN echo "Starting build of GDS env $GDS_ENV_VERSION at: $(date)"
+RUN echo "Starting build of GDS env $GDS_ENV_VERSION for $BUILDARCH at: $(date)"
 
 ADD ./*/*.sh $HOME/scripts/
 USER root
 RUN chmod +x $HOME/scripts/*.sh
 USER $NB_UID
 
-                ##################
-                ### Python / R ###
-                ##################
-
 #--- Jupyter Dev ---#
 RUN $HOME/scripts/install_jupyter_dev.sh 
 
-#--- Python / R ---#
+#--- Conda Env ---#
 
-ADD ./gds.yml /home/${NB_USER}/
-RUN mamba env create -f gds.yml \
- && source activate gds \
- && python -m ipykernel install --user --name gds --display-name "GDS-$GDS_ENV_VERSION" \
- && conda deactivate \
- && rm ./gds.yml \
- && conda clean --yes --all --force-pkgs-dirs \
- && find /opt/conda/ -follow -type f -name '*.a' -delete \
- && find /opt/conda/ -follow -type f -name '*.pyc' -delete \
- && find /opt/conda/ -follow -type f -name '*.js.map' -delete \
- && pip cache purge \
- && rm -rf $HOME/.cache/pip
-
+ADD ./gds_$BUILDARCH.yml /home/${NB_USER}/gds.yml
 ENV PATH="/opt/conda/envs/gds/bin/:${PATH}"
+RUN $HOME/scripts/install_conda_env.sh 
 
-#--- R kernel ---#
-RUN R -e "library(IRkernel); \
-      IRkernel::installspec(displayname='gdsR-$GDS_ENV_VERSION');"
-
-#--- GDS as default ---#
-RUN jupyter lab --generate-config \
- && echo "c.MultiKernelManager.default_kernel_name='gds'" >> \
- /home/${NB_USER}/.jupyter/jupyter_lab_config.py \
- && echo "conda activate gds" >> /home/${NB_USER}/.bashrc \
- && echo "c.KernelSpecManager.ensure_native_kernel = False" >> \
- /home/${NB_USER}/.jupyter/jupyter_lab_config.py \
- && echo "c.KernelSpecManager.whitelist = {'gds', 'ir', 'bash'}" >> \
- /home/${NB_USER}/.jupyter/jupyter_lab_config.py \
- && jupyter kernelspec remove -y python3 
-
-                ###########
-                ### Dev ###
-                ###########
+RUN $HOME/scripts/install_r_extra.sh 
 
 USER root
 
-#--- jekyll ---#
+#--- Quarto ---#
+RUN $HOME/scripts/install_quarto.sh 
+
+#--- Jekyll ---#
 RUN $HOME/scripts/install_jekyll.sh 
 
 #--- tippecanoe ---#
