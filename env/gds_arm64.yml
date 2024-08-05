@@ -105,9 +105,9 @@ dependencies:
   - r-dbi
   - r-dtplyr
     #####- r-duckdb
-  - r-rmariadb
+  #####- r-rmariadb
     #####- r-rpostgres
-  - r-rsqlite
+  #####- r-rsqlite
     #####- r-fst
     ## Geospatial
   - r-rcolorbrewer
@@ -115,17 +115,17 @@ dependencies:
     #####- r-rnetcdf
   - r-classint
   - r-deldir
-    #####- r-gstat
+  - r-gstat
     #####- r-hdf5r
     #####- r-lidr
-  - r-mapdata
-  - r-maptools
+  #####- r-mapdata
+  #####- r-maptools
     #####- r-mapview
-  - r-ncdf4
+  #####- r-ncdf4
     #####- r-proj4
-  - r-raster
-  - r-rgdal
-  - r-rgeos
+  #####- r-raster
+  #####- r-rgdal
+  #####- r-rgeos
     #####- r-rlas
   - r-sf
   - r-sp
@@ -138,7 +138,7 @@ dependencies:
     #####- r-tidync
   - r-tmap
     #####- r-geor
-  - r-geosphere
+  #####- r-geosphere
     ## GDS
   - r-arm
   - r-car
@@ -160,46 +160,45 @@ dependencies:
   - r-viridis
     ####- r-areal
   - r-bookdown
-  - r-brms
-  - r-caret
-  - r-deldir
-  - r-factoextra
+  #####- r-brms
+  #####- r-caret
+  #####- r-factoextra
     #####- r-feather
     #####- r-geojsonio
     #####- r-ggimage
-  - r-ggcorrplot
-  - r-ggformula
+  #####- r-ggcorrplot
+  #####- r-ggformula
     #####- r-ggpmisc
-  - r-ggthemes
-  - r-glmmtmb
-  - r-hexbin
-  - r-igraph
+  #####- r-ggthemes
+  #####- r-glmmtmb
+  #####- r-hexbin
+  #####- r-igraph
     ####- r-mapboxapi
     #####- r-mapdeck
-  - r-metrics
-  - r-modelsummary
-  - r-nlme
+  #####- r-metrics
+  #####- r-modelsummary
+  #####- r-nlme
     #- r-osrmj
-  - r-patchwork
-  - r-plotly
-  - r-plotrix
-  - r-randomforest
-  - r-ranger
+  #####- r-patchwork
+  #####- r-plotly
+  #####- r-plotrix
+  #####- r-randomforest
+  #####- r-ranger
   - r-rcurl
     #- r-redditextractor
-  - r-rpart.plot
+  #####- r-rpart.plot
     #- r-rpostgis
-  - r-rtweet
-  - r-showtext
-  - r-snowballc
+  #####- r-rtweet
+  #####- r-showtext
+  #####- r-snowballc
     #####- r-splancs
     #####- r-stm
     #- r-stplanr
     #- r-textdata
-  - r-tidycensus
-  - r-tidygeocoder
+  #####- r-tidycensus
+  #####- r-tidygeocoder
     #####- r-tidytext
-  - r-tm
+  #####- r-tm
     #####- r-topicmodels
     #####- r-traminer
   - r-tufte

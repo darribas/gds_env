@@ -3,11 +3,11 @@ FROM quay.io/jupyter/minimal-notebook
 LABEL maintainer="Dani Arribas-Bel <D.Arribas-Bel@liverpool.ac.uk>"
 
 # Set version
-ENV GDS_ENV_VERSION "11.0alpha"
+ENV GDS_ENV_VERSION="11.0alpha"
 ARG BUILDARCH
 
 # https://github.com/ContinuumIO/docker-images/blob/master/miniconda3/Dockerfile
-ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
+ENV LANG="C.UTF-8 LC_ALL=C.UTF-8"
 
 RUN echo "Starting build of GDS env $GDS_ENV_VERSION for $BUILDARCH at: $(date)"
 
@@ -25,7 +25,7 @@ ADD ./gds_$BUILDARCH.yml /home/${NB_USER}/gds.yml
 ENV PATH="/opt/conda/envs/gds/bin/:${PATH}"
 RUN $HOME/scripts/install_conda_env.sh 
 
-RUN $HOME/scripts/install_r_extra.sh 
+#RUN $HOME/scripts/install_r_extra.sh 
 
 USER root
 
