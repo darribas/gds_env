@@ -16,3 +16,5 @@ virtualbox/*.ova
 website/_includes/
 website/_includes/*
 website/.jekyll-metadata
+build.log
+*/build.log

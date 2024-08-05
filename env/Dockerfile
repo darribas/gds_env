@@ -3,84 +3,36 @@ FROM quay.io/jupyter/minimal-notebook
 LABEL maintainer="Dani Arribas-Bel <D.Arribas-Bel@liverpool.ac.uk>"
 
 # Set version
-ENV GDS_ENV_VERSION "11.0alpha"
+ENV GDS_ENV_VERSION="11.0alpha"
+ARG BUILDARCH
 
 # https://github.com/ContinuumIO/docker-images/blob/master/miniconda3/Dockerfile
-ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
+ENV LANG="C.UTF-8 LC_ALL=C.UTF-8"
+
+RUN echo "Starting build of GDS env $GDS_ENV_VERSION for $BUILDARCH at: $(date)"
 
 ADD ./*/*.sh $HOME/scripts/
 USER root
 RUN chmod +x $HOME/scripts/*.sh
 USER $NB_UID
 
-                ##############
-                ### Python ###
-                ##############
-
 #--- Jupyter Dev ---#
 RUN $HOME/scripts/install_jupyter_dev.sh 
 
-#--- Python ---#
+#--- Conda Env ---#
 
-ADD ./py/gds_py.yml /home/${NB_USER}/
-RUN $HOME/scripts/install_py_stack.sh
+ADD ./gds_$BUILDARCH.yml /home/${NB_USER}/gds.yml
 ENV PATH="/opt/conda/envs/gds/bin/:${PATH}"
+RUN $HOME/scripts/install_conda_env.sh 
 
-#--- Clean up ---#
-
-USER root
-
-# Clean cache up
-RUN jupyter lab clean -y \
- && conda clean --yes --all --force-pkgs-dirs \
- && npm cache clean --force \
- && rm -rf $CONDA_DIR/share/jupyter/lab/staging \
- && rm -rf "/home/${NB_USER}/.node-gyp" \
- && rm -rf /home/$NB_USER/.cache/yarn \
- && fix-permissions "${CONDA_DIR}" \
- && fix-permissions "/home/${NB_USER}"
-# Build mpl font cache
-# https://github.com/jupyter/docker-stacks/blob/c3d5df67c8b158b0aded401a647ea97ada1dd085/scipy-notebook/Dockerfile#L59
-USER $NB_UID
-ENV XDG_CACHE_HOME="/home/${NB_USER}/.cache/"
-RUN source activate gds \
- && MPLBACKEND=Agg python -c "import matplotlib.pyplot"
-
-                #########
-                ### R ###
-                #########
+#RUN $HOME/scripts/install_r_extra.sh 
 
 USER root
-
-# Remove Conda from path to not interfere with R install
-RUN echo ${PATH}
-ENV PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
-RUN echo ${PATH}
-
-# install R
-RUN $HOME/scripts/install_R.sh
-
-# Install Tidyverse + Geospatial
-RUN $HOME/scripts/install_R_stack.sh
-
-# install R GDS stack
-RUN $HOME/scripts/install_R_gds.sh
-
-# re-attach conda to path
-ENV PATH="/opt/conda/envs/gds/bin/:/opt/conda/condabin:/opt/conda/envs/gds/bin:/opt/conda/bin:${PATH}"
-
-#--- R/Python ---#
-
-RUN $HOME/scripts/setup_py-r.sh
 
 #--- Quarto ---#
-RUN $HOME/scripts/install_quarto.sh
+RUN $HOME/scripts/install_quarto.sh 
 
-                ###########
-                ### Dev ###
-                ###########
-
-#--- jekyll ---#
+#--- Jekyll ---#
 RUN $HOME/scripts/install_jekyll.sh 
 
 #--- tippecanoe ---#
@@ -109,17 +61,6 @@ RUN $HOME/scripts/install_gpq.sh
 RUN fix-permissions $HOME \
   && fix-permissions $CONDA_DIR
 
-USER $NB_UID
-
-RUN find /opt/conda/ -follow -type f -name '*.a' -delete \
- && find /opt/conda/ -follow -type f -name '*.pyc' -delete \
- && find /opt/conda/ -follow -type f -name '*.js.map' -delete \
- && find /opt/conda/envs/gds//lib/python*/site-packages/bokeh/server/static \
-    -follow -type f -name '*.js' ! -name '*.min.js' -delete \
- && pip cache purge \
- && rm -rf $HOME/.cache/pip
-
-USER root
 RUN cd $NB_HOME \
  && rm -rf /tmp/downloaded_packages/ /tmp/*.rds \
  && rm -rf $GEM_HOME/cache \
@@ -131,3 +72,11 @@ RUN cd $NB_HOME \
  && rm -rf $HOME/scripts
 
 USER $NB_UID
+
+RUN find /opt/conda/ -follow -type f -name '*.a' -delete \
+ && find /opt/conda/ -follow -type f -name '*.pyc' -delete \
+ && find /opt/conda/ -follow -type f -name '*.js.map' -delete \
+ && pip cache purge \
+ && rm -rf $HOME/.cache/pip
+
+RUN echo "Completing build at: $(date)"
