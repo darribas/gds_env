@@ -10,8 +10,11 @@ mkdir -p /home/$NB_USER/.jupyter/lab/user-settings/\@jupyterlab/fileeditor-exten
 
 #--- JupyterLab extensions & Bash kernel ---#
 
-jupyter labextension disable "@jupyterlab/apputils-extension:announcements" \
- && pip install \
+jupyter labextension disable "@jupyterlab/apputils-extension:announcements"
+
+mamba install python-graphviz "nodejs>=22"
+
+pip install \
          bash_kernel \
          jupyterlab-geojson \
          jupyterlab_myst \
@@ -21,8 +24,6 @@ jupyter labextension disable "@jupyterlab/apputils-extension:announcements" \
          jupytext
 # Bash kernel
 python -m bash_kernel.install
-# Required for dask extension
-mamba install python-graphviz
 # Clean
 pip cache purge \
  && conda clean --all --yes --force-pkgs-dirs \

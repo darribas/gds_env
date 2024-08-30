@@ -17,7 +17,7 @@ dependencies:
   - flake8
   - geoalchemy2
   - geocube
-  - geopandas
+  - geopandas>=1
   - geopy
   - gpxpy
   - gstools

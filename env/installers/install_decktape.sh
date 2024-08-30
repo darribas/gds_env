@@ -4,9 +4,10 @@
 ### Install Decktape ###
 ########################
 
+# https://jupyterbook.org/advanced/pdf.html#build-a-pdf-from-your-book-html
+# https://github.com/astefanutti/decktape/issues/187
 apt-get update -qq \
  && apt-get install -y --no-install-recommends \
-# https://jupyterbook.org/advanced/pdf.html#build-a-pdf-from-your-book-html
     gconf-service \
     libasound2 \
     libatk1.0-0 \
@@ -46,7 +47,6 @@ apt-get update -qq \
     lsb-release \
     xdg-utils \
     wget \
-# https://github.com/astefanutti/decktape/issues/187
 	libcairo2-dev \
 	libasound2-dev \
 	libpangocairo-1.0-0 \
@@ -54,7 +54,7 @@ apt-get update -qq \
 	libatk-bridge2.0-0 \
 	libgtk-3-0 \
 	libx11-xcb-dev \
-    libxcomposite1 \
+    	libxcomposite1 \
 	libxcursor-dev \
 	libxdamage-dev \
 	libxi-dev \
