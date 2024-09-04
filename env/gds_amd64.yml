@@ -55,14 +55,13 @@ dependencies:
     - watermark
   - polyline
   - pooch
-  - pygeoda
+    #- pygeoda
   - protobuf
   - psycopg2
   - pyarrow
-  - pyogrio
   - pyppeteer
   - pyrosm
-  - pysal
+  - pysal==24.7
   - pystac-client
   - pytest
   - python-duckdb
