@@ -1,6 +1,10 @@
 # make command [image=image_name]
 #DOCKERRUN = docker run --rm --user root -e GRANT_SUDO=yes -e NB_UID=1002 -e NB_GID=100 -v `pwd`:/home/jovyan/test
 DOCKERRUN = docker run -v `pwd`:/home/jovyan/test
+ARCH := $(shell uname -m)
+ifeq ($(ARCH), x86_64)
+	    ARCH := amd64
+endif
 test: test_py test_r
 test_py:
 	$(DOCKERRUN) $(image) start.sh /opt/conda/envs/gds/bin/jupyter nbconvert --to html --execute /home/jovyan/test/env/py/check_py_stack.ipynb
@@ -8,17 +12,17 @@ test_r:
 	$(DOCKERRUN) $(image) start.sh /opt/conda/envs/gds/bin/jupyter nbconvert --to html --execute /home/jovyan/test/env/r/check_r_stack.ipynb
 write_stacks: write_py_stack write_r_stack
 write_py_stack:
-	$(DOCKERRUN) $(image) start.sh bash -c "conda list -n gds > /home/jovyan/test/env/py/stack_py.txt"
-	$(DOCKERRUN) $(image) start.sh sed -i '1iGDS image: $(image)' /home/jovyan/test/env/py/stack_py.txt
-	$(DOCKERRUN) $(image) start.sh /opt/conda/envs/gds/bin/python -c "import subprocess, pandas; fo=open('/home/jovyan/test/env/py/stack_py.md', 'w'); fo.write(pandas.read_json(subprocess.check_output(['conda', 'list', '-n', 'gds', '--json']).decode())[['name', 'version', 'build_string', 'channel']].to_markdown());fo.close()"
-	$(DOCKERRUN) $(image) start.sh sed -i "1s/^/\n/" /home/jovyan/test/env/py/stack_py.md
+	$(DOCKERRUN) $(image) start.sh bash -c "conda list -n gds > /home/jovyan/test/env/py/stack_py_$(ARCH).txt"
+	$(DOCKERRUN) $(image) start.sh sed -i '1iGDS image: $(image)' /home/jovyan/test/env/py/stack_py_$(ARCH).txt
+	$(DOCKERRUN) $(image) start.sh /opt/conda/envs/gds/bin/python -c "import subprocess, pandas; fo=open('/home/jovyan/test/env/py/stack_py_$(ARCH).md', 'w'); fo.write(pandas.read_json(subprocess.check_output(['conda', 'list', '-n', 'gds', '--json']).decode())[['name', 'version', 'build_string', 'channel']].to_markdown());fo.close()"
+	$(DOCKERRUN) $(image) start.sh sed -i "1s/^/\n/" /home/jovyan/test/env/py/stack_py_$(ARCH).md
 write_r_stack:
-	$(DOCKERRUN) $(image) start.sh sh -c 'Rscript -e "ip <- as.data.frame(installed.packages()[,c(1,3:4)]); print(ip)" > /home/jovyan/test/env/r/stack_r.txt'
-	$(DOCKERRUN) $(image) start.sh sed -i '1iGDS image: $(image)' /home/jovyan/test/env/r/stack_r.txt
-	$(DOCKERRUN) $(image) start.sh Rscript -e "library(knitr); ip <- as.data.frame(installed.packages()[,c(1,3:4)]); fc <- file('/home/jovyan/test/env/r/stack_r.md'); writeLines(kable(ip, format = 'markdown'), fc); close(fc);"
-	$(DOCKERRUN) $(image) start.sh sed -i "1s/^/\n/" /home/jovyan/test/env/r/stack_r.md
+	$(DOCKERRUN) $(image) start.sh sh -c 'Rscript -e "ip <- as.data.frame(installed.packages()[,c(1,3:4)]); print(ip)" > /home/jovyan/test/env/r/stack_r_$(ARCH).txt'
+	$(DOCKERRUN) $(image) start.sh sed -i '1iGDS image: $(image)' /home/jovyan/test/env/r/stack_r_$(ARCH).txt
+	$(DOCKERRUN) $(image) start.sh Rscript -e "library(knitr); ip <- as.data.frame(installed.packages()[,c(1,3:4)]); fc <- file('/home/jovyan/test/env/r/stack_r_$(ARCH).md'); writeLines(kable(ip, format = 'markdown'), fc); close(fc);"
+	$(DOCKERRUN) $(image) start.sh sed -i "1s/^/\n/" /home/jovyan/test/env/r/stack_r_$(ARCH).md
 write_py_explicit:
-	$(DOCKERRUN) $(image) start.sh sh -c "conda list -n gds --explicit > /home/jovyan/test/env/py/stack_py_explicit.txt"
+	$(DOCKERRUN) $(image) start.sh sh -c "conda list -n gds --explicit > /home/jovyan/test/env/py/stack_py_explicit_$(ARCH).txt"
 website_build:
 	cd website && \
 	rm -rf _includes && \
