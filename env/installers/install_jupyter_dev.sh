@@ -21,6 +21,7 @@ pip install \
          jupyterlab-quarto \
          jupyterlab_vim \
          jupyterlab_widgets \
+         jupyter_leaflet \
          jupytext
 # Bash kernel
 python -m bash_kernel.install
