@@ -18,3 +18,4 @@ website/_includes/*
 website/.jekyll-metadata
 build.log
 */build.log
+*/build*.log

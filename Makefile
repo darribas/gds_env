@@ -57,3 +57,8 @@ website_local: website_build
 				 --config  _config.yml,_config.docker.yml && \
 	rm -rf _includes
 	export JEKYLL_ENV=development
+build:
+	rm -f env/build_$(ARCH).log && \
+		cd env && \
+		docker build -t $(image) --progress=plain -f Dockerfile . 2>&1 | \
+		tee build_$(ARCH).log
