@@ -62,3 +62,10 @@ build:
 		cd env && \
 		docker build -t $(image) --progress=plain -f Dockerfile . 2>&1 | \
 		tee build_$(ARCH).log
+build_multi:
+	docker buildx 
+	cd env/ && \
+		docker buildx build \
+			--push \
+			--platform linux/amd64,linux/arm64 \
+			--tag darribas/$(image) .
