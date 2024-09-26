@@ -62,10 +62,14 @@ build:
 		cd env && \
 		docker build -t $(image) --progress=plain -f Dockerfile . 2>&1 | \
 		tee build_$(ARCH).log
+
+				##### DEPRECATED #####
 build_multi:
 	docker buildx 
 	cd env/ && \
 		docker buildx build \
-			--push \
+			--builder gds_builder \
 			--platform linux/amd64,linux/arm64 \
-			--tag darribas/$(image) .
+			--push \
+			--tag darribas/$(image) \
+			.
