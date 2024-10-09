@@ -84,6 +84,7 @@ dependencies:
   - xlrd
   - xlsxwriter
   - xvec
+  - zarr
     #--- R ---#
   - r-base
   - r-irkernel
