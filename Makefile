@@ -62,6 +62,10 @@ build:
 		cd env && \
 		docker build -t $(image) --progress=plain -f Dockerfile . 2>&1 | \
 		tee build_$(ARCH).log
+build_code:
+	cd frontend_code && \
+		docker build -t gds_code:latest --progress=plain -f Dockerfile . 2>&1 | \
+		tee build_$(ARCH).log
 
 				##### DEPRECATED #####
 build_multi:
