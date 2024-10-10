@@ -16,3 +16,5 @@ mkdir texcount_tmp \
  && cd .. \
  && rm -rf texcount_tmp
 
+#--- LaTeX packages ---#
+apt-get install lmodern
