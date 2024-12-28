@@ -47,6 +47,7 @@ dependencies:
   - pip:
     - matplotlib-scalebar
     - polars
+    - polars-h3
     - pymorton
     - pytest-cov
     - pytest-tornasync
