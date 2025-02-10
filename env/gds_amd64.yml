@@ -48,10 +48,10 @@ dependencies:
     - matplotlib-scalebar
     - polars
     - polars-h3
+    - polars-st
     - pymorton
     - pytest-cov
     - pytest-tornasync
-    - simplification
     - urbangrammar-graphics
     - watermark
   - polyline
@@ -73,8 +73,8 @@ dependencies:
   - rpy2
   - rpy2-arrow
   - scikit-learn
-  - scikit-mobility
   - seaborn
+  - simplification
   - spatialpandas
   - sqlalchemy
   - statsmodels
@@ -206,4 +206,6 @@ dependencies:
     #- r-vader
   - r-wellknown
     #- geoarrow
+  #--- Other ---#
+  - rust
 
