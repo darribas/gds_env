@@ -2,6 +2,7 @@
 #DOCKERRUN = docker run --rm --user root -e GRANT_SUDO=yes -e NB_UID=1002 -e NB_GID=100 -v `pwd`:/home/jovyan/test
 DOCKERRUN = docker run -v `pwd`:/home/jovyan/test
 ARCH := $(shell uname -m)
+image ?= gds:$(shell date +%Y-%m-%d)_$(ARCH)
 ifeq ($(ARCH), x86_64)
 	    ARCH := amd64
 endif
