@@ -31,7 +31,7 @@ The `gds_env` stands on the shoulders of giants. Here are the core open technolo
 
 ## Community
 
-The `gds_env` is an open-source project. To join the conversation, please read through its [community guidelines](contributing).
+The `gds_env` is an open-source project. To join the conversation, please read through its [community guidelines](CONTRIBUTING.md).
 
 ## Citation
 
