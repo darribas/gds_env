@@ -47,7 +47,7 @@ dependencies:
   - pip:
     - matplotlib-scalebar
     - polars
-    - polars-h3
+    #- polars-h3
     - polars-st
     - pymorton
     - pytest-cov
@@ -74,7 +74,7 @@ dependencies:
   - rpy2-arrow
   - scikit-learn
   - seaborn
-  - simplification
+  #- simplification
   - spatialpandas
   - sqlalchemy
   - statsmodels
