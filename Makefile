@@ -3,6 +3,7 @@
 DOCKERRUN = docker run -v `pwd`:/home/jovyan/test
 ARCH := $(shell uname -m)
 image ?= gds:$(shell date +%Y-%m-%d)_$(ARCH)
+code_image ?= gds_code:$(shell date +%Y-%m-%d)_$(ARCH)
 ifeq ($(ARCH), x86_64)
 	    ARCH := amd64
 endif
@@ -65,7 +66,7 @@ build:
 		tee build_$(ARCH).log
 build_code:
 	cd frontend_code && \
-		docker build -t gds_code:latest --progress=plain -f Dockerfile . 2>&1 | \
+		docker build -t $(code_image) --progress=plain -f Dockerfile . 2>&1 | \
 		tee build_$(ARCH).log
 
 				##### DEPRECATED #####
