@@ -1,9 +1,10 @@
 # make command [image=image_name]
 #DOCKERRUN = docker run --rm --user root -e GRANT_SUDO=yes -e NB_UID=1002 -e NB_GID=100 -v `pwd`:/home/jovyan/test
 DOCKERRUN = docker run -v `pwd`:/home/jovyan/test
+DATE_STAMP = $(shell date +%Y-%m-%d)_$(ARCH)
 ARCH := $(shell uname -m)
-image ?= gds:$(shell date +%Y-%m-%d)_$(ARCH)
-code_image ?= gds_code:$(shell date +%Y-%m-%d)_$(ARCH)
+image ?= gds:$(DATE_STAMP)
+code_image ?= gds_code:$(DATE_STAMP)
 ifeq ($(ARCH), x86_64)
 	    ARCH := amd64
 endif
@@ -66,7 +67,8 @@ build:
 		tee build_$(ARCH).log
 build_code:
 	cd frontend_code && \
-		docker build -t $(code_image) --progress=plain -f Dockerfile . 2>&1 | \
+		docker build -t $(code_image) --progress=plain -f Dockerfile \
+		--build-arg base_image=$(image) . 2>&1 | \
 		tee build_$(ARCH).log
 
 				##### DEPRECATED #####
