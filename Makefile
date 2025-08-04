@@ -64,12 +64,14 @@ build:
 	rm -f env/build_$(ARCH).log && \
 		cd env && \
 		docker build -t $(image) --progress=plain -f Dockerfile . 2>&1 | \
-		tee build_$(ARCH).log
+		tee build_$(ARCH).log && \
+		docker tag $(image) gds:latest
 build_code:
 	cd frontend_code && \
 		docker build -t $(code_image) --progress=plain -f Dockerfile \
 		--build-arg base_image=$(image) . 2>&1 | \
-		tee build_$(ARCH).log
+		tee build_$(ARCH).log && \
+		docker tag $(code_image) gds_code:latest
 
 				##### DEPRECATED #####
 build_multi:
