@@ -63,7 +63,9 @@ website_local: website_build
 build:
 	rm -f env/build_$(ARCH).log && \
 		cd env && \
-		docker build -t $(image) --progress=plain -f Dockerfile . 2>&1 | \
+		docker build -t $(image) \
+			--build-arg GDS_ENV_VERSION=$(shell echo $(image) | cut -d: -f2) \
+			--progress=plain -f Dockerfile . 2>&1 | \
 		tee build_$(ARCH).log && \
 		docker tag $(image) gds:latest
 build_code:

@@ -3,7 +3,8 @@ FROM quay.io/jupyter/minimal-notebook
 LABEL maintainer="Dani Arribas-Bel <D.Arribas-Bel@liverpool.ac.uk>"
 
 # Set version
-ENV GDS_ENV_VERSION="11.0alpha"
+ARG GDS_ENV_VERSION="11.0alpha"
+ENV GDS_ENV_VERSION=$GDS_ENV_VERSION
 ARG BUILDARCH
 
 # https://github.com/ContinuumIO/docker-images/blob/master/miniconda3/Dockerfile
