@@ -45,6 +45,7 @@ dependencies:
   - pandana
   - pip
   - pip:
+    - numpy==2.0
     - matplotlib-scalebar
     - polars
     #- polars-h3
