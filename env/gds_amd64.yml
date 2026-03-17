@@ -37,6 +37,7 @@ dependencies:
   - lxml
   - momepy
   - movingpandas
+  - myst_nb
   - nbdime
   - netCDF4
   - networkx
