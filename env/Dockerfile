@@ -31,6 +31,9 @@ RUN $HOME/scripts/install_conda_env.sh
 USER root
 
 #--- Quarto ---#
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends xz-utils \
+ && rm -rf /var/lib/apt/lists/*
 RUN $HOME/scripts/install_quarto.sh 
 
 #--- Jekyll ---#
