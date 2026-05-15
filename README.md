@@ -1,6 +1,7 @@
 # A containerised platform for Geographic Data Science: `gds_env`
 
 [![Linux-Test GDS Environment (Python)](https://github.com/darribas/gds_env/actions/workflows/test_python_environment_linux.yml/badge.svg)](https://github.com/darribas/gds_env/actions/workflows/test_python_environment_linux.yml)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/darribas/gds_env/master)
 [![DOI](https://zenodo.org/badge/65582539.svg)](https://zenodo.org/badge/latestdoi/65582539)
 
 * [Dani Arribas-Bel](http://darribas.org)
