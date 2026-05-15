@@ -1,42 +1,51 @@
-# Build Docker containers
+# Build the Docker image
 
 ---
 
-**IMPORTANT** This is a guide for *building* Docker containers, not for downloading or using existing ones. If you are an end-user, you probably prefer to [install containers](../docker_install).
+**NOTE**: This guide is for *building* the Docker image from source. If you just want to run `gds_env`, see the [install guide](../docker_install) instead.
 
 ---
 
 ## Requirements
 
-To build one of the `gds_env` flavours from source, you need to access the Docker image can be built by running:
+- Docker installed and running
+- A clone of the [`gds_env` repository](https://github.com/darribas/gds_env)
+- `make`
 
 ## Build process
 
-Make sure to point your terminal of choice to the folder where you have placed the `Dockerfile` to build:
+From the root of the repository, run:
 
 ```shell
-cd /path/to/folder/with/Dockerfile
+make build
 ```
 
-Then, run the following command:
+This builds the image and tags it as `gds:latest` (and `gds:<date>_<arch>`). The build log is saved to `env/build_<arch>.log`.
+
+The build installs the full conda environment defined in `env/gds_<arch>.yml`, plus a set of additional tools (Quarto, Jekyll, tippecanoe, decktape, LaTeX tools, Vim, GPQ). It can take a while — especially on first run.
+
+Once complete, verify the image was built:
 
 ```shell
-docker build \
-        --no-cache \
-        -t <image-name> \
-        --progress=plain \
-        . 2>&1 \
-        | tee log.txt
+docker image ls | grep gds
 ```
 
-where `<image-name>` can be replaced by the name you want to give to the image you will create.
+## Testing the build
 
-Mind this process may take a long time. Particularly for [`gds`](../../stacks/gds), several of the R libraries need to be compiled from source and this takes time and CPU cycles.
-
-Once it finishes, you can check it has been built correctly by:
+To run the test notebooks against a built image:
 
 ```shell
-docker image ls
+make test image=gds:<your-tag>
 ```
 
-And you should see one image with the `image-name` you have selected.
+This runs both the Python and R check notebooks inside the container and saves HTML output locally.
+
+## Building `gds_code`
+
+To build the `gds_code` variant (VS Code in the browser) on top of an existing `gds` image:
+
+```shell
+make build_code image=gds:<your-tag>
+```
+
+See the [`gds_code` stack page](../../stacks/gds_code) for more details.
