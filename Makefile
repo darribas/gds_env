@@ -35,7 +35,7 @@ website_build:
 	cp docker/install_guide.md website/_includes/docker_install_guide.md
 	cp docker/build_guide.md website/_includes/docker_build_guide.md
 website: website_build
-	cd website && jekyll build
+	cd website && bundle exec jekyll build
 	rm -rf docs
 	mv website/_site docs
 	cd website && rm -rf _includes
@@ -44,7 +44,7 @@ website_local: website_build
 	# https://tonyho.net/jekyll-docker-windows-and-0-0-0-0/
 	export JEKYLL_ENV=docker && \
 	cd website && \
-	jekyll serve --host 0.0.0.0 \
+	bundle exec jekyll serve --host 0.0.0.0 \
 				 --incremental \
 				 --config  _config.yml,_config.docker.yml && \
 	rm -rf _includes
