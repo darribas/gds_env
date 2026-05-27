@@ -29,15 +29,15 @@ function initNav() {
     }
     if (target) {
       e.preventDefault();
-      target.ariaPressed = target.parentNode.classList.toggle('active');
+      target.ariaExpanded = target.parentNode.classList.toggle('active');
     }
   });
 
   const siteNav = document.getElementById('site-nav');
   const mainHeader = document.getElementById('main-header');
   const menuButton = document.getElementById('menu-button');
-  
-  disableHeadStyleSheet();
+
+  disableHeadStyleSheets();
 
   jtd.addEvent(menuButton, 'click', function(e){
     e.preventDefault();
@@ -45,22 +45,32 @@ function initNav() {
     if (menuButton.classList.toggle('nav-open')) {
       siteNav.classList.add('nav-open');
       mainHeader.classList.add('nav-open');
-      menuButton.ariaPressed = true;
+      menuButton.ariaExpanded = true;
     } else {
       siteNav.classList.remove('nav-open');
       mainHeader.classList.remove('nav-open');
-      menuButton.ariaPressed = false;
+      menuButton.ariaExpanded = false;
     }
   });
 }
 
-// The page-specific <style> in the <head> is needed only when JS is disabled.
-// Moreover, it incorrectly overrides dynamic stylesheets set by setTheme(theme). 
-// The page-specific stylesheet is assumed to have index 1 in the list of stylesheets.
+// The <head> element is assumed to include the following stylesheets:
+// - a <link> to /assets/css/just-the-docs-head-nav.css,
+//             with id 'jtd-head-nav-stylesheet'
+// - a <style> containing the result of _includes/css/activation.scss.liquid.
+// To avoid relying on the order of stylesheets (which can change with HTML
+// compression, user-added JavaScript, and other side effects), stylesheets
+// are only interacted with via ID
 
-function disableHeadStyleSheet() {
-  if (document.styleSheets[1]) {
-    document.styleSheets[1].disabled = true;
+function disableHeadStyleSheets() {
+  const headNav = document.getElementById('jtd-head-nav-stylesheet');
+  if (headNav) {
+    headNav.disabled = true;
+  }
+
+  const activation = document.getElementById('jtd-nav-activation');
+  if (activation) {
+    activation.disabled = true;
   }
 }
 // Site search
@@ -215,7 +225,7 @@ function searchLoaded(index, docs) {
       // note: the SVG svg-doc is only loaded as a Jekyll include if site.search_enabled is true; see _includes/icons/icons.html
       var resultDoc = document.createElement('div');
       resultDoc.classList.add('search-result-doc');
-      resultDoc.innerHTML = '<svg viewBox="0 0 24 24" class="search-result-icon"><use xlink:href="#svg-doc"></use></svg>';
+      resultDoc.innerHTML = '<svg viewBox="0 0 24 24" class="search-result-icon" aria-hidden="true"><use xlink:href="#svg-doc"></use></svg>';
       resultTitle.appendChild(resultDoc);
 
       var resultDocTitle = document.createElement('div');
@@ -372,6 +382,25 @@ function searchLoaded(index, docs) {
     setTimeout(update, 0);
   });
 
+  // When the search bar is *not* focused, it should be hidden. This code
+  // manages that - which is a bit tricky given that we can't just rely on
+  // focusout, since we could be re-focusing within the search itself.
+  const updateSearchFocus = function(evt) {
+    const nextFocusedElement = evt.relatedTarget;
+
+    // Re-focusing on search bar - "keep focus"
+    if (nextFocusedElement.id === 'search-input') return;
+
+    // Re-focusing on the next search result element - "keep focus"
+    if (nextFocusedElement.classList.contains('search-result')) return;
+
+    // Otherwise, we're not focused on the search bar anymore. Hide!
+    hideSearch();
+  }
+
+  searchInput.addEventListener('focusout', updateSearchFocus);
+  searchResults.addEventListener('focusout', updateSearchFocus);
+
   jtd.addEvent(searchInput, 'keyup', function(e){
     switch (e.keyCode) {
       case 27: // When esc key is pressed, hide the results and clear the field
@@ -453,11 +482,28 @@ jtd.setTheme = function(theme) {
 // and not have the slash on GitHub Pages
 
 function navLink() {
-  var href = document.location.pathname;
-  if (href.endsWith('/') && href != '/') {
-    href = href.slice(0, -1);
+  var pathname = document.location.pathname;
+
+  var navLink = document.getElementById('site-nav').querySelector('a[href="' + pathname + '"]');
+  if (navLink) {
+    return navLink;
   }
-  return document.getElementById('site-nav').querySelector('a[href="' + href + '"], a[href="' + href + '/"]');
+
+  // The `permalink` setting may produce navigation links whose `href` ends with `/` or `.html`.
+  // To find these links when `/` is omitted from or added to pathname, or `.html` is omitted:
+
+  if (pathname.endsWith('/') && pathname != '/') {
+    pathname = pathname.slice(0, -1);
+  }
+
+  if (pathname != '/') {
+    navLink = document.getElementById('site-nav').querySelector('a[href="' + pathname + '"], a[href="' + pathname + '/"], a[href="' + pathname + '.html"]');
+    if (navLink) {
+      return navLink;
+    }
+  }
+
+  return null; // avoids `undefined`
 }
 
 // Scroll site-nav to ensure the link to the current page is visible
@@ -465,8 +511,8 @@ function navLink() {
 function scrollNav() {
   const targetLink = navLink();
   if (targetLink) {
-    const rect = targetLink.getBoundingClientRect();
-    document.getElementById('site-nav').scrollBy(0, rect.top - 3*rect.height);
+    targetLink.scrollIntoView({ block: "center" });
+    targetLink.removeAttribute('href');
   }
 }
 
@@ -492,10 +538,22 @@ function activateNav() {
 // Document ready
 
 jtd.onReady(function(){
-  initNav();
+  if (document.getElementById('site-nav')) {
+    initNav();
+    activateNav();
+    scrollNav();
+  }
   initSearch();
-  activateNav();
-  scrollNav();
+});
+
+// Accessibility: set tabindex=0 on each code highlight block, so screenreaders
+// can focus over (particularly important if there's horizontal scroll)
+// see: https://dequeuniversity.com/rules/axe/4.9/scrollable-region-focusable?application=axeAPI
+
+jtd.onReady(() => {
+  document
+    .querySelectorAll("div.highlight")
+    .forEach(codeBlock => codeBlock.setAttribute("tabindex", "0"));
 });
 
 // Copy button on code
