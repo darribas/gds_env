@@ -61,8 +61,12 @@ The image ships a default `opencode.json` at
   - `gemma4:26b-64k`
 - The LSP block above
 
-The image also ships a `notebook-cli` skill at the opencode skills path
-telling the agent to prefer `nb` for `.ipynb` work. Sancho-identical.
+The image also ships the `notebook-cli` skill at the opencode skills
+path, **fetched from upstream `jupyter-ai-contrib/nb-cli` at build
+time** (not vendored). Every fresh build pulls whatever's at HEAD of
+the upstream `skills/notebook-cli/` tree — SKILL.md plus any
+`references/*` it picks up — so the agent always sees the maintainer's
+current guidance.
 
 User customization wins: if you bind-mount your own
 `~/.config/opencode/` from the host, your config replaces the baked one
@@ -151,9 +155,7 @@ frontend_agent/
   compose.yml         # reference compose for purists
   opencode.json       # baked default: LSPs + Ollama provider
   tui.json            # opencode TUI theme
-  skills/
-    notebook-cli/
-      SKILL.md        # tells opencode to use `nb` for .ipynb
+  # notebook-cli skill is fetched from upstream at build time
 utils/
   gdsa                # the launcher
 Makefile              # gains build_agent target

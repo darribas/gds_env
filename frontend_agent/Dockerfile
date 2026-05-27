@@ -48,10 +48,9 @@ RUN /opt/conda/envs/gds/bin/Rscript -e 'install.packages("languageserver", repos
 #--- Notebook headless extras (into the gds python env) ---#
 RUN /opt/conda/envs/gds/bin/pip install --no-cache-dir papermill jupytext
 
-#--- Baked opencode config + skills (user mount overrides) ---#
+#--- Baked opencode config (user mount overrides) ---#
 COPY opencode.json /home/${NB_USER}/.config/opencode/opencode.json
 COPY tui.json /home/${NB_USER}/.config/opencode/tui.json
-COPY skills/ /home/${NB_USER}/.config/opencode/skills/
 RUN chown -R ${NB_UID}:${NB_GID} /home/${NB_USER}/.config
 
 USER ${NB_UID}
@@ -62,6 +61,12 @@ RUN curl -fsSL https://opencode.ai/install | bash
 
 #--- nb-cli (jupyter-ai-contrib, into user HOME) ---#
 RUN curl -fsSL https://raw.githubusercontent.com/jupyter-ai-contrib/nb-cli/main/install.sh | bash
+
+#--- notebook-cli skill (fetched from upstream so it tracks latest) ---#
+RUN git clone --depth 1 https://github.com/jupyter-ai-contrib/nb-cli /tmp/nbcli \
+ && mkdir -p /home/${NB_USER}/.config/opencode/skills \
+ && cp -r /tmp/nbcli/skills/notebook-cli /home/${NB_USER}/.config/opencode/skills/ \
+ && rm -rf /tmp/nbcli
 
 ENV PATH=/home/${NB_USER}/.opencode/bin:/home/${NB_USER}/.nb-cli/bin:${PATH}
 
