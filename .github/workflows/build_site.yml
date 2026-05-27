@@ -11,9 +11,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: website
 
     steps:
       - name: Checkout
@@ -23,28 +20,13 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: '3.3'
-
-      - name: Install dependencies
-        run: bundle install
-
-      - name: Prepare website includes
-        working-directory: ${{ github.workspace }}
-        run: make website_build
+          bundler-cache: true
 
       - name: Build the site
-        run: bundle exec jekyll build
-
-      - name: Finalise docs output
-        working-directory: ${{ github.workspace }}
-        run: |
-          rm -rf docs
-          mv website/_site docs
-          cd website && rm -rf _includes
-          touch docs/.nojekyll
+        run: make website
 
       - name: Commit and push built site (master only)
         if: github.event_name == 'push' && github.ref == 'refs/heads/master'
-        working-directory: ${{ github.workspace }}
         run: |
           git config user.email "action@github.com"
           git config user.name "GitHub Action"
