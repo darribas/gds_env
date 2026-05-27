@@ -1,0 +1,56 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "lsp": {
+    "python": {
+      "command": ["pyright-langserver", "--stdio"],
+      "extensions": [".py"]
+    },
+    "r": {
+      "command": ["/opt/conda/envs/gds/bin/R", "--slave", "-e", "languageserver::run()"],
+      "extensions": [".R", ".r", ".Rmd", ".rmd"]
+    },
+    "typescript": {
+      "command": ["typescript-language-server", "--stdio"],
+      "extensions": [".ts", ".tsx", ".js", ".jsx"]
+    },
+    "bash": {
+      "command": ["bash-language-server", "start"],
+      "extensions": [".sh"]
+    },
+    "markdown": {
+      "command": ["vscode-markdown-language-server", "--stdio"],
+      "extensions": [".md"]
+    },
+    "yaml": {
+      "command": ["yaml-language-server", "--stdio"],
+      "extensions": [".yaml", ".yml"]
+    },
+    "json": {
+      "command": ["vscode-json-language-server", "--stdio"],
+      "extensions": [".json", ".jsonc"]
+    },
+    "dockerfile": {
+      "command": ["docker-langserver", "--stdio"],
+      "extensions": ["Dockerfile", ".dockerfile"]
+    }
+  },
+  "provider": {
+    "ollama": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "Ollama",
+      "options": {
+        "baseURL": "{env:OLLAMA_HOST}"
+      },
+      "models": {
+        "qwen3.5:35b-a3b-coding-nvfp4": {
+          "name": "qwen3.5:35b-a3b-coding-nvfp4",
+          "tools": true
+        },
+        "gemma4:26b-64k": {
+          "name": "gemma4:26b-64k",
+          "tools": true
+        }
+      }
+    }
+  }
+}
