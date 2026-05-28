@@ -7,11 +7,13 @@ code_image ?= gds_code:$(DATE_STAMP)
 ifeq ($(ARCH), x86_64)
 	    ARCH := amd64
 endif
-test: test_py test_r
+test: test_py test_r test_dev
 test_py:
 	$(DOCKERRUN) $(image) start.sh /opt/conda/envs/gds/bin/jupyter nbconvert --to html --execute /home/jovyan/test/env/py/check_py_stack.ipynb
 test_r:
 	$(DOCKERRUN) $(image) start.sh /opt/conda/envs/gds/bin/jupyter nbconvert --to html --execute /home/jovyan/test/env/r/check_r_stack.ipynb
+test_dev:
+	$(DOCKERRUN) $(image) start.sh /opt/conda/envs/gds/bin/jupyter nbconvert --to html --execute /home/jovyan/test/env/dev/check_dev_stack.ipynb
 write_stacks: write_py_stack write_r_stack
 write_py_stack:
 	$(DOCKERRUN) $(image) start.sh bash -c "conda list -n gds > /home/jovyan/test/env/py/stack_py_$(ARCH).txt"
