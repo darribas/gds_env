@@ -3,6 +3,7 @@ channels:
   - conda-forge
 dependencies:
   #--- Python ---#
+  - python=3.12
   - black
   - boto3
   - bottleneck
@@ -88,13 +89,12 @@ dependencies:
   - xvec
   - zarr
     #--- R ---#
-  - r-base
+  - r-base=4.4
   - r-irkernel
   - r-recommended
   - r-reticulate
     ## Tidyverse
   - r-tidyverse
-  - r-devtools
   - r-devtools
   - r-curl
   - r-rmarkdown

@@ -3,6 +3,7 @@ channels:
   - conda-forge
 dependencies:
   #--- Python ---#
+  - python=3.12
   - black
   - boto3
   - bottleneck
@@ -37,7 +38,6 @@ dependencies:
   - lxml
   - momepy
   - movingpandas
-  - myst_nb
   - nbdime
   - netCDF4
   - networkx
@@ -48,6 +48,7 @@ dependencies:
   - pip
   - pip:
     - matplotlib-scalebar
+    - myst_nb
     - polars
     - polars-h3
     - polars-st
@@ -89,13 +90,12 @@ dependencies:
   - xvec
   - zarr
     #--- R ---#
-  - r-base
+  - r-base=4.4
   - r-irkernel
   - r-recommended
   - r-reticulate
     ## Tidyverse
   - r-tidyverse
-  - r-devtools
   - r-devtools
   - r-curl
   - r-rmarkdown
@@ -164,7 +164,6 @@ dependencies:
   - r-bookdown
   - r-brms
   - r-caret
-  - r-deldir
   - r-factoextra
   - r-feather
   - r-geojsonio

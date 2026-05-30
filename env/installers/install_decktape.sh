@@ -8,21 +8,19 @@
 # https://github.com/astefanutti/decktape/issues/187
 apt-get update -qq \
  && apt-get install -y --no-install-recommends \
-    gconf-service \
-    libasound2 \
-    libatk1.0-0 \
-    libatk-bridge2.0-0 \
+    libasound2t64 \
+    libatk1.0-0t64 \
+    libatk-bridge2.0-0t64 \
     libc6 \
     libcairo2 \
-    libcups2 \
+    libcups2t64 \
     libdbus-1-3 \
     libexpat1 \
     libfontconfig1 \
-    libgcc1 \
-    libgconf-2-4 \
-    libgdk-pixbuf2.0-0 \
-    libglib2.0-0 \
-    libgtk-3-0 \
+    libgcc-s1 \
+    libgdk-pixbuf-2.0-0 \
+    libglib2.0-0t64 \
+    libgtk-3-0t64 \
     libnspr4 \
     libpango-1.0-0 \
     libpangocairo-1.0-0 \
@@ -42,31 +40,25 @@ apt-get update -qq \
     libxtst6 \
     ca-certificates \
     fonts-liberation \
-    libappindicator1 \
+    libgbm1 \
     libnss3 \
     lsb-release \
     xdg-utils \
     wget \
-	libcairo2-dev \
-	libasound2-dev \
-	libpangocairo-1.0-0 \
-	libatk1.0-0 \
-	libatk-bridge2.0-0 \
-	libgtk-3-0 \
-	libx11-xcb-dev \
-    	libxcomposite1 \
-	libxcursor-dev \
-	libxdamage-dev \
-	libxi-dev \
-	libxtst-dev \
-	libnss3 \
-	libcups2 \
-	libxss-dev \
-	libxrandr-dev \
+    libcairo2-dev \
+    libasound2-dev \
+    libpangocairo-1.0-0 \
+    libx11-xcb-dev \
+    libxcursor-dev \
+    libxdamage-dev \
+    libxi-dev \
+    libxtst-dev \
+    libxss-dev \
+    libxrandr-dev \
  && rm -rf /var/lib/apt/lists/* \
  && apt-get autoclean \
  && apt-get autoremove \
- && apt-get clean 
+ && apt-get clean
 
 mkdir $HOME/.decktape \
  && fix-permissions $HOME/.decktape

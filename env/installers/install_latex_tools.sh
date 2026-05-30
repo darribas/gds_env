@@ -17,4 +17,6 @@ mkdir texcount_tmp \
  && rm -rf texcount_tmp
 
 #--- LaTeX packages ---#
-apt-get install -y lmodern
+apt-get update -qq \
+ && apt-get install -y --no-install-recommends fonts-lmodern \
+ && rm -rf /var/lib/apt/lists/*

@@ -1,3 +1,4 @@
+SHELL = /bin/bash
 # make command [image=image_name]
 DOCKERRUN = docker run -v `pwd`:/home/jovyan/test
 DATE_STAMP = $(shell date +%Y-%m-%d)_$(ARCH)
@@ -7,13 +8,27 @@ code_image ?= gds_code:$(DATE_STAMP)
 ifeq ($(ARCH), x86_64)
 	    ARCH := amd64
 endif
-test: test_py test_r test_dev
+test:
+	@py=0; r=0; dev=0; \
+	$(DOCKERRUN) $(image) start.sh /opt/conda/envs/gds/bin/jupyter nbconvert --to html --execute /home/jovyan/test/env/py/check_py_stack.ipynb 2>&1 | tee env/test_py.log; \
+	[ $${PIPESTATUS[0]} -eq 0 ] && py=1; \
+	$(DOCKERRUN) $(image) start.sh /opt/conda/envs/gds/bin/jupyter nbconvert --to html --execute /home/jovyan/test/env/r/check_r_stack.ipynb 2>&1 | tee env/test_r.log; \
+	[ $${PIPESTATUS[0]} -eq 0 ] && r=1; \
+	$(DOCKERRUN) $(image) start.sh /opt/conda/envs/gds/bin/jupyter nbconvert --to html --execute /home/jovyan/test/env/dev/check_dev_stack.ipynb 2>&1 | tee env/test_dev.log; \
+	[ $${PIPESTATUS[0]} -eq 0 ] && dev=1; \
+	echo ""; \
+	echo "========== Test Summary =========="; \
+	[ $$py  -eq 1 ] && echo "  Python : PASS" || echo "  Python : FAIL (see env/test_py.log)"; \
+	[ $$r   -eq 1 ] && echo "  R      : PASS" || echo "  R      : FAIL (see env/test_r.log)"; \
+	[ $$dev -eq 1 ] && echo "  Dev    : PASS" || echo "  Dev    : FAIL (see env/test_dev.log)"; \
+	echo "=================================="; \
+	[ $$py -eq 1 ] && [ $$r -eq 1 ] && [ $$dev -eq 1 ]
 test_py:
-	$(DOCKERRUN) $(image) start.sh /opt/conda/envs/gds/bin/jupyter nbconvert --to html --execute /home/jovyan/test/env/py/check_py_stack.ipynb
+	$(DOCKERRUN) $(image) start.sh /opt/conda/envs/gds/bin/jupyter nbconvert --to html --execute /home/jovyan/test/env/py/check_py_stack.ipynb 2>&1 | tee env/test_py.log
 test_r:
-	$(DOCKERRUN) $(image) start.sh /opt/conda/envs/gds/bin/jupyter nbconvert --to html --execute /home/jovyan/test/env/r/check_r_stack.ipynb
+	$(DOCKERRUN) $(image) start.sh /opt/conda/envs/gds/bin/jupyter nbconvert --to html --execute /home/jovyan/test/env/r/check_r_stack.ipynb 2>&1 | tee env/test_r.log
 test_dev:
-	$(DOCKERRUN) $(image) start.sh /opt/conda/envs/gds/bin/jupyter nbconvert --to html --execute /home/jovyan/test/env/dev/check_dev_stack.ipynb
+	$(DOCKERRUN) $(image) start.sh /opt/conda/envs/gds/bin/jupyter nbconvert --to html --execute /home/jovyan/test/env/dev/check_dev_stack.ipynb 2>&1 | tee env/test_dev.log
 write_stacks: write_py_stack write_r_stack
 write_py_stack:
 	$(DOCKERRUN) $(image) start.sh bash -c "conda list -n gds > /home/jovyan/test/env/py/stack_py_$(ARCH).txt"

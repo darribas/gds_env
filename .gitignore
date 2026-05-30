@@ -4,6 +4,7 @@
 .DS_Store
 check_py_stack.html
 check_r_stack.html
+check_dev_stack.html
 us.tif
 db_test.feather
 .jupyter/
@@ -19,3 +20,4 @@ website/.jekyll-metadata
 build.log
 */build.log
 */build*.log
+*/test_*.log
