@@ -70,3 +70,8 @@ build_agent:
 		--build-arg base_image=$(image) . 2>&1 | \
 		tee build_$(ARCH).log && \
 		docker tag $(agent_image) gds_agent:latest
+	@echo ""
+	@echo "  Built $(agent_image) (also tagged gds_agent:latest)."
+	@echo "  Next: drop utils/gdsa on your PATH, then run 'gdsa help'."
+	@echo "  First run prints any host-side setup you're missing."
+	@echo ""
