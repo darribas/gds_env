@@ -74,9 +74,14 @@ wholesale. If you don't, the baked one runs the show.
 
 ## The launcher (`gdsa`)
 
-POSIX bash. Lives in `utils/gdsa`. Drop it on your PATH (or use the
-provided one-liner installer), done. No Python, no Go, no Node on the
-host. You already have bash and docker; that's the contract.
+POSIX bash. Lives in `utils/gdsa`. `make build_agent` symlinks it to
+`~/.local/bin/gdsa` for you — and on macOS, amends `~/.zshrc` or
+`~/.bash_profile` if `~/.local/bin` isn't already on PATH. Idempotent;
+won't duplicate the PATH stanza on subsequent runs. Override the
+install location with `GDSA_BIN=/somewhere/else/gdsa make install_gdsa`.
+
+No Python, no Go, no Node on the host. You already have bash and
+docker; that's the contract.
 
 ### Subcommands
 

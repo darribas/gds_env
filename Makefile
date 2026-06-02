@@ -6,6 +6,8 @@ ARCH := $(shell uname -m)
 image ?= gds:$(DATE_STAMP)
 code_image ?= gds_code:$(DATE_STAMP)
 agent_image ?= gds_agent:$(DATE_STAMP)
+GDSA_BIN ?= $(HOME)/.local/bin/gdsa
+GDSA_BIN_DIR := $(patsubst %/,%,$(dir $(GDSA_BIN)))
 ifeq ($(ARCH), x86_64)
 	    ARCH := amd64
 endif
@@ -87,8 +89,38 @@ build_agent:
 		--build-arg base_image=$(image) . 2>&1 | \
 		tee build_$(ARCH).log && \
 		docker tag $(agent_image) gds_agent:latest
+	@$(MAKE) --no-print-directory install_gdsa
 	@echo ""
 	@echo "  Built $(agent_image) (also tagged gds_agent:latest)."
-	@echo "  Next: drop utils/gdsa on your PATH, then run 'gdsa help'."
-	@echo "  First run prints any host-side setup you're missing."
+	@echo "  Run 'gdsa help' to start. First invocation prints any host-side setup you're missing."
 	@echo ""
+
+# Install the launcher symlink. Idempotent. Honours $(GDSA_BIN) override.
+# On macOS, amends ~/.zshrc or ~/.bash_profile if the bin dir isn't on PATH.
+install_gdsa:
+	@mkdir -p "$(GDSA_BIN_DIR)"
+	@ln -sf "$(CURDIR)/utils/gdsa" "$(GDSA_BIN)"
+	@echo "  Linked $(GDSA_BIN) -> $(CURDIR)/utils/gdsa"
+	@case ":$$PATH:" in \
+	  *":$(GDSA_BIN_DIR):"*) \
+	    echo "  $(GDSA_BIN_DIR) is on PATH." ;; \
+	  *) \
+	    if [ "$$(uname -s)" = "Darwin" ]; then \
+	      case "$$SHELL" in \
+	        *zsh)  rc="$$HOME/.zshrc" ;; \
+	        *bash) rc="$$HOME/.bash_profile" ;; \
+	        *)     rc="" ;; \
+	      esac; \
+	      if [ -z "$$rc" ]; then \
+	        echo "  Add to PATH: export PATH=\"$(GDSA_BIN_DIR):\$$PATH\""; \
+	      elif grep -qs '# gds_env: gdsa PATH' "$$rc"; then \
+	        echo "  PATH already configured in $$rc. Restart your shell or run: source $$rc"; \
+	      else \
+	        printf '\n# gds_env: gdsa PATH\nexport PATH="%s:$$PATH"\n' "$(GDSA_BIN_DIR)" >> "$$rc"; \
+	        echo "  Added $(GDSA_BIN_DIR) to PATH in $$rc."; \
+	        echo "  Restart your shell or run: source $$rc"; \
+	      fi; \
+	    else \
+	      echo "  $(GDSA_BIN_DIR) not on PATH. Add: export PATH=\"$(GDSA_BIN_DIR):\$$PATH\""; \
+	    fi ;; \
+	esac
