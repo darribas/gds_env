@@ -56,6 +56,10 @@ RUN chown -R ${NB_UID}:${NB_GID} /home/${NB_USER}/.config
 USER ${NB_UID}
 WORKDIR /home/${NB_USER}
 
+# Put per-user bin dirs on PATH before running the install scripts so
+# they don't warn about "not in PATH".
+ENV PATH=/home/${NB_USER}/.opencode/bin:/home/${NB_USER}/.nb-cli/bin:${PATH}
+
 #--- opencode (vendor install script, into user HOME) ---#
 RUN curl -fsSL https://opencode.ai/install | bash
 
@@ -67,8 +71,6 @@ RUN git clone --depth 1 https://github.com/jupyter-ai-contrib/nb-cli /tmp/nbcli 
  && mkdir -p /home/${NB_USER}/.config/opencode/skills \
  && cp -r /tmp/nbcli/skills/notebook-cli /home/${NB_USER}/.config/opencode/skills/ \
  && rm -rf /tmp/nbcli
-
-ENV PATH=/home/${NB_USER}/.opencode/bin:/home/${NB_USER}/.nb-cli/bin:${PATH}
 
 WORKDIR /home/${NB_USER}/work
 
