@@ -67,11 +67,14 @@ RUN curl -fsSL https://opencode.ai/install | bash
 RUN curl -fsSL https://raw.githubusercontent.com/jupyter-ai-contrib/nb-cli/main/install.sh | bash
 
 #--- notebook-cli skill (fetched from upstream so it tracks latest) ---#
+# opencode picks it up from ~/.config/opencode/skills/notebook-cli/
+# Claude Code picks it up from ~/CLAUDE.md (parent of workdir)
 RUN git clone --depth 1 https://github.com/jupyter-ai-contrib/nb-cli /tmp/nbcli \
  && mkdir -p /home/${NB_USER}/.config/opencode/skills \
  && cp -r /tmp/nbcli/skills/notebook-cli /home/${NB_USER}/.config/opencode/skills/ \
+ && cp /tmp/nbcli/skills/notebook-cli/SKILL.md /home/${NB_USER}/CLAUDE.md \
  && rm -rf /tmp/nbcli
 
 WORKDIR /home/${NB_USER}/work
 
-ENTRYPOINT ["bash"]
+ENTRYPOINT []
