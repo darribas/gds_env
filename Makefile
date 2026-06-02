@@ -5,6 +5,7 @@ DATE_STAMP = $(shell date +%Y-%m-%d)_$(ARCH)
 ARCH := $(shell uname -m)
 image ?= gds:$(DATE_STAMP)
 code_image ?= gds_code:$(DATE_STAMP)
+agent_image ?= gds_agent:$(DATE_STAMP)
 ifeq ($(ARCH), x86_64)
 	    ARCH := amd64
 endif
@@ -80,3 +81,14 @@ build_code:
 		--build-arg base_image=$(image) . 2>&1 | \
 		tee build_$(ARCH).log && \
 		docker tag $(code_image) gds_code:latest
+build_agent:
+	cd frontend_agent && \
+		docker build -t $(agent_image) --progress=plain -f Dockerfile \
+		--build-arg base_image=$(image) . 2>&1 | \
+		tee build_$(ARCH).log && \
+		docker tag $(agent_image) gds_agent:latest
+	@echo ""
+	@echo "  Built $(agent_image) (also tagged gds_agent:latest)."
+	@echo "  Next: drop utils/gdsa on your PATH, then run 'gdsa help'."
+	@echo "  First run prints any host-side setup you're missing."
+	@echo ""

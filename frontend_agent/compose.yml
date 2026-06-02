@@ -1,0 +1,32 @@
+---
+# Reference compose for users who'd rather declare than script.
+# The `gdsa` launcher does the same thing dynamically per-invocation,
+# resolves the Ollama DNS, and runs a keep-alive loop. If you don't
+# need any of that, this is the minimal way to drop into the image.
+services:
+  gds_agent:
+    image: gds_agent:latest
+    container_name: gds_agent
+    stdin_open: true
+    tty: true
+    working_dir: /home/jovyan/work
+    environment:
+      - OLLAMA_HOST=${OLLAMA_HOST:-}
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-}
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
+      - GITHUB_TOKEN=${GITHUB_TOKEN:-}
+      - GH_TOKEN=${GH_TOKEN:-}
+    volumes:
+      # Project workspace
+      - ./:/home/jovyan/work
+      # Git config + SSH (read-only)
+      - ${HOME}/.gitconfig:/home/jovyan/.gitconfig:ro
+      - ${HOME}/.ssh:/home/jovyan/.ssh:ro
+      # Per-harness auth/state (uncomment what you use)
+      # - ${HOME}/.claude:/home/jovyan/.claude
+      # - ${HOME}/.claude.json:/home/jovyan/.claude.json
+      # - ${HOME}/.local/share/opencode:/home/jovyan/.local/share/opencode
+      # - ${HOME}/.config/opencode:/home/jovyan/.config/opencode
+      # - ${HOME}/.config/github-copilot:/home/jovyan/.config/github-copilot
+      # - ${HOME}/.config/gh:/home/jovyan/.config/gh
+    entrypoint: ["bash"]
