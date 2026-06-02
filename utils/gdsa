@@ -34,7 +34,19 @@ SCRIPT_DIR="$(_resolve_script_dir)"
 
 #--- Helpers ------------------------------------------------------------------
 
-_die() { echo "gdsa: $*" >&2; exit 1; }
+# Colors only when stdout is a TTY.
+if [ -t 1 ]; then
+  C_YELLOW=$'\033[33m'
+  C_RED=$'\033[31m'
+  C_DIM=$'\033[2m'
+  C_RESET=$'\033[0m'
+else
+  C_YELLOW=''; C_RED=''; C_DIM=''; C_RESET=''
+fi
+
+_die()  { echo "${C_RED}gdsa: error:${C_RESET} $*" >&2; exit 1; }
+_warn() { echo "${C_YELLOW}gdsa: heads up:${C_RESET} $*" >&2; }
+_hint() { echo "${C_DIM}         $*${C_RESET}" >&2; }
 
 _usage() {
   sed -n '2,15p' "$0" | sed 's/^# \{0,1\}//'
@@ -62,6 +74,48 @@ _env_if_set() {
 _mount_common() {
   _mount_if_exists "$HOME/.gitconfig" "${CONTAINER_HOME}/.gitconfig" ro
   _mount_if_exists "$HOME/.ssh"       "${CONTAINER_HOME}/.ssh"       ro
+}
+
+#--- Preflight ----------------------------------------------------------------
+# Warn (don't block) about missing host-side files so the user knows what to
+# fix without having to read this script. Each harness layers its own checks
+# on top of the common ones.
+
+_preflight_common() {
+  if [ ! -f "$HOME/.gitconfig" ]; then
+    _warn "no ~/.gitconfig found — commits inside the container will use a default identity."
+    _hint "fix: git config --global user.name 'Your Name'"
+    _hint "     git config --global user.email 'you@example.com'"
+  fi
+  if [ ! -d "$HOME/.ssh" ]; then
+    _warn "no ~/.ssh/ found — git push over SSH won't work from the container."
+    _hint "fix: ssh-keygen -t ed25519 -C 'you@example.com'"
+  fi
+}
+
+_preflight_claude() {
+  if [ ! -f "$HOME/.claude.json" ] && [ ! -d "$HOME/.claude" ]; then
+    _warn "no Claude Code auth at ~/.claude.json or ~/.claude/ — first run will prompt you to log in."
+    _hint "auth persists to ~/.claude.json + ~/.claude/ across container runs."
+  fi
+}
+
+_preflight_opencode() {
+  if [ ! -d "$HOME/.local/share/opencode" ]; then
+    _warn "no opencode state at ~/.local/share/opencode/ — first run will initialize it."
+    _hint "the keep-alive loop reads model state from this dir; it'll work once opencode writes there."
+  fi
+}
+
+_preflight_copilot() {
+  if [ ! -d "$HOME/.config/github-copilot" ]; then
+    _warn "no Copilot CLI auth at ~/.config/github-copilot/ — first run will prompt you to log in."
+    _hint "auth persists to ~/.config/github-copilot/ across container runs."
+  fi
+  if [ ! -d "$HOME/.config/gh" ]; then
+    _warn "no ~/.config/gh/ found — gh CLI is unauthenticated; Copilot CLI uses it for GitHub access."
+    _hint "fix: run 'gh auth login' on your host before invoking 'gdsa copilot'."
+  fi
 }
 
 # Resolve a hostname to an IP via whatever the host has handy.
@@ -94,6 +148,9 @@ _cmd_claude() {
   local path="${1:-$PWD}"
   [ -d "$path" ] || _die "not a directory: $path"
 
+  _preflight_common
+  _preflight_claude
+
   _mount_common
   _mount_if_exists "$HOME/.claude"      "${CONTAINER_HOME}/.claude"      rw
   _mount_if_exists "$HOME/.claude.json" "${CONTAINER_HOME}/.claude.json" rw
@@ -114,6 +171,9 @@ _cmd_claude() {
 _cmd_copilot() {
   local path="${1:-$PWD}"
   [ -d "$path" ] || _die "not a directory: $path"
+
+  _preflight_common
+  _preflight_copilot
 
   _mount_common
   _mount_if_exists "$HOME/.config/github-copilot" "${CONTAINER_HOME}/.config/github-copilot" rw
@@ -137,6 +197,9 @@ _cmd_copilot() {
 _cmd_opencode() {
   local path="${1:-$PWD}"
   [ -d "$path" ] || _die "not a directory: $path"
+
+  _preflight_common
+  _preflight_opencode
 
   # Resolve Ollama endpoint: env wins, else provider-url.txt next to script.
   local ollama_host="${OLLAMA_HOST:-}"
@@ -200,6 +263,8 @@ _cmd_opencode() {
 _cmd_shell() {
   local path="${1:-$PWD}"
   [ -d "$path" ] || _die "not a directory: $path"
+
+  _preflight_common
 
   _mount_common
 

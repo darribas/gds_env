@@ -135,6 +135,20 @@ dump. Your secrets stay where you put them.
    Ollama with a 5-minute window. `trap`-cleaned on container exit so
    it doesn't leak. Lifted from Sancho's `run.sh`.
 
+### Preflight diagnostics
+
+Before launching, `gdsa` audits the host for the files it's about to
+bind-mount and warns (never blocks) when something's missing:
+
+- `~/.gitconfig` missing → warn with the `git config --global` snippet
+- `~/.ssh/` missing → warn that SSH-based git push won't work + `ssh-keygen` snippet
+- Harness auth dir missing (`~/.claude.json`, `~/.config/github-copilot/`, etc.) → warn that first run will trigger the harness's own login flow, and tell you where it'll persist after
+- `gh` auth missing when invoking `copilot` → suggest running `gh auth login` on the host
+
+Warnings are yellow when stdout is a TTY, plain text otherwise. The
+launcher always proceeds to `docker run` — the diagnostics are setup
+guidance, not gatekeeping.
+
 ### Permission posture
 
 Permissive by default. The container *is* the sandbox. The launcher
