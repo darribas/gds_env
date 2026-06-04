@@ -46,6 +46,10 @@
           "name": "qwen3.5:35b-a3b-coding-nvfp4",
           "tools": true
         },
+        "gemma4:31b-mlx-64k": {
+          "name": "gemma4:31b-mlx-64k",
+          "tools": true
+        },
         "gemma4:26b-64k": {
           "name": "gemma4:26b-64k",
           "tools": true

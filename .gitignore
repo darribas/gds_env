@@ -21,3 +21,4 @@ build.log
 */build.log
 */build*.log
 */test_*.log
+utils/provider-url.txt
