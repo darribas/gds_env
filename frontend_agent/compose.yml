@@ -27,6 +27,6 @@ services:
       # - ${HOME}/.claude.json:/home/jovyan/.claude.json
       # - ${HOME}/.local/share/opencode:/home/jovyan/.local/share/opencode
       # - ${HOME}/.config/opencode:/home/jovyan/.config/opencode
-      # - ${HOME}/.config/github-copilot:/home/jovyan/.config/github-copilot
+      # - ${HOME}/.copilot:/home/jovyan/.copilot
       # - ${HOME}/.config/gh:/home/jovyan/.config/gh
     entrypoint: []

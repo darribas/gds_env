@@ -108,13 +108,13 @@ _preflight_opencode() {
 }
 
 _preflight_copilot() {
-  if [ ! -d "$HOME/.config/github-copilot" ]; then
-    _warn "no Copilot CLI auth at ~/.config/github-copilot/ — first run will prompt you to log in."
-    _hint "auth persists to ~/.config/github-copilot/ across container runs."
+  if [ ! -d "$HOME/.copilot" ]; then
+    _warn "no Copilot CLI state at ~/.copilot/ — first run will prompt you to log in."
+    _hint "auth and settings persist to ~/.copilot/ across container runs."
   fi
   if [ ! -d "$HOME/.config/gh" ]; then
     _warn "no ~/.config/gh/ found — gh CLI is unauthenticated; Copilot CLI uses it for GitHub access."
-    _hint "fix: run 'gh auth login' on your host before invoking 'gdsa copilot'."
+    _hint "fix: run 'gh auth login' in the environment launching 'gdsa copilot'; its ~/.config/gh/ will be mounted into the container."
   fi
 }
 
@@ -152,6 +152,9 @@ _cmd_claude() {
   _preflight_claude
 
   _mount_common
+  # Ensure host-side auth paths exist so mounts land on first run and auth persists.
+  mkdir -p "$HOME/.claude"
+  touch "$HOME/.claude.json"
   _mount_if_exists "$HOME/.claude"      "${CONTAINER_HOME}/.claude"      rw
   _mount_if_exists "$HOME/.claude.json" "${CONTAINER_HOME}/.claude.json" rw
 
@@ -176,8 +179,11 @@ _cmd_copilot() {
   _preflight_copilot
 
   _mount_common
-  _mount_if_exists "$HOME/.config/github-copilot" "${CONTAINER_HOME}/.config/github-copilot" rw
-  _mount_if_exists "$HOME/.config/gh"             "${CONTAINER_HOME}/.config/gh"             rw
+  # Ensure host-side auth paths exist so mounts land on first run and auth persists.
+  mkdir -p "$HOME/.copilot"
+  mkdir -p "$HOME/.config/gh"
+  _mount_if_exists "$HOME/.copilot"   "${CONTAINER_HOME}/.copilot"   rw
+  _mount_if_exists "$HOME/.config/gh" "${CONTAINER_HOME}/.config/gh" rw
 
   _env_if_set GITHUB_TOKEN
   _env_if_set GH_TOKEN
@@ -191,7 +197,7 @@ _cmd_copilot() {
     "${MOUNTS[@]}" \
     "${ENVS[@]}" \
     "$IMAGE" \
-    copilot --allow-all-tools
+    copilot --allow-all
 }
 
 _cmd_opencode() {
