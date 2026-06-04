@@ -70,7 +70,10 @@ current guidance.
 
 User customization wins: if you bind-mount your own
 `~/.config/opencode/` from the host, your config replaces the baked one
-wholesale. If you don't, the baked one runs the show.
+wholesale. If you don't, the baked one runs the show. The installer now
+bootstraps `~/.config/opencode/` with copies of the baked
+`opencode.json` and `tui.json` when they're missing, so persistence can
+work out of the box without changing defaults.
 
 ## The launcher (`gdsa`)
 
@@ -79,6 +82,9 @@ POSIX bash. Lives in `utils/gdsa`. `make build_agent` symlinks it to
 `~/.bash_profile` if `~/.local/bin` isn't already on PATH. Idempotent;
 won't duplicate the PATH stanza on subsequent runs. Override the
 install location with `GDSA_BIN=/somewhere/else/gdsa make install_gdsa`.
+That install step also creates `~/.local/share/opencode/` and
+`~/.config/opencode/` if missing, and seeds the host opencode config
+with the repo defaults when those files are absent.
 
 No Python, no Go, no Node on the host. You already have bash and
 docker; that's the contract.
@@ -102,17 +108,17 @@ docker; that's the contract.
 | `~/.gitconfig` | same | ro | always (if exists) |
 | `~/.ssh/` | same | ro | always (if exists) |
 | `~/.claude/`, `~/.claude.json` | same | rw | `claude` only |
-| `~/.local/share/opencode/`, `~/.config/opencode/` | same | rw | `opencode` only, **only if exists on host** |
-| `~/.config/github-copilot/` | same | rw | `copilot` only |
+| `~/.local/share/opencode/`, `~/.config/opencode/` | same | rw | `opencode` only; `make install_gdsa` / `make build_agent` bootstrap them if missing |
+| `~/.copilot/` | same | rw | `copilot` only |
 | `~/.config/gh/` | same | rw | `copilot` only |
 
 Per-harness config dirs only mount for the relevant subcommand — running
 `gdsa claude` won't expose your opencode tokens, and `gdsa shell` mounts
 none of the harness creds at all.
 
-The "only if exists" rule on opencode's config dir is deliberate: it lets
-the image's baked `opencode.json` stay in charge until you decide to
-override it on the host.
+The host config dir still only mounts when it exists. The install step
+now creates it and seeds it from the baked defaults, so the mounted
+behavior matches the image defaults unless you edit those host files.
 
 ### Env passthrough
 
@@ -147,8 +153,8 @@ bind-mount and warns (never blocks) when something's missing:
 
 - `~/.gitconfig` missing → warn with the `git config --global` snippet
 - `~/.ssh/` missing → warn that SSH-based git push won't work + `ssh-keygen` snippet
-- Harness auth dir missing (`~/.claude.json`, `~/.config/github-copilot/`, etc.) → warn that first run will trigger the harness's own login flow, and tell you where it'll persist after
-- `gh` auth missing when invoking `copilot` → suggest running `gh auth login` on the host
+- Harness auth dir missing (`~/.claude.json`, `~/.copilot/`, etc.) → warn that first run will trigger the harness's own login flow, and tell you where it'll persist after
+- `gh` auth missing when invoking `copilot` → suggest running `gh auth login` in the environment launching `gdsa`
 
 Warnings are yellow when stdout is a TTY, plain text otherwise. The
 launcher always proceeds to `docker run` — the diagnostics are setup
@@ -160,7 +166,7 @@ Permissive by default. The container *is* the sandbox. The launcher
 passes each harness's "skip approval" flag:
 
 - Claude Code: `--dangerously-skip-permissions`
-- Copilot CLI: `--allow-all-tools`
+- Copilot CLI: `--allow-all`
 - opencode: no flag — opencode runs without per-action prompts by default
 
 No `--safe` mode in v1. If you want prompts, run the harness directly
@@ -174,6 +180,7 @@ frontend_agent/
   compose.yml         # reference compose for purists
   opencode.json       # baked default: LSPs + Ollama provider
   tui.json            # opencode TUI theme
+  SPEC.md             # agent-surface spec
   # notebook-cli skill is fetched from upstream at build time
 utils/
   gdsa                # the launcher

@@ -101,6 +101,16 @@ install_gdsa:
 	@mkdir -p "$(GDSA_BIN_DIR)"
 	@ln -sf "$(CURDIR)/utils/gdsa" "$(GDSA_BIN)"
 	@echo "  Linked $(GDSA_BIN) -> $(CURDIR)/utils/gdsa"
+	@mkdir -p "$(HOME)/.local/share/opencode" "$(HOME)/.config/opencode"
+	@echo "  Ensured opencode state/config dirs exist under $$HOME."
+	@if [ ! -f "$(HOME)/.config/opencode/opencode.json" ]; then \
+	  cp "$(CURDIR)/frontend_agent/opencode.json" "$(HOME)/.config/opencode/opencode.json"; \
+	  echo "  Seeded ~/.config/opencode/opencode.json from frontend_agent/opencode.json"; \
+	fi
+	@if [ ! -f "$(HOME)/.config/opencode/tui.json" ]; then \
+	  cp "$(CURDIR)/frontend_agent/tui.json" "$(HOME)/.config/opencode/tui.json"; \
+	  echo "  Seeded ~/.config/opencode/tui.json from frontend_agent/tui.json"; \
+	fi
 	@case ":$$PATH:" in \
 	  *":$(GDSA_BIN_DIR):"*) \
 	    echo "  $(GDSA_BIN_DIR) is on PATH." ;; \
