@@ -18,7 +18,7 @@ set -euo pipefail
 IMAGE="${GDSA_IMAGE:-gds_agent:latest}"
 CONTAINER_HOME="/home/jovyan"
 WORKDIR="${CONTAINER_HOME}/work"
-UPDATE_URL="https://raw.githubusercontent.com/darribas/gds_env/main/utils/gdsa"
+UPDATE_URL="https://raw.githubusercontent.com/darribas/gds_env/master/utils/gdsa"
 
 # Resolve script dir portably (Linux + macOS). BSD readlink lacks -f.
 _resolve_script_dir() {
