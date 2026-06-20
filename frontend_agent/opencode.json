@@ -42,16 +42,16 @@
         "baseURL": "{env:OLLAMA_HOST}"
       },
       "models": {
-        "qwen3.5:35b-a3b-coding-nvfp4": {
-          "name": "qwen3.5:35b-a3b-coding-nvfp4",
+        "qwen3.6:35b-a3b-coding-nvfp4-64k": {
+          "name": "qwen3.6:35b-a3b-coding-nvfp4-64k",
           "tools": true
         },
-        "gemma4:31b-mlx-64k": {
-          "name": "gemma4:31b-mlx-64k",
+        "gemma4:26b-a4b-it-qat-64k": {
+          "name": "gemma4:26b-a4b-it-qat-64k",
           "tools": true
         },
-        "gemma4:26b-mlx-64k": {
-          "name": "gemma4:26b-mlx-64k",
+        "gemma4:12b-it-qat": {
+          "name": "gemma4:12b-it-qat",
           "tools": true
         }
       }
