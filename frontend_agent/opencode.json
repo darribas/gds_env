@@ -1,5 +1,6 @@
 {
   "$schema": "https://opencode.ai/config.json",
+  "model": "ollama/qwen3.6:35b-a3b-coding-nvfp4-64k",
   "lsp": {
     "python": {
       "command": ["pyright-langserver", "--stdio"],

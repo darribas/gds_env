@@ -226,8 +226,9 @@ _cmd_opencode() {
   echo "gdsa: resolved $hostname -> $resolved_ip"
 
   _mount_common
-  _mount_if_exists "$HOME/.local/share/opencode" "${CONTAINER_HOME}/.local/share/opencode" rw
-  _mount_if_exists "$HOME/.config/opencode"      "${CONTAINER_HOME}/.config/opencode"      rw
+  _mount_if_exists "$HOME/.local/share/opencode"                        "${CONTAINER_HOME}/.local/share/opencode"              rw
+  _mount_if_exists "${SCRIPT_DIR}/../frontend_agent/opencode.json"     "${CONTAINER_HOME}/.config/opencode/opencode.json"    ro
+  _mount_if_exists "$HOME/.config/opencode/tui.json"                   "${CONTAINER_HOME}/.config/opencode/tui.json"         rw
 
   ENVS+=(-e "OLLAMA_HOST=${ollama_host}")
   ENVS+=(-e "GLAMOUR_STYLE=dark")
