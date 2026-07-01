@@ -98,6 +98,32 @@ _preflight_claude() {
     _warn "no Claude Code auth at ~/.claude.json or ~/.claude/ — first run will prompt you to log in."
     _hint "auth persists to ~/.claude.json + ~/.claude/ across container runs."
   fi
+  _ensure_gh_auth
+}
+
+# Ensure ~/.config/gh/hosts.yml exists (i.e. gh is authenticated on the host).
+# Falls back to running gh auth login inside the container if gh is not on the host PATH.
+_ensure_gh_auth() {
+  [ -f "$HOME/.config/gh/hosts.yml" ] && return 0
+
+  mkdir -p "$HOME/.config/gh"
+
+  echo "gdsa: GitHub CLI is not authenticated (no ~/.config/gh/hosts.yml)."
+  printf '%s' "gdsa: run 'gh auth login' now? [Y/n] "
+  read -r _reply
+  case "${_reply:-Y}" in
+    [Nn]*) _warn "skipping gh auth — gh CLI will be unauthenticated inside the container."; return 0 ;;
+  esac
+
+  if command -v gh >/dev/null 2>&1; then
+    gh auth login || _warn "gh auth login did not complete — gh will be unauthenticated in the container."
+  else
+    echo "gdsa: gh not found on host — running 'gh auth login' inside the container (credentials will persist to ~/.config/gh/)."
+    docker run --rm -it \
+      -v "$HOME/.config/gh:${CONTAINER_HOME}/.config/gh" \
+      "$IMAGE" \
+      gh auth login || _warn "gh auth login did not complete — gh will be unauthenticated in the container."
+  fi
 }
 
 _preflight_opencode() {
@@ -105,6 +131,7 @@ _preflight_opencode() {
     _warn "no opencode state at ~/.local/share/opencode/ — first run will initialize it."
     _hint "the keep-alive loop reads model state from this dir; it'll work once opencode writes there."
   fi
+  _ensure_gh_auth
 }
 
 _preflight_copilot() {
@@ -112,10 +139,7 @@ _preflight_copilot() {
     _warn "no Copilot CLI state at ~/.copilot/ — first run will prompt you to log in."
     _hint "auth and settings persist to ~/.copilot/ across container runs."
   fi
-  if [ ! -d "$HOME/.config/gh" ]; then
-    _warn "no ~/.config/gh/ found — gh CLI is unauthenticated; Copilot CLI uses it for GitHub access."
-    _hint "fix: run 'gh auth login' in the environment launching 'gdsa copilot'; its ~/.config/gh/ will be mounted into the container."
-  fi
+  _ensure_gh_auth
 }
 
 # Resolve a hostname to an IP via whatever the host has handy.
@@ -155,8 +179,10 @@ _cmd_claude() {
   # Ensure host-side auth paths exist so mounts land on first run and auth persists.
   mkdir -p "$HOME/.claude"
   touch "$HOME/.claude.json"
+  mkdir -p "$HOME/.config/gh"
   _mount_if_exists "$HOME/.claude"      "${CONTAINER_HOME}/.claude"      rw
   _mount_if_exists "$HOME/.claude.json" "${CONTAINER_HOME}/.claude.json" rw
+  _mount_if_exists "$HOME/.config/gh"   "${CONTAINER_HOME}/.config/gh"   rw
 
   _env_if_set ANTHROPIC_API_KEY
   _env_if_set GITHUB_TOKEN
@@ -226,9 +252,10 @@ _cmd_opencode() {
   echo "gdsa: resolved $hostname -> $resolved_ip"
 
   _mount_common
-  _mount_if_exists "$HOME/.local/share/opencode"                        "${CONTAINER_HOME}/.local/share/opencode"              rw
-  _mount_if_exists "${SCRIPT_DIR}/../frontend_agent/opencode.json"     "${CONTAINER_HOME}/.config/opencode/opencode.json"    ro
-  _mount_if_exists "$HOME/.config/opencode/tui.json"                   "${CONTAINER_HOME}/.config/opencode/tui.json"         rw
+  _mount_if_exists "$HOME/.local/share/opencode"                       "${CONTAINER_HOME}/.local/share/opencode"           rw
+  _mount_if_exists "${SCRIPT_DIR}/../frontend_agent/opencode.json"     "${CONTAINER_HOME}/.config/opencode/opencode.json"  ro
+  _mount_if_exists "$HOME/.config/opencode/tui.json"                   "${CONTAINER_HOME}/.config/opencode/tui.json"       rw
+  _mount_if_exists "$HOME/.config/gh"                                  "${CONTAINER_HOME}/.config/gh"                      rw
 
   ENVS+=(-e "OLLAMA_HOST=${ollama_host}")
   ENVS+=(-e "GLAMOUR_STYLE=dark")
