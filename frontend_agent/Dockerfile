@@ -12,6 +12,13 @@ RUN apt-get update \
  && ln -s "$(command -v fdfind)" /usr/local/bin/fd \
  && rm -rf /var/lib/apt/lists/*
 
+# None of gh/npm/curl-installer below pin a version, so an unchanged
+# Dockerfile is a cache hit even when upstream has shipped a newer release.
+# Bust the cache for everything below on every build (Makefile passes
+# --build-arg CACHEBUST=$(date +%s)) so harnesses always install latest.
+ARG CACHEBUST=1
+RUN echo "cachebust=${CACHEBUST}" > /dev/null
+
 #--- GitHub CLI (official apt repo) ---#
 RUN mkdir -p -m 755 /etc/apt/keyrings \
  && curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg \
@@ -52,6 +59,14 @@ RUN /opt/conda/envs/gds/bin/pip install --no-cache-dir papermill jupytext
 COPY opencode.json /home/${NB_USER}/.config/opencode/opencode.json
 COPY tui.json /home/${NB_USER}/.config/opencode/tui.json
 RUN chown -R ${NB_UID}:${NB_GID} /home/${NB_USER}/.config
+
+#--- Baked Claude Code settings (user mount overrides) ---#
+# No PATH override here: nb-cli's bin dir is already on PATH via the ENV line
+# below, and a host-only PATH override (e.g. for bare-metal Claude) would not
+# resolve inside the container.
+RUN mkdir -p /home/${NB_USER}/.claude
+COPY claude-settings.json /home/${NB_USER}/.claude/settings.json
+RUN chown -R ${NB_UID}:${NB_GID} /home/${NB_USER}/.claude
 
 USER ${NB_UID}
 WORKDIR /home/${NB_USER}

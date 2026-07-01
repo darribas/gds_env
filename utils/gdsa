@@ -181,6 +181,11 @@ _cmd_claude() {
   touch "$HOME/.claude.json"
   mkdir -p "$HOME/.config/gh"
   _mount_if_exists "$HOME/.claude"      "${CONTAINER_HOME}/.claude"      rw
+  # Shadow the host's settings.json: it may carry a host-only PATH override
+  # (e.g. for nb-cli on bare-metal Claude) that doesn't resolve in the
+  # container and clobbers the image's baked PATH. Mounted after the broader
+  # ~/.claude mount above so it takes precedence for this one file.
+  _mount_if_exists "${SCRIPT_DIR}/../frontend_agent/claude-settings.json" "${CONTAINER_HOME}/.claude/settings.json" ro
   _mount_if_exists "$HOME/.claude.json" "${CONTAINER_HOME}/.claude.json" rw
   _mount_if_exists "$HOME/.config/gh"   "${CONTAINER_HOME}/.config/gh"   rw
 

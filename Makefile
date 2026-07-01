@@ -86,7 +86,8 @@ build_code:
 build_agent:
 	cd frontend_agent && \
 		docker build -t $(agent_image) --progress=plain -f Dockerfile \
-		--build-arg base_image=$(image) . 2>&1 | \
+		--build-arg base_image=$(image) \
+		--build-arg CACHEBUST=$(shell date +%s) . 2>&1 | \
 		tee build_$(ARCH).log && \
 		docker tag $(agent_image) gds_agent:latest
 	@$(MAKE) --no-print-directory install_gdsa
