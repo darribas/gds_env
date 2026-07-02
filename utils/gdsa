@@ -265,6 +265,16 @@ _cmd_opencode() {
   ENVS+=(-e "OLLAMA_HOST=${ollama_host}")
   ENVS+=(-e "GLAMOUR_STYLE=dark")
 
+  # Pass opencode config as content env var — reliable fallback when the file
+  # mount above fails (e.g. SCRIPT_DIR resolves to a copy rather than a symlink).
+  # OPENCODE_CONFIG_CONTENT is merged last by opencode and wins over the baked config.
+  local _oc_json="${SCRIPT_DIR}/../frontend_agent/opencode.json"
+  if [ -f "$_oc_json" ]; then
+    export OPENCODE_CONFIG_CONTENT
+    OPENCODE_CONFIG_CONTENT=$(cat "$_oc_json")
+    ENVS+=(-e "OPENCODE_CONFIG_CONTENT")
+  fi
+
   # Keep-alive: re-read the active model and ping Ollama every 4 min so the
   # model stays warm. Trap-cleaned on exit.
   local ollama_base
