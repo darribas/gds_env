@@ -56,7 +56,10 @@ RUN $HOME/scripts/install_latex_tools.sh
 
 #---    Vim   ---#
 ADD ./dev/vimrc $HOME/.vimrc
-RUN $HOME/scripts/install_vim.sh 
+RUN $HOME/scripts/install_vim.sh
+
+#--- Frogmouth ---#
+RUN $HOME/scripts/install_frogmouth.sh
 
 #---    GPQ   ---#
 RUN $HOME/scripts/install_gpq.sh 
