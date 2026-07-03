@@ -35,6 +35,8 @@ dependencies:
   - jupytext
   - legendgram
   - libgdal-arrow-parquet
+  # Temporary pin: remove once GDAL/rasterio/R sf in this stack are compatible with libjxl 0.12+.
+  - libjxl<0.12
   - lxml
   - momepy
   - movingpandas
@@ -43,6 +45,7 @@ dependencies:
   - networkx
   - openpyxl
   - osmnx
+  - papermill
   - palettable
   - pandana
   - pip
@@ -208,4 +211,3 @@ dependencies:
     #- geoarrow
   #--- Other ---#
   - rust
-

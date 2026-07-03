@@ -12,6 +12,7 @@ virtualbox/.vagrant/
 virtualbox/*.ova
 .sass-cache/
 */sass-cache/
+.claude/
 ._site/
 */_site/
 website/_includes/
