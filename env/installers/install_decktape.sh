@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -euo pipefail
+
 ########################
 ### Install Decktape ###
 ########################
@@ -61,8 +63,25 @@ apt-get update -qq \
  && apt-get autoremove \
  && apt-get clean
 
+export ARCH=$(dpkg --print-architecture)
+
 decktape_browser_dir=/opt/decktape-browser
 decktape_browser_bin=/usr/local/bin/decktape-chrome
+
+case "$ARCH" in
+  amd64)
+    decktape_browser_source="puppeteer"
+    decktape_browser_spec="chrome@stable"
+    decktape_browser_platform="linux"
+    ;;
+  arm64)
+    decktape_browser_source="playwright"
+    ;;
+  *)
+    echo "Unsupported architecture for DeckTape browser: $ARCH" >&2
+    exit 1
+    ;;
+esac
 
 mkdir -p "$decktape_browser_dir"
 
@@ -75,33 +94,39 @@ npm install -g decktape \
  && decktape_real_bin="$(readlink -f "$decktape_bin")" \
  && decktape_package_dir="$(cd "$(dirname "$decktape_real_bin")" && pwd)" \
  && decktape_node_modules="$decktape_package_dir/node_modules" \
- && PUPPETEER_CACHE_DIR="$decktape_browser_dir" \
-    node "$decktape_node_modules/puppeteer/install.mjs" \
+ && if [[ "$decktape_browser_source" == "puppeteer" ]]; then \
+      decktape_browsers_cli="$(node - <<'NODE' "$decktape_node_modules"
+const fs = require('node:fs');
+const path = require('node:path');
+const moduleRoot = process.argv[2];
+const packageJsonPath = path.join(moduleRoot, '@puppeteer', 'browsers', 'package.json');
+const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'));
+const bin = typeof packageJson.bin === 'string'
+  ? packageJson.bin
+  : packageJson.bin['@puppeteer/browsers'];
+process.stdout.write(path.join(path.dirname(packageJsonPath), bin));
+NODE
+)"; \
+      PUPPETEER_CACHE_DIR="$decktape_browser_dir" \
+        node "$decktape_browsers_cli" install "$decktape_browser_spec" \
+        --platform "$decktape_browser_platform" \
+        --path "$decktape_browser_dir" \
+        --format '{{path}}'; \
+    else \
+      PLAYWRIGHT_BROWSERS_PATH="$decktape_browser_dir" \
+        npx --yes playwright@latest install chromium; \
+    fi \
  && echo "=== decktape browser cache ===" \
  && find "$decktape_browser_dir" | sort \
  && echo "==============================" \
  && decktape_bin_dir="$(dirname "$decktape_bin")" \
  && chmod -R a+rX "$decktape_browser_dir" \
- && chrome_bin="$(find "$decktape_browser_dir" -path '*/chrome-linux64/chrome' -type f | sort | tail -n 1)" \
- && if [[ -z "$chrome_bin" ]]; then \
-      chrome_bin="$(find "$decktape_browser_dir" -path '*/chrome-headless-shell-linux64/chrome-headless-shell' -type f | sort | tail -n 1)"; \
-    fi \
- && if [[ -z "$chrome_bin" ]]; then \
-      chrome_zip="$(find "$decktape_browser_dir"/chrome -name '*-chrome-linux64.zip' -type f | sort | tail -n 1)"; \
-      if [[ -n "$chrome_zip" ]]; then \
-        mkdir -p "$decktape_browser_dir/manual-extract/chrome"; \
-        unzip -oq "$chrome_zip" -d "$decktape_browser_dir/manual-extract/chrome"; \
-        chrome_bin="$(find "$decktape_browser_dir/manual-extract/chrome" -path '*/chrome-linux64/chrome' -type f | sort | tail -n 1)"; \
-      fi; \
-    fi \
- && if [[ -z "$chrome_bin" ]]; then \
-      headless_zip="$(find "$decktape_browser_dir"/chrome-headless-shell -name '*-chrome-headless-shell-linux64.zip' -type f | sort | tail -n 1)"; \
-      if [[ -n "$headless_zip" ]]; then \
-        mkdir -p "$decktape_browser_dir/manual-extract/chrome-headless-shell"; \
-        unzip -oq "$headless_zip" -d "$decktape_browser_dir/manual-extract/chrome-headless-shell"; \
-        chrome_bin="$(find "$decktape_browser_dir/manual-extract/chrome-headless-shell" -path '*/chrome-headless-shell-linux64/chrome-headless-shell' -type f | sort | tail -n 1)"; \
-      fi; \
-    fi \
+ && chrome_bin="$(find "$decktape_browser_dir" \
+      \( -path '*/chrome-linux/chrome' \
+      -o -path '*/chrome-linux64/chrome' \
+      -o -path '*/chrome-headless-shell/chrome-headless-shell' \
+      -o -path '*/chrome-headless-shell-linux64/chrome-headless-shell' \) \
+      -type f | sort | tail -n 1)" \
  && test -n "$chrome_bin" \
  && printf 'Resolved DeckTape Chrome path: %s\n' "$chrome_bin" \
  && test -e "$chrome_bin" \
