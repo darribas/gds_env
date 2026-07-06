@@ -52,7 +52,10 @@ RUN $HOME/scripts/install_decktape.sh
 #--- LaTeX tools ---#
 ADD ./dev/texBuild.py $HOME/
 ADD ./dev/install_texbuild.py $HOME/
-RUN $HOME/scripts/install_latex_tools.sh 
+RUN $HOME/scripts/install_latex_tools.sh
+
+#--- Typst ---#
+RUN $HOME/scripts/install_typst.sh
 
 #---    Vim   ---#
 ADD ./dev/vimrc $HOME/.vimrc
