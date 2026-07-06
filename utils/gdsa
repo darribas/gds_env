@@ -196,8 +196,8 @@ _cmd_claude() {
   exec docker run --rm -it \
     -v "${path}:${WORKDIR}" \
     -w "${WORKDIR}" \
-    "${MOUNTS[@]}" \
-    "${ENVS[@]}" \
+    ${MOUNTS[@]+"${MOUNTS[@]}"} \
+    ${ENVS[@]+"${ENVS[@]}"} \
     "$IMAGE" \
     claude --dangerously-skip-permissions
 }
@@ -225,8 +225,8 @@ _cmd_copilot() {
   exec docker run --rm -it \
     -v "${path}:${WORKDIR}" \
     -w "${WORKDIR}" \
-    "${MOUNTS[@]}" \
-    "${ENVS[@]}" \
+    ${MOUNTS[@]+"${MOUNTS[@]}"} \
+    ${ENVS[@]+"${ENVS[@]}"} \
     "$IMAGE" \
     copilot --allow-all
 }
@@ -303,8 +303,8 @@ _cmd_opencode() {
     --add-host "${hostname}:${resolved_ip}" \
     -v "${path}:${WORKDIR}" \
     -w "${WORKDIR}" \
-    "${MOUNTS[@]}" \
-    "${ENVS[@]}" \
+    ${MOUNTS[@]+"${MOUNTS[@]}"} \
+    ${ENVS[@]+"${ENVS[@]}"} \
     "$IMAGE" \
     opencode
 }
@@ -320,7 +320,7 @@ _cmd_shell() {
   exec docker run --rm -it \
     -v "${path}:${WORKDIR}" \
     -w "${WORKDIR}" \
-    "${MOUNTS[@]}" \
+    ${MOUNTS[@]+"${MOUNTS[@]}"} \
     "$IMAGE" \
     bash
 }
