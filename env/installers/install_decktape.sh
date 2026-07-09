@@ -8,6 +8,10 @@ set -euo pipefail
 
 # https://jupyterbook.org/advanced/pdf.html#build-a-pdf-from-your-book-html
 # https://github.com/astefanutti/decktape/issues/187
+#
+# Runtime shared libraries Chromium links against. These are the *runtime*
+# packages only — Chrome needs the .so libraries, not the -dev headers, so no
+# `*-dev` packages are installed here (audit 1.3).
 apt-get update -qq \
  && apt-get install -y --no-install-recommends \
     libasound2t64 \
@@ -45,98 +49,54 @@ apt-get update -qq \
     libgbm1 \
     libnss3 \
     lsb-release \
-    unzip \
     xdg-utils \
     wget \
-    libcairo2-dev \
-    libasound2-dev \
-    libpangocairo-1.0-0 \
-    libx11-xcb-dev \
-    libxcursor-dev \
-    libxdamage-dev \
-    libxi-dev \
-    libxtst-dev \
-    libxss-dev \
-    libxrandr-dev \
  && rm -rf /var/lib/apt/lists/* \
  && apt-get autoclean \
  && apt-get autoremove \
  && apt-get clean
 
-export ARCH=$(dpkg --print-architecture)
-
 decktape_browser_dir=/opt/decktape-browser
 decktape_browser_bin=/usr/local/bin/decktape-chrome
 
-case "$ARCH" in
-  amd64)
-    decktape_browser_source="puppeteer"
-    ;;
-  arm64)
-    decktape_browser_source="playwright"
-    ;;
-  *)
-    echo "Unsupported architecture for DeckTape browser: $ARCH" >&2
-    exit 1
-    ;;
-esac
-
 mkdir -p "$decktape_browser_dir"
 
-mkdir $HOME/.decktape \
- && fix-permissions $HOME/.decktape
+mkdir "$HOME/.decktape" \
+ && fix-permissions "$HOME/.decktape"
 
+# Install DeckTape (latest) plus a Chromium for it.
+#
+# We fetch Chromium with Playwright on BOTH architectures. Playwright ships
+# prebuilt Linux Chromium for amd64 and arm64, so this replaces the old per-arch
+# puppeteer(amd64)/playwright(arm64) split — a source of the historical
+# amd64-vs-arm64 divergence. Playwright installs into a deterministic layout,
+# `$PLAYWRIGHT_BROWSERS_PATH/chromium-<rev>/chrome-linux/chrome`, so a single
+# glob resolves the binary; the previous find-cascade + zip fallbacks are gone.
+# Nothing is version-pinned — DeckTape and Chromium track latest (see the
+# repo's "latest for tools" policy); robustness comes from the deterministic
+# install path, not from a pin.
 npm install -g decktape \
- && npm cache clean --force \
- && decktape_bin="$(command -v decktape)" \
- && decktape_real_bin="$(readlink -f "$decktape_bin")" \
- && decktape_package_dir="$(cd "$(dirname "$decktape_real_bin")" && pwd)" \
- && decktape_node_modules="$decktape_package_dir/node_modules" \
- && if [[ "$decktape_browser_source" == "puppeteer" ]]; then \
-      PUPPETEER_CACHE_DIR="$decktape_browser_dir" \
-        node "$decktape_node_modules/puppeteer/install.mjs"; \
-    else \
-      PLAYWRIGHT_BROWSERS_PATH="$decktape_browser_dir" \
-        npx --yes playwright@latest install chromium; \
-    fi \
- && echo "=== decktape browser cache ===" \
- && find "$decktape_browser_dir" | sort \
- && echo "==============================" \
- && decktape_bin_dir="$(dirname "$decktape_bin")" \
- && chmod -R a+rX "$decktape_browser_dir" \
- && chrome_bin="$(find "$decktape_browser_dir" \
-      \( -path '*/chrome-linux/chrome' \
-      -o -path '*/chrome-linux64/chrome' \
-      -o -path '*/chrome-headless-shell/chrome-headless-shell' \
-      -o -path '*/chrome-headless-shell-linux64/chrome-headless-shell' \) \
-      -type f | sort | tail -n 1)" \
- && if [[ -z "$chrome_bin" ]]; then \
-      chrome_zip="$(find "$decktape_browser_dir"/chrome -name '*-chrome-linux64.zip' -type f | sort | tail -n 1)"; \
-      if [[ -n "$chrome_zip" ]]; then \
-        mkdir -p "$decktape_browser_dir/manual-extract/chrome"; \
-        unzip -oq "$chrome_zip" -d "$decktape_browser_dir/manual-extract/chrome"; \
-        chrome_bin="$(find "$decktape_browser_dir/manual-extract/chrome" \
-          \( -path '*/chrome-linux/chrome' \
-          -o -path '*/chrome-linux64/chrome' \) \
-          -type f | sort | tail -n 1)"; \
-      fi; \
-    fi \
- && if [[ -z "$chrome_bin" ]]; then \
-      headless_zip="$(find "$decktape_browser_dir"/chrome-headless-shell -name '*-chrome-headless-shell-linux64.zip' -type f | sort | tail -n 1)"; \
-      if [[ -n "$headless_zip" ]]; then \
-        mkdir -p "$decktape_browser_dir/manual-extract/chrome-headless-shell"; \
-        unzip -oq "$headless_zip" -d "$decktape_browser_dir/manual-extract/chrome-headless-shell"; \
-        chrome_bin="$(find "$decktape_browser_dir/manual-extract/chrome-headless-shell" \
-          \( -path '*/chrome-headless-shell/chrome-headless-shell' \
-          -o -path '*/chrome-headless-shell-linux64/chrome-headless-shell' \) \
-          -type f | sort | tail -n 1)"; \
-      fi; \
-    fi \
- && test -n "$chrome_bin" \
- && printf 'Resolved DeckTape Chrome path: %s\n' "$chrome_bin" \
- && test -e "$chrome_bin" \
- && chmod a+rx "$chrome_bin" \
- && test -x "$chrome_bin" \
- && ln -sf "$chrome_bin" "$decktape_browser_bin" \
- && mv "$decktape_bin_dir/decktape" "$decktape_bin_dir/decktape.real" \
- && install -m 755 "$HOME/scripts/decktape_wrapper.sh" "$decktape_bin_dir/decktape"
+ && npm cache clean --force
+
+PLAYWRIGHT_BROWSERS_PATH="$decktape_browser_dir" \
+    npx --yes playwright@latest install chromium
+
+chrome_bin="$(ls -d "$decktape_browser_dir"/chromium-*/chrome-linux/chrome | sort | tail -n 1)"
+test -n "$chrome_bin"
+test -x "$chrome_bin"
+printf 'Resolved DeckTape Chrome path: %s\n' "$chrome_bin"
+
+chmod -R a+rX "$decktape_browser_dir"
+ln -sf "$chrome_bin" "$decktape_browser_bin"
+
+# Swap the DeckTape entrypoint for our wrapper (injects --no-sandbox /
+# --disable-dev-shm-usage inside Docker and resolves the browser path).
+decktape_bin="$(command -v decktape)"
+decktape_bin_dir="$(dirname "$decktape_bin")"
+mv "$decktape_bin_dir/decktape" "$decktape_bin_dir/decktape.real"
+install -m 755 "$HOME/scripts/decktape_wrapper.sh" "$decktape_bin_dir/decktape"
+
+# In-layer permission fix: the npm global install lands in the conda prefix and
+# the browser under /opt; fix what we touched here so no later pass copies the
+# conda tree up (audit 1.1 hygiene).
+fix-permissions "${CONDA_DIR}" "${HOME}"

@@ -65,7 +65,6 @@ dependencies:
   - protobuf
   - psycopg2
   - pyarrow
-  - pyppeteer
   - pyrosm
   - pysal==24.7
   - pystac-client

@@ -5,8 +5,8 @@ USER root
 
 RUN curl -fsSL https://code-server.dev/install.sh | sh
 
-RUN apt-get update \
- && apt-get install -y latexmk
+# latexmk is provided by the base gds image (env/installers/install_latex_tools.sh),
+# which gds_code builds on top of — no need to install it again here.
 
 RUN /usr/bin/code-server \
      --install-extension quarto.quarto \
