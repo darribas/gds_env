@@ -140,3 +140,8 @@ npm install -g decktape \
  && ln -sf "$chrome_bin" "$decktape_browser_bin" \
  && mv "$decktape_bin_dir/decktape" "$decktape_bin_dir/decktape.real" \
  && install -m 755 "$HOME/scripts/decktape_wrapper.sh" "$decktape_bin_dir/decktape"
+
+# `npm install -g decktape` lands in the base conda prefix as root; fix its
+# permissions (and anything written under $HOME) in this same layer so a later
+# pass never has to copy the conda tree up.
+fix-permissions "${CONDA_DIR}" "${HOME}"

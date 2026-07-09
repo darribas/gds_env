@@ -25,9 +25,12 @@ pip install \
          jupytext
 # Bash kernel
 python -m bash_kernel.install
-# Clean
+# Clean (in-layer: caches purged and permissions fixed in the same RUN as the
+# install so the base-env additions are group-writable before any later
+# fix-permissions pass, avoiding a cross-layer copy-up of /opt/conda)
 pip cache purge \
  && conda clean --all --yes --force-pkgs-dirs \
  && jupyter lab clean -y \
- && npm cache clean --force
+ && npm cache clean --force \
+ && fix-permissions "${CONDA_DIR}"
 

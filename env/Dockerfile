@@ -30,11 +30,13 @@ RUN $HOME/scripts/install_conda_env.sh
 
 USER root
 
-#--- Quarto ---#
+#--- System apt packages (xz-utils for Quarto, htop) ---#
 RUN apt-get update \
- && apt-get install -y --no-install-recommends xz-utils \
+ && apt-get install -y --no-install-recommends xz-utils htop \
  && rm -rf /var/lib/apt/lists/*
-RUN $HOME/scripts/install_quarto.sh 
+
+#--- Quarto ---#
+RUN $HOME/scripts/install_quarto.sh
 
 #--- Jekyll ---#
 RUN $HOME/scripts/install_jekyll.sh 
@@ -42,12 +44,8 @@ RUN $HOME/scripts/install_jekyll.sh
 #--- tippecanoe ---#
 RUN $HOME/scripts/install_tippecanoe.sh 
 
-#--- htop ---#
-RUN apt-get update \
- && apt-get install -y --no-install-recommends htop
-
 #--- Decktape ---#
-RUN $HOME/scripts/install_decktape.sh 
+RUN $HOME/scripts/install_decktape.sh
 
 #--- LaTeX tools ---#
 ADD ./dev/texBuild.py $HOME/
@@ -68,25 +66,17 @@ RUN $HOME/scripts/install_frogmouth.sh
 RUN $HOME/scripts/install_gpq.sh 
 
 #--- Clean up ---#
-RUN fix-permissions $HOME \
-  && fix-permissions $CONDA_DIR
-
-RUN cd $NB_HOME \
- && rm -rf /tmp/downloaded_packages/ /tmp/*.rds \
- && rm -rf $GEM_HOME/cache \
- && rm -rf /usr/local/bundle/cache \
- && apt-get autoclean \
- && apt-get autoremove \
- && apt-get clean \
- && rm -rf /var/lib/apt/lists/* \
- && rm -rf $HOME/scripts
+# Cleanup is now done per-layer: each installer fixes permissions and clears its
+# own apt lists / package caches in the same RUN that created them (see
+# env/installers/*.sh). On overlayfs, cleanup only reclaims space when it runs in
+# the layer that added the files, so the old standalone fix-permissions / rm /
+# find layers here reclaimed nothing and the fix-permissions $CONDA_DIR pass in
+# particular duplicated the multi-GB conda tree into an extra layer.
+# The only cross-cutting leftover is the scripts staging dir, which every RUN
+# above sources from, so it can only be removed after the last installer (as
+# root, since it was ADDed root-owned).
+RUN rm -rf $HOME/scripts
 
 USER $NB_UID
-
-RUN find /opt/conda/ -follow -type f -name '*.a' -delete \
- && find /opt/conda/ -follow -type f -name '*.pyc' -delete \
- && find /opt/conda/ -follow -type f -name '*.js.map' -delete \
- && pip cache purge \
- && rm -rf $HOME/.cache/pip
 
 RUN echo "Completing build at: $(date)"
