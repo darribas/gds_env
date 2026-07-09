@@ -17,6 +17,9 @@ mkdir texcount_tmp \
  && rm -rf texcount_tmp
 
 #--- LaTeX packages ---#
+# latexmk drives jupyter-book's `--pdf` export (myst -> TeX -> latexmk); without
+# it `jupyter-book build --pdf` fails with "latexmk: not found". The TeX engines
+# themselves (xelatex/pdflatex) are already present.
 apt-get update -qq \
- && apt-get install -y --no-install-recommends fonts-lmodern \
+ && apt-get install -y --no-install-recommends fonts-lmodern latexmk \
  && rm -rf /var/lib/apt/lists/*
