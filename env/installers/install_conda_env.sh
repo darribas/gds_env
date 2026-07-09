@@ -5,7 +5,6 @@
 mamba env create -f gds.yml \
  && source activate gds \
  && python -m ipykernel install --user --name gds --display-name "GDS-$GDS_ENV_VERSION" \
- && pyppeteer-install \
  && conda deactivate \
  && rm ./gds.yml \
  && conda clean --yes --all --force-pkgs-dirs \
