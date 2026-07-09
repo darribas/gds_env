@@ -10,7 +10,7 @@ gem install sass-embedded
 gem install sass --force sass-embedded
 gem install jekyll bundler github-pages jekyll-scholar just-the-docs
 
-rm -rf /var/lib/gems/3.0.0/cache/*
+rm -rf /var/lib/gems/*/cache/* /usr/local/bundle/cache
 rm -rf /var/lib/apt/lists/* \
  && apt-get autoclean \
  && apt-get autoremove \

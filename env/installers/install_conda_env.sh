@@ -27,6 +27,12 @@ jupyter lab --generate-config \
  /home/${NB_USER}/.jupyter/jupyter_lab_config.py \
  && echo "c.KernelSpecManager.whitelist = {'gds', 'ir', 'bash'}" >> \
  /home/${NB_USER}/.jupyter/jupyter_lab_config.py \
- && jupyter kernelspec remove -y python3 
+ && jupyter kernelspec remove -y python3
+
+#--- Permissions & tmp cleanup (same layer) ---#
+# Fix permissions on the freshly created gds env in the SAME layer that built it
+# (files are new here, so no overlayfs copy-up) and drop R build tmp files.
+rm -rf /tmp/downloaded_packages /tmp/*.rds
+fix-permissions "${CONDA_DIR}"
 
 

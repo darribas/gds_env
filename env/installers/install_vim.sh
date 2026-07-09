@@ -14,3 +14,7 @@ apt-get update \
  && apt-get autoremove \
  && apt-get clean
 
+# .vim/ and the root-owned .vimrc (ADDed in the Dockerfile) belong to the
+# notebook user; fix them in-layer.
+fix-permissions "${HOME}"
+

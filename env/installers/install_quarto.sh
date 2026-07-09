@@ -12,3 +12,7 @@ wget "$QUARTO_DL_URL" -O quarto.deb \
  && quarto install tinytex \
  && rm quarto.deb
 
+# `quarto install tinytex` writes TinyTeX under $HOME as root; hand it back to
+# the notebook user in the same layer so nothing is copied up later.
+fix-permissions "${HOME}"
+
