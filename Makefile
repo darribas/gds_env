@@ -70,6 +70,7 @@ website_local: website_build
 	rm -rf _includes
 	export JEKYLL_ENV=development
 build:
+	set -o pipefail; \
 	rm -f env/build_$(ARCH).log && \
 		cd env && \
 		docker build -t $(image) \
@@ -78,12 +79,14 @@ build:
 		tee build_$(ARCH).log && \
 		docker tag $(image) gds:latest
 build_code:
+	set -o pipefail; \
 	cd frontend_code && \
 		docker build -t $(code_image) --progress=plain -f Dockerfile \
 		--build-arg base_image=$(image) . 2>&1 | \
 		tee build_$(ARCH).log && \
 		docker tag $(code_image) gds_code:latest
 build_agent:
+	set -o pipefail; \
 	cd frontend_agent && \
 		docker build -t $(agent_image) --progress=plain -f Dockerfile \
 		--build-arg base_image=$(image) \
