@@ -69,19 +69,28 @@ mkdir "$HOME/.decktape" \
 # We fetch Chromium with Playwright on BOTH architectures. Playwright ships
 # prebuilt Linux Chromium for amd64 and arm64, so this replaces the old per-arch
 # puppeteer(amd64)/playwright(arm64) split — a source of the historical
-# amd64-vs-arm64 divergence. Playwright installs into a deterministic layout,
-# `$PLAYWRIGHT_BROWSERS_PATH/chromium-<rev>/chrome-linux/chrome`, so a single
-# glob resolves the binary; the previous find-cascade + zip fallbacks are gone.
-# Nothing is version-pinned — DeckTape and Chromium track latest (see the
-# repo's "latest for tools" policy); robustness comes from the deterministic
-# install path, not from a pin.
+# amd64-vs-arm64 divergence. Nothing is version-pinned — DeckTape and Chromium
+# track latest (see the repo's "latest for tools" policy).
 npm install -g decktape \
  && npm cache clean --force
 
 PLAYWRIGHT_BROWSERS_PATH="$decktape_browser_dir" \
     npx --yes playwright@latest install chromium
 
-chrome_bin="$(ls -d "$decktape_browser_dir"/chromium-*/chrome-linux/chrome | sort | tail -n 1)"
+# Resolve the Chromium binary. Playwright's on-disk layout is NOT stable across
+# versions: Chrome-for-Testing builds extract to `chrome-linux64/chrome`, older
+# builds to `chrome-linux/chrome`. Match either full-browser layout, then fall
+# back to the headless shell — a single fixed glob (e.g. chromium-*/chrome-linux)
+# silently breaks whenever that layout changes.
+chrome_bin="$(find "$decktape_browser_dir" \
+    \( -path '*/chrome-linux/chrome' -o -path '*/chrome-linux64/chrome' \) \
+    -type f 2>/dev/null | sort | tail -n 1)"
+if [ -z "$chrome_bin" ]; then
+  chrome_bin="$(find "$decktape_browser_dir" \
+      \( -path '*/chrome-headless-shell/chrome-headless-shell' \
+      -o -path '*/chrome-headless-shell-linux64/chrome-headless-shell' \) \
+      -type f 2>/dev/null | sort | tail -n 1)"
+fi
 test -n "$chrome_bin"
 test -x "$chrome_bin"
 printf 'Resolved DeckTape Chrome path: %s\n' "$chrome_bin"

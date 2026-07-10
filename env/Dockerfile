@@ -8,7 +8,7 @@ ENV GDS_ENV_VERSION=$GDS_ENV_VERSION
 ARG BUILDARCH
 
 # https://github.com/ContinuumIO/docker-images/blob/master/miniconda3/Dockerfile
-ENV LANG="C.UTF-8 LC_ALL=C.UTF-8"
+ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
 
 RUN echo "Starting build of GDS env $GDS_ENV_VERSION for $BUILDARCH at: $(date)"
 
