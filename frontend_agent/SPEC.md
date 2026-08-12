@@ -55,7 +55,10 @@ Ollama-only. Via `@ai-sdk/openai-compatible`. No cloud fallback.
 The image ships a default `opencode.json` at
 `/home/jovyan/.config/opencode/opencode.json` declaring:
 
-- `ollama` provider, `baseURL` pulled from `OLLAMA_HOST` at runtime
+- `ollama` provider, `baseURL` built as `http://{env:OLLAMA_HOST}/v1` at
+  runtime — `OLLAMA_HOST` itself stays bare `host:port` (Ollama's own
+  convention); the scheme and `/v1` are added in the template since the
+  OpenAI-compatible SDK needs a real, parseable URL
 - Two models, both with `tool_call: true`:
   - `qwen3.5:35b-a3b-coding-nvfp4`
   - `gemma4:26b-64k`
@@ -136,7 +139,8 @@ dump. Your secrets stay where you put them.
 
 1. **Endpoint**: `$OLLAMA_HOST` wins if set. Otherwise read
    `provider-url.txt` next to the launcher. Otherwise fail loud with a
-   sentence telling you what to do.
+   sentence telling you what to do. Expected format is bare `host:port`,
+   no scheme — same as Ollama's own CLI/server env var convention.
 2. **DNS pin**: extract the hostname, resolve it via
    `getent`/`dscacheutil`/`dig`/`host` (Tailscale MagicDNS friendly),
    pass `--add-host hostname:ip` so the container resolves the same IP
