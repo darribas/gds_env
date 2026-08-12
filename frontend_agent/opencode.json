@@ -43,6 +43,10 @@
         "baseURL": "{env:OLLAMA_HOST}"
       },
       "models": {
+        "muse-glimmer:30b-mlx": {
+          "name": "muse-glimmer:30b-mlx",
+          "tool_call": true
+        },
         "qwen3.6:35b-a3b-coding-nvfp4-64k": {
           "name": "qwen3.6:35b-a3b-coding-nvfp4-64k",
           "tool_call": true
