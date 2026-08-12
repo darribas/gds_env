@@ -146,6 +146,12 @@ _preflight_copilot() {
 # Tailscale MagicDNS-friendly.
 _resolve_host() {
   local host="$1" ip=""
+  # Already a literal IPv4 address — nothing to resolve, and forward/reverse
+  # DNS lookups on it (e.g. Tailscale IPs with no PTR record) would wrongly fail.
+  if [[ "$host" =~ ^[0-9]{1,3}(\.[0-9]{1,3}){3}$ ]]; then
+    echo "$host"
+    return 0
+  fi
   if command -v getent >/dev/null 2>&1; then
     ip=$(getent hosts "$host" 2>/dev/null | awk '{print $1; exit}')
     [ -n "$ip" ] && { echo "$ip"; return 0; }
