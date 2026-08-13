@@ -333,6 +333,17 @@ _cmd_shell() {
 
 _cmd_update() {
   local target="${BASH_SOURCE[0]}"
+  # Follow the symlink chain to the real file (e.g. a repo-tracked
+  # utils/gdsa symlinked from ~/.local/bin) so the update lands there
+  # instead of clobbering the symlink with a standalone copy — doing the
+  # latter orphans the install from the repo and silently breaks the
+  # config mounts in _cmd_opencode, which are resolved relative to it.
+  while [ -L "$target" ]; do
+    local link
+    link="$(readlink "$target")"
+    [[ $link != /* ]] && link="$(dirname "$target")/$link"
+    target="$link"
+  done
   if [ ! -w "$target" ]; then
     _die "cannot write to $target (try: sudo gdsa update)"
   fi
