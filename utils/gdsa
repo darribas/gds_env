@@ -11,7 +11,8 @@
 #
 # Env overrides:
 #   GDSA_IMAGE     Image tag to run (default: gds_agent:latest)
-#   OLLAMA_HOST    Ollama endpoint URL (wins over provider-url.txt)
+#   OLLAMA_HOST    Ollama endpoint, bare host:port, no scheme (wins over
+#                  provider-url.txt) — same format Ollama's own CLI uses
 
 set -euo pipefail
 

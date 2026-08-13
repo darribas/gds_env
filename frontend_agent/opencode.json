@@ -40,7 +40,7 @@
       "npm": "@ai-sdk/openai-compatible",
       "name": "Ollama",
       "options": {
-        "baseURL": "{env:OLLAMA_HOST}"
+        "baseURL": "http://{env:OLLAMA_HOST}/v1"
       },
       "models": {
         "muse-glimmer:30b-mlx": {
