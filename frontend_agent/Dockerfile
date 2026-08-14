@@ -58,6 +58,7 @@ RUN /opt/conda/envs/gds/bin/pip install --no-cache-dir papermill jupytext
 #--- Baked opencode config (user mount overrides) ---#
 COPY opencode.json /home/${NB_USER}/.config/opencode/opencode.json
 COPY tui.json /home/${NB_USER}/.config/opencode/tui.json
+COPY skills/opencode-models /home/${NB_USER}/.config/opencode/skills/opencode-models
 RUN chown -R ${NB_UID}:${NB_GID} /home/${NB_USER}/.config
 
 #--- Baked Claude Code settings (user mount overrides) ---#
@@ -83,12 +84,20 @@ RUN curl -fsSL https://raw.githubusercontent.com/jupyter-ai-contrib/nb-cli/main/
 
 #--- notebook-cli skill (fetched from upstream so it tracks latest) ---#
 # opencode picks it up from ~/.config/opencode/skills/notebook-cli/
-# Claude Code picks it up from ~/CLAUDE.md (parent of workdir)
+# Claude Code has no discoverable skills/ dir here, so both notebook-cli
+# and any repo-authored skills (see frontend_agent/skills/) get
+# concatenated into the single always-loaded ~/CLAUDE.md instead. The
+# second skill's frontmatter is stripped so it doesn't leave a stray
+# YAML block mid-file.
 RUN git clone --depth 1 https://github.com/jupyter-ai-contrib/nb-cli /tmp/nbcli \
  && mkdir -p /home/${NB_USER}/.config/opencode/skills \
  && cp -r /tmp/nbcli/skills/notebook-cli /home/${NB_USER}/.config/opencode/skills/ \
  && cp /tmp/nbcli/skills/notebook-cli/SKILL.md /home/${NB_USER}/CLAUDE.md \
- && rm -rf /tmp/nbcli
+ && rm -rf /tmp/nbcli \
+ && printf '\n\n' >> /home/${NB_USER}/CLAUDE.md \
+ && awk 'BEGIN{n=0} /^---$/{n++; next} n<2{next} {print}' \
+      /home/${NB_USER}/.config/opencode/skills/opencode-models/SKILL.md \
+      >> /home/${NB_USER}/CLAUDE.md
 
 WORKDIR /home/${NB_USER}/work
 
