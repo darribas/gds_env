@@ -29,7 +29,7 @@ RUN $HOME/scripts/install_jupyter_dev.sh
 
 #--- Conda Env ---#
 
-ADD ./gds_$BUILDARCH.yml /home/${NB_USER}/gds.yml
+COPY ./gds_$BUILDARCH.yml /home/${NB_USER}/gds.yml
 ENV PATH="/opt/conda/envs/gds/bin/:${PATH}"
 RUN $HOME/scripts/install_conda_env.sh 
 
@@ -53,15 +53,15 @@ RUN $HOME/scripts/install_tippecanoe.sh
 RUN $HOME/scripts/install_decktape.sh
 
 #--- LaTeX tools ---#
-ADD ./dev/texBuild.py $HOME/
-ADD ./dev/install_texbuild.py $HOME/
+COPY ./dev/texBuild.py $HOME/
+COPY ./dev/install_texbuild.py $HOME/
 RUN $HOME/scripts/install_latex_tools.sh
 
 #--- Typst ---#
 RUN $HOME/scripts/install_typst.sh
 
 #---    Vim   ---#
-ADD ./dev/vimrc $HOME/.vimrc
+COPY ./dev/vimrc $HOME/.vimrc
 RUN $HOME/scripts/install_vim.sh
 
 #--- Frogmouth ---#

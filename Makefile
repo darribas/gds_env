@@ -1,6 +1,6 @@
 SHELL = /bin/bash
 # make command [image=image_name]
-DOCKERRUN = docker run --rm -v `pwd`:/home/jovyan/test
+DOCKERRUN = docker run --rm -v "$(CURDIR)":/home/jovyan/test
 DATE_STAMP = $(shell date +%Y-%m-%d)_$(ARCH)
 ARCH := $(shell uname -m)
 image ?= gds:$(DATE_STAMP)
@@ -79,6 +79,7 @@ build:
 		cd env && \
 		docker build -t $(image) \
 			--build-arg GDS_ENV_VERSION=$(shell echo $(image) | cut -d: -f2) \
+			--build-arg BUILDARCH=$(ARCH) \
 			--progress=plain -f Dockerfile . 2>&1 | \
 		tee build_$(ARCH).log && \
 		docker tag $(image) gds:latest
