@@ -8,8 +8,6 @@ check_dev_stack.html
 us.tif
 db_test.feather
 .jupyter/
-virtualbox/.vagrant/
-virtualbox/*.ova
 .sass-cache/
 */sass-cache/
 .claude/

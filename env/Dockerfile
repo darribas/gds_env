@@ -5,6 +5,13 @@ LABEL maintainer="Dani Arribas-Bel <D.Arribas-Bel@liverpool.ac.uk>"
 # Set version
 ARG GDS_ENV_VERSION="11.0alpha"
 ENV GDS_ENV_VERSION=$GDS_ENV_VERSION
+
+# OCI metadata so a pulled image can be traced back to this repo (audit 4.7)
+LABEL org.opencontainers.image.source="https://github.com/darribas/gds_env"
+LABEL org.opencontainers.image.version="$GDS_ENV_VERSION"
+LABEL org.opencontainers.image.description="Geographic Data Science environment: JupyterLab, Python + R geospatial stack, and CLI tooling"
+LABEL org.opencontainers.image.licenses="BSD-3-Clause"
+
 ARG BUILDARCH
 
 # https://github.com/ContinuumIO/docker-images/blob/master/miniconda3/Dockerfile
@@ -12,7 +19,7 @@ ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
 
 RUN echo "Starting build of GDS env $GDS_ENV_VERSION for $BUILDARCH at: $(date)"
 
-ADD ./*/*.sh $HOME/scripts/
+COPY ./installers/*.sh $HOME/scripts/
 USER root
 RUN chmod +x $HOME/scripts/*.sh
 USER $NB_UID
@@ -22,11 +29,9 @@ RUN $HOME/scripts/install_jupyter_dev.sh
 
 #--- Conda Env ---#
 
-ADD ./gds_$BUILDARCH.yml /home/${NB_USER}/gds.yml
+COPY ./gds_$BUILDARCH.yml /home/${NB_USER}/gds.yml
 ENV PATH="/opt/conda/envs/gds/bin/:${PATH}"
 RUN $HOME/scripts/install_conda_env.sh 
-
-#RUN $HOME/scripts/install_r_extra.sh 
 
 USER root
 
@@ -48,15 +53,15 @@ RUN $HOME/scripts/install_tippecanoe.sh
 RUN $HOME/scripts/install_decktape.sh
 
 #--- LaTeX tools ---#
-ADD ./dev/texBuild.py $HOME/
-ADD ./dev/install_texbuild.py $HOME/
+COPY ./dev/texBuild.py $HOME/
+COPY ./dev/install_texbuild.py $HOME/
 RUN $HOME/scripts/install_latex_tools.sh
 
 #--- Typst ---#
 RUN $HOME/scripts/install_typst.sh
 
 #---    Vim   ---#
-ADD ./dev/vimrc $HOME/.vimrc
+COPY ./dev/vimrc $HOME/.vimrc
 RUN $HOME/scripts/install_vim.sh
 
 #--- Frogmouth ---#
