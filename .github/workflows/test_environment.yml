@@ -1,0 +1,101 @@
+# Replaces the three dead test_* workflows (audit 2.1, 3.2), which operated on
+# `gds_py/` -- a directory deleted in the June 2024 reorg -- and so could only
+# fail. They also force-pushed to master to commit lockfiles; that whole
+# mechanism is gone (the lockfiles themselves were deleted in audit 1.9), and
+# this workflow has read-only permissions.
+#
+# What it is for now: the env specs are consumed by a multi-hour Docker build
+# that only ever runs on a maintainer's machine. Solving and creating the same
+# spec natively takes minutes and catches the common failure -- conda-forge
+# drift making the spec unsatisfiable -- long before anyone spends an evening
+# on `make build`. It is an early-warning check on env/gds_amd64.yml, not a
+# test of the published image.
+#
+# Linux/amd64 only, deliberately:
+#   * The spec is Docker-targeted. gds_arm64.yml's exclusions were computed for
+#     linux-aarch64, not osx-arm64 -- different platform, different package
+#     availability -- so it is not the macOS spec, and there is no macOS spec.
+#   * check_py_stack.ipynb resolves its own spec via `dpkg --print-architecture`
+#     (cell 4), which does not exist on macOS.
+#   * No image is published for macOS or Windows. The Windows workflow tested a
+#     `.bat` installer that no longer exists; it was deleted outright.
+name: Environment check
+
+on:
+  push:
+    branches: [master]
+    paths:
+      - 'env/gds_*.yml'
+      - 'env/py/check_py_stack.ipynb'
+      - '.github/workflows/test_environment.yml'
+  pull_request:
+    paths:
+      - 'env/gds_*.yml'
+      - 'env/py/check_py_stack.ipynb'
+      - '.github/workflows/test_environment.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  solve:
+    name: solve + import check (linux-64)
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+
+    defaults:
+      run:
+        shell: bash -leo pipefail {0}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Miniforge
+        uses: conda-incubator/setup-miniconda@v3
+        with:
+          miniforge-version: latest
+          use-mamba: true
+          auto-activate-base: true
+          activate-environment: ""
+
+      # Fails fast and cheaply if conda-forge has drifted, before spending the
+      # download budget on a full create.
+      - name: Solve the spec (dry run)
+        run: mamba env create -n gds --dry-run -f env/gds_amd64.yml
+
+      - name: Create the environment
+        run: mamba env create -n gds -f env/gds_amd64.yml
+
+      - name: Log what resolved
+        run: |
+          conda activate gds
+          conda info
+          conda list
+
+      # check_py_stack.ipynb declares kernelspec `gds` in its metadata. In the
+      # image that name is registered by install_conda_env.sh; creating the env
+      # here does not register anything, so nbconvert fails with NoSuchKernel.
+      # Register it under the same name (display name differs -- GDS_ENV_VERSION
+      # is a build arg that does not exist outside the image).
+      - name: Register the gds kernelspec
+        run: |
+          conda activate gds
+          python -m ipykernel install --user --name gds --display-name gds
+          jupyter kernelspec list
+
+      # nbconvert runs the notebook with its own directory as cwd, which is how
+      # its `../gds_<arch>.yml` lookup resolves.
+      - name: Run check_py_stack.ipynb
+        run: |
+          conda activate gds
+          jupyter nbconvert --to html --execute env/py/check_py_stack.ipynb
+
+      - name: Upload rendered notebook
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: check_py_stack
+          path: env/py/check_py_stack.html
+          if-no-files-found: warn
+          retention-days: 14

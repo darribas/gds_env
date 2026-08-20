@@ -1,0 +1,28 @@
+# hadolint config -- see .github/workflows/lint.yml
+#
+# Rules disabled below are deliberate, not aspirational. Anything not listed
+# here is expected to pass; if a build needs a new exception, add it with a
+# reason rather than silencing the rule in-line.
+ignored:
+  # DL3007 "use a fixed tag, not latest" and DL3008/DL3013/DL3016/DL3018/DL3028
+  # "pin versions in apt/pip/npm/gem". This project tracks latest deliberately
+  # -- see audit 4.1, which is won't-fix by maintainer policy. Pinning advice
+  # does not apply here.
+  - DL3007
+  # DL3006 "always tag the base image". Two distinct false positives here:
+  # frontend_{code,agent} use `FROM ${base_image}`, an ARG the Makefile fills
+  # with a real tag, which hadolint cannot see; and env/Dockerfile tracks
+  # upstream jupyter/minimal-notebook untagged on purpose (same policy as
+  # DL3007 above).
+  - DL3006
+  - DL3008
+  - DL3013
+  - DL3016
+  - DL3018
+  - DL3028
+  # DL3059 "consolidate multiple RUN instructions". The Dockerfile is
+  # deliberately one RUN per installer so a failure names the tool that broke
+  # and the layer cache survives an unrelated change. Layer hygiene is handled
+  # inside each installer instead (audit 1.1).
+  - DL3059
+failure-threshold: warning

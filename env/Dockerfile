@@ -21,17 +21,17 @@ RUN echo "Starting build of GDS env $GDS_ENV_VERSION for $BUILDARCH at: $(date)"
 
 COPY ./installers/*.sh $HOME/scripts/
 USER root
-RUN chmod +x $HOME/scripts/*.sh
+RUN chmod +x "$HOME"/scripts/*.sh
 USER $NB_UID
 
 #--- Jupyter Dev ---#
-RUN $HOME/scripts/install_jupyter_dev.sh 
+RUN "$HOME"/scripts/install_jupyter_dev.sh 
 
 #--- Conda Env ---#
 
 COPY ./gds_$BUILDARCH.yml /home/${NB_USER}/gds.yml
 ENV PATH="/opt/conda/envs/gds/bin/:${PATH}"
-RUN $HOME/scripts/install_conda_env.sh 
+RUN "$HOME"/scripts/install_conda_env.sh 
 
 USER root
 
@@ -41,34 +41,34 @@ RUN apt-get update \
  && rm -rf /var/lib/apt/lists/*
 
 #--- Quarto ---#
-RUN $HOME/scripts/install_quarto.sh
+RUN "$HOME"/scripts/install_quarto.sh
 
 #--- Jekyll ---#
-RUN $HOME/scripts/install_jekyll.sh 
+RUN "$HOME"/scripts/install_jekyll.sh 
 
 #--- tippecanoe ---#
-RUN $HOME/scripts/install_tippecanoe.sh 
+RUN "$HOME"/scripts/install_tippecanoe.sh 
 
 #--- Decktape ---#
-RUN $HOME/scripts/install_decktape.sh
+RUN "$HOME"/scripts/install_decktape.sh
 
 #--- LaTeX tools ---#
 COPY ./dev/texBuild.py $HOME/
 COPY ./dev/install_texbuild.py $HOME/
-RUN $HOME/scripts/install_latex_tools.sh
+RUN "$HOME"/scripts/install_latex_tools.sh
 
 #--- Typst ---#
-RUN $HOME/scripts/install_typst.sh
+RUN "$HOME"/scripts/install_typst.sh
 
 #---    Vim   ---#
 COPY ./dev/vimrc $HOME/.vimrc
-RUN $HOME/scripts/install_vim.sh
+RUN "$HOME"/scripts/install_vim.sh
 
 #--- Frogmouth ---#
-RUN $HOME/scripts/install_frogmouth.sh
+RUN "$HOME"/scripts/install_frogmouth.sh
 
 #---    GPQ   ---#
-RUN $HOME/scripts/install_gpq.sh 
+RUN "$HOME"/scripts/install_gpq.sh 
 
 #--- Clean up ---#
 # Cleanup is now done per-layer: each installer fixes permissions and clears its
@@ -80,7 +80,7 @@ RUN $HOME/scripts/install_gpq.sh
 # The only cross-cutting leftover is the scripts staging dir, which every RUN
 # above sources from, so it can only be removed after the last installer (as
 # root, since it was ADDed root-owned).
-RUN rm -rf $HOME/scripts
+RUN rm -rf "$HOME"/scripts
 
 USER $NB_UID
 

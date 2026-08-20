@@ -4,7 +4,8 @@
 ### Install GPQ ###
 ###################
 
-export ARCH=$(dpkg --print-architecture)
+ARCH="$(dpkg --print-architecture)"
+export ARCH
 export GPQ_VERSION=v0.22.0
 
 mkdir $HOME/gpq \

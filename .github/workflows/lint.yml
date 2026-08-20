@@ -1,0 +1,59 @@
+# Static checks for the things CI cannot otherwise reach: the Dockerfiles that
+# build the published images, and the installer scripts they run.
+#
+# Neither is exercised by any other workflow -- the images are built on a
+# maintainer's machine (docker/build_guide.md) -- so this is the only automated
+# guard against, for example, the `et -e` typo that sat in an installer for
+# years (audit 2.4).
+name: Lint
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  hadolint:
+    name: hadolint (Dockerfiles)
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        dockerfile:
+          - Dockerfile
+          - env/Dockerfile
+          - frontend_code/Dockerfile
+          - frontend_agent/Dockerfile
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: hadolint ${{ matrix.dockerfile }}
+        uses: hadolint/hadolint-action@v3.1.0
+        with:
+          dockerfile: ${{ matrix.dockerfile }}
+          config: .hadolint.yaml
+
+  shellcheck:
+    name: shellcheck (installers + gdsa)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # utils/gdsa has no .sh extension, so it is listed explicitly.
+      - name: shellcheck
+        uses: ludeeus/action-shellcheck@master
+        env:
+          # Fail on error and warning; info/style findings are reported as
+          # annotations but do not block. The outstanding info-level set is
+          # ~30 SC2086 "double quote to prevent globbing" notes across the
+          # installers -- real, but they belong with audit 3.4, which adds
+          # `set -euo pipefail` to those same scripts and needs a two-arch
+          # `make build` to verify. Tighten to `style` once 3.4 lands.
+          SHELLCHECK_OPTS: -x --severity=warning
+        with:
+          additional_files: gdsa
+          ignore_paths: docs

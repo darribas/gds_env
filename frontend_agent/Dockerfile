@@ -19,8 +19,16 @@ RUN apt-get update \
 ARG CACHEBUST=1
 RUN echo "cachebust=${CACHEBUST}" > /dev/null
 
+# Three of the installs below are `curl ... | bash`. Without pipefail the
+# pipeline reports bash's status, so a failed download yields a successful
+# layer and a missing tool (hadolint DL4006).
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+
 #--- GitHub CLI (official apt repo) ---#
-RUN mkdir -p -m 755 /etc/apt/keyrings \
+# `mkdir -p -m` only applies the mode to the deepest directory (SC2174),
+# so set it explicitly.
+RUN mkdir -p /etc/apt/keyrings \
+ && chmod 755 /etc/apt/keyrings \
  && curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg \
       -o /etc/apt/keyrings/githubcli-archive-keyring.gpg \
  && chmod go+r /etc/apt/keyrings/githubcli-archive-keyring.gpg \
