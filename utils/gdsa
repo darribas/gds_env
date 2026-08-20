@@ -13,6 +13,9 @@
 #   GDSA_IMAGE     Image tag to run (default: gds_agent:latest)
 #   OLLAMA_HOST    Ollama endpoint, bare host:port, no scheme (wins over
 #                  provider-url.txt) — same format Ollama's own CLI uses
+#   OPENAI_HOST    Optional second, OpenAI-compatible endpoint, bare host:port,
+#                  no scheme (wins over openai-provider-url.txt). Independent
+#                  of OLLAMA_HOST — may point at a different machine.
 
 set -euo pipefail
 
@@ -263,6 +266,29 @@ _cmd_opencode() {
     _die "could not resolve $hostname — check DNS / Tailscale"
   echo "gdsa: resolved $hostname -> $resolved_ip"
 
+  # Resolve optional OpenAI-compatible endpoint: env wins, else
+  # openai-provider-url.txt next to script. Independent of OLLAMA_HOST —
+  # may be a different machine — so it's skipped entirely (not an error)
+  # if neither is set.
+  local openai_host="${OPENAI_HOST:-}"
+  if [ -z "$openai_host" ]; then
+    local openai_url_file="${SCRIPT_DIR}/openai-provider-url.txt"
+    [ -f "$openai_url_file" ] && openai_host=$(cat "$openai_url_file")
+  fi
+  local openai_hostname="" openai_add_host=()
+  if [ -n "$openai_host" ]; then
+    openai_hostname=$(echo "$openai_host" | sed -E 's|^https?://||' | cut -d':' -f1 | cut -d'/' -f1)
+    local openai_resolved_ip
+    openai_resolved_ip=$(_resolve_host "$openai_hostname") || \
+      _die "could not resolve $openai_hostname — check DNS / Tailscale"
+    echo "gdsa: resolved $openai_hostname -> $openai_resolved_ip"
+    # Only needed if it's a different host than Ollama's — otherwise the
+    # --add-host below for $hostname already covers it, and docker rejects
+    # a duplicate --add-host for the same hostname.
+    [ "$openai_hostname" != "$hostname" ] && \
+      openai_add_host=(--add-host "${openai_hostname}:${openai_resolved_ip}")
+  fi
+
   _mount_common
   _mount_if_exists "$HOME/.local/share/opencode"                       "${CONTAINER_HOME}/.local/share/opencode"           rw
   _mount_if_exists "${SCRIPT_DIR}/../frontend_agent/opencode.json"     "${CONTAINER_HOME}/.config/opencode/opencode.json"  ro
@@ -270,6 +296,7 @@ _cmd_opencode() {
   _mount_if_exists "$HOME/.config/gh"                                  "${CONTAINER_HOME}/.config/gh"                      rw
 
   ENVS+=(-e "OLLAMA_HOST=${ollama_host}")
+  [ -n "$openai_host" ] && ENVS+=(-e "OPENAI_HOST=${openai_host}")
   ENVS+=(-e "GLAMOUR_STYLE=dark")
 
   # Pass opencode config as content env var — reliable fallback when the file
@@ -308,6 +335,7 @@ _cmd_opencode() {
 
   docker run --rm -it \
     --add-host "${hostname}:${resolved_ip}" \
+    ${openai_add_host[@]+"${openai_add_host[@]}"} \
     -v "${path}:${WORKDIR}" \
     -w "${WORKDIR}" \
     ${MOUNTS[@]+"${MOUNTS[@]}"} \
