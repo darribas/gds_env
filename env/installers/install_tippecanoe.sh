@@ -1,3 +1,5 @@
+#!/bin/bash
+
 apt-get update \
  && apt-get -y install build-essential libsqlite3-dev zlib1g-dev
 

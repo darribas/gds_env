@@ -73,6 +73,17 @@ jobs:
           conda info
           conda list
 
+      # check_py_stack.ipynb declares kernelspec `gds` in its metadata. In the
+      # image that name is registered by install_conda_env.sh; creating the env
+      # here does not register anything, so nbconvert fails with NoSuchKernel.
+      # Register it under the same name (display name differs -- GDS_ENV_VERSION
+      # is a build arg that does not exist outside the image).
+      - name: Register the gds kernelspec
+        run: |
+          conda activate gds
+          python -m ipykernel install --user --name gds --display-name gds
+          jupyter kernelspec list
+
       # nbconvert runs the notebook with its own directory as cwd, which is how
       # its `../gds_<arch>.yml` lookup resolves.
       - name: Run check_py_stack.ipynb

@@ -3,6 +3,10 @@ FROM ${base_image}
 
 USER root
 
+# Without pipefail, `curl ... | sh` reports the exit status of `sh`, so a
+# failed download silently produces a successful layer (hadolint DL4006).
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+
 RUN curl -fsSL https://code-server.dev/install.sh | sh
 
 # latexmk is provided by the base gds image (env/installers/install_latex_tools.sh),

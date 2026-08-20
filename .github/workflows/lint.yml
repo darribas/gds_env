@@ -47,7 +47,13 @@ jobs:
       - name: shellcheck
         uses: ludeeus/action-shellcheck@master
         env:
-          SHELLCHECK_OPTS: -x
+          # Fail on error and warning; info/style findings are reported as
+          # annotations but do not block. The outstanding info-level set is
+          # ~30 SC2086 "double quote to prevent globbing" notes across the
+          # installers -- real, but they belong with audit 3.4, which adds
+          # `set -euo pipefail` to those same scripts and needs a two-arch
+          # `make build` to verify. Tighten to `style` once 3.4 lands.
+          SHELLCHECK_OPTS: -x --severity=warning
         with:
           additional_files: gdsa
           ignore_paths: docs

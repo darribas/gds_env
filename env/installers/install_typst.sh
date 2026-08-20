@@ -8,7 +8,8 @@
 # Complements the LaTeX toolchain and is also usable outside Quarto's
 # bundled `quarto typst` command (e.g. for authoring plain .typ files).
 
-export ARCH=$(dpkg --print-architecture)
+ARCH="$(dpkg --print-architecture)"
+export ARCH
 
 case "$ARCH" in
   amd64) export TYPST_ARCH="x86_64" ;;
