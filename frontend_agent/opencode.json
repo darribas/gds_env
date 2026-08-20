@@ -72,6 +72,19 @@
           "tool_call": true
         }
       }
+    },
+    "openai": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "OpenAI Compatible",
+      "options": {
+        "baseURL": "http://{env:OPENAI_HOST}/v1"
+      },
+      "models": {
+        "bonsai-27b": {
+          "name": "bonsai-27b",
+          "tool_call": true
+        }
+      }
     }
   }
 }

@@ -23,3 +23,4 @@ build.log
 */build*.log
 */test_*.log
 utils/provider-url.txt
+utils/openai-provider-url.txt
