@@ -10,7 +10,8 @@
 1. [ ] Update check notebooks if needed (`env/py/check_py_stack.ipynb`, `env/r/check_r_stack.ipynb`)
 1. [ ] Run tests: `make test image=darribas/gds:<version>`
 1. [ ] Write stack files: `make write_stacks image=darribas/gds:<version>`
-1. [ ] Confirm CI passes and explicit env files are written
+1. [ ] Confirm the **Environment check** workflow is green (`.github/workflows/test_environment.yml`)
+1. [ ] Confirm the **Lint** workflow is green (`.github/workflows/lint.yml`)
 1. [ ] Push image to Docker Hub: `docker push darribas/gds:<version>`
 
 ### Build `gds_code`

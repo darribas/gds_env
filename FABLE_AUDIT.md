@@ -6,7 +6,7 @@
 
 ## Scoreboard
 
-**16 of 37 done · 3 partial · 16 open · 2 closed without action**
+**18 of 37 done · 4 partial · 13 open · 2 closed without action**
 
 | | Meaning |
 |---|---|
@@ -18,8 +18,8 @@
 
 | Finding | | Finding | | Finding | | Finding | |
 |---|---|---|---|---|---|---|---|
-| 1.1 | ✅ | 2.1 | ⬜ | 3.1 | ⬜ | 4.1 | ⛔ |
-| 1.2 | ✅ | 2.2 | ✅ | 3.2 | ⬜ | 4.2 | ⬜ |
+| 1.1 | ✅ | 2.1 | ✅ | 3.1 | ⬜ | 4.1 | ⛔ |
+| 1.2 | ✅ | 2.2 | ✅ | 3.2 | ✅ | 4.2 | 🟡 |
 | 1.3 | ✅ | 2.3 | ✅ | 3.3 | ⬜ | 4.3 | ✅ |
 | 1.4 | ⬜ | 2.4 | ✅ | 3.4 | 🟡 | 4.4 | 🟡 |
 | 1.5 | ⬜ | 2.5 | ⬜ | 3.5 | ✅ | 4.5 | ⬜ |
@@ -31,7 +31,7 @@
 | | | 2.11 | ✅ | | | | |
 | | | 2.12 | ✅ | | | | |
 
-**Remediation history:** PR #103 (audit merged) · #104 (1.2, 1.3, 3.8) · #105 (1.1) · #118 (1.9, 2.2, 2.4, 2.7, 2.8, 2.10 part, 2.11, 2.12, 3.5, 4.3, 4.6, 4.7) · `11fe264` (2.3) · `51e44eb` (4.4a).
+**Remediation history:** PR #103 (audit merged) · #104 (1.2, 1.3, 3.8) · #105 (1.1) · #118 (1.9, 2.2, 2.4, 2.7, 2.8, 2.10 part, 2.11, 2.12, 3.5, 4.3, 4.6, 4.7) · #119 (2.1, 3.2, 4.2a) · `11fe264` (2.3) · `51e44eb` (4.4a).
 
 **Standing constraints that override any proposal below:**
 - **No version pinning.** The project tracks latest deliberately. 4.1 is won't-fix; any proposed fix reading "pin X" is void (3.8 was solved without pinning for this reason).
@@ -58,7 +58,7 @@ Whatever model executes, items touching the image build should be validated with
 | # | Finding | Where | Impact | Now |
 |---|---------|-------|--------|-----|
 | 1 | `fix-permissions $CONDA_DIR` and all cleanup run in **separate layers**, so deletions save nothing and the permissions pass likely *duplicates the multi-GB conda tree* in a new layer | `env/Dockerfile:71-90` | Very large image-size win | ✅ 1.1 |
-| 2 | Three of four GitHub workflows are **dead** — they reference a `gds_py/` directory deleted in the June 2024 reorg | `.github/workflows/test_python_environment_*.yml`, `test_windows_installer.yml` | CI is silently broken; release checklist relies on it | ⬜ 2.1 |
+| 2 | Three of four GitHub workflows are **dead** — they reference a `gds_py/` directory deleted in the June 2024 reorg | `.github/workflows/test_python_environment_*.yml`, `test_windows_installer.yml` | CI is silently broken; release checklist relies on it | ✅ 2.1 |
 | 3 | 11 of 13 installer scripts have **no `set -e`**, and several end in cleanup commands that mask failures — a failed `mamba env create` can still produce a "successful" build | `env/installers/*.sh` | Silent build corruption | 🟡 3.4 |
 | 4 | The image ships (at least) **two Chromium copies** (pyppeteer + DeckTape's puppeteer/playwright) plus X11 `-dev` header packages it doesn't need at runtime | `env/installers/install_conda_env.sh`, `install_decktape.sh` | ~300–500 MB | ✅ 1.2/1.3 |
 | 5 | `ENV LANG="C.UTF-8 LC_ALL=C.UTF-8"` sets one broken variable instead of two | `env/Dockerfile:11` | Locale misconfigured in every image | ✅ 2.3 |
@@ -166,9 +166,9 @@ In Docker's overlay filesystem, a layer can only *add* bytes; deleting or modify
 
 ## 2. Contradictions
 
-### 2.1 CI references a directory that no longer exists ⬜
+### 2.1 CI references a directory that no longer exists ✅
 
-**Status: TODO** — Unchanged: all three `test_*` workflows still reference the deleted `gds_py/`. **Highest-value item still open.**
+**Status: DONE** — The three dead workflows are gone. `test_windows_installer.yml` deleted outright (the `.bat` installer it tested no longer exists); the other two replaced by `test_environment.yml`, which solves and creates `env/gds_amd64.yml` natively and runs `check_py_stack.ipynb`. Modernised throughout: `checkout@v4`, `setup-miniconda@v3`, Miniforge (Mambaforge was discontinued upstream in 2024). The force-push-to-master lockfile mechanism is deleted, not fixed — those lockfiles went in 1.9 — and the workflow is `permissions: contents: read`. Release checklist updated to name the new workflows. PR #119.
 
 `test_python_environment_linux.yml`, `test_python_environment_macos.yml` and `test_windows_installer.yml` all operate on `gds_py/gds_py.yml`, `gds_py/check_py_stack.ipynb`, `gds_py/gds_py_win_installer.bat` — paths deleted in commit `a2c7e32` ("main big reorg into single Dockerfile under env", June 2024). They can only fail (they trigger on push to `master`). Meanwhile `docker/release_checklist.md` step "Confirm CI passes and explicit env files are written" assumes they work. Additional latent issues in the same files: `actions/checkout@v2` and `setup-miniconda@v2` (deprecated), `miniforge-variant: Mambaforge` (discontinued upstream in 2024), and `ad-m/github-push-action@master` with `force: true` (force-push to master from CI). Fix the paths and drop Windows-installer testing (the `.bat` installer no longer exists at all), or delete the workflows.
 
@@ -315,9 +315,9 @@ If SPEC.md is meant to be a living document, reconcile it; if it was a one-off d
 **Proposed fix:** Implement option 1: a canonical `env/gds.yml` plus `env/arm64_exclusions.txt` (seeded from today's diff, cleaned up via 2.5's solves), and a ~30-line Python script invoked by `make build` that emits `gds_$(ARCH).yml`. Keep the generated files committed initially so nothing downstream breaks, with a CI check that they match the generator's output.
 **Model:** Sonnet 5 — a small generator plus Make/CI wiring; correctness is mechanical once 2.5 settles the exclusion list.
 
-### 3.2 Three near-identical CI workflows ⬜
+### 3.2 Three near-identical CI workflows ✅
 
-**Status: TODO** — Unchanged; no work of its own beyond 2.1's rewrite.
+**Status: DONE** — Collapsed into `test_environment.yml`, but **as a single linux-64 job, not the `[ubuntu-latest, macos-latest]` matrix proposed below**. A real solve settled it: `env/gds_amd64.yml` does not resolve on osx-arm64 — `r-lidr`, `r-rlas`, `r-rmariadb`, `r-spatialreg`, `r-stm`, `r-topicmodels` and `r-wellknown` have no osx-arm64 build, and `r-ggpmisc` needs `r-splus2r`, which likewise has none. Independently, `check_py_stack.ipynb` picks its spec via `dpkg --print-architecture`, which does not exist on macOS. There is no macOS spec and no macOS image; a macOS job could only ever be red. Reasoning recorded in the workflow header. PR #119.
 
 `test_python_environment_linux.yml` and `test_python_environment_macos.yml` differ only in `runs-on` and the output filename; the Windows one differs only in the install step. When fixing them (2.1), collapse into one workflow with `strategy.matrix.os: [ubuntu-latest, macos-latest]` — with the Windows installer gone, its workflow should simply be deleted.
 
@@ -411,9 +411,9 @@ Unpinned-at-build-time today: Quarto (`latest` from download JSON), Typst (`rele
 **Proposed fix:** Adopt a per-image pinning policy (see plan item 10) and implement it as `<TOOL>_VERSION` variables at the top of each installer, following the GPQ pattern: Quarto and Typst from versioned release URLs, tippecanoe from a release tag, code-server via the installer's `--version` flag. Where feasible add a `sha256sum -c` for the downloaded artifact. Leave the agent image on declared-latest but say so in SPEC.md.
 **Model:** Sonnet 5 — repetitive but each pin needs its current-latest looked up and the build re-verified; a checksum mistake bricks the build.
 
-### 4.2 No CI exercises the Dockerfiles ⬜
+### 4.2 No CI exercises the Dockerfiles 🟡
 
-**Status: TODO** — Unchanged: no hadolint, shellcheck or Dockerfile build in CI. Note shellcheck would have caught 2.4's `et -e`.
+**Status: PARTIAL** — **(a) DONE** — `lint.yml` runs hadolint over all four Dockerfiles and shellcheck over the installers plus `utils/gdsa`, on every PR. `.hadolint.yaml` disables the six pin-versions rules with a pointer to 4.1 (won't-fix policy) rather than silencing them in-line. **(b) `image_build.yml` shipped as `workflow_dispatch` only — the monthly schedule proposed below was deliberately NOT set.** A ~16 GB image on a runner that starts with ~14 GB free needs the disk-reclaim step to fit at all, and a cold `make build` runs for hours against a 6-hour ceiling; a scheduled job that fails most months trains people to ignore CI. Enable `schedule:` once a manual run proves reliable. Never yet executed — see the validation-debt note in §5.
 
 The only working workflow builds the website. The actual product — the image — is built and tested exclusively on a maintainer's machine (`docker/build_guide.md`). Even without pushing multi-GB images from CI, two cheap wins: (a) `hadolint` on all four Dockerfiles + `shellcheck` on `env/installers/*.sh` and `utils/gdsa` in a PR workflow (shellcheck would have caught `et -e` and the unquoted `${MOUNTS[@]}`-style pitfalls); (b) an on-demand (`workflow_dispatch`) build of `env/Dockerfile` to catch bit-rot between releases.
 

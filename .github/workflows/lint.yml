@@ -1,0 +1,53 @@
+# Static checks for the things CI cannot otherwise reach: the Dockerfiles that
+# build the published images, and the installer scripts they run.
+#
+# Neither is exercised by any other workflow -- the images are built on a
+# maintainer's machine (docker/build_guide.md) -- so this is the only automated
+# guard against, for example, the `et -e` typo that sat in an installer for
+# years (audit 2.4).
+name: Lint
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  hadolint:
+    name: hadolint (Dockerfiles)
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        dockerfile:
+          - Dockerfile
+          - env/Dockerfile
+          - frontend_code/Dockerfile
+          - frontend_agent/Dockerfile
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: hadolint ${{ matrix.dockerfile }}
+        uses: hadolint/hadolint-action@v3.1.0
+        with:
+          dockerfile: ${{ matrix.dockerfile }}
+          config: .hadolint.yaml
+
+  shellcheck:
+    name: shellcheck (installers + gdsa)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # utils/gdsa has no .sh extension, so it is listed explicitly.
+      - name: shellcheck
+        uses: ludeeus/action-shellcheck@master
+        env:
+          SHELLCHECK_OPTS: -x
+        with:
+          additional_files: gdsa
+          ignore_paths: docs

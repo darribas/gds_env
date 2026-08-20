@@ -1,0 +1,75 @@
+# On-demand build of the main `gds` image, to catch bit-rot between releases.
+#
+# NOT on a schedule, deliberately. Two constraints make an unattended recurring
+# build unrealistic on GitHub-hosted runners, and a scheduled job that fails
+# most months is worse than none -- it trains people to ignore CI:
+#
+#   * Disk. The built image is ~16 GB (measured on arm64 after audit 1.1);
+#     intermediate layers and the conda package cache push peak usage well past
+#     that. A standard ubuntu-latest runner starts with ~14 GB free, so the
+#     reclaim step below is load-bearing, and it is still tight.
+#   * Time. A cold `make build` takes hours (docker/build_guide.md); the job
+#     ceiling is 6.
+#
+# So: run it by hand when you want a bit-rot check, read the result, and if it
+# proves reliable, add `schedule:` here. amd64 only -- GitHub offers no free
+# Linux arm64 runner, and arm64 remains a maintainer-machine build.
+name: Build image (on demand)
+
+on:
+  workflow_dispatch:
+    inputs:
+      run_tests:
+        description: "Run `make test` after the build (adds ~30 min)"
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: make build (amd64)
+    runs-on: ubuntu-latest
+    timeout-minutes: 350
+
+    steps:
+      - uses: actions/checkout@v4
+
+      # Removes preinstalled toolchains (Android SDK, .NET, GHC, CodeQL...)
+      # that this build never uses. Reclaims ~30 GB; without it the build runs
+      # out of disk partway through the conda solve.
+      - name: Reclaim runner disk
+        uses: jlumbroso/free-disk-space@main
+        with:
+          tool-cache: true
+          large-packages: false   # slow, and apt is needed later in the build
+
+      - name: Disk before build
+        run: df -h /
+
+      - uses: docker/setup-buildx-action@v3
+
+      - name: Build
+        run: make build image=gds:ci
+
+      - name: Disk after build
+        if: always()
+        run: df -h / && docker images gds:ci
+
+      - name: Test
+        if: inputs.run_tests
+        run: make test image=gds:ci
+
+      # The check notebooks render to HTML beside themselves; the logs are the
+      # useful artifact when something fails.
+      - name: Upload logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-and-test-logs
+          path: |
+            env/build_*.log
+            env/test_*.log
+          if-no-files-found: warn
+          retention-days: 14
