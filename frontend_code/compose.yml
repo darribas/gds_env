@@ -1,16 +1,23 @@
 ---
+# Reference compose file for gds_code (code-server / VS Code in the browser).
+# Copy and edit: the PASSWORD and HOST_PATH placeholders below must be replaced.
 services:
         gds_code:
-                image: gds_code:11.0alpha
+                # Bump at release time — see docker/release_checklist.md
+                image: gds_code:11.0
                 container_name: gds_code
                 environment:
                         - TZ=Etc/UTC
+                        # code-server login password — replace, or drop the line
+                        # to let code-server generate one in its config file
                         - PASSWORD=<YOUR PASSWORD> #optional
                         - DEFAULT_WORKSPACE=/home/jovyan #optional
                 volumes:
+                        # Replace /HOST_PATH/ with the project dir to work on
                         - /HOST_PATH/:/home/jovyan/work
                 ports:
+                        # code-server UI
                         - 8443:8080
+                        # Jekyll dev server (`make website_local` inside the container)
                         - 4000:4000
                 restart: unless-stopped
-

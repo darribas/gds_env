@@ -1,3 +1,10 @@
+<!--
+This file is a website include: `make website_build` copies it into
+website/_includes/ and Jekyll renders it at https://darribas.org/gds_env/guides/docker_install.
+The relative links below are site-relative and resolve there, NOT when
+reading this file on GitHub.
+-->
+
 # Install on Docker
 
 ## Installing Docker

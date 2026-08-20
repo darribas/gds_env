@@ -1,1 +1,4 @@
-url: "http://192.168.1.93:4000"
+# Overrides for `make website_local` (Jekyll served from inside a container).
+# Override locally if you serve from another host, e.g.
+# `url: "http://<your-host>:4000"` — do not commit a machine-specific address.
+url: "http://localhost:4000"
