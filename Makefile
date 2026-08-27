@@ -14,7 +14,19 @@ endif
 ifeq ($(ARCH), aarch64)
 	    ARCH := arm64
 endif
-test:
+
+# env/gds.yml is the single source of truth; the per-arch specs are generated
+# from it and gitignored (audit 3.1). `env/Dockerfile` COPYs gds_$(ARCH).yml
+# from the env/ build context, and check_py_stack.ipynb reads it from the
+# mounted repo at test time -- so both build and test depend on it.
+SPEC = env/gds_$(ARCH).yml
+
+$(SPEC): env/gds.yml env/generate_spec.py
+	python3 env/generate_spec.py --arch $(ARCH) --out $@
+
+env-specs: $(SPEC)
+
+test: $(SPEC)
 	@py=0; r=0; dev=0; \
 	$(DOCKERRUN) $(image) start.sh /opt/conda/envs/gds/bin/jupyter nbconvert --to html --execute /home/jovyan/test/env/py/check_py_stack.ipynb 2>&1 | tee env/test_py.log; \
 	[ $${PIPESTATUS[0]} -eq 0 ] && py=1; \
@@ -29,7 +41,7 @@ test:
 	[ $$dev -eq 1 ] && echo "  Dev    : PASS" || echo "  Dev    : FAIL (see env/test_dev.log)"; \
 	echo "=================================="; \
 	[ $$py -eq 1 ] && [ $$r -eq 1 ] && [ $$dev -eq 1 ]
-test_py:
+test_py: $(SPEC)
 	$(DOCKERRUN) $(image) start.sh /opt/conda/envs/gds/bin/jupyter nbconvert --to html --execute /home/jovyan/test/env/py/check_py_stack.ipynb 2>&1 | tee env/test_py.log
 test_r:
 	$(DOCKERRUN) $(image) start.sh /opt/conda/envs/gds/bin/jupyter nbconvert --to html --execute /home/jovyan/test/env/r/check_r_stack.ipynb 2>&1 | tee env/test_r.log
@@ -73,7 +85,7 @@ website_local: website_build
 				 --config  _config.yml,_config.docker.yml
 website_clean:
 	rm -rf website/_includes website/_site
-build:
+build: $(SPEC)
 	set -o pipefail; \
 	rm -f env/build_$(ARCH).log && \
 		cd env && \
@@ -144,6 +156,6 @@ install_gdsa:
 	    fi ;; \
 	esac
 
-.PHONY: test test_py test_r test_dev write_stacks write_py_stack \
+.PHONY: env-specs test test_py test_r test_dev write_stacks write_py_stack \
         write_r_stack write_py_explicit website website_build website_local \
         website_clean build build_code build_agent install_gdsa

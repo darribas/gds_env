@@ -8,11 +8,20 @@
 # that only ever runs on a maintainer's machine. Solving and creating the same
 # spec natively takes minutes and catches the common failure -- conda-forge
 # drift making the spec unsatisfiable -- long before anyone spends an evening
-# on `make build`. It is an early-warning check on env/gds_amd64.yml, not a
-# test of the published image.
+# on `make build`. It is an early-warning check on the env spec, not a test of
+# the published image.
 #
-# Linux/amd64 only, deliberately:
-#   * The spec is Docker-targeted. gds_arm64.yml's exclusions were computed for
+# Both architectures are checked, at different depths (audit 3.1). The per-arch
+# specs are generated from env/gds.yml, which is the only committed one.
+#   * linux-64 gets a full create plus an import check -- the runner's native
+#     platform, so the environment can actually be built and used.
+#   * linux-aarch64 gets a dry-run solve. `--platform` resolves a foreign subdir
+#     without installing anything, which is how audit 2.5 verified the arm64
+#     exclusion list in the first place. Cheap, and until now the arm64 spec had
+#     no automated check at all.
+#
+# Not macOS, deliberately:
+#   * The spec is Docker-targeted. The arm64 exclusions were computed for
 #     linux-aarch64, not osx-arm64 -- different platform, different package
 #     availability -- so it is not the macOS spec, and there is no macOS spec.
 #   * check_py_stack.ipynb resolves its own spec via `dpkg --print-architecture`
@@ -25,12 +34,14 @@ on:
   push:
     branches: [master]
     paths:
-      - 'env/gds_*.yml'
+      - 'env/gds.yml'
+      - 'env/generate_spec.py'
       - 'env/py/check_py_stack.ipynb'
       - '.github/workflows/test_environment.yml'
   pull_request:
     paths:
-      - 'env/gds_*.yml'
+      - 'env/gds.yml'
+      - 'env/generate_spec.py'
       - 'env/py/check_py_stack.ipynb'
       - '.github/workflows/test_environment.yml'
   workflow_dispatch:
@@ -58,6 +69,13 @@ jobs:
           use-mamba: true
           auto-activate-base: true
           activate-environment: ""
+
+      # env/gds_amd64.yml is generated and gitignored (audit 3.1), so it does
+      # not exist in a fresh checkout. check_py_stack.ipynb reads it too.
+      - name: Generate the linux-64 spec
+        run: |
+          python3 env/generate_spec.py --arch amd64 --out env/gds_amd64.yml
+          cat env/gds_amd64.yml
 
       # Fails fast and cheaply if conda-forge has drifted, before spending the
       # download budget on a full create.
@@ -99,3 +117,35 @@ jobs:
           path: env/py/check_py_stack.html
           if-no-files-found: warn
           retention-days: 14
+
+  solve-arm64:
+    name: solve (linux-aarch64, dry run)
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    defaults:
+      run:
+        shell: bash -leo pipefail {0}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Miniforge
+        uses: conda-incubator/setup-miniconda@v3
+        with:
+          miniforge-version: latest
+          use-mamba: true
+          auto-activate-base: true
+          activate-environment: ""
+
+      - name: Generate the linux-aarch64 spec
+        run: |
+          python3 env/generate_spec.py --arch arm64 --out env/gds_arm64.yml
+          cat env/gds_arm64.yml
+
+      # Resolves the aarch64 subdir from an x86 runner -- no emulation, no
+      # install. A failure here means a flag in env/gds.yml is missing or stale:
+      # some package, or a dependency of one, has no linux-aarch64 build. Each
+      # flag comment names its reason and the date it was checked.
+      - name: Solve the spec (dry run)
+        run: mamba env create -n gds --dry-run --platform linux-aarch64 -f env/gds_arm64.yml
