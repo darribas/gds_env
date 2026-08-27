@@ -140,7 +140,7 @@ dependencies:
   - r-stars
   - r-terra
   - r-tidync
-  - r-tmap>=4 # Off until v4 is on conda
+  - r-tmap>=4
   - r-geor
   - r-geosphere
     ## GDS

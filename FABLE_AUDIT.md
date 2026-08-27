@@ -6,7 +6,7 @@
 
 ## Scoreboard
 
-**18 of 37 done · 4 partial · 13 open · 2 closed without action**
+**19 of 37 done · 4 partial · 12 open · 2 closed without action**
 
 | | Meaning |
 |---|---|
@@ -22,7 +22,7 @@
 | 1.2 | ✅ | 2.2 | ✅ | 3.2 | ✅ | 4.2 | 🟡 |
 | 1.3 | ✅ | 2.3 | ✅ | 3.3 | ⬜ | 4.3 | ✅ |
 | 1.4 | ⬜ | 2.4 | ✅ | 3.4 | 🟡 | 4.4 | 🟡 |
-| 1.5 | ⬜ | 2.5 | ⬜ | 3.5 | ✅ | 4.5 | ⬜ |
+| 1.5 | ⬜ | 2.5 | ✅ | 3.5 | ✅ | 4.5 | ⬜ |
 | 1.6 | ⬜ | 2.6 | ⬜ | 3.6 | ⬜ | 4.6 | ✅ |
 | 1.7 | ⛔ | 2.7 | ✅ | 3.7 | ⬜ | 4.7 | ✅ |
 | 1.8 | ⬜ | 2.8 | ✅ | 3.8 | ✅* | | |
@@ -31,7 +31,7 @@
 | | | 2.11 | ✅ | | | | |
 | | | 2.12 | ✅ | | | | |
 
-**Remediation history:** PR #103 (audit merged) · #104 (1.2, 1.3, 3.8) · #105 (1.1) · #118 (1.9, 2.2, 2.4, 2.7, 2.8, 2.10 part, 2.11, 2.12, 3.5, 4.3, 4.6, 4.7) · #119 (2.1, 3.2, 4.2a) · `11fe264` (2.3) · `51e44eb` (4.4a).
+**Remediation history:** PR #103 (audit merged) · #104 (1.2, 1.3, 3.8) · #105 (1.1) · #118 (1.9, 2.2, 2.4, 2.7, 2.8, 2.10 part, 2.11, 2.12, 3.5, 4.3, 4.6, 4.7) · #119 (2.1, 3.2, 4.2a) · #120 (2.5) · `11fe264` (2.3) · `51e44eb` (4.4a).
 
 **Standing constraints that override any proposal below:**
 - **No version pinning.** The project tracks latest deliberately. 4.1 is won't-fix; any proposed fix reading "pin X" is void (3.8 was solved without pinning for this reason).
@@ -212,9 +212,9 @@ The release checklist covers three of these; `.gitpod.yml` and `frontend_code/co
 **Proposed fix:** `git rm env/installers/install_r_extra.sh`, delete the commented `RUN` at `env/Dockerfile:29`, and remove the stale `# Off until v4 is on conda` comment from both yml files.
 **Model:** Haiku 4.5 — pure deletion, fully specified.
 
-### 2.5 amd64 vs arm64 environment specs disagree beyond architecture ⬜
+### 2.5 amd64 vs arm64 environment specs disagree beyond architecture ✅
 
-**Status: TODO** — Unchanged and confirmed live: `r-tmap>=4` (amd64) vs bare `r-tmap` (arm64), plus the pysal and myst_nb divergences. Each needs an arm64 solve to justify.
+**Status: DONE** — Every divergence resolved against a real solve, as the fix below demands. **44 R packages plus `myst_nb` and `polars-h3` restored to arm64**: they had gained `linux-aarch64` or `noarch` builds since the exclusion list was written, so the arm64 image had been shipping a materially thinner R stack than amd64 for no current reason (`r-igraph`, `r-caret`, `r-plotly`, `r-raster`, `r-brms`, `r-ranger`, `r-nlme` among them). Package-level availability was *not* sufficient: a `--platform linux-aarch64` solve then rejected four of them — `r-geojsonio`, `r-ggpmisc`, `r-mapview` and `r-tidytext` are themselves available, but their deps `r-jqr`, `r-splus2r`, `r-leafpop` and `r-hunspell` are not — so they stay excluded with that reason named. 13 exclusions remain, each annotated inline with its reason and the date checked. Pins aligned: `pysal==24.7` → `pysal` and `geopandas>=1.0` → `geopandas>=1` (both are `noarch`, so nothing about the architecture justified a difference); `r-tmap` → `r-tmap>=4` on arm64, and the stale "Off until v4 is on conda" comment dropped from amd64 — r-tmap 4.4_1 is on conda-forge as `noarch`. Verified by solve on linux-aarch64: the rebuilt spec resolves, and the arm64 environment goes from **931 to 1127 packages** (+196 including transitive deps). `r-rgdal`/`r-rgeos` also had the arm64-only `#####` marker despite being retired on both arches; normalised. A header block now documents the three comment conventions and the date of the last exclusion re-check. PR #120.
 
 `diff env/gds_amd64.yml env/gds_arm64.yml` shows, besides the expected mass-commenting of R packages unavailable on arm64:
 
@@ -304,7 +304,7 @@ If SPEC.md is meant to be a living document, reconcile it; if it was a one-off d
 
 ### 3.1 The two 214-line environment specs ⬜
 
-**Status: TODO** — Unchanged: two hand-mirrored 214-line specs. Depends on 2.5 settling the exclusion list first.
+**Status: TODO** — Unchanged: two hand-mirrored specs. **Now unblocked** — 2.5 has settled the exclusion list, so the generator has a verified 13-entry input to consume (12 R packages + `simplification`, each with a machine-readable reason already in the file). The `#####` convention is documented in the arm64 header.
 
 `env/gds_amd64.yml` and `env/gds_arm64.yml` are the same document maintained twice, with arm64 divergence expressed as `#####`-commented lines. Every package change must be mirrored by hand, and 2.5 shows it already hasn't been. Options, in increasing order of rigour:
 
