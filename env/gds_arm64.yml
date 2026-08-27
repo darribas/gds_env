@@ -3,19 +3,24 @@
 # This file mirrors env/gds_amd64.yml. Any package change must be made in BOTH.
 #
 # Comment conventions, which differ and are load-bearing:
-#   #####- pkg   excluded on arm64 ONLY -- conda-forge has no linux-aarch64
-#                build. Every one carries its reason and the date it was last
-#                checked. These are the only lines that may differ from the
-#                amd64 spec.
+#   #####- pkg   excluded on arm64 ONLY -- not installable on linux-aarch64,
+#                either because conda-forge has no build for the package
+#                itself or because one of its dependencies has none. Every one
+#                carries its reason and the date it was last checked. These
+#                are the only lines that may differ from the amd64 spec.
 #   ####- pkg    excluded on BOTH arches (kept for provenance).
-#   #- pkg       excluded on BOTH arches (kept for provenance).
+#   #- pkg       likewise excluded on BOTH arches -- the two markers are
+#                historical and mean the same thing.
 #
-# Last full re-check of the arm64 exclusion set: 2026-08-20 (audit 2.5). 48 of
-# the 56 packages previously excluded here had gained linux-aarch64 or noarch
-# builds since the list was written, and were restored; the 9 exclusions below
-# (8 R packages + simplification) were confirmed still unavailable and verified
-# by a `mamba env create --dry-run --platform linux-aarch64` solve of this file
-# (931 -> 1127 packages resolved).
+# Last full re-check of the arm64 exclusion set: 2026-08-20 (audit 2.5). Of the
+# 56 packages previously excluded here, 48 had gained linux-aarch64 or noarch
+# builds since the list was written. 44 of those were restored; a
+# `mamba env create --dry-run --platform linux-aarch64` solve of this file
+# rejected the other four (r-geojsonio, r-ggpmisc, r-mapview, r-tidytext --
+# available themselves, but their deps are not), so those stay excluded with
+# the blocking dep named. That leaves the 13 exclusions below (12 R packages
+# + simplification), and the restored spec resolves clean on linux-aarch64
+# (931 -> 1127 packages).
 # Re-check periodically -- conda-forge arm64 coverage keeps improving.
 name: gds
 channels:
