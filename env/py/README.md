@@ -20,6 +20,9 @@ make write_py_stack image=gds:<tag>  # regenerates the stack_py_* listings
 
 ## Where the package list lives
 
-Not here. Packages are declared in `env/gds_amd64.yml` / `env/gds_arm64.yml`
-(one conda env, `gds`, carrying both Python and R). The `stack_py_*` files are
-**generated** — record what a build produced, never edit them by hand.
+Not here. Packages are declared in `env/gds.yml` (one conda env, `gds`,
+carrying both Python and R). It is the source of truth for every architecture:
+`env/gds_amd64.yml` and `env/gds_arm64.yml` are **generated** from it by
+`make env-specs` and are gitignored, so edit `env/gds.yml`. The `stack_py_*`
+files are also **generated** — they record what a build produced, never edit
+them by hand.

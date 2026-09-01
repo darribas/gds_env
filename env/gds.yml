@@ -1,27 +1,41 @@
-# GDS environment spec -- linux-aarch64 (arm64).
+# GDS environment spec -- the single source of truth for both architectures.
 #
-# This file mirrors env/gds_amd64.yml. Any package change must be made in BOTH.
+# Per-architecture specs are GENERATED from this file, never committed:
 #
-# Comment conventions, which differ and are load-bearing:
-#   #####- pkg   excluded on arm64 ONLY -- not installable on linux-aarch64,
-#                either because conda-forge has no build for the package
-#                itself or because one of its dependencies has none. Every one
-#                carries its reason and the date it was last checked. These
-#                are the only lines that may differ from the amd64 spec.
-#   ####- pkg    excluded on BOTH arches (kept for provenance).
-#   #- pkg       likewise excluded on BOTH arches -- the two markers are
-#                historical and mean the same thing.
+#     make env-specs            # writes env/gds_<arch>.yml for this host
+#     python3 env/generate_spec.py --arch arm64 --out env/gds_arm64.yml
 #
-# Last full re-check of the arm64 exclusion set: 2026-08-20 (audit 2.5). Of the
-# 56 packages previously excluded here, 48 had gained linux-aarch64 or noarch
-# builds since the list was written. 44 of those were restored; a
-# `mamba env create --dry-run --platform linux-aarch64` solve of this file
-# rejected the other four (r-geojsonio, r-ggpmisc, r-mapview, r-tidytext --
-# available themselves, but their deps are not), so those stay excluded with
-# the blocking dep named. That leaves the 13 exclusions below (12 R packages
-# + simplification), and the restored spec resolves clean on linux-aarch64
-# (931 -> 1127 packages).
-# Re-check periodically -- conda-forge arm64 coverage keeps improving.
+# `make build` and `make test` generate what they need automatically. The
+# generated files are gitignored; do not edit them, and do not commit them.
+#
+# Architecture flags
+# ------------------
+# A package available everywhere is a plain entry:
+#
+#     - r-sf
+#
+# A package unavailable on some architecture stays a live entry and carries a
+# flag naming the arch it is excluded from, the reason, and the date checked:
+#
+#     - r-duckdb   # !arm64: no linux-aarch64 build (checked 2026-08-20)
+#
+# The generator drops flagged lines when building that arch's spec and strips
+# the flag comment everywhere else, so a generated spec is a plain package
+# list. Flags are metadata for humans and the generator; they never reach
+# conda.
+#
+# Other comment markers, which are NOT flags:
+#   ####- pkg    retired on both arches, kept for provenance. Never emitted.
+#   #- pkg       likewise -- the two markers are historical and synonymous.
+#
+# Exclusion review
+# ----------------
+# Last full re-check: 2026-08-20 (audit 2.5). Of the 56 packages then excluded
+# on arm64, 48 had gained linux-aarch64 or noarch builds since the list was
+# written; 44 were restored, and a `--platform linux-aarch64` solve rejected
+# the other four (available themselves, but their deps are not). That leaves
+# the 13 flags below. Re-check periodically -- conda-forge arm64 coverage
+# keeps improving, and every flag is a package arm64 users do not get.
 name: gds
 channels:
   - conda-forge
@@ -103,7 +117,7 @@ dependencies:
   - rpy2-arrow
   - scikit-learn
   - seaborn
-  #####- simplification  # arm64: no linux-aarch64 build (checked 2026-08-20)
+  - simplification  # !arm64: no linux-aarch64 build (checked 2026-08-20)
   - spatialpandas
   - sqlalchemy
   - statsmodels
@@ -132,9 +146,9 @@ dependencies:
   - r-dbplyr
   - r-dbi
   - r-dtplyr
-  #####- r-duckdb  # arm64: no linux-aarch64 build (checked 2026-08-20)
+  - r-duckdb  # !arm64: no linux-aarch64 build (checked 2026-08-20)
   - r-rmariadb
-  #####- r-rpostgres  # arm64: no linux-aarch64 build (checked 2026-08-20)
+  - r-rpostgres  # !arm64: no linux-aarch64 build (checked 2026-08-20)
   - r-rsqlite
   - r-fst
     ## Geospatial
@@ -145,21 +159,21 @@ dependencies:
   - r-deldir
   - r-gstat
   - r-hdf5r
-  #####- r-lidr  # arm64: no linux-aarch64 build (checked 2026-08-20)
+  - r-lidr  # !arm64: no linux-aarch64 build (checked 2026-08-20)
   - r-mapdata
   - r-maptools
-  #####- r-mapview  # arm64: dep r-leafpop has no linux-aarch64 build (checked 2026-08-20)
+  - r-mapview  # !arm64: dep r-leafpop has no linux-aarch64 build (checked 2026-08-20)
   - r-ncdf4
   - r-proj4
   - r-raster
     #- r-rgdal
     #- r-rgeos
-  #####- r-rlas  # arm64: no linux-aarch64 build (checked 2026-08-20)
+  - r-rlas  # !arm64: no linux-aarch64 build (checked 2026-08-20)
   - r-sf
   - r-sp
   - r-spacetime
   - r-spatstat
-  #####- r-spatialreg  # arm64: no linux-aarch64 build (checked 2026-08-20)
+  - r-spatialreg  # !arm64: no linux-aarch64 build (checked 2026-08-20)
   - r-spdep
   - r-stars
   - r-terra
@@ -192,11 +206,11 @@ dependencies:
   - r-caret
   - r-factoextra
   - r-feather
-  #####- r-geojsonio  # arm64: dep r-jqr has no linux-aarch64 build (checked 2026-08-20)
+  - r-geojsonio  # !arm64: dep r-jqr has no linux-aarch64 build (checked 2026-08-20)
   - r-ggimage
   - r-ggcorrplot
   - r-ggformula
-  #####- r-ggpmisc  # arm64: dep r-splus2r has no linux-aarch64 build (checked 2026-08-20)
+  - r-ggpmisc  # !arm64: dep r-splus2r has no linux-aarch64 build (checked 2026-08-20)
   - r-ggthemes
   - r-glmmtmb
   - r-hexbin
@@ -220,18 +234,18 @@ dependencies:
   - r-showtext
   - r-snowballc
   - r-splancs
-  #####- r-stm  # arm64: no linux-aarch64 build (checked 2026-08-20)
+  - r-stm  # !arm64: no linux-aarch64 build (checked 2026-08-20)
     #- r-stplanr
     #- r-textdata
   - r-tidycensus
   - r-tidygeocoder
-  #####- r-tidytext  # arm64: dep r-hunspell has no linux-aarch64 build (checked 2026-08-20)
+  - r-tidytext  # !arm64: dep r-hunspell has no linux-aarch64 build (checked 2026-08-20)
   - r-tm
-  #####- r-topicmodels  # arm64: no linux-aarch64 build (checked 2026-08-20)
+  - r-topicmodels  # !arm64: no linux-aarch64 build (checked 2026-08-20)
   - r-traminer
   - r-tufte
     #- r-vader
-  #####- r-wellknown  # arm64: no linux-aarch64 build (checked 2026-08-20)
+  - r-wellknown  # !arm64: no linux-aarch64 build (checked 2026-08-20)
     #- geoarrow
   #--- Other ---#
   - rust

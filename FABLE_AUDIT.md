@@ -6,7 +6,7 @@
 
 ## Scoreboard
 
-**19 of 37 done · 4 partial · 12 open · 2 closed without action**
+**20 of 37 done · 4 partial · 11 open · 2 closed without action**
 
 | | Meaning |
 |---|---|
@@ -18,7 +18,7 @@
 
 | Finding | | Finding | | Finding | | Finding | |
 |---|---|---|---|---|---|---|---|
-| 1.1 | ✅ | 2.1 | ✅ | 3.1 | ⬜ | 4.1 | ⛔ |
+| 1.1 | ✅ | 2.1 | ✅ | 3.1 | ✅ | 4.1 | ⛔ |
 | 1.2 | ✅ | 2.2 | ✅ | 3.2 | ✅ | 4.2 | 🟡 |
 | 1.3 | ✅ | 2.3 | ✅ | 3.3 | ⬜ | 4.3 | ✅ |
 | 1.4 | ⬜ | 2.4 | ✅ | 3.4 | 🟡 | 4.4 | 🟡 |
@@ -31,7 +31,7 @@
 | | | 2.11 | ✅ | | | | |
 | | | 2.12 | ✅ | | | | |
 
-**Remediation history:** PR #103 (audit merged) · #104 (1.2, 1.3, 3.8) · #105 (1.1) · #118 (1.9, 2.2, 2.4, 2.7, 2.8, 2.10 part, 2.11, 2.12, 3.5, 4.3, 4.6, 4.7) · #119 (2.1, 3.2, 4.2a) · #120 (2.5) · `11fe264` (2.3) · `51e44eb` (4.4a).
+**Remediation history:** PR #103 (audit merged) · #104 (1.2, 1.3, 3.8) · #105 (1.1) · #118 (1.9, 2.2, 2.4, 2.7, 2.8, 2.10 part, 2.11, 2.12, 3.5, 4.3, 4.6, 4.7) · #119 (2.1, 3.2, 4.2a) · #120 (2.5) · #122 (3.1) · `11fe264` (2.3) · `51e44eb` (4.4a).
 
 **Standing constraints that override any proposal below:**
 - **No version pinning.** The project tracks latest deliberately. 4.1 is won't-fix; any proposed fix reading "pin X" is void (3.8 was solved without pinning for this reason).
@@ -302,9 +302,15 @@ If SPEC.md is meant to be a living document, reconcile it; if it was a one-off d
 
 ## 3. Duplication and streamlining
 
-### 3.1 The two 214-line environment specs ⬜
+### 3.1 The two 214-line environment specs ✅
 
-**Status: TODO** — Unchanged: two hand-mirrored specs. **Now unblocked** — 2.5 has settled the exclusion list, so the generator has a verified 13-entry input to consume (12 R packages + `simplification`, each with a machine-readable reason already in the file). The `#####` convention is documented in the arm64 header.
+**Status: DONE** — One committed spec, `env/gds.yml`; the per-arch files are generated and gitignored. Architecture differences are **inline flags on live entries** rather than a sidecar exclusion list: `- r-duckdb  # !arm64: no linux-aarch64 build (checked 2026-08-20)`. `env/generate_spec.py` drops flagged lines for the arch they exclude and strips the flag comment everywhere else, so a generated spec is a plain package list; the transform is purely subtractive. `make build` and `make test` generate what they need via a `$(SPEC)` prerequisite, so the Dockerfile's `COPY ./gds_$BUILDARCH.yml` is unchanged.
+
+This departs from the proposed fix in two ways, both deliberate. **No canonical `gds.yml` separate from the amd64 spec** — after 2.5, amd64 excludes nothing, so the canonical list *is* the amd64 spec and a third file would have been pure indirection. **Generated files are not committed**, contrary to "keep the generated files committed initially": committed generated artifacts are exactly the 1.9 problem, and the proposal's own CI freshness check exists only to police a staleness risk that not committing removes outright. The cost is that the effective arm64 spec is no longer readable on GitHub — accepted, since the flags put the reasoning inline in the source where it is reviewed.
+
+Verified without Docker: the generator reproduces `gds_amd64.yml` **byte-for-byte** against the file #120 shipped, and the arm64 output has an identical package set and solves to **1127 packages** on `linux-aarch64` — the same number #120 reported. CI gains a second job, a `--platform linux-aarch64` dry-run solve, so **the arm64 spec is now checked on every PR for the first time**. PR #122.
+
+Shipped alongside: `make check-flags` (`env/check_flags.py`) asks conda-forge whether each flag still holds, since a flag is a dated claim rather than a fact — 2.5 found 48 of 56 had gone stale. It reports the flagged package *or* the dependency the flag blames, and how old each check is. It screens; it does not decide, because 2.5 showed availability is necessary but not sufficient. Run on 2026-09-01 it confirmed all 13 flags still hold. The workflows for re-checking flags and for adding a package are written up in `frontend_agent/skills/env-packages/SKILL.md`, and `make check-flags` is now a pre-release checklist step.
 
 `env/gds_amd64.yml` and `env/gds_arm64.yml` are the same document maintained twice, with arm64 divergence expressed as `#####`-commented lines. Every package change must be mirrored by hand, and 2.5 shows it already hasn't been. Options, in increasing order of rigour:
 
@@ -485,16 +491,16 @@ The **entire quick-win tier** is cleared (items 1–4: 1.9, 2.2, 2.3, 2.4, 2.7, 
 Since the 2026-08-20 rewrite, two more of the numbered items below have landed:
 
 - **The broken-CI cluster — 2.1 + 3.2 + 4.2a** (PR #119). The three dead workflows are gone, replaced by `test_environment.yml` (a single linux-64 job, not the proposed macOS matrix — a real solve showed `gds_amd64.yml` cannot resolve on osx-arm64) and `lint.yml` (hadolint + shellcheck on every PR, which caught four masked `curl … | sh` failures). **Remnant: 4.2b** — `image_build.yml` ships `workflow_dispatch`-only and has never run.
+- **3.1 — the yml pair collapsed into one spec** (PR #122). `env/gds.yml` is the only committed spec; per-arch files are generated and gitignored, with arch differences as inline `# !arm64:` flags. CI now dry-run solves linux-aarch64 too — the arm64 spec's first automated check.
 - **2.5 — the arm64 half of the yml pair** (PR #120). 44 R packages plus `myst_nb` and `polars-h3` restored to arm64, every divergence justified by a `--platform linux-aarch64` solve; 13 annotated exclusions remain. **This unblocks 3.1**, which now has a verified, machine-readable exclusion list to consume.
 
 ### Next up
 
 1. **3.4 — `set -euo pipefail` across the 10 remaining installers.** *(Sonnet 5; Opus 4.8 on call)* Needs a two-arch `make build` and budget for a diagnosis pass, since strict mode will surface latent failures. **Requires a session with Docker** — do not attempt otherwise. The CI cluster landing first was its precondition: shellcheck in CI is what stops the next `et -e`, and a working test workflow is what makes 3.4's fallout visible.
-2. **3.1 — collapse the two hand-mirrored env specs.** *(Sonnet 5)* Unblocked by 2.5: the generator's input is the 13-entry exclusion list (12 R packages + `simplification`), each already carrying its reason and the date it was checked in the arm64 header. **The highest-value item that does not need Docker** — `mamba … --dry-run` on both platforms is the same verification method that made 2.5 trustworthy, so it suits the Docker-less sessions this project keeps getting.
-3. **2.6 + 3.7 — the `gds_agent` doc/config seam.** *(Haiku 4.5)* SPEC.md is now further adrift than the audit recorded (a second OpenAI-compatible provider landed in PR #117). Reconcile SPEC against `opencode.json`, `gdsa` and `compose.yml` in one pass, and label the file normative or historical.
-4. **Cheap independents, batchable:** 1.6 (delete one duplicated pip line), 2.9 (drop `github-pages`), 3.3 (`test_%` pattern rule), 3.9 (`VERSION` file), 4.2b (enable `image_build.yml`'s `schedule:` once a manual run proves reliable), 2.10's remaining `whitelist` item (**needs a running container**).
-5. **1.4 + 1.5 — the remaining size work.** *(Sonnet 5)* Both are evidence-gated: 1.4 needs build-log archaeology on `rust`/`cython` before removal; 1.5 needs the Node PATH resolution observed in the built agent image. Neither is a paper exercise.
-6. **4.5 — write down the base-vs-gds env seam.** *(Opus 4.8)* Investigation-heavy, edit-light; the risk is canonising a misunderstanding.
+2. **2.6 + 3.7 — the `gds_agent` doc/config seam.** *(Haiku 4.5)* SPEC.md is now further adrift than the audit recorded (a second OpenAI-compatible provider landed in PR #117). Reconcile SPEC against `opencode.json`, `gdsa` and `compose.yml` in one pass, and label the file normative or historical.
+3. **Cheap independents, batchable:** 1.6 (delete one duplicated pip line), 2.9 (drop `github-pages`), 3.3 (`test_%` pattern rule), 3.9 (`VERSION` file), 4.2b (enable `image_build.yml`'s `schedule:` once a manual run proves reliable), 2.10's remaining `whitelist` item (**needs a running container**).
+4. **1.4 + 1.5 — the remaining size work.** *(Sonnet 5)* Both are evidence-gated: 1.4 needs build-log archaeology on `rust`/`cython` before removal; 1.5 needs the Node PATH resolution observed in the built agent image. Neither is a paper exercise.
+5. **4.5 — write down the base-vs-gds env seam.** *(Opus 4.8)* Investigation-heavy, edit-light; the risk is canonising a misunderstanding.
 
 ### Blocked on a maintainer decision
 
@@ -511,7 +517,7 @@ Since the 2026-08-20 rewrite, two more of the numbered items below have landed:
 
 ### Outstanding validation debt
 
-No remediation session so far has had Docker. **`make build` and `make test` have not been run on either architecture** across PRs #104, #105, #118, #119 and #120. CI now covers what it can without Docker — `lint.yml` and `test_environment.yml` are green on #119 — but neither builds an image. Specifically unverified: the DeckTape amd64 path (3.8 — `DECKTAPE_AMD64_HANDOFF.md` in the working tree is the briefing for that), the new OCI labels (4.7), `--build-arg BUILDARCH` under the legacy builder (4.3), the `SHELL … pipefail` additions to the two frontend Dockerfiles (4.2 triage), and `image_build.yml` itself, which has never run. **#120 is now the largest single exposure**: 44 R packages that have never been compiled into this image will be on the next arm64 build, and a solve proves only that the spec resolves.
+No remediation session so far has had Docker. **`make build` and `make test` have not been run on either architecture** across PRs #104, #105, #118, #119, #120 and #122. CI now covers what it can without Docker — `lint.yml` and `test_environment.yml` are green on #119 — but neither builds an image. Specifically unverified: the DeckTape amd64 path (3.8 — `DECKTAPE_AMD64_HANDOFF.md` in the working tree is the briefing for that), the new OCI labels (4.7), `--build-arg BUILDARCH` under the legacy builder (4.3), the `SHELL … pipefail` additions to the two frontend Dockerfiles (4.2 triage), and `image_build.yml` itself, which has never run. #122 adds one new unverified surface, a small one: the Dockerfile is untouched and its generated amd64 spec is byte-identical to #120's, so the risk is confined to the Makefile `$(SPEC)` prerequisite firing before `docker build` and `make test`. **#120 is now the largest single exposure**: 44 R packages that have never been compiled into this image will be on the next arm64 build, and a solve proves only that the spec resolves.
 
 ---
 
