@@ -25,7 +25,7 @@ jupyter lab --generate-config \
  && echo "conda activate gds" >> /home/${NB_USER}/.bashrc \
  && echo "c.KernelSpecManager.ensure_native_kernel = False" >> \
  /home/${NB_USER}/.jupyter/jupyter_lab_config.py \
- && echo "c.KernelSpecManager.whitelist = {'gds', 'ir', 'bash'}" >> \
+ && echo "c.KernelSpecManager.allowed_kernelspecs = {'gds', 'ir', 'bash'}" >> \
  /home/${NB_USER}/.jupyter/jupyter_lab_config.py \
  && jupyter kernelspec remove -y python3
 

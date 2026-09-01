@@ -23,6 +23,11 @@ pip install \
          jupyterlab_widgets \
          jupyter_leaflet \
          jupytext
+# jupytext is also in the gds env (env/gds.yml). The copy here is deliberate
+# until someone checks it: it sits among the Lab *server* extensions, and
+# jupytext ships one, so the server side may need it in the base env. Confirm
+# with `jupyter labextension list` in a running image before removing (audit
+# 1.6).
 # Bash kernel
 python -m bash_kernel.install
 # Clean (in-layer: caches purged and permissions fixed in the same RUN as the

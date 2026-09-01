@@ -33,13 +33,26 @@ env-specs: $(SPEC)
 check-flags:
 	python3 env/check_flags.py --source env/gds.yml
 
+# One definition of "execute a check notebook", used by both the test_%
+# pattern rule and the `test` aggregate (audit 3.3). $(1) is the stack name,
+# which is also the directory and the notebook infix: env/py/check_py_stack.ipynb.
+run_check = $(DOCKERRUN) $(image) start.sh /opt/conda/envs/gds/bin/jupyter nbconvert --to html --execute /home/jovyan/test/env/$(1)/check_$(1)_stack.ipynb 2>&1 | tee env/test_$(1).log
+
+# NOTE: test_py/test_r/test_dev are deliberately NOT in .PHONY. make skips the
+# implicit-rule search for phony targets, so listing them there would stop this
+# pattern rule from ever matching and `make test_py` would fail outright.
+test_%: $(SPEC)
+	$(call run_check,$*)
+
+# Runs all three even if one fails, prints the summary, then exits non-zero if
+# any failed. PIPESTATUS[0] is the nbconvert status -- $$? would be tee's.
 test: $(SPEC)
 	@py=0; r=0; dev=0; \
-	$(DOCKERRUN) $(image) start.sh /opt/conda/envs/gds/bin/jupyter nbconvert --to html --execute /home/jovyan/test/env/py/check_py_stack.ipynb 2>&1 | tee env/test_py.log; \
+	$(call run_check,py); \
 	[ $${PIPESTATUS[0]} -eq 0 ] && py=1; \
-	$(DOCKERRUN) $(image) start.sh /opt/conda/envs/gds/bin/jupyter nbconvert --to html --execute /home/jovyan/test/env/r/check_r_stack.ipynb 2>&1 | tee env/test_r.log; \
+	$(call run_check,r); \
 	[ $${PIPESTATUS[0]} -eq 0 ] && r=1; \
-	$(DOCKERRUN) $(image) start.sh /opt/conda/envs/gds/bin/jupyter nbconvert --to html --execute /home/jovyan/test/env/dev/check_dev_stack.ipynb 2>&1 | tee env/test_dev.log; \
+	$(call run_check,dev); \
 	[ $${PIPESTATUS[0]} -eq 0 ] && dev=1; \
 	echo ""; \
 	echo "========== Test Summary =========="; \
@@ -48,12 +61,7 @@ test: $(SPEC)
 	[ $$dev -eq 1 ] && echo "  Dev    : PASS" || echo "  Dev    : FAIL (see env/test_dev.log)"; \
 	echo "=================================="; \
 	[ $$py -eq 1 ] && [ $$r -eq 1 ] && [ $$dev -eq 1 ]
-test_py: $(SPEC)
-	$(DOCKERRUN) $(image) start.sh /opt/conda/envs/gds/bin/jupyter nbconvert --to html --execute /home/jovyan/test/env/py/check_py_stack.ipynb 2>&1 | tee env/test_py.log
-test_r:
-	$(DOCKERRUN) $(image) start.sh /opt/conda/envs/gds/bin/jupyter nbconvert --to html --execute /home/jovyan/test/env/r/check_r_stack.ipynb 2>&1 | tee env/test_r.log
-test_dev:
-	$(DOCKERRUN) $(image) start.sh /opt/conda/envs/gds/bin/jupyter nbconvert --to html --execute /home/jovyan/test/env/dev/check_dev_stack.ipynb 2>&1 | tee env/test_dev.log
+
 write_stacks: write_py_stack write_r_stack
 write_py_stack:
 	$(DOCKERRUN) $(image) start.sh bash -c "conda list -n gds > /home/jovyan/test/env/py/stack_py_$(ARCH).txt"
@@ -163,6 +171,6 @@ install_gdsa:
 	    fi ;; \
 	esac
 
-.PHONY: env-specs check-flags test test_py test_r test_dev write_stacks write_py_stack \
+.PHONY: env-specs check-flags test write_stacks write_py_stack \
         write_r_stack write_py_explicit website website_build website_local \
         website_clean build build_code build_agent install_gdsa
