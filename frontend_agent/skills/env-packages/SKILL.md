@@ -47,8 +47,13 @@ mamba env create -n _check --dry-run --platform linux-aarch64 -f env/gds_arm64.y
 ```
 
 `--platform` resolves a foreign subdir from any host — no emulation, no
-install — so **arm64 is verifiable from an x86 machine**. This is how audit
-2.5 established the current flag set.
+install — so **the arm64 spec is verifiable from any machine**, whatever it
+runs on. The CI job proves it: `solve (linux-aarch64, dry run)` runs on
+`ubuntu-latest` (x86_64) and resolves the aarch64 spec there.
+
+`make check-flags` is likewise architecture-independent — it queries
+conda-forge over HTTP and reads package metadata, so it needs network access
+and nothing else.
 
 Report the resolved package count from each solve. A large unexplained swing
 is a finding, not a detail.
