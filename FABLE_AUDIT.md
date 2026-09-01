@@ -310,6 +310,8 @@ This departs from the proposed fix in two ways, both deliberate. **No canonical 
 
 Verified without Docker: the generator reproduces `gds_amd64.yml` **byte-for-byte** against the file #120 shipped, and the arm64 output has an identical package set and solves to **1127 packages** on `linux-aarch64` — the same number #120 reported. CI gains a second job, a `--platform linux-aarch64` dry-run solve, so **the arm64 spec is now checked on every PR for the first time**. PR #122.
 
+Shipped alongside: `make check-flags` (`env/check_flags.py`) asks conda-forge whether each flag still holds, since a flag is a dated claim rather than a fact — 2.5 found 48 of 56 had gone stale. It reports the flagged package *or* the dependency the flag blames, and how old each check is. It screens; it does not decide, because 2.5 showed availability is necessary but not sufficient. Run on 2026-09-01 it confirmed all 13 flags still hold. The workflows for re-checking flags and for adding a package are written up in `frontend_agent/skills/env-packages/SKILL.md`, and `make check-flags` is now a pre-release checklist step.
+
 `env/gds_amd64.yml` and `env/gds_arm64.yml` are the same document maintained twice, with arm64 divergence expressed as `#####`-commented lines. Every package change must be mirrored by hand, and 2.5 shows it already hasn't been. Options, in increasing order of rigour:
 
 1. **Single spec + exclusion list:** one `gds.yml` plus a short `arm64_exclusions.txt`; a tiny script (run in `make build` or a pre-commit hook) generates the arch files. The diff *is* the exclusion list already.

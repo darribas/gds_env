@@ -4,6 +4,7 @@
 
 ### Build and test
 
+1. [ ] Re-check the architecture flags: `make check-flags` (they are dated claims, and arm64 coverage keeps improving — see audit 2.5)
 1. [ ] Update `env/gds.yml` with any package changes (the per-arch specs are generated from it; see its header for the `# !arch:` flag syntax)
 1. [ ] Update `GDS_ENV_VERSION` arg in `env/Dockerfile` (or pass via `make build`)
 1. [ ] Build the image: `make build image=darribas/gds:<version>`

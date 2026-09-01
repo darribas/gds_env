@@ -26,6 +26,13 @@ $(SPEC): env/gds.yml env/generate_spec.py
 
 env-specs: $(SPEC)
 
+# Asks conda-forge whether the `# !arch:` flags in env/gds.yml still hold --
+# they are dated claims, not facts, and arm64 coverage keeps improving
+# (audit 2.5 found 48 of 56 exclusions had gone stale). Screening only; a
+# solve decides. See frontend_agent/skills/env-packages/SKILL.md.
+check-flags:
+	python3 env/check_flags.py --source env/gds.yml
+
 test: $(SPEC)
 	@py=0; r=0; dev=0; \
 	$(DOCKERRUN) $(image) start.sh /opt/conda/envs/gds/bin/jupyter nbconvert --to html --execute /home/jovyan/test/env/py/check_py_stack.ipynb 2>&1 | tee env/test_py.log; \
@@ -156,6 +163,6 @@ install_gdsa:
 	    fi ;; \
 	esac
 
-.PHONY: env-specs test test_py test_r test_dev write_stacks write_py_stack \
+.PHONY: env-specs check-flags test test_py test_r test_dev write_stacks write_py_stack \
         write_r_stack write_py_explicit website website_build website_local \
         website_clean build build_code build_agent install_gdsa

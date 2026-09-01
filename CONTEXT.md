@@ -25,6 +25,7 @@ env/Dockerfile            The main build. Calls scripts from env/installers/ in 
 env/installers/*.sh       One tool per script. Run inside Dockerfile layers.
 env/gds.yml               Conda spec, SOURCE OF TRUTH for both arches. Edit only this.
 env/generate_spec.py      Emits env/gds_<arch>.yml from it. Those are gitignored.
+env/check_flags.py        `make check-flags` — re-checks the flags against conda-forge.
                           Arch differences are `# !arm64:` flags on the entry.
 env/{py,r,dev}/           Check notebooks (used by `make test`) + generated stack listings.
 Makefile                  build / test / website targets. Recipes are TABS, /bin/bash.
