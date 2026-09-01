@@ -6,7 +6,7 @@
 
 ## Scoreboard
 
-**20 of 37 done · 4 partial · 11 open · 2 closed without action**
+**23 of 37 done · 4 partial · 8 open · 2 closed without action**
 
 | | Meaning |
 |---|---|
@@ -20,18 +20,18 @@
 |---|---|---|---|---|---|---|---|
 | 1.1 | ✅ | 2.1 | ✅ | 3.1 | ✅ | 4.1 | ⛔ |
 | 1.2 | ✅ | 2.2 | ✅ | 3.2 | ✅ | 4.2 | 🟡 |
-| 1.3 | ✅ | 2.3 | ✅ | 3.3 | ⬜ | 4.3 | ✅ |
+| 1.3 | ✅ | 2.3 | ✅ | 3.3 | ✅ | 4.3 | ✅ |
 | 1.4 | ⬜ | 2.4 | ✅ | 3.4 | 🟡 | 4.4 | 🟡 |
 | 1.5 | ⬜ | 2.5 | ✅ | 3.5 | ✅ | 4.5 | ⬜ |
-| 1.6 | ⬜ | 2.6 | ⬜ | 3.6 | ⬜ | 4.6 | ✅ |
+| 1.6 | 🟡 | 2.6 | ⬜ | 3.6 | ⬜ | 4.6 | ✅ |
 | 1.7 | ⛔ | 2.7 | ✅ | 3.7 | ⬜ | 4.7 | ✅ |
 | 1.8 | ⬜ | 2.8 | ✅ | 3.8 | ✅* | | |
-| 1.9 | ✅ | 2.9 | ⬜ | 3.9 | ⬜ | | |
-| | | 2.10 | 🟡 | | | | |
+| 1.9 | ✅ | 2.9 | ✅* | 3.9 | ⬜ | | |
+| | | 2.10 | ✅* | | | | |
 | | | 2.11 | ✅ | | | | |
 | | | 2.12 | ✅ | | | | |
 
-**Remediation history:** PR #103 (audit merged) · #104 (1.2, 1.3, 3.8) · #105 (1.1) · #118 (1.9, 2.2, 2.4, 2.7, 2.8, 2.10 part, 2.11, 2.12, 3.5, 4.3, 4.6, 4.7) · #119 (2.1, 3.2, 4.2a) · #120 (2.5) · #122 (3.1) · `11fe264` (2.3) · `51e44eb` (4.4a).
+**Remediation history:** PR #103 (audit merged) · #104 (1.2, 1.3, 3.8) · #105 (1.1) · #118 (1.9, 2.2, 2.4, 2.7, 2.8, 2.10 part, 2.11, 2.12, 3.5, 4.3, 4.6, 4.7) · #119 (2.1, 3.2, 4.2a) · #120 (2.5) · #122 (3.1) · #124 (1.6 part, 2.9, 2.10, 3.3) · `11fe264` (2.3) · `51e44eb` (4.4a).
 
 **Standing constraints that override any proposal below:**
 - **No version pinning.** The project tracks latest deliberately. 4.1 is won't-fix; any proposed fix reading "pin X" is void (3.8 was solved without pinning for this reason).
@@ -126,9 +126,9 @@ In Docker's overlay filesystem, a layer can only *add* bytes; deleting or modify
 **Proposed fix:** Delete the NodeSource layer from `frontend_agent/Dockerfile` and let the harness `npm install -g` use the conda Node 22 already on PATH (which is what actually resolves today anyway). Verify `claude`, `opencode`, `copilot` and each LSP binary launch in the built image. If a system Node is preferred instead, the conda `nodejs` must come out of `install_jupyter_dev.sh` — one or the other.
 **Model:** Sonnet 5 — the edit is small but PATH/prefix behaviour across root vs `$NB_UID` layers needs checking in the built image, not assumed.
 
-### 1.6 Repeated installs of the same Python packages ⬜
+### 1.6 Repeated installs of the same Python packages 🟡
 
-**Status: TODO** — Unchanged: `frontend_agent/Dockerfile:56` still pip-installs `papermill jupytext` over the conda copies.
+**Status: PARTIAL** — The third install is gone: `frontend_agent/Dockerfile`'s `pip install papermill jupytext` into the gds env is deleted, since `env/gds.yml` already carries both. **Still open by choice:** the base-env `jupytext` in `install_jupyter_dev.sh`. Deciding it needs `jupyter labextension list` in a running image, and no session has had Docker; the entry sits among the Lab *server* extensions and jupytext ships one, so removing it unverified could break the server-side integration. Left in place with an in-file comment saying exactly what to check and why it is still there, so the next reader does not re-open it blind. PR #124.
 
 `papermill` and `jupytext` are in the gds env (`env/gds_amd64.yml:48,35`); `jupytext` is pip-installed *again* into the base env (`install_jupyter_dev.sh:26`); and `frontend_agent/Dockerfile:52` pip-installs `papermill jupytext` into the gds env a third time (a guaranteed no-op or, worse, a version override of the conda install). At minimum drop the frontend_agent layer.
 
@@ -260,18 +260,18 @@ If SPEC.md is meant to be a living document, reconcile it; if it was a one-off d
 **Proposed fix:** Drop the dead `export` line; move `_includes` cleanup out of the serve chain (either a separate `website_clean` target or leave the dir — it's gitignored). While there, prefix the recipe with `JEKYLL_ENV=docker` inline on the serve command itself.
 **Model:** Haiku 4.5 — small, but review by eye that the recipe still reads as one shell where it must.
 
-### 2.9 Jekyll toolchains conflict inside the image ⬜
+### 2.9 Jekyll toolchains conflict inside the image ✅*
 
-**Status: TODO** — Unchanged: `install_jekyll.sh` still installs `github-pages` (which pins Jekyll 3.10) alongside unpinned Jekyll 4.x.
+**Status: DONE — in-image build UNVERIFIED** — `github-pages` dropped: it exists to pin Jekyll to GitHub's legacy 3.10 while the same line installed unpinned Jekyll 4.x, so the resolution was whatever RubyGems happened to pick. The site is built with Jekyll 4 (root `Gemfile`) and served from static `docs/`, so nothing needed the meta-gem. `jekyll-seo-tag` **added** — `website/_config.yml` declares it under `plugins:` but the image never shipped it. `jekyll-scholar` **kept, on the maintainer's call**: course sites built inside the image use it for bibliographies, even though this repo's own site does not — so the audit's "unless a course site still needs it" is answered, not skipped. Note the proposed `-v '~> 4.3'` pin was *not* applied; pinning is void under 4.1. On the ✅\* marker: the fix calls for `make website` run inside the image, which needs Docker. PR #124.
 
 `install_jekyll.sh:11` installs, in one gemset: `jekyll` (unpinned → 4.x), `github-pages` (which pins Jekyll **3.10**), `jekyll-scholar`, and `just-the-docs`. The `github-pages` meta-gem exists precisely to constrain Jekyll to GitHub's legacy version, so installing it alongside latest Jekyll guarantees a conflicting resolution (RubyGems will keep both and `bundle`-less invocations pick unpredictably). Meanwhile the site itself is built (in CI and via root `Gemfile`) with Jekyll `~> 4.3` and does *not* use `github-pages` (the Pages site is served from static `docs/` with `.nojekyll`). The `github-pages`, `jekyll-scholar` gems in the image look vestigial — pick the one toolchain the website actually uses.
 
 **Proposed fix:** Reduce `install_jekyll.sh` to the toolchain the repo actually uses: `gem install bundler jekyll -v '~> 4.3'` plus `just-the-docs` (matching the root `Gemfile`), dropping `github-pages` and — unless a course site still needs it — `jekyll-scholar`. Verify with `make website` run *inside* the image.
 **Model:** Sonnet 5 — needs a check of what user-facing course workflows rely on (`jekyll-scholar` may be intentional for teaching sites) before deleting, plus an in-image build test.
 
-### 2.10 Deprecated/undefined names in the Jupyter setup 🟡
+### 2.10 Deprecated/undefined names in the Jupyter setup ✅*
 
-**Status: PARTIAL** — `cd $NB_HOME` gone (`9632985`); all five `ADD` directives now `COPY` (PR #118). **Still open:** `c.KernelSpecManager.whitelist` at `install_conda_env.sh:28` — deferred because it needs kernel filtering observed in a running container.
+**Status: DONE — filtering behaviour UNVERIFIED** — `cd $NB_HOME` gone (`9632985`); all five `ADD` directives now `COPY` (PR #118); and `c.KernelSpecManager.whitelist` is now `allowed_kernelspecs`, the name jupyter_client 7 renamed it to (PR #124). The deferral was about risk, and that risk turned out to be absent: the allowlist is `{'gds', 'ir', 'bash'}`, which is exactly the three kernels the image installs — `gds` (ipykernel), `ir` (IRkernel), `bash` (bash_kernel) — with `python3` explicitly removed on the next line. So if the rename makes filtering start working where the old name was ignored, no kernel disappears. On the ✅\* marker: that reasoning is from reading the installers, not from observing a running container. Verify with `jupyter kernelspec list` in the built image.
 
 - `install_conda_env.sh:29-30` writes `c.KernelSpecManager.whitelist` — deprecated since jupyter_client 7 (renamed `allowed_kernelspecs`); with the JupyterLab ≥ 4 stack shipped here it at best emits deprecation warnings and may be ignored entirely, which would defeat the intended kernel filtering. Verify against the running image and switch to `allowed_kernelspecs`.
 - `env/Dockerfile:74`: `cd $NB_HOME` — `NB_HOME` is not defined anywhere (the jupyter stacks define `HOME`/`NB_USER`). It expands empty, and `cd` with no argument happens to go to `$HOME`, so it works by accident.
@@ -330,9 +330,9 @@ Shipped alongside: `make check-flags` (`env/check_flags.py`) asks conda-forge wh
 **Proposed fix:** Fold into the single matrix workflow described in 2.1; this item has no work of its own beyond that rewrite.
 **Model:** Sonnet 5 (same task as 2.1).
 
-### 3.3 Makefile test/stack targets repeat one command four times ⬜
+### 3.3 Makefile test/stack targets repeat one command four times ✅
 
-**Status: TODO** — Unchanged: the nbconvert line still appears four times. 4.3's edits landed separately, so this is now a pure `test_%` pattern-rule refactor.
+**Status: DONE** — The nbconvert invocation is defined once, as a `run_check` macro taking the stack name; a `test_%` pattern rule calls it for `test_py`/`test_r`/`test_dev`, and `test` calls it three times and keeps its summary. One trap worth recording: `test_py`, `test_r` and `test_dev` had to come **out** of `.PHONY`, because make skips the implicit-rule search for phony targets — leaving them there makes the pattern rule never match and `make test_py` fail outright. Verified without Docker by substituting `DOCKERRUN`: the pattern rule matches for all three stacks; the all-pass path exits 0 with three PASS lines; and the failure path runs all three rather than stopping at the first, prints three FAIL lines with their log paths, and exits non-zero. That is the failure-path check the fix below asks for, done against a substituted runner rather than a built image. PR #124.
 
 `Makefile:14-34`: the same `$(DOCKERRUN) $(image) start.sh …nbconvert --execute` line appears once per stack in `test` and again in each `test_py`/`test_r`/`test_dev`. A pattern rule removes the duplication and keeps `test` as an aggregate:
 
@@ -397,7 +397,7 @@ Both encode the same run contract (mounts, env allowlist). This one is *document
 
 ### 3.9 Version is written in too many places ⬜
 
-**Status: TODO** — Improved but not fixed: `.gitpod.yml` is gone, so five hand-edited locations remain instead of six. The `VERSION`-file consolidation is untouched.
+**Status: TODO — deferred pending a versioning decision (2026-09-01).** `.gitpod.yml` is gone, so five hand-edited locations remain instead of six, and the `VERSION`-file consolidation is untouched. Deliberately **not** taken in #124's batch: the maintainer's note is that releases matter less than they once did, and that the approach going forward is the image **tag** carrying the version with the **date** used as the tag (which is what `Makefile`'s `DATE_STAMP`/`image ?= gds:$(DATE_STAMP)` already does). A `VERSION` file plus `make bump` assumes the older release-version model, so it may be solving a problem whose shape is changing. Settle the versioning model first; the fix below is only correct under the old one.
 
 `GDS_ENV_VERSION` (env/Dockerfile), root `Dockerfile`, `frontend_code/compose.yml`, `website/_config.yml`, `README.md` citation, `.gitpod.yml` — six hand-edited locations per release (the checklist tracks four). A single `VERSION` file read by the Makefile (`--build-arg GDS_ENV_VERSION=$(shell cat VERSION)`) plus templating for the website config would shrink the checklist and prevent the drift catalogued in 2.2.
 
@@ -419,7 +419,7 @@ Unpinned-at-build-time today: Quarto (`latest` from download JSON), Typst (`rele
 
 ### 4.2 No CI exercises the Dockerfiles 🟡
 
-**Status: PARTIAL** — **(a) DONE and verified green.** `lint.yml` runs hadolint over all four Dockerfiles and shellcheck over the installers plus `utils/gdsa`, on every PR. Its first run failed and found real bugs, now fixed: four `curl … | sh|bash` layers reported the *shell's* exit status rather than curl's, so a failed download produced a successful layer and a silently missing tool (DL4006 — same masked-failure class as 3.4); `install_tippecanoe.sh` had no shebang (SC2148); `mkdir -p -m` set the mode on only the deepest directory (SC2174). `.hadolint.yaml` disables the pin-versions rules and DL3006 with pointers to 4.1 rather than silencing them in-line, and shellcheck runs at `--severity=warning` — the ~30 remaining info-level SC2086 notes are deferred to 3.4, which rewrites those scripts anyway. **(b) `image_build.yml` shipped as `workflow_dispatch` only — the monthly schedule proposed below was deliberately NOT set.** A ~16 GB image on a runner starting with ~14 GB free needs the disk-reclaim step to fit at all, and a cold `make build` runs for hours against a 6-hour ceiling; a scheduled job that fails most months trains people to ignore CI. Enable `schedule:` once a manual run proves reliable. Never yet executed.
+**Status: PARTIAL** — **(a) DONE and verified green.** `lint.yml` runs hadolint over all four Dockerfiles and shellcheck over the installers plus `utils/gdsa`, on every PR. Its first run failed and found real bugs, now fixed: four `curl … | sh|bash` layers reported the *shell's* exit status rather than curl's, so a failed download produced a successful layer and a silently missing tool (DL4006 — same masked-failure class as 3.4); `install_tippecanoe.sh` had no shebang (SC2148); `mkdir -p -m` set the mode on only the deepest directory (SC2174). `.hadolint.yaml` disables the pin-versions rules and DL3006 with pointers to 4.1 rather than silencing them in-line, and shellcheck runs at `--severity=warning` — the ~30 remaining info-level SC2086 notes are deferred to 3.4, which rewrites those scripts anyway. **(b) `image_build.yml` shipped as `workflow_dispatch` only — the monthly schedule proposed below was deliberately NOT set.** A ~16 GB image on a runner starting with ~14 GB free needs the disk-reclaim step to fit at all, and a cold `make build` runs for hours against a 6-hour ceiling; a scheduled job that fails most months trains people to ignore CI. Enable `schedule:` once a manual run proves reliable. Never yet executed. **Reviewed again 2026-09-01 and deliberately left as-is** (#124): enabling the schedule now would put a job that has never run even once on a monthly timer, against the disk and 6-hour constraints its own header documents — the failure mode the header warns about. **Next step is a maintainer action, not a code change:** trigger one manual `Run workflow`; if it goes green, adding `schedule:` is a two-line follow-up.
 
 The only working workflow builds the website. The actual product — the image — is built and tested exclusively on a maintainer's machine (`docker/build_guide.md`). Even without pushing multi-GB images from CI, two cheap wins: (a) `hadolint` on all four Dockerfiles + `shellcheck` on `env/installers/*.sh` and `utils/gdsa` in a PR workflow (shellcheck would have caught `et -e` and the unquoted `${MOUNTS[@]}`-style pitfalls); (b) an on-demand (`workflow_dispatch`) build of `env/Dockerfile` to catch bit-rot between releases.
 
@@ -491,6 +491,7 @@ The **entire quick-win tier** is cleared (items 1–4: 1.9, 2.2, 2.3, 2.4, 2.7, 
 Since the 2026-08-20 rewrite, two more of the numbered items below have landed:
 
 - **The broken-CI cluster — 2.1 + 3.2 + 4.2a** (PR #119). The three dead workflows are gone, replaced by `test_environment.yml` (a single linux-64 job, not the proposed macOS matrix — a real solve showed `gds_amd64.yml` cannot resolve on osx-arm64) and `lint.yml` (hadolint + shellcheck on every PR, which caught four masked `curl … | sh` failures). **Remnant: 4.2b** — `image_build.yml` ships `workflow_dispatch`-only and has never run.
+- **The cheap-independents batch — 1.6 (part), 2.9, 2.10, 3.3** (PR #124). Duplicate pip install dropped; the Jekyll gemset no longer installs `github-pages` against unpinned Jekyll 4 (and gains `jekyll-seo-tag`, which the site declares but the image lacked); `whitelist` → `allowed_kernelspecs`; the nbconvert line defined once behind a `test_%` pattern rule. **Not in the batch:** 3.9, deferred pending a versioning decision, and 4.2b, which needs a manual workflow run rather than a code change.
 - **3.1 — the yml pair collapsed into one spec** (PR #122). `env/gds.yml` is the only committed spec; per-arch files are generated and gitignored, with arch differences as inline `# !arm64:` flags. CI now dry-run solves linux-aarch64 too — the arm64 spec's first automated check.
 - **2.5 — the arm64 half of the yml pair** (PR #120). 44 R packages plus `myst_nb` and `polars-h3` restored to arm64, every divergence justified by a `--platform linux-aarch64` solve; 13 annotated exclusions remain. **This unblocks 3.1**, which now has a verified, machine-readable exclusion list to consume.
 
@@ -498,7 +499,7 @@ Since the 2026-08-20 rewrite, two more of the numbered items below have landed:
 
 1. **3.4 — `set -euo pipefail` across the 10 remaining installers.** *(Sonnet 5; Opus 4.8 on call)* Needs a two-arch `make build` and budget for a diagnosis pass, since strict mode will surface latent failures. **Requires a session with Docker** — do not attempt otherwise. The CI cluster landing first was its precondition: shellcheck in CI is what stops the next `et -e`, and a working test workflow is what makes 3.4's fallout visible.
 2. **2.6 + 3.7 — the `gds_agent` doc/config seam.** *(Haiku 4.5)* SPEC.md is now further adrift than the audit recorded (a second OpenAI-compatible provider landed in PR #117). Reconcile SPEC against `opencode.json`, `gdsa` and `compose.yml` in one pass, and label the file normative or historical.
-3. **Cheap independents, batchable:** 1.6 (delete one duplicated pip line), 2.9 (drop `github-pages`), 3.3 (`test_%` pattern rule), 3.9 (`VERSION` file), 4.2b (enable `image_build.yml`'s `schedule:` once a manual run proves reliable), 2.10's remaining `whitelist` item (**needs a running container**).
+3. **What is left of the cheap tier**, both blocked on something other than code: **4.2b** needs one manual `Run workflow` on `image_build.yml` — if it goes green, adding `schedule:` is a two-line follow-up. **3.9** needs the versioning model settled first (tag-as-version with a date tag, per the 2026-09-01 note), since a `VERSION` file assumes the older release-version model. **1.6's** remainder needs `jupyter labextension list` in a running image to decide whether the base env still needs `jupytext`.
 4. **1.4 + 1.5 — the remaining size work.** *(Sonnet 5)* Both are evidence-gated: 1.4 needs build-log archaeology on `rust`/`cython` before removal; 1.5 needs the Node PATH resolution observed in the built agent image. Neither is a paper exercise.
 5. **4.5 — write down the base-vs-gds env seam.** *(Opus 4.8)* Investigation-heavy, edit-light; the risk is canonising a misunderstanding.
 
