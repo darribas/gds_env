@@ -22,3 +22,7 @@ build.log
 */test_*.log
 utils/provider-url.txt
 utils/openai-provider-url.txt
+
+# Per-arch conda specs generated from env/gds.yml (audit 3.1)
+env/gds_amd64.yml
+env/gds_arm64.yml

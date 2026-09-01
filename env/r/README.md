@@ -21,8 +21,10 @@ make write_r_stack image=gds:<tag>   # regenerates the stack_r_* listings
 
 ## Where the package list lives
 
-Not here. R packages are declared as `r-*` entries in `env/gds_amd64.yml` /
-`env/gds_arm64.yml` — the same conda env that carries the Python stack. The
-arm64 spec comments out the packages conda-forge does not build for
-`linux-aarch64`, so the two architectures do not ship an identical R stack. The
-`stack_r_*` files are **generated** — never edit them by hand.
+Not here. R packages are declared as `r-*` entries in `env/gds.yml` — the same
+conda env that carries the Python stack, and the source of truth for every
+architecture. Packages conda-forge does not build for `linux-aarch64` carry a
+`# !arm64:` flag naming the reason and the date checked; the generator drops
+them from the arm64 spec, so the two architectures do not ship an identical R
+stack. Thirteen entries are flagged today. The `stack_r_*` files are
+**generated** — never edit them by hand.

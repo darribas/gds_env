@@ -22,6 +22,13 @@ Content here should never be duplicated by hand elsewhere. Instead:
   is where opencode looks for skills at runtime. Skills also wired into
   `~/CLAUDE.md` (see below) get concatenated from this same file.
 
+Not every skill here ships in the image. `env-packages` documents a
+*maintainer* workflow on this checkout — it needs `env/gds.yml`, `mamba`
+and conda-forge access, none of which mean anything inside the built
+`gds_agent` image — so it is wired to the `.claude/skills` symlink only,
+with no Dockerfile `COPY`. That is the per-skill choice described below,
+not an oversight.
+
 Editing the `SKILL.md` in this directory is enough to update it
 everywhere it's wired — but wiring a *new* skill into each consumer is a
 separate, explicit step (next section).

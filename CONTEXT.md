@@ -23,15 +23,18 @@ Jupyter docker-stacks base. Four images:
 ```
 env/Dockerfile            The main build. Calls scripts from env/installers/ in sequence.
 env/installers/*.sh       One tool per script. Run inside Dockerfile layers.
-env/gds_amd64.yml         Conda spec (amd64).  ── These two are a hand-mirrored pair;
-env/gds_arm64.yml         Conda spec (arm64).  ── any package change touches BOTH.
+env/gds.yml               Conda spec, SOURCE OF TRUTH for both arches. Edit only this.
+env/generate_spec.py      Emits env/gds_<arch>.yml from it. Those are gitignored.
+env/check_flags.py        `make check-flags` — re-checks the flags against conda-forge.
+                          Arch differences are `# !arm64:` flags on the entry.
 env/{py,r,dev}/           Check notebooks (used by `make test`) + generated stack listings.
 Makefile                  build / test / website targets. Recipes are TABS, /bin/bash.
 utils/gdsa                Host-side launcher for gds_agent (bash).
 frontend_agent/SPEC.md    Design doc for gds_agent (known to drift from implementation).
 website/                  Jekyll SOURCE.   docs/ is BUILT OUTPUT — never edit docs/ by hand.
 docker/*.md               Guides + release_checklist.md (the release process of record).
-.github/workflows/        build_site.yml works; the three test_* workflows are broken (audit 2.1).
+.github/workflows/        build_site.yml, lint.yml, test_environment.yml all work (audit 2.1/3.2/4.2).
+                          image_build.yml is workflow_dispatch-only and has never run (4.2b).
 ```
 
 ## Facts that will save you from mistakes
@@ -44,10 +47,13 @@ docker/*.md               Guides + release_checklist.md (the release process of 
   Dockerfile says otherwise; files they write into `$HOME` need `fix-permissions`.
 - **Layer hygiene rule**: any cleanup (`rm`, `apt-get clean`, `fix-permissions`) only
   saves space if it runs in the SAME `RUN` as the install that created the files.
-- **`ARG BUILDARCH`** is auto-populated by BuildKit; it selects `gds_$BUILDARCH.yml`.
+- **`ARG BUILDARCH`** is auto-populated by BuildKit; it selects `gds_$BUILDARCH.yml`,
+  which `make build` generates from `env/gds.yml` first (audit 3.1). A bare `docker build`
+  in `env/` will fail on the COPY unless you ran `make env-specs`.
 - **Generated files — don't hand-edit**: `docs/` (from `website/`), `website/_includes/`
   (from README/CONTRIBUTING/docker guides via `make website_build`),
-  `env/{py,r}/stack_*` listings (via `make write_stacks`).
+  `env/{py,r}/stack_*` listings (via `make write_stacks`),
+  `env/gds_{amd64,arm64}.yml` (from `env/gds.yml` via `make env-specs`).
 - **Versioning**: dev builds use `GDS_ENV_VERSION` (currently `11.0alpha` in
   `env/Dockerfile`); releases are tagged `darribas/gds:<version>` per
   `docker/release_checklist.md`. Version strings are (for now) written in several files —
