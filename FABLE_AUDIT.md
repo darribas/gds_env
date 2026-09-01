@@ -214,7 +214,7 @@ The release checklist covers three of these; `.gitpod.yml` and `frontend_code/co
 
 ### 2.5 amd64 vs arm64 environment specs disagree beyond architecture ✅
 
-**Status: DONE** — Every divergence resolved against a real solve, as the fix below demands. **44 R packages plus `myst_nb` and `polars-h3` restored to arm64**: they had gained `linux-aarch64` or `noarch` builds since the exclusion list was written, so the arm64 image had been shipping a materially thinner R stack than amd64 for no current reason (`r-igraph`, `r-caret`, `r-plotly`, `r-raster`, `r-brms`, `r-ranger`, `r-nlme` among them). Package-level availability was *not* sufficient: a `--platform linux-aarch64` solve then rejected four of them — `r-geojsonio`, `r-ggpmisc`, `r-mapview` and `r-tidytext` are themselves available, but their deps `r-jqr`, `r-splus2r`, `r-leafpop` and `r-hunspell` are not — so they stay excluded with that reason named. 13 exclusions remain, each annotated inline with its reason and the date checked. Pins aligned: `pysal==24.7` → `pysal` and `geopandas>=1.0` → `geopandas>=1` (both are `noarch`, so nothing about the architecture justified a difference); `r-tmap` → `r-tmap>=4` on arm64, and the stale "Off until v4 is on conda" comment dropped from amd64 — r-tmap 4.4_1 is on conda-forge as `noarch`. Verified by solve on linux-aarch64: the rebuilt spec resolves, and the arm64 environment goes from **931 to 1127 packages** (+196 including transitive deps). `r-rgdal`/`r-rgeos` also had the arm64-only `#####` marker despite being retired on both arches; normalised. A header block now documents the three comment conventions and the date of the last exclusion re-check. PR #120.
+**Status: DONE** — Every divergence resolved against a real solve, as the fix below demands. **44 R packages plus `myst_nb` and `polars-h3` restored to arm64**: they had gained `linux-aarch64` or `noarch` builds since the exclusion list was written, so the arm64 image had been shipping a materially thinner R stack than amd64 for no current reason (`r-igraph`, `r-caret`, `r-plotly`, `r-raster`, `r-brms`, `r-ranger`, `r-nlme` among them). Package-level availability was *not* sufficient: a `--platform linux-aarch64` solve then rejected four of them — `r-geojsonio`, `r-ggpmisc`, `r-mapview` and `r-tidytext` are themselves available, but their deps `r-jqr`, `r-splus2r`, `r-leafpop` and `r-hunspell` are not — so they stay excluded with that reason named. 13 exclusions remain, each annotated inline with its reason and the date checked. Pins aligned: `pysal==24.7` → `pysal` and `geopandas>=1.0` → `geopandas>=1` (both are `noarch`, so nothing about the architecture justified a difference); `r-tmap` → `r-tmap>=4` on arm64, and the stale "Off until v4 is on conda" comment dropped from amd64 — r-tmap 4.4_1 is on conda-forge as `noarch`. Verified by solve on linux-aarch64: the rebuilt spec resolves, and the arm64 environment goes from **931 to 1127 packages** (+196 including transitive deps). `r-rgdal`/`r-rgeos` also had the arm64-only `#####` marker despite being retired on both arches; normalised. A header block now documents the three comment markers (`#####` arm64-only, `####-`/`#-` both arches and synonymous) and the date of the last exclusion re-check. PR #120.
 
 `diff env/gds_amd64.yml env/gds_arm64.yml` shows, besides the expected mass-commenting of R packages unavailable on arm64:
 
@@ -476,21 +476,25 @@ The two-line Binder shim (`FROM darribas/gds:11.0gc / RUN rm -rf ./work`) is onl
 
 ## 5. Prioritised action plan
 
-*Rewritten 2026-08-20 to reflect what is actually left. The original eleven-item plan is preserved at the bottom for reference.*
+*Rewritten 2026-08-20 to reflect what is actually left; refreshed 2026-08-27 after #119 and #120 merged. The original eleven-item plan is preserved at the bottom for reference.*
 
 ### Done
 
 The **entire quick-win tier** is cleared (items 1–4: 1.9, 2.2, 2.3, 2.4, 2.7, 2.8, 2.10 part, 2.11, 2.12, 3.5, 4.3, 4.6, 4.7), plus structural item 5 (1.1, the largest single size win) and the browser half of item 9 (1.2, 1.3, 3.8).
 
+Since the 2026-08-20 rewrite, two more of the numbered items below have landed:
+
+- **The broken-CI cluster — 2.1 + 3.2 + 4.2a** (PR #119). The three dead workflows are gone, replaced by `test_environment.yml` (a single linux-64 job, not the proposed macOS matrix — a real solve showed `gds_amd64.yml` cannot resolve on osx-arm64) and `lint.yml` (hadolint + shellcheck on every PR, which caught four masked `curl … | sh` failures). **Remnant: 4.2b** — `image_build.yml` ships `workflow_dispatch`-only and has never run.
+- **2.5 — the arm64 half of the yml pair** (PR #120). 44 R packages plus `myst_nb` and `polars-h3` restored to arm64, every divergence justified by a `--platform linux-aarch64` solve; 13 annotated exclusions remain. **This unblocks 3.1**, which now has a verified, machine-readable exclusion list to consume.
+
 ### Next up
 
-1. **The broken-CI cluster — 2.1 + 3.2 + 4.2.** *(Sonnet 5)* The highest-value item still open, and coherent as one piece of work: delete the Windows workflow, matrix-merge the two survivors onto the real directory layout, then add `lint.yml` (hadolint + shellcheck). Do this before 3.4 — shellcheck in CI is what stops the next `et -e`, and a working test workflow is what makes 3.4's fallout visible. Note 1.9's stale artifacts were a downstream symptom of this and are already gone.
-2. **3.4 — `set -euo pipefail` across the 10 remaining installers.** *(Sonnet 5; Opus 4.8 on call)* Needs a two-arch `make build` and budget for a diagnosis pass, since strict mode will surface latent failures. **Requires a session with Docker** — do not attempt otherwise.
-3. **2.5 then 3.1 — the yml pair.** *(Sonnet 5)* Strictly ordered: 2.5's arm64 solves produce the exclusion list that 3.1's generator consumes. Each divergence needs a real solve, not a guess.
-4. **2.6 + 3.7 — the `gds_agent` doc/config seam.** *(Haiku 4.5)* SPEC.md is now further adrift than the audit recorded (a second OpenAI-compatible provider landed in PR #117). Reconcile SPEC against `opencode.json`, `gdsa` and `compose.yml` in one pass, and label the file normative or historical.
-5. **Cheap independents, batchable:** 1.6 (delete one duplicated pip line), 2.9 (drop `github-pages`), 3.3 (`test_%` pattern rule), 3.9 (`VERSION` file), 2.10's remaining `whitelist` item (**needs a running container**).
-6. **1.4 + 1.5 — the remaining size work.** *(Sonnet 5)* Both are evidence-gated: 1.4 needs build-log archaeology on `rust`/`cython` before removal; 1.5 needs the Node PATH resolution observed in the built agent image. Neither is a paper exercise.
-7. **4.5 — write down the base-vs-gds env seam.** *(Opus 4.8)* Investigation-heavy, edit-light; the risk is canonising a misunderstanding.
+1. **3.4 — `set -euo pipefail` across the 10 remaining installers.** *(Sonnet 5; Opus 4.8 on call)* Needs a two-arch `make build` and budget for a diagnosis pass, since strict mode will surface latent failures. **Requires a session with Docker** — do not attempt otherwise. The CI cluster landing first was its precondition: shellcheck in CI is what stops the next `et -e`, and a working test workflow is what makes 3.4's fallout visible.
+2. **3.1 — collapse the two hand-mirrored env specs.** *(Sonnet 5)* Unblocked by 2.5: the generator's input is the 13-entry exclusion list (12 R packages + `simplification`), each already carrying its reason and the date it was checked in the arm64 header. **The highest-value item that does not need Docker** — `mamba … --dry-run` on both platforms is the same verification method that made 2.5 trustworthy, so it suits the Docker-less sessions this project keeps getting.
+3. **2.6 + 3.7 — the `gds_agent` doc/config seam.** *(Haiku 4.5)* SPEC.md is now further adrift than the audit recorded (a second OpenAI-compatible provider landed in PR #117). Reconcile SPEC against `opencode.json`, `gdsa` and `compose.yml` in one pass, and label the file normative or historical.
+4. **Cheap independents, batchable:** 1.6 (delete one duplicated pip line), 2.9 (drop `github-pages`), 3.3 (`test_%` pattern rule), 3.9 (`VERSION` file), 4.2b (enable `image_build.yml`'s `schedule:` once a manual run proves reliable), 2.10's remaining `whitelist` item (**needs a running container**).
+5. **1.4 + 1.5 — the remaining size work.** *(Sonnet 5)* Both are evidence-gated: 1.4 needs build-log archaeology on `rust`/`cython` before removal; 1.5 needs the Node PATH resolution observed in the built agent image. Neither is a paper exercise.
+6. **4.5 — write down the base-vs-gds env seam.** *(Opus 4.8)* Investigation-heavy, edit-light; the risk is canonising a misunderstanding.
 
 ### Blocked on a maintainer decision
 
@@ -507,7 +511,7 @@ The **entire quick-win tier** is cleared (items 1–4: 1.9, 2.2, 2.3, 2.4, 2.7, 
 
 ### Outstanding validation debt
 
-No remediation session so far has had Docker. **`make build` and `make test` have not been run on either architecture** across PRs #104, #105, #118 and #119. CI now covers what it can without Docker — `lint.yml` and `test_environment.yml` are green on #119 — but neither builds an image. Specifically unverified: the DeckTape amd64 path (3.8 — `DECKTAPE_AMD64_HANDOFF.md` in the working tree is the briefing for that), the new OCI labels (4.7), `--build-arg BUILDARCH` under the legacy builder (4.3), the `SHELL … pipefail` additions to the two frontend Dockerfiles (4.2 triage), and `image_build.yml` itself, which has never run.
+No remediation session so far has had Docker. **`make build` and `make test` have not been run on either architecture** across PRs #104, #105, #118, #119 and #120. CI now covers what it can without Docker — `lint.yml` and `test_environment.yml` are green on #119 — but neither builds an image. Specifically unverified: the DeckTape amd64 path (3.8 — `DECKTAPE_AMD64_HANDOFF.md` in the working tree is the briefing for that), the new OCI labels (4.7), `--build-arg BUILDARCH` under the legacy builder (4.3), the `SHELL … pipefail` additions to the two frontend Dockerfiles (4.2 triage), and `image_build.yml` itself, which has never run. **#120 is now the largest single exposure**: 44 R packages that have never been compiled into this image will be on the next arm64 build, and a solve proves only that the spec resolves.
 
 ---
 
