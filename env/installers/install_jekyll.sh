@@ -2,11 +2,11 @@
 
 set -euo pipefail
 
-apt-get update \
- && apt-get install -y --no-install-recommends \
-        ruby-full \
-        build-essential \
-        zlib1g-dev
+# shellcheck source-path=SCRIPTDIR
+# shellcheck source=./_lib.sh
+source "$(dirname "${BASH_SOURCE[0]}")/_lib.sh"
+
+apt_install ruby-full build-essential zlib1g-dev
 # https://github.com/sass-contrib/sass-embedded-host-ruby/issues/130#issuecomment-1588245011
 gem install sass-embedded
 gem install sass --force sass-embedded
@@ -21,8 +21,4 @@ gem install sass --force sass-embedded
 gem install jekyll bundler jekyll-scholar just-the-docs jekyll-seo-tag
 
 rm -rf /var/lib/gems/*/cache/* /usr/local/bundle/cache
-rm -rf /var/lib/apt/lists/* \
- && apt-get autoclean \
- && apt-get autoremove -y \
- && apt-get clean
 

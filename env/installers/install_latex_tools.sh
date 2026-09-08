@@ -2,6 +2,10 @@
 
 set -euo pipefail
 
+# shellcheck source-path=SCRIPTDIR
+# shellcheck source=./_lib.sh
+source "$(dirname "${BASH_SOURCE[0]}")/_lib.sh"
+
 #--- Texbuild ---#
 
 cp $HOME/texBuild.py /bin/texBuild.py \
@@ -27,9 +31,8 @@ mkdir texcount_tmp \
 # ("Unable to locate package latexmk") and the system tlmgr is Debian-disabled.
 # It is a self-contained Perl script, so fetch it straight from CTAN onto PATH.
 # fonts-lmodern still comes from apt.
-apt-get update -qq \
- && apt-get install -y --no-install-recommends fonts-lmodern \
- && rm -rf /var/lib/apt/lists/* \
- && wget -qO /usr/local/bin/latexmk https://mirror.ctan.org/support/latexmk/latexmk.pl \
- && chmod +x /usr/local/bin/latexmk \
- && latexmk --version
+apt_install fonts-lmodern
+
+wget -qO /usr/local/bin/latexmk https://mirror.ctan.org/support/latexmk/latexmk.pl
+chmod +x /usr/local/bin/latexmk
+latexmk --version
