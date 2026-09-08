@@ -30,7 +30,8 @@ env/check_flags.py        `make check-flags` — re-checks the flags against con
 env/{py,r,dev}/           Check notebooks (used by `make test`) + generated stack listings.
 Makefile                  build / test / website targets. Recipes are TABS, /bin/bash.
 utils/gdsa                Host-side launcher for gds_agent (bash).
-frontend_agent/SPEC.md    Design doc for gds_agent (known to drift from implementation).
+frontend_agent/README.md  Describes the gds_agent surface. Reconciled with the code in
+                          audit 2.6; opencode.json / Dockerfile / gdsa remain authoritative.
 website/                  Jekyll SOURCE.   docs/ is BUILT OUTPUT — never edit docs/ by hand.
 docker/*.md               Guides + release_checklist.md (the release process of record).
 .github/workflows/        build_site.yml, lint.yml, test_environment.yml all work (audit 2.1/3.2/4.2).
