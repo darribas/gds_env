@@ -38,10 +38,13 @@ RUN mkdir -p /etc/apt/keyrings \
  && apt-get install -y --no-install-recommends gh \
  && rm -rf /var/lib/apt/lists/*
 
-#--- Node 20 (NodeSource) for npm-based harnesses + LSPs ---#
-RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
- && apt-get install -y --no-install-recommends nodejs \
- && rm -rf /var/lib/apt/lists/*
+# No Node is installed here. The base gds image already carries one in the
+# conda env, and it is what actually resolves: PATH puts
+# /opt/conda/envs/gds/bin ahead of /usr/bin, so the `npm install -g` below
+# runs the conda npm (Node 26 at the time of writing) with global prefix
+# /opt/conda/envs/gds. A NodeSource Node 20 used to be installed here and was
+# never reached -- 31 MB of deb, shadowed on PATH, and older than the Node it
+# was shadowed by (audit 1.5).
 
 #--- Agent harnesses + LSPs (system-wide via npm) ---#
 RUN npm install -g \
