@@ -60,9 +60,6 @@ RUN npm install -g \
 #--- R language server (into the existing gds R env) ---#
 RUN /opt/conda/envs/gds/bin/Rscript -e 'install.packages("languageserver", repos="https://cloud.r-project.org")'
 
-#--- Notebook headless extras (into the gds python env) ---#
-RUN /opt/conda/envs/gds/bin/pip install --no-cache-dir papermill jupytext
-
 #--- Baked opencode config (user mount overrides) ---#
 COPY opencode.json /home/${NB_USER}/.config/opencode/opencode.json
 COPY tui.json /home/${NB_USER}/.config/opencode/tui.json
