@@ -8,9 +8,9 @@ source "$(dirname "${BASH_SOURCE[0]}")/_lib.sh"
 
 #--- Texbuild ---#
 
-cp $HOME/texBuild.py /bin/texBuild.py \
- && python $HOME/install_texbuild.py \
- && rm $HOME/install_texbuild.py $HOME/texBuild*
+cp "$HOME/texBuild.py" /bin/texBuild.py \
+ && python "$HOME/install_texbuild.py" \
+ && rm "$HOME/install_texbuild.py" "$HOME"/texBuild*
 
 #--- Texcount ---#
 mkdir texcount_tmp \

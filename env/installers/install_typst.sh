@@ -21,10 +21,10 @@ esac
 
 export TYPST_TARGET="typst-${TYPST_ARCH}-unknown-linux-musl"
 
-mkdir $HOME/typst \
- && wget -O $HOME/typst/typst.tar.xz https://github.com/typst/typst/releases/latest/download/$TYPST_TARGET.tar.xz \
- && cd $HOME/typst \
+mkdir "$HOME/typst" \
+ && wget -O "$HOME/typst/typst.tar.xz" "https://github.com/typst/typst/releases/latest/download/$TYPST_TARGET.tar.xz" \
+ && cd "$HOME/typst" \
  && tar -xJf typst.tar.xz \
- && mv $TYPST_TARGET/typst /usr/bin/ \
- && cd $HOME \
+ && mv "$TYPST_TARGET/typst" /usr/bin/ \
+ && cd "$HOME" \
  && rm -rf typst

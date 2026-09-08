@@ -12,6 +12,7 @@ mamba env create -f gds.yml
 # conda's activation scripts reference unset variables, so they are not
 # `set -u` clean. Exempt only the activation; everything else stays strict.
 set +u
+# shellcheck disable=SC1091  # `activate` is conda's, found on PATH at build time
 source activate gds
 set -u
 
@@ -36,12 +37,12 @@ R -e "library(IRkernel); \
 #--- GDS as default ---#
 jupyter lab --generate-config \
  && echo "c.MultiKernelManager.default_kernel_name='gds'" >> \
- /home/${NB_USER}/.jupyter/jupyter_lab_config.py \
- && echo "conda activate gds" >> /home/${NB_USER}/.bashrc \
+ "/home/${NB_USER}/.jupyter/jupyter_lab_config.py" \
+ && echo "conda activate gds" >> "/home/${NB_USER}/.bashrc" \
  && echo "c.KernelSpecManager.ensure_native_kernel = False" >> \
- /home/${NB_USER}/.jupyter/jupyter_lab_config.py \
+ "/home/${NB_USER}/.jupyter/jupyter_lab_config.py" \
  && echo "c.KernelSpecManager.allowed_kernelspecs = {'gds', 'ir', 'bash'}" >> \
- /home/${NB_USER}/.jupyter/jupyter_lab_config.py \
+ "/home/${NB_USER}/.jupyter/jupyter_lab_config.py" \
  && jupyter kernelspec remove -y python3
 
 #--- Permissions & tmp cleanup (same layer) ---#

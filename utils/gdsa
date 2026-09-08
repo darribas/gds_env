@@ -312,7 +312,7 @@ _cmd_opencode() {
   # Keep-alive: re-read the active model and ping Ollama every 4 min so the
   # model stays warm. Trap-cleaned on exit.
   local ollama_base
-  ollama_base=$(echo "$ollama_host" | sed 's|/v1$||')
+  ollama_base="${ollama_host%/v1}"
   local state_file="$HOME/.local/share/opencode/model.json"
 
   _keepalive() {
