@@ -6,7 +6,7 @@
 
 ## Scoreboard
 
-**26 of 37 done · 3 partial · 6 open · 2 closed without action**
+**28 of 37 done · 3 partial · 4 open · 2 closed without action**
 
 | | Meaning |
 |---|---|
@@ -21,8 +21,8 @@
 | 1.1 | ✅ | 2.1 | ✅ | 3.1 | ✅ | 4.1 | ⛔ |
 | 1.2 | ✅ | 2.2 | ✅ | 3.2 | ✅ | 4.2 | 🟡 |
 | 1.3 | ✅ | 2.3 | ✅ | 3.3 | ✅ | 4.3 | ✅ |
-| 1.4 | ⬜ | 2.4 | ✅ | 3.4 | ✅ | 4.4 | 🟡 |
-| 1.5 | ⬜ | 2.5 | ✅ | 3.5 | ✅ | 4.5 | ⬜ |
+| 1.4 | ✅* | 2.4 | ✅ | 3.4 | ✅ | 4.4 | 🟡 |
+| 1.5 | ✅* | 2.5 | ✅ | 3.5 | ✅ | 4.5 | ⬜ |
 | 1.6 | 🟡 | 2.6 | ✅ | 3.6 | ⬜ | 4.6 | ✅ |
 | 1.7 | ⛔ | 2.7 | ✅ | 3.7 | ✅ | 4.7 | ✅ |
 | 1.8 | ⬜ | 2.8 | ✅ | 3.8 | ✅ | | |
@@ -31,7 +31,7 @@
 | | | 2.11 | ✅ | | | | |
 | | | 2.12 | ✅ | | | | |
 
-**Remediation history:** PR #103 (audit merged) · #104 (1.2, 1.3, 3.8) · #105 (1.1) · #118 (1.9, 2.2, 2.4, 2.7, 2.8, 2.10 part, 2.11, 2.12, 3.5, 4.3, 4.6, 4.7) · #119 (2.1, 3.2, 4.2a) · #120 (2.5) · #122 (3.1) · #124 (1.6 part, 2.9, 2.10, 3.3) · #125 (3.4, 3.8) · #129 (2.6, 3.7) · #130 (4.2 lint bar) · `11fe264` (2.3) · `51e44eb` (4.4a).
+**Remediation history:** PR #103 (audit merged) · #104 (1.2, 1.3, 3.8) · #105 (1.1) · #118 (1.9, 2.2, 2.4, 2.7, 2.8, 2.10 part, 2.11, 2.12, 3.5, 4.3, 4.6, 4.7) · #119 (2.1, 3.2, 4.2a) · #120 (2.5) · #122 (3.1) · #124 (1.6 part, 2.9, 2.10, 3.3) · #125 (3.4, 3.8) · #129 (2.6, 3.7) · #130 (4.2 lint bar) · #131 (1.4, 1.5) · `11fe264` (2.3) · `51e44eb` (4.4a).
 
 **Standing constraints that override any proposal below:**
 - **No version pinning.** The project tracks latest deliberately. 4.1 is won't-fix; any proposed fix reading "pin X" is void (3.8 was solved without pinning for this reason).
@@ -105,9 +105,17 @@ In Docker's overlay filesystem, a layer can only *add* bytes; deleting or modify
 **Proposed fix:** Delete the nine `-dev` entries and the duplicate `libpangocairo-1.0-0`; rebuild and run a DeckTape export as the smoke test (the wrapper already exercises the browser end-to-end).
 **Model:** Haiku 4.5 — a pure list edit with an existing smoke test; this report specifies the exact lines.
 
-### 1.4 Build toolchains left in the runtime image ⬜
+### 1.4 Build toolchains left in the runtime image ✅*
 
-**Status: TODO** — Unchanged: `build-essential` still permanent in the tippecanoe and jekyll layers; `rust` + `cython` still in both ymls. Needs build-log archaeology — see plan item 9.
+**Status: DONE — rebuild UNVERIFIED.** The archaeology this finding demanded was done against the first green build, and **it contradicts two of the three proposed fixes.** PR #131.
+
+**(b) `rust` and `cython` are gone.** Four independent checks agreed: nothing in the resolved environment depends on either (rust's only dependents are its own `rust`/`rust-std` pair; cython has none); the entire build log contains **zero** `Building wheel for`, `cargo`, `maturin` or `setuptools_rust` lines, so no pip package compiles from source; a `--platform linux-aarch64` dry-run solve without them drops **exactly three** packages (`rust`, `rust-std-aarch64-unknown-linux-gnu`, `cython`) and changes nothing else, 1129 → 1126; and they cost **~364 MB on disk** (322 MB `lib/rustlib`, 40 MB `cargo`, 2.3 MB `rustc`). Retired with the file's `####-` provenance marker rather than deleted, so nobody re-adds them without reading why.
+
+**(a) The proposed multi-stage tippecanoe build would have saved nothing.** `build-essential` is installed by the **jekyll** layer, which runs *first* (`env/Dockerfile:47` vs `:50`); the build log shows tippecanoe's own apt call reporting `build-essential is already the newest version`. Moving tippecanoe to a builder stage leaves the package in the image regardless, because jekyll put it there. The fix as written rests on a false premise.
+
+**(c) `build-essential` must stay, and is now documented in place.** Removing it reclaims a real **207 MB across 41 packages**, but it is load-bearing in a way the finding did not anticipate: the gds env's Python reports `CC = gcc` from `sysconfig`, and the conda env ships only `aarch64-conda-linux-gnu-gcc` — so **`pip install` of any sdist falls through to `/usr/bin/gcc`**. Students rebuilding native gems with `bundle install` need it too. R is the exception and shows why the reasoning had to be per-language: `r-base` *depends on* `gcc_linux-aarch64`, and R's `Makeconf` points at the conda compiler, so `install.packages()` never touches apt's. The reasoning now sits in `install_jekyll.sh` at the line someone would otherwise delete.
+
+On the ✅\* marker: the spec change is solve-verified but no image has been rebuilt with it.
 
 - `install_tippecanoe.sh` installs `build-essential` and `libsqlite3-dev`, compiles, but never removes them (its final chain only removes the source tree). `install_jekyll.sh` likewise installs `build-essential`/`zlib1g-dev` permanently.
 - `env/gds_amd64.yml:214` ships the full **Rust toolchain** (`rust`) and `cython` inside the user environment. If they exist only to compile a pip package at build time, they don't belong in the shipped env (~500 MB+ for rust).
@@ -116,9 +124,11 @@ In Docker's overlay filesystem, a layer can only *add* bytes; deleting or modify
 **Proposed fix:** (a) Convert tippecanoe to a multi-stage build (`FROM ubuntu AS tippecanoe-builder` … `COPY --from=`) so `build-essential` never enters the final image; (b) trace why `rust`/`cython` are in the yml — do a trial solve/build without them and grep the build log for any pip package compiling against them; remove if nothing needs them at runtime (sdist-only pip installs would need them kept or replaced with prebuilt wheels); (c) audit whether Jekyll's native gems still need `build-essential` after install (they may, for `bundle`-time rebuilds — if so, document that; if not, remove in-layer).
 **Model:** Sonnet 5 — dependency archaeology plus rebuild verification; conclusions must be evidence-based (build logs, dry-run solves), not guessed.
 
-### 1.5 Two Node.js installations across the family ⬜
+### 1.5 Two Node.js installations across the family ✅*
 
-**Status: TODO** — Unchanged: `nodejs>=22` in the base conda env and NodeSource Node 20 in `frontend_agent/Dockerfile:33-35`.
+**Status: DONE — rebuild UNVERIFIED.** The NodeSource layer is deleted. Measured rather than assumed: in the built image `npm` resolves to `/opt/conda/envs/gds/bin/npm` running **Node 26.6.0**, with global prefix `/opt/conda/envs/gds`, because PATH puts `/opt/conda/envs/gds/bin` and `/opt/conda/bin` ahead of `/usr/bin`. The NodeSource deb (31.3 MB, Node **20**) was therefore never reached — and was older than the Node shadowing it, which is the contradiction the finding names.
+
+The agent build log settles the compatibility question the fix asks about: `npm install -g` of all ten harnesses and LSPs already ran under that conda Node and reported `added 146 packages in 13s` with **no** `EBADENGINE` or engine warnings. So removing the NodeSource layer changes nothing about which Node the harnesses run on; it only stops installing one that was never used. On the ✅\* marker: `claude`, `opencode`, `copilot` and the LSP binaries still need to be launched from a rebuilt `gds_agent`. PR #131.
 
 - Base image: `install_jupyter_dev.sh:16` installs `nodejs>=22` into the base conda env.
 - `frontend_agent/Dockerfile:33-35` adds Node 20 from NodeSource on top. Because `/opt/conda/bin` precedes `/usr/bin` on PATH in the jupyter stacks, the apt Node is largely shadowed — dead weight and a version contradiction (20 < 22). Reuse the conda Node for the npm-installed harnesses, or install one Node system-wide and drop the conda one.
@@ -514,8 +524,8 @@ Since the 2026-08-20 rewrite, two more of the numbered items below have landed:
 
 ### Next up
 
-1. **1.4 + 1.5 — the remaining size work.** *(Sonnet 5)* Both evidence-gated, and both now cheap to settle because the images build: 1.4 needs build-log archaeology on `rust`/`cython`, 1.5 needs the Node PATH resolution observed in the built agent image.
-2. **4.5 — write down the base-vs-gds env seam.** *(Opus 4.8)* Investigation-heavy, edit-light; the risk is canonising a misunderstanding. A running image now exists to check against, which it did not before.
+1. **Rebuild both images** *(maintainer)* to clear the ✅\* on 1.4 and 1.5. `make build` proves the trimmed spec builds and that `pip install` of an sdist still finds a compiler; `make build_agent` proves the harnesses and LSPs still launch without the NodeSource layer. Expect the `gds` image ~364 MB smaller.
+2. **4.5 — write down the base-vs-gds env seam.** *(Opus 4.8)* Investigation-heavy, edit-light; the risk is canonising a misunderstanding. A running image now exists to check against, and 1.4 has already mapped part of the seam: nodejs and the compilers sit in both envs for different reasons.
 3. **What is left of the cheap tier**, both blocked on something other than code: **4.2b** needs one manual `Run workflow` on `image_build.yml` — if it goes green, adding `schedule:` is a two-line follow-up. **3.9** needs the versioning model settled first (tag-as-version with a date tag, per the 2026-09-01 note), since a `VERSION` file assumes the older release-version model. **1.6's** remainder needs `jupyter labextension list` in a running image to decide whether the base env still needs `jupytext`.
 4. **1.4 + 1.5 — the remaining size work.** *(Sonnet 5)* Both are evidence-gated: 1.4 needs build-log archaeology on `rust`/`cython` before removal; 1.5 needs the Node PATH resolution observed in the built agent image. Neither is a paper exercise.
 5. **3.6 + 1.8 + 4.4b** — all three blocked on a maintainer decision rather than on work; see the section below.
