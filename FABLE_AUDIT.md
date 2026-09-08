@@ -109,7 +109,16 @@ In Docker's overlay filesystem, a layer can only *add* bytes; deleting or modify
 
 **Status: DONE — rebuild UNVERIFIED.** The archaeology this finding demanded was done against the first green build, and **it contradicts two of the three proposed fixes.** PR #131.
 
-**(b) `rust` and `cython` are gone.** Four independent checks agreed: nothing in the resolved environment depends on either (rust's only dependents are its own `rust`/`rust-std` pair; cython has none); the entire build log contains **zero** `Building wheel for`, `cargo`, `maturin` or `setuptools_rust` lines, so no pip package compiles from source; a `--platform linux-aarch64` dry-run solve without them drops **exactly three** packages (`rust`, `rust-std-aarch64-unknown-linux-gnu`, `cython`) and changes nothing else, 1129 → 1126; and they cost **~364 MB on disk** (322 MB `lib/rustlib`, 40 MB `cargo`, 2.3 MB `rustc`). Retired with the file's `####-` provenance marker rather than deleted, so nobody re-adds them without reading why.
+**(b) `rust` and `cython` are gone.** Four independent checks agreed: nothing in the resolved environment depends on either (rust's only dependents are its own `rust`/`rust-std` pair; cython has none); the entire build log contains **zero** `Building wheel for`, `cargo`, `maturin` or `setuptools_rust` lines, so no pip package compiles from source; dry-run solves on **both** platforms drop **exactly three** packages each and add nothing — no substitution, no downgrade, nothing pulled in to replace them:
+
+| | amd64 (`linux-64`) | arm64 (`linux-aarch64`) |
+|---|---|---|
+| `rust` | 1.98.1 `hc89c8c8_2`, 173 MB | 1.98.1 `h651fc87_2`, 138 MB |
+| `rust-std-<arch>-unknown-linux-gnu` | `x86_64`, 37 MB | `aarch64`, 37 MB |
+| `cython` | 3.3.0, 4 MB | 3.3.0, 4 MB |
+| resolved packages | 1177 → 1174 | 1129 → 1126 |
+
+Those are download sizes; **on disk the toolchain is ~364 MB** (322 MB `lib/rustlib`, 40 MB `cargo`, 2.3 MB `rustc`), measured in a running image. Both numbers are real and answer different questions — pull time versus image size. What is deliberately *not* dropped is the conda GCC toolchain (`gcc_linux-<arch>`, `gxx_linux-<arch>`, `binutils_*`): `r-base` depends on it directly, and it is what R's `install.packages()` compiles with. `rust` depended on `gcc_impl_*`, so retiring rust does not touch the compilers. Retired with the file's `####-` provenance marker rather than deleted, so nobody re-adds them without reading why.
 
 **(a) The proposed multi-stage tippecanoe build would have saved nothing.** `build-essential` is installed by the **jekyll** layer, which runs *first* (`env/Dockerfile:47` vs `:50`); the build log shows tippecanoe's own apt call reporting `build-essential is already the newest version`. Moving tippecanoe to a builder stage leaves the package in the image regardless, because jekyll put it there. The fix as written rests on a false premise.
 
