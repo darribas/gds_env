@@ -533,9 +533,10 @@ Since the 2026-08-20 rewrite, two more of the numbered items below have landed:
 
 **Both architectures are now verified. 2026-09-08: `make build` and `make test` green on arm64 and amd64**, covering everything merged through #125 — the first successful build *and* test since the audit opened. arm64 logs were read in-session (all three check notebooks executed clean); amd64 was run and reported green by the maintainer, logs not inspected here.
 
-**What is still unverified**, none of it covered by a `make build` of the main image:
+`make build_code` and `make build_agent` also ran green on 2026-09-08 (maintainer-reported), which covers the `SHELL … pipefail` additions to both frontend Dockerfiles from 4.2's lint triage — every image this repo publishes now builds.
 
-- **The `gds_code` and `gds_agent` images.** `make build` builds `gds` only; `make build_code` and `make build_agent` have never run in any session, leaving the `SHELL … pipefail` additions to both frontend Dockerfiles (4.2 triage) untested.
+**What is still unverified:**
+
 - **`image_build.yml`**, which has still never executed (4.2b — one manual `Run workflow` settles it).
 - **`--build-arg BUILDARCH` under the *legacy* builder** (4.3). The green builds used BuildKit, which was never the doubtful path.
 - **The OCI labels** (4.7) build fine, but nobody has run `docker inspect` to confirm their values.
