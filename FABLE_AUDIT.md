@@ -6,7 +6,7 @@
 
 ## Scoreboard
 
-**23 of 37 done · 4 partial · 8 open · 2 closed without action**
+**24 of 37 done · 3 partial · 8 open · 2 closed without action**
 
 | | Meaning |
 |---|---|
@@ -21,17 +21,17 @@
 | 1.1 | ✅ | 2.1 | ✅ | 3.1 | ✅ | 4.1 | ⛔ |
 | 1.2 | ✅ | 2.2 | ✅ | 3.2 | ✅ | 4.2 | 🟡 |
 | 1.3 | ✅ | 2.3 | ✅ | 3.3 | ✅ | 4.3 | ✅ |
-| 1.4 | ⬜ | 2.4 | ✅ | 3.4 | 🟡 | 4.4 | 🟡 |
+| 1.4 | ⬜ | 2.4 | ✅ | 3.4 | ✅ | 4.4 | 🟡 |
 | 1.5 | ⬜ | 2.5 | ✅ | 3.5 | ✅ | 4.5 | ⬜ |
 | 1.6 | 🟡 | 2.6 | ⬜ | 3.6 | ⬜ | 4.6 | ✅ |
 | 1.7 | ⛔ | 2.7 | ✅ | 3.7 | ⬜ | 4.7 | ✅ |
-| 1.8 | ⬜ | 2.8 | ✅ | 3.8 | ✅* | | |
+| 1.8 | ⬜ | 2.8 | ✅ | 3.8 | ✅ | | |
 | 1.9 | ✅ | 2.9 | ✅* | 3.9 | ⬜ | | |
 | | | 2.10 | ✅* | | | | |
 | | | 2.11 | ✅ | | | | |
 | | | 2.12 | ✅ | | | | |
 
-**Remediation history:** PR #103 (audit merged) · #104 (1.2, 1.3, 3.8) · #105 (1.1) · #118 (1.9, 2.2, 2.4, 2.7, 2.8, 2.10 part, 2.11, 2.12, 3.5, 4.3, 4.6, 4.7) · #119 (2.1, 3.2, 4.2a) · #120 (2.5) · #122 (3.1) · #124 (1.6 part, 2.9, 2.10, 3.3) · #125 (3.4 code) · `11fe264` (2.3) · `51e44eb` (4.4a).
+**Remediation history:** PR #103 (audit merged) · #104 (1.2, 1.3, 3.8) · #105 (1.1) · #118 (1.9, 2.2, 2.4, 2.7, 2.8, 2.10 part, 2.11, 2.12, 3.5, 4.3, 4.6, 4.7) · #119 (2.1, 3.2, 4.2a) · #120 (2.5) · #122 (3.1) · #124 (1.6 part, 2.9, 2.10, 3.3) · #125 (3.4, 3.8) · `11fe264` (2.3) · `51e44eb` (4.4a).
 
 **Standing constraints that override any proposal below:**
 - **No version pinning.** The project tracks latest deliberately. 4.1 is won't-fix; any proposed fix reading "pin X" is void (3.8 was solved without pinning for this reason).
@@ -349,7 +349,9 @@ test_%:
 
 ### 3.4 Installer scripts share boilerplate but not conventions 🟡
 
-**Status: PARTIAL — arm64 VERIFIED 2026-09-08, amd64 outstanding.** `make build` and `make test` both green on arm64 with strict mode active in all 12 installers. Neither of the two hazards left deliberately loud (`vim +PlugInstall`, `jupyter labextension disable`) fired. The finding closes when amd64 does the same. All 12 scripts in `env/installers/` now set `set -euo pipefail` (was 2 of 12). The `_lib.sh` helper is **deliberately still absent**: it is a second variable in a build that is expected to break, so it is a follow-up once the build is green — a failing `RUN` should have one suspect, not two.
+**Status: DONE — both arches verified 2026-09-08.** All 12 scripts in `env/installers/` set `set -euo pipefail`, and `make build` + `make test` are green on **arm64 and amd64**. Neither hazard left deliberately loud (`vim +PlugInstall`, `jupyter labextension disable`) fired on either arch. Evidence: arm64 logs were read in-session; amd64 was run and reported green by the maintainer, logs not inspected here.
+
+Strict mode found real bugs, which was the point. Four were fixed pre-emptively so they would not burn build hours (`source activate` not being `-u` clean, `latexmk --version | head -1` taking EPIPE under `pipefail`, `apt-get autoremove` missing `-y` in four scripts). The `_lib.sh` apt helper from the proposed fix is **not** done and is the one piece outstanding — deliberately deferred so this build had a single variable. Now unblocked, and cheap. All 12 scripts in `env/installers/` now set `set -euo pipefail` (was 2 of 12). The `_lib.sh` helper is **deliberately still absent**: it is a second variable in a build that is expected to break, so it is a follow-up once the build is green — a failing `RUN` should have one suspect, not two.
 
 A static pass first, so the build is diagnosable rather than a guessing game. Every variable each script reads is either set locally or provided by `env/Dockerfile`/the base image before its `RUN`, so `set -u` has no exposure. Four latent bugs `set -e`/`pipefail` would otherwise have surfaced as build failures were fixed up front: `source activate gds` is not `-u` clean (exempted with `set +u` around the activation only); `latexmk --version | head -1` gives the writer EPIPE and fails under `pipefail`; and `apt-get autoremove` appeared **four** times with no `-y`, which prompts and hangs with no tty whenever there is something to remove — including in `install_decktape.sh` and `decktape_wrapper.sh`, which have had strict mode all along. `install_conda_env.sh`'s opening `&&` chain is also split into statements so the build log names the failing step.
 
@@ -390,16 +392,16 @@ Both encode the same run contract (mounts, env allowlist). This one is *document
 **Proposed fix:** Align the env allowlists (decide whether `OPENAI_API_KEY` belongs in both or neither), fix SPEC's table (2.6), and add a cross-reference comment at the top of each file naming the other two as its mirrors.
 **Model:** Haiku 4.5.
 
-### 3.8 DeckTape installer complexity ✅*
+### 3.8 DeckTape installer complexity ✅
 
-**Status: DONE — amd64 UNVERIFIED** — Unified on Playwright for both arches with `chromium.executablePath()`; fallback cascade deleted. `97d060f`, plus an amd64 discovery fix in `0674a74`. **On the ✅\* marker:** the two-arch `make test` gate was never reported green, and `DECKTAPE_AMD64_HANDOFF.md` is still an untracked file in the working tree. Treat amd64 as unverified. **Two bugs found and fixed on 2026-09-08 (#125), the first by an actual arm64 build:**
+**Status: DONE — both arches verified 2026-09-08** — Unified on Playwright for both arches with `chromium.executablePath()`; fallback cascade deleted. `97d060f`, plus an amd64 discovery fix in `0674a74`. **The ✅\* marker is cleared:** the two-arch gate is met — `make build` + `make test` green on arm64 (logs read in-session) and amd64 (maintainer-reported). `DECKTAPE_AMD64_HANDOFF.md`, the untracked briefing written for the amd64 diagnosis, has served its purpose and can be deleted. **Two bugs found and fixed on 2026-09-08 (#125), the first by an actual arm64 build:**
 
 1. **The glob lost its race again — and this time broke arm64, the arch that was working.** `make build` on arm64 failed at the DeckTape layer: Playwright moved arm64 onto Chrome-for-Testing builds, which extract to `chrome-linux-arm64/`. The resolver matched `chrome-linux/chrome` and `chrome-linux64/chrome` — it had anticipated CfT's *amd64* name but not its *arm64* one — so `find` returned nothing and `test -n` failed silently with no message. That is the third break from this cause (`db37712`, `1c5282a`, this). The resolver no longer matches on directory layout at all: it searches by **binary name** (`chrome`, then `chrome-headless-shell`/`headless_shell`), which has been stable across every churn, and on failure prints the actual tree instead of exiting 1 in silence. Verified against the real rev-1234 layout on disk plus simulated CfT arm64, CfT amd64, headless-shell-only, and an unknown-layout tree.
 2. **`decktape_wrapper.sh`'s snap check was inverted by `pipefail`.** `head -n 20 … | grep -q 'snap install chromium'` — `grep -q` exits on the first match, `head` takes SIGPIPE, the pipeline reports 141, the `if` goes false, and the function returned **usable for exactly the snap wrapper it exists to reject**, non-deterministically by where the match fell. Now a process substitution, so only grep's status decides. Verified: a snap shim is rejected, a real binary accepted, a non-executable rejected.
 
 Both are runtime-path bugs that no amount of static review had caught — the arm64 one needed a build, which is the standing argument for the validation debt below.
 
-**arm64 re-verified 2026-09-08:** the build resolved `Resolved DeckTape Chrome path: /opt/decktape-browser/chromium-1243/chrome-linux-arm64/chrome` — the CfT arm64 layout the old glob missed — and `make test` passed, including `check_dev_stack.ipynb`, which exercises the jupyter-book PDF export path. amd64 stays unverified, so the ✅\* marker stands. Note this was resolved *without* pinning, contrary to the proposed fix below — see the maintainer's no-pinning policy (4.1).
+**arm64 re-verified 2026-09-08:** the build resolved `Resolved DeckTape Chrome path: /opt/decktape-browser/chromium-1243/chrome-linux-arm64/chrome` — the CfT arm64 layout the old glob missed — and `make test` passed, including `check_dev_stack.ipynb`, which exercises the jupyter-book PDF export path. amd64 followed the same day, once its checkout was brought up to date — it had been sitting 36 commits behind on `a0c90f9`, reproducing the `ls`-glob bug that `0674a74` fixed on 10 July rather than testing any of this. Note this was resolved *without* pinning, contrary to the proposed fix below — see the maintainer's no-pinning policy (4.1).
 
 `install_decktape.sh` is 142 lines, over half of which is a three-stage fallback (find binary → unzip puppeteer's cached chrome zip → unzip headless-shell zip) needed because unpinned `npm install -g decktape` + `puppeteer/install.mjs`/`playwright@latest` behave differently across releases. Pinning the decktape and browser versions (e.g. `npx playwright@1.x install chromium`, or `@puppeteer/browsers install chrome@<build>`) would let the script shrink to ~30 deterministic lines *and* make builds reproducible. The runtime wrapper (`decktape_wrapper.sh`) is sound and can stay as is.
 
@@ -508,8 +510,8 @@ Since the 2026-08-20 rewrite, two more of the numbered items below have landed:
 
 ### Next up
 
-1. **3.4 — the two-arch build.** *(maintainer)* The code landed in #125: strict mode in all 12 installers, plus four latent bugs fixed up front. What remains is the part that always needed Docker — `make build` and `make test` on **both** arches, and a diagnosis pass for whatever strict mode surfaces. Each new failure is a real bug to fix, not to paper over. Start with `vim +PlugInstall` and `jupyter labextension disable`, the two hazards deliberately left loud.
-2. **2.6 + 3.7 — the `gds_agent` doc/config seam.** *(Haiku 4.5)* SPEC.md is now further adrift than the audit recorded (a second OpenAI-compatible provider landed in PR #117). Reconcile SPEC against `opencode.json`, `gdsa` and `compose.yml` in one pass, and label the file normative or historical.
+1. **2.6 + 3.7 — the `gds_agent` doc/config seam.** *(Haiku 4.5)* Now the top item, with 3.4 and 3.8 closed. SPEC.md is further adrift than the audit recorded (a second OpenAI-compatible provider landed in PR #117). Reconcile SPEC against `opencode.json`, `gdsa` and `compose.yml` in one pass — **but decide first whether SPEC.md is normative or historical**, because that changes the work substantially.
+2. **`_lib.sh` — the other half of 3.4.** *(Haiku 4.5)* Extract the shared `apt_install`/cleanup helper the fix calls for. Held back from #125 so the build had one variable; now that both arches are green it is cheap, and a re-build confirms it.
 3. **What is left of the cheap tier**, both blocked on something other than code: **4.2b** needs one manual `Run workflow` on `image_build.yml` — if it goes green, adding `schedule:` is a two-line follow-up. **3.9** needs the versioning model settled first (tag-as-version with a date tag, per the 2026-09-01 note), since a `VERSION` file assumes the older release-version model. **1.6's** remainder needs `jupyter labextension list` in a running image to decide whether the base env still needs `jupytext`.
 4. **1.4 + 1.5 — the remaining size work.** *(Sonnet 5)* Both are evidence-gated: 1.4 needs build-log archaeology on `rust`/`cython` before removal; 1.5 needs the Node PATH resolution observed in the built agent image. Neither is a paper exercise.
 5. **4.5 — write down the base-vs-gds env seam.** *(Opus 4.8)* Investigation-heavy, edit-light; the risk is canonising a misunderstanding.
@@ -529,11 +531,19 @@ Since the 2026-08-20 rewrite, two more of the numbered items below have landed:
 
 ### Outstanding validation debt
 
-**arm64 is now verified. 2026-09-08: `make build` and `make test` both green on arm64** (`gds:2026-09-08_arm64`), covering everything merged through #124 plus #125 — the first successful build *and* test since the audit opened. All three check notebooks executed clean. **amd64 remains entirely unverified.**
+**Both architectures are now verified. 2026-09-08: `make build` and `make test` green on arm64 and amd64**, covering everything merged through #125 — the first successful build *and* test since the audit opened. arm64 logs were read in-session (all three check notebooks executed clean); amd64 was run and reported green by the maintainer, logs not inspected here.
 
-Historically: no remediation session had Docker, and `make build`/`make test` had not been run on either architecture across PRs #104, #105, #118, #119, #120 and #122. CI covers what it can without Docker — `lint.yml` and `test_environment.yml` — but neither builds an image. **Still unverified on amd64:** the DeckTape amd64 path (3.8 — `DECKTAPE_AMD64_HANDOFF.md` in the working tree is the briefing for that), the new OCI labels (4.7), `--build-arg BUILDARCH` under the legacy builder (4.3), the `SHELL … pipefail` additions to the two frontend Dockerfiles (4.2 triage), and `image_build.yml` itself, which has never run. #122's Makefile `$(SPEC)` prerequisite is now proven on arm64 (the build consumed a generated spec). **What the arm64 run does not settle:** the DeckTape amd64 path, `--build-arg BUILDARCH` under the legacy builder, and `image_build.yml`, which has still never run.
+**What is still unverified**, none of it covered by a `make build` of the main image:
 
-**One observation from the green run, not yet a finding:** `env/test_r.log` carries `proj_create: Open of /opt/conda/envs/gds/share/proj failed / no database context specified`. The notebook completed and the run passed, so it is a warning rather than a failure, but it suggests R's PROJ database lookup is not resolving inside the image. Worth a look given #120 restored 44 R packages. Filed as **issue #126**, with the evidence gathered so far: the directory and `proj.db` exist and are readable on the previous image, and `proj4-activate.sh` exports exactly the path the error names — so either `r-proj4` (legacy, deprecated since PROJ 6) is simply noisy, or `PROJ_DATA` is not reaching the `ir` kernel. Not diagnosed. **#120 is now the largest single exposure**: 44 R packages that have never been compiled into this image will be on the next arm64 build, and a solve proves only that the spec resolves.
+- **The `gds_code` and `gds_agent` images.** `make build` builds `gds` only; `make build_code` and `make build_agent` have never run in any session, leaving the `SHELL … pipefail` additions to both frontend Dockerfiles (4.2 triage) untested.
+- **`image_build.yml`**, which has still never executed (4.2b — one manual `Run workflow` settles it).
+- **`--build-arg BUILDARCH` under the *legacy* builder** (4.3). The green builds used BuildKit, which was never the doubtful path.
+- **The OCI labels** (4.7) build fine, but nobody has run `docker inspect` to confirm their values.
+- **Issue #126** — `proj_create` cannot open the PROJ database during the R check. The run passes, so it is a warning, but it is undiagnosed.
+
+Historically: no remediation session had Docker, and `make build`/`make test` had not been run on either architecture across PRs #104, #105, #118, #119, #120 and #122. Historically, CI covered what it could without Docker — `lint.yml` and `test_environment.yml` — but neither builds an image. The list that used to sit here read: the DeckTape amd64 path (3.8 — `DECKTAPE_AMD64_HANDOFF.md` in the working tree is the briefing for that), the new OCI labels (4.7), `--build-arg BUILDARCH` under the legacy builder (4.3), the `SHELL … pipefail` additions to the two frontend Dockerfiles (4.2 triage), and `image_build.yml` itself, which has never run. Of those, the DeckTape amd64 path and #122's Makefile `$(SPEC)` prerequisite are now settled on both arches; the rest carried over to the list above.
+
+**One observation from the green runs, not a finding:** `env/test_r.log` carries `proj_create: Open of /opt/conda/envs/gds/share/proj failed / no database context specified`. The notebook completed and the run passed, so it is a warning rather than a failure, but it suggests R's PROJ database lookup is not resolving inside the image. Worth a look given #120 restored 44 R packages. Filed as **issue #126**, with the evidence gathered so far: the directory and `proj.db` exist and are readable on the previous image, and `proj4-activate.sh` exports exactly the path the error names — so either `r-proj4` (legacy, deprecated since PROJ 6) is simply noisy, or `PROJ_DATA` is not reaching the `ir` kernel. Not diagnosed. **#120 is now the largest single exposure**: 44 R packages that have never been compiled into this image will be on the next arm64 build, and a solve proves only that the spec resolves.
 
 ---
 
