@@ -2,6 +2,10 @@
 
 set -euo pipefail
 
+# shellcheck source-path=SCRIPTDIR
+# shellcheck source=./_lib.sh
+source "$(dirname "${BASH_SOURCE[0]}")/_lib.sh"
+
 ########################
 ### Install Decktape ###
 ########################
@@ -12,8 +16,7 @@ set -euo pipefail
 # Runtime shared libraries Chromium links against. These are the *runtime*
 # packages only — Chrome needs the .so libraries, not the -dev headers, so no
 # `*-dev` packages are installed here (audit 1.3).
-apt-get update -qq \
- && apt-get install -y --no-install-recommends \
+apt_install \
     libasound2t64 \
     libatk1.0-0t64 \
     libatk-bridge2.0-0t64 \
@@ -50,11 +53,7 @@ apt-get update -qq \
     libnss3 \
     lsb-release \
     xdg-utils \
-    wget \
- && rm -rf /var/lib/apt/lists/* \
- && apt-get autoclean \
- && apt-get autoremove -y \
- && apt-get clean
+    wget
 
 decktape_browser_dir=/opt/decktape-browser
 decktape_browser_bin=/usr/local/bin/decktape-chrome

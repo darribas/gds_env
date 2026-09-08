@@ -2,6 +2,10 @@
 
 set -euo pipefail
 
+# shellcheck source-path=SCRIPTDIR
+# shellcheck source=./_lib.sh
+source "$(dirname "${BASH_SOURCE[0]}")/_lib.sh"
+
 #######################
 ### Frogmouth setup ###
 #######################
@@ -13,10 +17,6 @@ set -euo pipefail
 export PIPX_HOME=/opt/pipx
 export PIPX_BIN_DIR=/usr/local/bin
 
-apt-get update \
- && apt-get install -y --no-install-recommends pipx \
- && pipx install frogmouth \
- && rm -rf /var/lib/apt/lists/* \
- && apt-get autoclean \
- && apt-get autoremove -y \
- && apt-get clean
+apt_install pipx
+
+pipx install frogmouth
