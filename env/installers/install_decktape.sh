@@ -53,7 +53,7 @@ apt-get update -qq \
     wget \
  && rm -rf /var/lib/apt/lists/* \
  && apt-get autoclean \
- && apt-get autoremove \
+ && apt-get autoremove -y \
  && apt-get clean
 
 decktape_browser_dir=/opt/decktape-browser

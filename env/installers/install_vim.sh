@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -euo pipefail
+
 #################
 ### Vim setup ###
 #################
@@ -11,7 +13,7 @@ apt-get update \
  && vim +PlugInstall +qall \
  && rm -rf /var/lib/apt/lists/* \
  && apt-get autoclean \
- && apt-get autoremove \
+ && apt-get autoremove -y \
  && apt-get clean
 
 # .vim/ and the root-owned .vimrc (ADDed in the Dockerfile) belong to the

@@ -1,18 +1,33 @@
 #!/bin/bash
 
+set -euo pipefail
+
 #--- [Run under $NB_USER] ---#
 
-mamba env create -f gds.yml \
- && source activate gds \
- && python -m ipykernel install --user --name gds --display-name "GDS-$GDS_ENV_VERSION" \
- && conda deactivate \
- && rm ./gds.yml \
- && conda clean --yes --all --force-pkgs-dirs \
- && find /opt/conda/ -follow -type f -name '*.a' -delete \
- && find /opt/conda/ -follow -type f -name '*.pyc' -delete \
- && find /opt/conda/ -follow -type f -name '*.js.map' -delete \
- && pip cache purge \
- && rm -rf $HOME/.cache/pip
+# Split into separate statements rather than one `&&` chain: under `set -e`
+# each still aborts the script, but the failing step is identifiable from the
+# build log instead of the whole chain reporting as one failure (audit 3.4).
+mamba env create -f gds.yml
+
+# conda's activation scripts reference unset variables, so they are not
+# `set -u` clean. Exempt only the activation; everything else stays strict.
+set +u
+source activate gds
+set -u
+
+python -m ipykernel install --user --name gds --display-name "GDS-$GDS_ENV_VERSION"
+
+set +u
+conda deactivate
+set -u
+
+rm ./gds.yml
+conda clean --yes --all --force-pkgs-dirs
+find /opt/conda/ -follow -type f -name '*.a' -delete
+find /opt/conda/ -follow -type f -name '*.pyc' -delete
+find /opt/conda/ -follow -type f -name '*.js.map' -delete
+pip cache purge
+rm -rf "$HOME"/.cache/pip
 
 #--- R kernel ---#
 R -e "library(IRkernel); \

@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -euo pipefail
+
 apt-get update \
  && apt-get install -y --no-install-recommends \
         ruby-full \
@@ -21,6 +23,6 @@ gem install jekyll bundler jekyll-scholar just-the-docs jekyll-seo-tag
 rm -rf /var/lib/gems/*/cache/* /usr/local/bundle/cache
 rm -rf /var/lib/apt/lists/* \
  && apt-get autoclean \
- && apt-get autoremove \
+ && apt-get autoremove -y \
  && apt-get clean
 

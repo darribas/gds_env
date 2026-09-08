@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -euo pipefail
+
 #--- [Run under $NB_USER] ---#
 
 #--- Text editor / default Vim ---#
