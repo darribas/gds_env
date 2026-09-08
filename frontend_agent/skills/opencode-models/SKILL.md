@@ -9,7 +9,7 @@ Edits to `frontend_agent/opencode.json`, the baked opencode config for the
 `gds_agent` image. It declares two providers — `ollama` and `openai` (both
 via `@ai-sdk/openai-compatible`, since Ollama also exposes an
 OpenAI-compatible endpoint) — the models the agent may pick from under each,
-and the default model. See `frontend_agent/SPEC.md` for how the file gets
+and the default model. See `frontend_agent/README.md` for how the file gets
 mounted and where it lives at runtime (`~/.config/opencode/opencode.json` in
 the container, mounted read-only from this file by `gdsa opencode`).
 
@@ -211,7 +211,8 @@ python3 -m json.tool frontend_agent/opencode.json > /dev/null
 Also sanity-check that `model` and every `provider.ollama.models` /
 `provider.openai.models` key agree with each other — the default must be
 `<provider>/<tag>` for an entry that actually exists under that same
-provider — and that FABLE_AUDIT.md's known SPEC/opencode.json drift note
-(SPEC.md lists a stale model list) isn't being treated as the source of
-truth — `opencode.json` itself is authoritative for what's actually
-shipped.
+provider. `opencode.json` is authoritative for what actually ships. Audit 2.6
+removed the stale model list `SPEC.md` used to carry and renamed that file to
+`frontend_agent/README.md`, which now points here instead of holding its own
+copy — keep it that way rather than re-adding a list that has to be
+maintained twice.

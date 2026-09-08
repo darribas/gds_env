@@ -10,8 +10,16 @@ services:
     stdin_open: true
     tty: true
     working_dir: /home/jovyan/work
+    # Kept aligned with `gdsa`'s allowlist (audit 3.7). gdsa applies it
+    # per-subcommand; compose cannot, so this is the union. Two differences
+    # are deliberate and documented in README.md's "Loose ends":
+    #   * OPENAI_API_KEY is accepted here but forwarded by neither gdsa nor
+    #     either provider -- both providers are self-hosted.
+    #   * COPILOT_* is a glob gdsa expands at runtime; compose has no
+    #     equivalent, so name any you need explicitly.
     environment:
       - OLLAMA_HOST=${OLLAMA_HOST:-}
+      - OPENAI_HOST=${OPENAI_HOST:-}
       - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-}
       - OPENAI_API_KEY=${OPENAI_API_KEY:-}
       - GITHUB_TOKEN=${GITHUB_TOKEN:-}

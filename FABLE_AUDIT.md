@@ -6,7 +6,7 @@
 
 ## Scoreboard
 
-**24 of 37 done · 3 partial · 8 open · 2 closed without action**
+**26 of 37 done · 3 partial · 6 open · 2 closed without action**
 
 | | Meaning |
 |---|---|
@@ -23,15 +23,15 @@
 | 1.3 | ✅ | 2.3 | ✅ | 3.3 | ✅ | 4.3 | ✅ |
 | 1.4 | ⬜ | 2.4 | ✅ | 3.4 | ✅ | 4.4 | 🟡 |
 | 1.5 | ⬜ | 2.5 | ✅ | 3.5 | ✅ | 4.5 | ⬜ |
-| 1.6 | 🟡 | 2.6 | ⬜ | 3.6 | ⬜ | 4.6 | ✅ |
-| 1.7 | ⛔ | 2.7 | ✅ | 3.7 | ⬜ | 4.7 | ✅ |
+| 1.6 | 🟡 | 2.6 | ✅ | 3.6 | ⬜ | 4.6 | ✅ |
+| 1.7 | ⛔ | 2.7 | ✅ | 3.7 | ✅ | 4.7 | ✅ |
 | 1.8 | ⬜ | 2.8 | ✅ | 3.8 | ✅ | | |
 | 1.9 | ✅ | 2.9 | ✅* | 3.9 | ⬜ | | |
 | | | 2.10 | ✅* | | | | |
 | | | 2.11 | ✅ | | | | |
 | | | 2.12 | ✅ | | | | |
 
-**Remediation history:** PR #103 (audit merged) · #104 (1.2, 1.3, 3.8) · #105 (1.1) · #118 (1.9, 2.2, 2.4, 2.7, 2.8, 2.10 part, 2.11, 2.12, 3.5, 4.3, 4.6, 4.7) · #119 (2.1, 3.2, 4.2a) · #120 (2.5) · #122 (3.1) · #124 (1.6 part, 2.9, 2.10, 3.3) · #125 (3.4, 3.8) · `11fe264` (2.3) · `51e44eb` (4.4a).
+**Remediation history:** PR #103 (audit merged) · #104 (1.2, 1.3, 3.8) · #105 (1.1) · #118 (1.9, 2.2, 2.4, 2.7, 2.8, 2.10 part, 2.11, 2.12, 3.5, 4.3, 4.6, 4.7) · #119 (2.1, 3.2, 4.2a) · #120 (2.5) · #122 (3.1) · #124 (1.6 part, 2.9, 2.10, 3.3) · #125 (3.4, 3.8) · #129 (2.6, 3.7) · `11fe264` (2.3) · `51e44eb` (4.4a).
 
 **Standing constraints that override any proposal below:**
 - **No version pinning.** The project tracks latest deliberately. 4.1 is won't-fix; any proposed fix reading "pin X" is void (3.8 was solved without pinning for this reason).
@@ -230,7 +230,11 @@ Some of these may be deliberate platform constraints, but nothing distinguishes 
 
 ### 2.6 `frontend_agent/SPEC.md` disagrees with the implementation ⬜
 
-**Status: TODO** — Unchanged: SPEC.md still says "we pin versions", still lists `qwen3.5`/`gemma4:26b-64k`, still says `main`. Now further adrift — `opencode.json` has since gained a second OpenAI-compatible provider (PR #117).
+**Status: DONE** — Renamed `SPEC.md` → `frontend_agent/README.md` and reconciled against the code. The rename is the substantive part: the maintainer's intent is a living description of the agent surface, and `SPEC.md` invited the opposite reading — it carried "Out of scope for **v1**" and "Known TBDs (resolve during implementation)", the language of a pre-build plan. Two commits in three months, while `opencode.json`, `gdsa` and `compose.yml` all moved repeatedly, is what that framing produces.
+
+Six drifts fixed, each verified against the code: **"we pin versions"** was the reverse of the truth (`CACHEBUST` forces latest every build, per 4.1); **"Ollama-only, no cloud fallback"** predated PR #117's second OpenAI-compatible provider; the **two named models** (`qwen3.5:35b-a3b-coding-nvfp4`, `gemma4:26b-64k`) had both ceased to exist; **`~/.config/gh`** was documented as `copilot` only where `gdsa` mounts it for `claude` and `opencode` too; **`gdsa update`** was documented as pulling from `main` where the code says `master`; and the **env passthrough** was described as one global allowlist when it is per-subcommand — the old list also named `OPENAI_API_KEY`, which `gdsa` forwards nowhere, and omitted `OPENAI_HOST` entirely.
+
+The durable fix is structural rather than textual: the model list is **no longer reproduced** in prose. Three PRs changed it in two months, so the README points at `opencode.json` and the `opencode-models` skill instead of holding a copy that goes stale. A header states outright that the code wins, and names the three authoritative files. PR #129.
 
 - SPEC line 21-22: "*We pin versions, we don't fork*" — the Dockerfile does the opposite by design: a `CACHEBUST` arg (`frontend_agent/Dockerfile:17-22`, `Makefile:90`) forces reinstalling **latest** harnesses on every build.
 - SPEC lists baked models `qwen3.5:35b-a3b-coding-nvfp4` and `gemma4:26b-64k`; `opencode.json` actually ships `qwen3.6:*` and `gemma4:26b-a4b-it-qat*` with default `gemma4:26b-a4b-it-qat-64k`.
@@ -385,7 +389,7 @@ The 13 scripts in `env/installers/` each hand-roll `apt-get update … install �
 
 ### 3.7 `frontend_agent/compose.yml` vs `gdsa` ⬜
 
-**Status: TODO** — Unchanged: `compose.yml` and `gdsa` still drift on the env allowlist. Tied to 2.6.
+**Status: DONE** — `compose.yml` gains `OPENAI_HOST`, which PR #117 added to `gdsa` but never to compose — a user on the compose path could not reach the second provider at all. The two remaining differences are real, and now documented rather than silently tolerated: `OPENAI_API_KEY` is accepted by compose but forwarded by neither `gdsa` nor either provider (both self-hosted), and `COPILOT_*` is a glob `gdsa` expands at runtime that compose has no equivalent for. Noted in the compose file itself and under "Loose ends" in the README, since `gdsa` filters per-subcommand and compose structurally cannot. PR #129.
 
 Both encode the same run contract (mounts, env allowlist). This one is *documented* duplication (the compose header says exactly that), which is fine — but the two have already drifted in small ways (compose forwards `OPENAI_API_KEY`; `gdsa` doesn't, and SPEC's mount table matches neither exactly — see 2.6). Worth a comment discipline: when one changes, touch both.
 
@@ -510,8 +514,8 @@ Since the 2026-08-20 rewrite, two more of the numbered items below have landed:
 
 ### Next up
 
-1. **2.6 + 3.7 — the `gds_agent` doc/config seam.** *(Haiku 4.5)* Now the top item, with 3.4 and 3.8 closed. SPEC.md is further adrift than the audit recorded (a second OpenAI-compatible provider landed in PR #117). Reconcile SPEC against `opencode.json`, `gdsa` and `compose.yml` in one pass — **but decide first whether SPEC.md is normative or historical**, because that changes the work substantially.
-2. **Tighten shellcheck to `--severity=style`.** *(Haiku 4.5)* `lint.yml`'s header says to do this "once 3.4 lands"; 3.4 has landed. It surfaces ~30 info-level SC2086 quoting notes across the installers — mechanical, but they touch scripts that are now build-verified, so it deserves its own pass and a rebuild rather than riding along with something else.
+1. **Tighten shellcheck to `--severity=style`.** *(Haiku 4.5)* `lint.yml`'s header says to do this "once 3.4 lands"; it has. Surfaces ~30 info-level SC2086 quoting notes across the installers — mechanical, but they touch build-verified scripts, so it wants its own pass and a rebuild.
+2. **1.4 + 1.5 — the remaining size work.** *(Sonnet 5)* Both evidence-gated, and both now cheap to settle because the images build: 1.4 needs build-log archaeology on `rust`/`cython`, 1.5 needs the Node PATH resolution observed in the built agent image.
 3. **What is left of the cheap tier**, both blocked on something other than code: **4.2b** needs one manual `Run workflow` on `image_build.yml` — if it goes green, adding `schedule:` is a two-line follow-up. **3.9** needs the versioning model settled first (tag-as-version with a date tag, per the 2026-09-01 note), since a `VERSION` file assumes the older release-version model. **1.6's** remainder needs `jupyter labextension list` in a running image to decide whether the base env still needs `jupytext`.
 4. **1.4 + 1.5 — the remaining size work.** *(Sonnet 5)* Both are evidence-gated: 1.4 needs build-log archaeology on `rust`/`cython` before removal; 1.5 needs the Node PATH resolution observed in the built agent image. Neither is a paper exercise.
 5. **4.5 — write down the base-vs-gds env seam.** *(Opus 4.8)* Investigation-heavy, edit-light; the risk is canonising a misunderstanding.
