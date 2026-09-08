@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -euo pipefail
+
 #############################
 ### Install latest Quarto ###
 #############################

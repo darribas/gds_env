@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -euo pipefail
+
 #--- Texbuild ---#
 
 cp $HOME/texBuild.py /bin/texBuild.py \
@@ -30,4 +32,4 @@ apt-get update -qq \
  && rm -rf /var/lib/apt/lists/* \
  && wget -qO /usr/local/bin/latexmk https://mirror.ctan.org/support/latexmk/latexmk.pl \
  && chmod +x /usr/local/bin/latexmk \
- && latexmk --version | head -1
+ && latexmk --version

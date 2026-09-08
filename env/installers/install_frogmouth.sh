@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -euo pipefail
+
 #######################
 ### Frogmouth setup ###
 #######################
@@ -16,5 +18,5 @@ apt-get update \
  && pipx install frogmouth \
  && rm -rf /var/lib/apt/lists/* \
  && apt-get autoclean \
- && apt-get autoremove \
+ && apt-get autoremove -y \
  && apt-get clean
