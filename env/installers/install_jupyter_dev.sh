@@ -6,9 +6,9 @@ set -euo pipefail
 
 #--- Text editor / default Vim ---#
 # https://github.com/jupyterlab/jupyterlab/issues/14599
-mkdir -p /home/$NB_USER/.jupyter/lab/user-settings/\@jupyterlab/fileeditor-extension/ \
+mkdir -p "/home/$NB_USER/.jupyter/lab/user-settings/@jupyterlab/fileeditor-extension/" \
  && echo '{"editorConfig": {"codeFolding": true, "highlightActiveLine": true, "highlightTrailingWhitespace": true}}' \
- >> /home/$NB_USER/.jupyter/lab/user-settings/\@jupyterlab/fileeditor-extension/plugin.jupyterlab-settings
+ >> "/home/$NB_USER/.jupyter/lab/user-settings/@jupyterlab/fileeditor-extension/plugin.jupyterlab-settings"
 
 #--- JupyterLab extensions & Bash kernel ---#
 
