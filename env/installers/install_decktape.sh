@@ -77,21 +77,36 @@ npm install -g decktape \
 PLAYWRIGHT_BROWSERS_PATH="$decktape_browser_dir" \
     npx --yes playwright@latest install chromium
 
-# Resolve the Chromium binary. Playwright's on-disk layout is NOT stable across
-# versions: Chrome-for-Testing builds extract to `chrome-linux64/chrome`, older
-# builds to `chrome-linux/chrome`. Match either full-browser layout, then fall
-# back to the headless shell — a single fixed glob (e.g. chromium-*/chrome-linux)
-# silently breaks whenever that layout changes.
-chrome_bin="$(find "$decktape_browser_dir" \
-    \( -path '*/chrome-linux/chrome' -o -path '*/chrome-linux64/chrome' \) \
-    -type f 2>/dev/null | sort | tail -n 1)"
+# Resolve the Chromium binary by BINARY NAME, never by directory layout.
+#
+# Playwright's on-disk layout is not stable and has broken this script three
+# times: `chromium-<rev>/chrome-linux/chrome` originally (db37712, 1c5282a),
+# then Chrome-for-Testing builds as `chrome-linux64/` on amd64, and on
+# 2026-09-08 Playwright moved arm64 to CfT too, giving `chrome-linux-arm64/`.
+# Enumerating layouts loses that race by construction -- each new name is
+# another silent `find` miss. The binary *names* have been stable throughout,
+# so match those and let the directory be called whatever it likes.
+find_browser_bin() {
+    # `|| true`: under `pipefail` a non-zero find (e.g. a permission warning)
+    # would otherwise abort the script via `set -e` on the assignment below.
+    find "$decktape_browser_dir" -type f -perm -u+x -name "$1" 2>/dev/null \
+        | sort | tail -n 1 || true
+}
+
+# Prefer the full browser; fall back to the headless shell under either of its
+# names (CfT calls it chrome-headless-shell, Playwright's own builds headless_shell).
+chrome_bin="$(find_browser_bin chrome)"
+for candidate_name in chrome-headless-shell headless_shell; do
+    [ -n "$chrome_bin" ] && break
+    chrome_bin="$(find_browser_bin "$candidate_name")"
+done
+
 if [ -z "$chrome_bin" ]; then
-  chrome_bin="$(find "$decktape_browser_dir" \
-      \( -path '*/chrome-headless-shell/chrome-headless-shell' \
-      -o -path '*/chrome-headless-shell-linux64/chrome-headless-shell' \) \
-      -type f 2>/dev/null | sort | tail -n 1)"
+    echo "ERROR: no Chromium binary found under $decktape_browser_dir" >&2
+    echo "Playwright's layout has changed again. Actual contents:" >&2
+    find "$decktape_browser_dir" -maxdepth 3 >&2
+    exit 1
 fi
-test -n "$chrome_bin"
 test -x "$chrome_bin"
 printf 'Resolved DeckTape Chrome path: %s\n' "$chrome_bin"
 

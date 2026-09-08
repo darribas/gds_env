@@ -45,7 +45,16 @@ is_usable_browser() {
         return 1
     fi
 
-    if head -n 20 "$candidate_path" 2>/dev/null | grep -q 'snap install chromium'; then
+    # No pipeline here, deliberately. Under `set -o pipefail` (set above),
+    # `head ... | grep -q` lets grep exit on the first match while head is
+    # still writing; head takes SIGPIPE, the pipeline reports 141, and the
+    # `if` goes FALSE -- so this returned "usable" for exactly the snap
+    # wrapper it exists to reject, non-deterministically by where the match
+    # fell. Process substitution instead: grep's status alone decides, and
+    # head's is never collected. Capturing into a variable would work too but
+    # warns on the null bytes in a real browser binary.
+    if grep -q 'snap install chromium' \
+            <(head -n 20 "$candidate_path" 2>/dev/null); then
         return 1
     fi
 
