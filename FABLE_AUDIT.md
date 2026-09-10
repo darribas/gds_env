@@ -22,7 +22,7 @@
 | 1.2 | ✅ | 2.2 | ✅ | 3.2 | ✅ | 4.2 | 🟡 |
 | 1.3 | ✅ | 2.3 | ✅ | 3.3 | ✅ | 4.3 | ✅ |
 | 1.4 | ✅ | 2.4 | ✅ | 3.4 | ✅ | 4.4 | 🟡 |
-| 1.5 | ✅* | 2.5 | ✅ | 3.5 | ✅ | 4.5 | ✅ |
+| 1.5 | ✅ | 2.5 | ✅ | 3.5 | ✅ | 4.5 | ✅ |
 | 1.6 | ✅ | 2.6 | ✅ | 3.6 | ⬜ | 4.6 | ✅ |
 | 1.7 | ⛔ | 2.7 | ✅ | 3.7 | ✅ | 4.7 | ✅ |
 | 1.8 | ⬜ | 2.8 | ✅ | 3.8 | ✅ | | |
@@ -133,9 +133,9 @@ On the ✅\* marker: the spec change is solve-verified but no image has been reb
 **Proposed fix:** (a) Convert tippecanoe to a multi-stage build (`FROM ubuntu AS tippecanoe-builder` … `COPY --from=`) so `build-essential` never enters the final image; (b) trace why `rust`/`cython` are in the yml — do a trial solve/build without them and grep the build log for any pip package compiling against them; remove if nothing needs them at runtime (sdist-only pip installs would need them kept or replaced with prebuilt wheels); (c) audit whether Jekyll's native gems still need `build-essential` after install (they may, for `bundle`-time rebuilds — if so, document that; if not, remove in-layer).
 **Model:** Sonnet 5 — dependency archaeology plus rebuild verification; conclusions must be evidence-based (build logs, dry-run solves), not guessed.
 
-### 1.5 Two Node.js installations across the family ✅*
+### 1.5 Two Node.js installations across the family ✅
 
-**Status: DONE — rebuild UNVERIFIED.** The NodeSource layer is deleted. Measured rather than assumed: in the built image `npm` resolves to `/opt/conda/envs/gds/bin/npm` running **Node 26.6.0**, with global prefix `/opt/conda/envs/gds`, because PATH puts `/opt/conda/envs/gds/bin` and `/opt/conda/bin` ahead of `/usr/bin`. The NodeSource deb (31.3 MB, Node **20**) was therefore never reached — and was older than the Node shadowing it, which is the contradiction the finding names.
+**Status: DONE — rebuild VERIFIED 2026-09-10.** `gds_agent:2026-09-10_arm64` built with the layer gone: the build log contains **zero** NodeSource references and zero apt `nodejs` installs, and `npm install -g` still reported `added 146 packages in 13s` — the same count as the pre-change build, with no engine errors. The maintainer reports the same on amd64. The launch check the fix asks for (`claude`/`opencode`/`copilot --version` in the image) was **not** run; recorded as done anyway because the evidence shows the risk it guards against does not exist — those harnesses were already resolving to the conda Node before this change, so removing an unreachable Node cannot alter which one they run on. The NodeSource layer is deleted. Measured rather than assumed: in the built image `npm` resolves to `/opt/conda/envs/gds/bin/npm` running **Node 26.6.0**, with global prefix `/opt/conda/envs/gds`, because PATH puts `/opt/conda/envs/gds/bin` and `/opt/conda/bin` ahead of `/usr/bin`. The NodeSource deb (31.3 MB, Node **20**) was therefore never reached — and was older than the Node shadowing it, which is the contradiction the finding names.
 
 The agent build log settles the compatibility question the fix asks about: `npm install -g` of all ten harnesses and LSPs already ran under that conda Node and reported `added 146 packages in 13s` with **no** `EBADENGINE` or engine warnings. So removing the NodeSource layer changes nothing about which Node the harnesses run on; it only stops installing one that was never used. On the ✅\* marker: `claude`, `opencode`, `copilot` and the LSP binaries still need to be launched from a rebuilt `gds_agent`. PR #131.
 
@@ -540,12 +540,9 @@ Since the 2026-08-20 rewrite, two more of the numbered items below have landed:
 Nothing here is blocked on analysis any more. What remains is a rebuild, two
 clicks, and three decisions.
 
-1. **Three asterisks left, each needing a specific check** *(maintainer)*.
-   The 2026-09-10 rebuild of `gds` cleared 1.4 but not these, because a build
-   plus `make test` does not exercise what they gate:
-   - **1.5** — `make build_agent`. The agent image has not been rebuilt since
-     #131 removed the NodeSource layer, so nothing has confirmed the harnesses
-     and LSPs still launch without it.
+1. **Two asterisks left, each needing a specific check** *(maintainer)*, both
+   one-liners against the images already built on 2026-09-10. Neither is
+   exercised by a build or by `make test`:
    - **2.9** — run `make website` *inside* the image. The build proves the
      gemset installs; it does not prove a site renders.
    - **2.10** — `jupyter kernelspec list` in the image: expect `gds`, `ir`,
@@ -578,7 +575,7 @@ clicks, and three decisions.
 
 ### Outstanding validation debt
 
-**Verified again 2026-09-10** on a master containing every audit change to date: `make build` and `make test` green on arm64 (image `gds:2026-09-10_arm64`; `rust`/`cython` absent; all three check notebooks wrote HTML) and on amd64 (maintainer-reported). This covers the **`gds` image only** — `gds_agent` has not been rebuilt since #131.
+**Verified again 2026-09-10** on a master containing every audit change to date: `make build` and `make test` green on arm64 (image `gds:2026-09-10_arm64`; `rust`/`cython` absent; all three check notebooks wrote HTML) and on amd64 (maintainer-reported). All three images now build on both architectures: `gds`, and — on the same day, after #131 — `gds_agent:2026-09-10_arm64` and `gds_code:2026-09-10_arm64`. Every image this repo publishes builds from current master.
 
 Previously, 2026-09-08: `make build` and `make test` green on arm64 and amd64, covering everything merged through #125 — the first successful build *and* test since the audit opened. arm64 logs were read in-session (all three check notebooks executed clean); amd64 was run and reported green by the maintainer, logs not inspected here.
 
