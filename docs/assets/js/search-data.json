@@ -14,208 +14,215 @@
     "relUrl": "/contributing/#feedback"
   },"2": {
     "doc": "Contributing",
+    "title": "Before changing the image",
+    "content": "The gds image runs two conda environments by design — base serves JupyterLab, gds provides the kernels and the terminal toolchain — and which one a given process resolves to depends on how it was started. Several past bugs live at that seam. If you are touching env/, read env/README.md first. ",
+    "url": "/gds_env/contributing/#before-changing-the-image",
+    
+    "relUrl": "/contributing/#before-changing-the-image"
+  },"3": {
+    "doc": "Contributing",
     "title": "How to Contribute",
     "content": "Anyone can contribute to the course repository via pull requests. We use GitHub flow to manage changes: . | Create a fork of this repository, and clone it to your local computer. | In your local copy of this repository, create a new branch. | Commit your changes to that branch. | Push the edits on that branch to your fork on GitHub. | Submit a pull request to the main repository (darribas/gds_env). | If you receive feedback on your pull request, make further commits to the new branch on your fork. These will automatically be added to your pull request. | . You may wish to look at How to Contribute to an Open Source Project on GitHub for more detailed instructions. The GitHub Glossary is also a useful resource that explains Git-related terminology. ",
     "url": "/gds_env/contributing/#how-to-contribute",
     
     "relUrl": "/contributing/#how-to-contribute"
-  },"3": {
+  },"4": {
     "doc": "Docker - Build",
     "title": "Build the Docker image",
     "content": ". NOTE: This guide is for building the Docker image from source. If you just want to run gds_env, see the install guide instead. ",
     "url": "/gds_env/guides/docker_build/#build-the-docker-image",
     
     "relUrl": "/guides/docker_build/#build-the-docker-image"
-  },"4": {
+  },"5": {
     "doc": "Docker - Build",
     "title": "Requirements",
     "content": ". | Docker installed and running | A clone of the gds_env repository | make | . ",
     "url": "/gds_env/guides/docker_build/#requirements",
     
     "relUrl": "/guides/docker_build/#requirements"
-  },"5": {
+  },"6": {
     "doc": "Docker - Build",
     "title": "Build process",
     "content": "From the root of the repository, run: . make build . This builds the image and tags it as gds:latest (and gds:&lt;date&gt;_&lt;arch&gt;). The build log is saved to env/build_&lt;arch&gt;.log. The build installs the full conda environment defined in env/gds_&lt;arch&gt;.yml, plus a set of additional tools (Quarto, Jekyll, tippecanoe, decktape, LaTeX tools, Vim, GPQ). It can take a while — especially on first run. Once complete, verify the image was built: . docker image ls | grep gds . ",
     "url": "/gds_env/guides/docker_build/#build-process",
     
     "relUrl": "/guides/docker_build/#build-process"
-  },"6": {
+  },"7": {
     "doc": "Docker - Build",
     "title": "Testing the build",
     "content": "To run the test notebooks against a built image: . make test image=gds:&lt;your-tag&gt; . This runs both the Python and R check notebooks inside the container and saves HTML output locally. ",
     "url": "/gds_env/guides/docker_build/#testing-the-build",
     
     "relUrl": "/guides/docker_build/#testing-the-build"
-  },"7": {
+  },"8": {
     "doc": "Docker - Build",
     "title": "Building gds_code",
     "content": "To build the gds_code variant (VS Code in the browser) on top of an existing gds image: . make build_code image=gds:&lt;your-tag&gt; . See the gds_code stack page for more details. ",
     "url": "/gds_env/guides/docker_build/#building-gds_code",
     
     "relUrl": "/guides/docker_build/#building-gds_code"
-  },"8": {
+  },"9": {
     "doc": "Docker - Build",
     "title": "Docker - Build",
     "content": " ",
     "url": "/gds_env/guides/docker_build/",
     
     "relUrl": "/guides/docker_build/"
-  },"9": {
+  },"10": {
     "doc": "Docker - Install",
     "title": "Install on Docker",
     "content": " ",
     "url": "/gds_env/guides/docker_install/#install-on-docker",
     
     "relUrl": "/guides/docker_install/#install-on-docker"
-  },"10": {
+  },"11": {
     "doc": "Docker - Install",
     "title": "Installing Docker",
     "content": "To run the gds_env you need Docker installed on your machine. Here are the official installation guides: . | Windows | macOS | Ubuntu Linux | . ",
     "url": "/gds_env/guides/docker_install/#installing-docker",
     
     "relUrl": "/guides/docker_install/#installing-docker"
-  },"11": {
+  },"12": {
     "doc": "Docker - Install",
     "title": "Pulling the image",
     "content": "Once Docker is running, pull the gds image: . docker pull darribas/gds:11.0 . This may take a few minutes on the first run — the image includes a full Python and R geospatial stack. See the gds stack page for a full list of included packages. ",
     "url": "/gds_env/guides/docker_install/#pulling-the-image",
     
     "relUrl": "/guides/docker_install/#pulling-the-image"
-  },"12": {
+  },"13": {
     "doc": "Docker - Install",
     "title": "Running the image",
     "content": "docker run --rm -ti -p 8888:8888 -v ${PWD}:/home/jovyan/work darribas/gds:11.0 . A few notes: . | This opens port 8888 so you can access JupyterLab from your browser at localhost:8888. Copy the token printed in the terminal when prompted. | The -v ${PWD}:/home/jovyan/work flag mounts your current folder into the container. Files in that folder will appear under work/ in the JupyterLab file browser. Replace ${PWD} with any path on your machine — for example /Users/&lt;username&gt;/Desktop on macOS. | . ",
     "url": "/gds_env/guides/docker_install/#running-the-image",
     
     "relUrl": "/guides/docker_install/#running-the-image"
-  },"13": {
+  },"14": {
     "doc": "Docker - Install",
     "title": "Docker - Install",
     "content": " ",
     "url": "/gds_env/guides/docker_install/",
     
     "relUrl": "/guides/docker_install/"
-  },"14": {
+  },"15": {
     "doc": "FAQ",
     "title": "Frequently Asked questions",
     "content": ". | What is a container? | Why is gds_env not a desktop app? | Do I need to build my own gds_env to be able to run it? | Can gds_env be installed and run without advanced technical skills? | Is the gds_env suitable for teaching environments? | Who is behind the gds_env? | . What is a container? . A container is like a “box” that contains an entirely self-sufficient software stack. You can think of containers as fully packaged apps that, once built, can be transferred from one machine to another and will run exactly the same code, byte by byte. If you are familiar with virtual machines (VMs), containers are a bit like that, but much more lightweight, and starting them up is a lot faster. For that reason, they have become the standard in the tech industry to run almost everything in production. The gds_env project provides a container (gds) which allows you to run a JupyterLab instance seamlessly without having to install anything else beyond Docker. The container includes JupyterLab, all the Python and R geospatial packages, and all the underlying dependencies — no manual installation required. Why is gds_env not a desktop app? . A modern software stack for (geospatial) scientific computing is a very complex and delicate construction. For the final product (e.g. JupyterLab) to work, several pieces need to be in the right place and in the right shape. For example, several Python and R geospatial libraries (e.g. geopandas or sf) rely on libraries for much of the heavy lifting (e.g. GDAL). These libraries are written in low-level languages such as C/C++ and need to be compiled with the appropriate options, which are tailored to the operating system, version of other packages, etc. This is already complicated enough to expect beginners to do it. Furthermore, even if originally the stack is installed correctly on a desktop, this can change if new libraries are installed subsequently, breaking the install of the earlier libraries. Containers help in this context because they offload all the technical details of an install away from the end-user. Once the container is built and works correctly, it can be transferred to any other platform that has Docker installed and it will run just as it does on the original setup. No hairy installation guides. Just pulling the container with one command. Building a container instead of a desktop app has additional benefits. The range of setups in which it can be run is wider. A container can be run on almost any laptop; but it can also be run on a server, a supercomputer, or in the cloud. This streamlines how a user can learn, prototype and deploy analysis. You can learn Python on your laptop, then apply what you learn on a research project and, when the data or requirements of the analysis grow too big for your laptop, move it to a server or the cloud without intermediate install headaches. If it works on your laptop, it will work anywhere. Do I need to build my own gds_env to be able to run it? . No. Every release, a new version of the gds_env is built and published to Docker Hub (check out the list of releases for more details). You can use those containers directly without having to build them yourself — just follow the Docker install guide. Can gds_env be installed and run without advanced technical skills? . Yes! In fact, this is one of the main goals of the project. Building a container can be tricky but, once someone has built it, installing it is much more straightforward. The idea of the gds_env project is to provide pre-built containers that give access to state-of-the-art software for Geographic Data Science and that can be installed and run by non-technical audiences. If you are an end-user, the Docker install guide walks you through the process step by step. Is the gds_env suitable for teaching environments? . Absolutely! One of the original reasons why the project got off the ground was the need, within the Geographic Data Science Lab, to deploy complex scientific stacks for Python and R to students who are learning to code for the first time. If you are using the gds_env to help you teach, we would love to hear from you — feel free to drop Dani a line at D.Arribas-Bel [at] liverpool.ac.uk. Who is behind the gds_env? . The gds_env was originally an idea by Dani Arribas-Bel (@darribas) to manage his own scientific software installs for research and teaching (mostly at the Geographic Data Science Lab). The project has grown over time and a few more people have contributed. You can see the full list of contributors and if you would like to get involved, see the guidance on contributing. ",
     "url": "/gds_env/faq/#frequently-asked-questions",
     
     "relUrl": "/faq/#frequently-asked-questions"
-  },"15": {
+  },"16": {
     "doc": "FAQ",
     "title": "FAQ",
     "content": " ",
     "url": "/gds_env/faq/",
     
     "relUrl": "/faq/"
-  },"16": {
+  },"17": {
     "doc": "gds",
     "title": "gds",
     "content": "The gds image is the core of the gds_env. It extends the official Jupyter minimal-notebook with a comprehensive geospatial stack for both Python and R, plus a set of development tools. ",
     "url": "/gds_env/stacks/gds/",
     
     "relUrl": "/stacks/gds/"
-  },"17": {
+  },"18": {
     "doc": "gds",
     "title": "Contents",
     "content": "Base . | JupyterLab, Notebook, and Hub | LaTeX distribution and pandoc (for PDF/document export) | . Python geospatial libraries — including geopandas, pysal, rasterio, xarray, osmnx, dask-geopandas, contextily, movingpandas, momepy, and many more. Full list below. R geospatial libraries — including sf, terra, spdep, tmap, tidyverse, ggplot2, and many more, with an R kernel for Jupyter via IRkernel and Python↔R interop via rpy2. Full list below. Development tools . | Quarto — scientific publishing system | Jekyll — static site generator | tippecanoe — vector tileset builder | decktape — HTML slides → PDF | gpq — GeoParquet validator | Vim — terminal editor | . ",
     "url": "/gds_env/stacks/gds/#contents",
     
     "relUrl": "/stacks/gds/#contents"
-  },"18": {
+  },"19": {
     "doc": "gds",
     "title": "Package lists",
     "content": "Full lists of installed packages are available for each release on the repository: . | Python stack (amd64) | Python stack (arm64) | R stack (amd64) | R stack (arm64) | . ",
     "url": "/gds_env/stacks/gds/#package-lists",
     
     "relUrl": "/stacks/gds/#package-lists"
-  },"19": {
+  },"20": {
     "doc": "gds",
     "title": "Install",
     "content": "Pull the image from Docker Hub: . docker pull darribas/gds:11.0 . For instructions on running the image, see the Docker install guide. ",
     "url": "/gds_env/stacks/gds/#install",
     
     "relUrl": "/stacks/gds/#install"
-  },"20": {
+  },"21": {
     "doc": "gds_code",
     "title": "gds_code",
     "content": "gds_code is a variant of gds that replaces the JupyterLab interface with code-server — a browser-based VS Code environment. It includes the full gds software stack (Python, R, and all development tools) with VS Code as the front end. ",
     "url": "/gds_env/stacks/gds_code/",
     
     "relUrl": "/stacks/gds_code/"
-  },"21": {
+  },"22": {
     "doc": "gds_code",
     "title": "Additional contents",
     "content": "On top of everything in gds, gds_code adds: . | code-server — VS Code in the browser | Pre-installed VS Code extensions: . | Quarto | Jupyter | Python | LaTeX Workshop | Vim | Catppuccin theme | . | . ",
     "url": "/gds_env/stacks/gds_code/#additional-contents",
     
     "relUrl": "/stacks/gds_code/#additional-contents"
-  },"22": {
+  },"23": {
     "doc": "gds_code",
     "title": "Build",
     "content": "gds_code is built on top of an existing gds image. From the repo root: . make build_code image=darribas/gds:11.0 . ",
     "url": "/gds_env/stacks/gds_code/#build",
     
     "relUrl": "/stacks/gds_code/#build"
-  },"23": {
+  },"24": {
     "doc": "gds_code",
     "title": "Run",
     "content": "docker run --rm -p 8443:8080 -e PASSWORD=&lt;your-password&gt; \\ -v ${PWD}:/home/jovyan/work \\ gds_code:11.0 . Then point your browser to localhost:8443. Or use the provided compose.yml in frontend_code/ for a persistent setup. ",
     "url": "/gds_env/stacks/gds_code/#run",
     
     "relUrl": "/stacks/gds_code/#run"
-  },"24": {
+  },"25": {
     "doc": "Guides",
     "title": "Guides",
     "content": "This section covers how to build, install, and run the gds_env using Docker — the only supported delivery channel. Two scenarios are covered: . | Install: for end users who want to pull and run a pre-built image | Build: for developers or administrators who want to build the image from source | . ",
     "url": "/gds_env/guides/",
     
     "relUrl": "/guides/"
-  },"25": {
+  },"26": {
     "doc": "Home",
     "title": "A containerised platform for Geographic Data Science: gds_env",
     "content": ". | Dani Arribas-Bel [@darribas] | . The gds_env (short for “GDS environment”) provides a modern platform for Geographic Data Science. The project is a Jupyter-based stack that includes state-of-the-art geospatial libraries for Python and R. The gds_env is based on container technology to make it a transferrable platform for reproducibility. The source code is released under an open source license and the build process is transparent. The gds_env extends the official Jupyter Docker Stack to include geospatial functionality in both Python and R. For more information on the stack and how to build or install it, check the Stacks and Guides sections. The goal of the gds_env is to make using Python and R for geospatial easy to set up in a large variety of contexts. The gds_env can support research and teaching activities, but is also suitable for data scientists using Python and R “in the field”. The stack can be used in a range of environments, including: Windows/Mac/Linux laptops and desktops, servers, compute clusters, supercomputers or in the cloud. ",
     "url": "/gds_env/#a-containerised-platform-for-geographic-data-science-gds_env",
     
     "relUrl": "/#a-containerised-platform-for-geographic-data-science-gds_env"
-  },"26": {
+  },"27": {
     "doc": "Home",
     "title": "Building blocks",
     "content": "The gds_env stands on the shoulders of giants. Here are the core open technologies it is built with: . ",
     "url": "/gds_env/#building-blocks",
     
     "relUrl": "/#building-blocks"
-  },"27": {
+  },"28": {
     "doc": "Home",
     "title": "Community",
     "content": "The gds_env is an open-source project. To join the conversation, please read through its community guidelines. ",
     "url": "/gds_env/#community",
     
     "relUrl": "/#community"
-  },"28": {
+  },"29": {
     "doc": "Home",
     "title": "Citation",
     "content": "@software{gds_env, author = { Dani Arribas-Bel }, title = {\\texttt{gds\\_env}: A containerised platform for Geographic Data Science}, url = {https://darribas.org/gds_env}, version = {11.0}, date = {2023-04-11}, doi = {10.5281/zenodo.4642516}, } . ",
     "url": "/gds_env/#citation",
     
     "relUrl": "/#citation"
-  },"29": {
+  },"30": {
     "doc": "Home",
     "title": "License",
     "content": "The code to generate the gds_env is released under a BSD License. More details available on the repository’s license document. ",
     "url": "/gds_env/#license",
     
     "relUrl": "/#license"
-  },"30": {
+  },"31": {
     "doc": "Home",
     "title": "Home",
     "content": " ",
     "url": "/gds_env/",
     
     "relUrl": "/"
-  },"31": {
+  },"32": {
     "doc": "Stacks",
     "title": "Stacks",
     "content": "The gds_env provides a Jupyter-based platform to run Python and R geospatial packages in a way that can be deployed in a variety of contexts. Two variants are available: . | gds: the core image — Jupyter + Python geospatial libraries + R geospatial libraries + development tools | gds_code: gds with code-server added, providing a VS Code interface in the browser | . For most users, gds is the right starting point. gds_code is for users who prefer a VS Code environment over JupyterLab. ",
