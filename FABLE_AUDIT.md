@@ -26,7 +26,7 @@
 | 1.6 | ✅ | 2.6 | ✅ | 3.6 | ⬜ | 4.6 | ✅ |
 | 1.7 | ⛔ | 2.7 | ✅ | 3.7 | ✅ | 4.7 | ✅ |
 | 1.8 | ⬜ | 2.8 | ✅ | 3.8 | ✅ | | |
-| 1.9 | ✅ | 2.9 | ✅* | 3.9 | ⬜ | | |
+| 1.9 | ✅ | 2.9 | ✅ | 3.9 | ⬜ | | |
 | | | 2.10 | ✅ | | | | |
 | | | 2.11 | ✅ | | | | |
 | | | 2.12 | ✅ | | | | |
@@ -283,9 +283,13 @@ If SPEC.md is meant to be a living document, reconcile it; if it was a one-off d
 **Proposed fix:** Drop the dead `export` line; move `_includes` cleanup out of the serve chain (either a separate `website_clean` target or leave the dir — it's gitignored). While there, prefix the recipe with `JEKYLL_ENV=docker` inline on the serve command itself.
 **Model:** Haiku 4.5 — small, but review by eye that the recipe still reads as one shell where it must.
 
-### 2.9 Jekyll toolchains conflict inside the image ✅*
+### 2.9 Jekyll toolchains conflict inside the image ✅
 
-**Status: DONE — in-image build UNVERIFIED** — `github-pages` dropped: it exists to pin Jekyll to GitHub's legacy 3.10 while the same line installed unpinned Jekyll 4.x, so the resolution was whatever RubyGems happened to pick. The site is built with Jekyll 4 (root `Gemfile`) and served from static `docs/`, so nothing needed the meta-gem. `jekyll-seo-tag` **added** — `website/_config.yml` declares it under `plugins:` but the image never shipped it. `jekyll-scholar` **kept, on the maintainer's call**: course sites built inside the image use it for bibliographies, even though this repo's own site does not — so the audit's "unless a course site still needs it" is answered, not skipped. Note the proposed `-v '~> 4.3'` pin was *not* applied; pinning is void under 4.1. On the ✅\* marker, **and a correction to the fix itself (2026-09-10): `make website` inside the image is the wrong test, and cannot pass.** It was run and failed with `Bundler::GemNotFound` — `csv-3.3.5, i18n-1.14.8, json-2.19.5, webrick-1.9.2, jekyll-include-cache-0.2.1, concurrent-ruby-1.3.6, …` not found.
+**Status: DONE — in-image build VERIFIED 2026-09-10** — a standalone `jekyll build` in the image, using its own gems and no bundler, completed in 0.178s and wrote `_site/index.html`. Jekyll 4, `just-the-docs` 0.12.0 and `jekyll-seo-tag` all resolve and run without `github-pages`. The theme's SCSS was compiled during the build, which proves `just-the-docs` was genuinely found and processed rather than merely installed.
+
+Two caveats, recorded rather than glossed: the test page carried no `layout:`, so the output is 26 bytes and the theme *layout* was not exercised — only its assets; and `jekyll-seo-tag` loaded as a plugin without error but was not exercised either, since it only injects when a layout calls `{% seo %}`. The finding's substance — does dropping `github-pages` break the toolchain — is settled; a full themed render is not.
+
+**Watch item.** The build emitted several hundred Sass deprecation warnings from `just-the-docs` 0.12.0: `@import` rules and the global `darken()`/`lighten()`/`map-get()` builtins are all slated for removal in Dart Sass 3.0. Nothing fails today, but the image tracks `sass-embedded` unpinned (policy 4.1), so the day Dart Sass 3.0 lands the theme will stop compiling until upstream `just-the-docs` migrates. Not actionable now; worth recognising when it happens rather than diagnosing from scratch. — `github-pages` dropped: it exists to pin Jekyll to GitHub's legacy 3.10 while the same line installed unpinned Jekyll 4.x, so the resolution was whatever RubyGems happened to pick. The site is built with Jekyll 4 (root `Gemfile`) and served from static `docs/`, so nothing needed the meta-gem. `jekyll-seo-tag` **added** — `website/_config.yml` declares it under `plugins:` but the image never shipped it. `jekyll-scholar` **kept, on the maintainer's call**: course sites built inside the image use it for bibliographies, even though this repo's own site does not — so the audit's "unless a course site still needs it" is answered, not skipped. Note the proposed `-v '~> 4.3'` pin was *not* applied; pinning is void under 4.1. On the ✅\* marker, **and a correction to the fix itself (2026-09-10): `make website` inside the image is the wrong test, and cannot pass.** It was run and failed with `Bundler::GemNotFound` — `csv-3.3.5, i18n-1.14.8, json-2.19.5, webrick-1.9.2, jekyll-include-cache-0.2.1, concurrent-ruby-1.3.6, …` not found.
 
 That is structural, not a regression from this change. `make website` runs `bundle exec jekyll build`, which demands the **exact** versions pinned in `Gemfile.lock`. CI satisfies that because `build_site.yml` uses `ruby/setup-ruby` with `bundler-cache: true`, which runs `bundle install`. The image never runs `bundle install` — `install_jekyll.sh` uses `gem install`, unpinned — so it holds *newer* gems than the lock pins and `bundle exec` cannot resolve. Several of the missing pins (`json 2.19.5`, `concurrent-ruby 1.3.6`) are exactly the old versions dependabot #99/#107 want to bump.
 
@@ -560,12 +564,9 @@ Since the 2026-08-20 rewrite, two more of the numbered items below have landed:
 Nothing here is blocked on analysis any more. What remains is a rebuild, two
 clicks, and three decisions.
 
-1. **One asterisk left** *(maintainer)*, not exercised by a build or by
-   `make test`:
-   - **2.9** — a standalone `jekyll build` in the image using its own gems
-     (command in the finding). **Not** `make website`: that runs
-     `bundle exec` against `Gemfile.lock`, which the image cannot satisfy
-     because it installs gems unpinned, and it would rewrite `docs/`.
+1. **No asterisks left.** Every finding marked done has had its stated gate
+   met, or the gate corrected and then met. What follows is decisions and two
+   defect issues.
 
 2. **4.2b** — one manual `Run workflow` on `image_build.yml`. If it goes
    green, adding `schedule:` is a two-line follow-up. It has never executed.
