@@ -21,13 +21,13 @@
 | 1.1 | ✅ | 2.1 | ✅ | 3.1 | ✅ | 4.1 | ⛔ |
 | 1.2 | ✅ | 2.2 | ✅ | 3.2 | ✅ | 4.2 | 🟡 |
 | 1.3 | ✅ | 2.3 | ✅ | 3.3 | ✅ | 4.3 | ✅ |
-| 1.4 | ✅* | 2.4 | ✅ | 3.4 | ✅ | 4.4 | 🟡 |
-| 1.5 | ✅* | 2.5 | ✅ | 3.5 | ✅ | 4.5 | ✅ |
+| 1.4 | ✅ | 2.4 | ✅ | 3.4 | ✅ | 4.4 | 🟡 |
+| 1.5 | ✅ | 2.5 | ✅ | 3.5 | ✅ | 4.5 | ✅ |
 | 1.6 | ✅ | 2.6 | ✅ | 3.6 | ⬜ | 4.6 | ✅ |
 | 1.7 | ⛔ | 2.7 | ✅ | 3.7 | ✅ | 4.7 | ✅ |
 | 1.8 | ⬜ | 2.8 | ✅ | 3.8 | ✅ | | |
-| 1.9 | ✅ | 2.9 | ✅* | 3.9 | ⬜ | | |
-| | | 2.10 | ✅* | | | | |
+| 1.9 | ✅ | 2.9 | ✅ | 3.9 | ⬜ | | |
+| | | 2.10 | ✅ | | | | |
 | | | 2.11 | ✅ | | | | |
 | | | 2.12 | ✅ | | | | |
 
@@ -105,9 +105,9 @@ In Docker's overlay filesystem, a layer can only *add* bytes; deleting or modify
 **Proposed fix:** Delete the nine `-dev` entries and the duplicate `libpangocairo-1.0-0`; rebuild and run a DeckTape export as the smoke test (the wrapper already exercises the browser end-to-end).
 **Model:** Haiku 4.5 — a pure list edit with an existing smoke test; this report specifies the exact lines.
 
-### 1.4 Build toolchains left in the runtime image ✅*
+### 1.4 Build toolchains left in the runtime image ✅
 
-**Status: DONE — rebuild UNVERIFIED.** The archaeology this finding demanded was done against the first green build, and **it contradicts two of the three proposed fixes.** PR #131.
+**Status: DONE — rebuild VERIFIED 2026-09-10.** `gds:2026-09-10_arm64` built from the trimmed spec with `rust` and `cython` absent from the build log, and all three check notebooks executed and wrote HTML; the maintainer reports the same on amd64. The archaeology this finding demanded was done against the first green build, and **it contradicts two of the three proposed fixes.** PR #131.
 
 **(b) `rust` and `cython` are gone.** Four independent checks agreed: nothing in the resolved environment depends on either (rust's only dependents are its own `rust`/`rust-std` pair; cython has none); the entire build log contains **zero** `Building wheel for`, `cargo`, `maturin` or `setuptools_rust` lines, so no pip package compiles from source; dry-run solves on **both** platforms drop **exactly three** packages each and add nothing — no substitution, no downgrade, nothing pulled in to replace them:
 
@@ -133,9 +133,9 @@ On the ✅\* marker: the spec change is solve-verified but no image has been reb
 **Proposed fix:** (a) Convert tippecanoe to a multi-stage build (`FROM ubuntu AS tippecanoe-builder` … `COPY --from=`) so `build-essential` never enters the final image; (b) trace why `rust`/`cython` are in the yml — do a trial solve/build without them and grep the build log for any pip package compiling against them; remove if nothing needs them at runtime (sdist-only pip installs would need them kept or replaced with prebuilt wheels); (c) audit whether Jekyll's native gems still need `build-essential` after install (they may, for `bundle`-time rebuilds — if so, document that; if not, remove in-layer).
 **Model:** Sonnet 5 — dependency archaeology plus rebuild verification; conclusions must be evidence-based (build logs, dry-run solves), not guessed.
 
-### 1.5 Two Node.js installations across the family ✅*
+### 1.5 Two Node.js installations across the family ✅
 
-**Status: DONE — rebuild UNVERIFIED.** The NodeSource layer is deleted. Measured rather than assumed: in the built image `npm` resolves to `/opt/conda/envs/gds/bin/npm` running **Node 26.6.0**, with global prefix `/opt/conda/envs/gds`, because PATH puts `/opt/conda/envs/gds/bin` and `/opt/conda/bin` ahead of `/usr/bin`. The NodeSource deb (31.3 MB, Node **20**) was therefore never reached — and was older than the Node shadowing it, which is the contradiction the finding names.
+**Status: DONE — rebuild VERIFIED 2026-09-10.** `gds_agent:2026-09-10_arm64` built with the layer gone: the build log contains **zero** NodeSource references and zero apt `nodejs` installs, and `npm install -g` still reported `added 146 packages in 13s` — the same count as the pre-change build, with no engine errors. The maintainer reports the same on amd64. The launch check the fix asks for was then run against the rebuilt image and all three harnesses report versions: **Claude Code 2.1.267, opencode 1.18.30, Copilot CLI 1.0.83**. The LSP binaries were not launched individually, but they come from the same `npm install -g` in the same layer under the same Node, so the harnesses starting is the meaningful signal. This confirms what the PATH evidence predicted — the harnesses already resolved to the conda Node before #131, so removing a Node that was never reachable could not change which one they run on. The NodeSource layer is deleted. Measured rather than assumed: in the built image `npm` resolves to `/opt/conda/envs/gds/bin/npm` running **Node 26.6.0**, with global prefix `/opt/conda/envs/gds`, because PATH puts `/opt/conda/envs/gds/bin` and `/opt/conda/bin` ahead of `/usr/bin`. The NodeSource deb (31.3 MB, Node **20**) was therefore never reached — and was older than the Node shadowing it, which is the contradiction the finding names.
 
 The agent build log settles the compatibility question the fix asks about: `npm install -g` of all ten harnesses and LSPs already ran under that conda Node and reported `added 146 packages in 13s` with **no** `EBADENGINE` or engine warnings. So removing the NodeSource layer changes nothing about which Node the harnesses run on; it only stops installing one that was never used. On the ✅\* marker: `claude`, `opencode`, `copilot` and the LSP binaries still need to be launched from a rebuilt `gds_agent`. PR #131.
 
@@ -283,18 +283,42 @@ If SPEC.md is meant to be a living document, reconcile it; if it was a one-off d
 **Proposed fix:** Drop the dead `export` line; move `_includes` cleanup out of the serve chain (either a separate `website_clean` target or leave the dir — it's gitignored). While there, prefix the recipe with `JEKYLL_ENV=docker` inline on the serve command itself.
 **Model:** Haiku 4.5 — small, but review by eye that the recipe still reads as one shell where it must.
 
-### 2.9 Jekyll toolchains conflict inside the image ✅*
+### 2.9 Jekyll toolchains conflict inside the image ✅
 
-**Status: DONE — in-image build UNVERIFIED** — `github-pages` dropped: it exists to pin Jekyll to GitHub's legacy 3.10 while the same line installed unpinned Jekyll 4.x, so the resolution was whatever RubyGems happened to pick. The site is built with Jekyll 4 (root `Gemfile`) and served from static `docs/`, so nothing needed the meta-gem. `jekyll-seo-tag` **added** — `website/_config.yml` declares it under `plugins:` but the image never shipped it. `jekyll-scholar` **kept, on the maintainer's call**: course sites built inside the image use it for bibliographies, even though this repo's own site does not — so the audit's "unless a course site still needs it" is answered, not skipped. Note the proposed `-v '~> 4.3'` pin was *not* applied; pinning is void under 4.1. On the ✅\* marker: the fix calls for `make website` run inside the image, which needs Docker. PR #124.
+**Status: DONE — in-image build VERIFIED 2026-09-10** — a standalone `jekyll build` in the image, using its own gems and no bundler, completed in 0.178s and wrote `_site/index.html`. Jekyll 4, `just-the-docs` 0.12.0 and `jekyll-seo-tag` all resolve and run without `github-pages`. The theme's SCSS was compiled during the build, which proves `just-the-docs` was genuinely found and processed rather than merely installed.
+
+Two caveats, recorded rather than glossed: the test page carried no `layout:`, so the output is 26 bytes and the theme *layout* was not exercised — only its assets; and `jekyll-seo-tag` loaded as a plugin without error but was not exercised either, since it only injects when a layout calls `{% seo %}`. The finding's substance — does dropping `github-pages` break the toolchain — is settled; a full themed render is not.
+
+**Watch item.** The build emitted several hundred Sass deprecation warnings from `just-the-docs` 0.12.0: `@import` rules and the global `darken()`/`lighten()`/`map-get()` builtins are all slated for removal in Dart Sass 3.0. Nothing fails today, but the image tracks `sass-embedded` unpinned (policy 4.1), so the day Dart Sass 3.0 lands the theme will stop compiling until upstream `just-the-docs` migrates. Not actionable now; worth recognising when it happens rather than diagnosing from scratch. — `github-pages` dropped: it exists to pin Jekyll to GitHub's legacy 3.10 while the same line installed unpinned Jekyll 4.x, so the resolution was whatever RubyGems happened to pick. The site is built with Jekyll 4 (root `Gemfile`) and served from static `docs/`, so nothing needed the meta-gem. `jekyll-seo-tag` **added** — `website/_config.yml` declares it under `plugins:` but the image never shipped it. `jekyll-scholar` **kept, on the maintainer's call**: course sites built inside the image use it for bibliographies, even though this repo's own site does not — so the audit's "unless a course site still needs it" is answered, not skipped. Note the proposed `-v '~> 4.3'` pin was *not* applied; pinning is void under 4.1. On the ✅\* marker, **and a correction to the fix itself (2026-09-10): `make website` inside the image is the wrong test, and cannot pass.** It was run and failed with `Bundler::GemNotFound` — `csv-3.3.5, i18n-1.14.8, json-2.19.5, webrick-1.9.2, jekyll-include-cache-0.2.1, concurrent-ruby-1.3.6, …` not found.
+
+That is structural, not a regression from this change. `make website` runs `bundle exec jekyll build`, which demands the **exact** versions pinned in `Gemfile.lock`. CI satisfies that because `build_site.yml` uses `ruby/setup-ruby` with `bundler-cache: true`, which runs `bundle install`. The image never runs `bundle install` — `install_jekyll.sh` uses `gem install`, unpinned — so it holds *newer* gems than the lock pins and `bundle exec` cannot resolve. Several of the missing pins (`json 2.19.5`, `concurrent-ruby 1.3.6`) are exactly the old versions dependabot #99/#107 want to bump.
+
+There is a second reason not to run that target in a container: it ends `rm -rf docs && mv website/_site docs`, so on success it would have **regenerated the committed `docs/` tree** from gems that differ from CI's, producing a spurious diff. The failure prevented that.
+
+**The right test** for what this finding actually changed — that the image's Jekyll toolchain still works after dropping `github-pages` — is a standalone build using the image's own gems, no bundler:
+
+```bash
+docker run --rm gds:latest start.sh bash -lc 'set -e
+  d=$(mktemp -d); cd "$d"
+  printf "title: t\ntheme: just-the-docs\nplugins:\n  - jekyll-seo-tag\n" > _config.yml
+  printf -- "---\ntitle: Home\n---\n\n# hello\n" > index.md
+  jekyll build && ls -l _site/index.html'
+```
+
+That exercises `jekyll`, `just-the-docs` and `jekyll-seo-tag` — the three the gemset change touched — the way a student building a course site would. PR #124.
 
 `install_jekyll.sh:11` installs, in one gemset: `jekyll` (unpinned → 4.x), `github-pages` (which pins Jekyll **3.10**), `jekyll-scholar`, and `just-the-docs`. The `github-pages` meta-gem exists precisely to constrain Jekyll to GitHub's legacy version, so installing it alongside latest Jekyll guarantees a conflicting resolution (RubyGems will keep both and `bundle`-less invocations pick unpredictably). Meanwhile the site itself is built (in CI and via root `Gemfile`) with Jekyll `~> 4.3` and does *not* use `github-pages` (the Pages site is served from static `docs/` with `.nojekyll`). The `github-pages`, `jekyll-scholar` gems in the image look vestigial — pick the one toolchain the website actually uses.
 
 **Proposed fix:** Reduce `install_jekyll.sh` to the toolchain the repo actually uses: `gem install bundler jekyll -v '~> 4.3'` plus `just-the-docs` (matching the root `Gemfile`), dropping `github-pages` and — unless a course site still needs it — `jekyll-scholar`. Verify with `make website` run *inside* the image.
 **Model:** Sonnet 5 — needs a check of what user-facing course workflows rely on (`jekyll-scholar` may be intentional for teaching sites) before deleting, plus an in-image build test.
 
-### 2.10 Deprecated/undefined names in the Jupyter setup ✅*
+### 2.10 Deprecated/undefined names in the Jupyter setup ✅
 
-**Status: DONE — filtering behaviour UNVERIFIED** — `cd $NB_HOME` gone (`9632985`); all five `ADD` directives now `COPY` (PR #118); and `c.KernelSpecManager.whitelist` is now `allowed_kernelspecs`, the name jupyter_client 7 renamed it to (PR #124). The deferral was about risk, and that risk turned out to be absent: the allowlist is `{'gds', 'ir', 'bash'}`, which is exactly the three kernels the image installs — `gds` (ipykernel), `ir` (IRkernel), `bash` (bash_kernel) — with `python3` explicitly removed on the next line. So if the rename makes filtering start working where the old name was ignored, no kernel disappears. On the ✅\* marker: that reasoning is from reading the installers, not from observing a running container. Verify with `jupyter kernelspec list` in the built image.
+**Status: DONE — filtering behaviour VERIFIED 2026-09-10** — `/api/kernelspecs` on a running Lab server returns exactly `['bash', 'gds', 'ir']`, so Lab does apply `~/.jupyter/jupyter_lab_config.py` and `allowed_kernelspecs` filters as intended. Note `jupyter kernelspec list` cannot show this: it is a jupyter_client CLI reading `jupyter_config.py`, so it lists `python3` from disk regardless. — `cd $NB_HOME` gone (`9632985`); all five `ADD` directives now `COPY` (PR #118); and `c.KernelSpecManager.whitelist` is now `allowed_kernelspecs`, the name jupyter_client 7 renamed it to (PR #124). The deferral was about risk, and that risk turned out to be absent: the allowlist is `{'gds', 'ir', 'bash'}`, which is exactly the three kernels the image installs — `gds` (ipykernel), `ir` (IRkernel), `bash` (bash_kernel) — with `python3` explicitly removed on the next line. So if the rename makes filtering start working where the old name was ignored, no kernel disappears.
+
+**Correction, 2026-09-10.** That reasoning rested on the finding's premise that `whitelist` was ignored. It was not. Tested directly on jupyter_client 8.9.1: passing `--KernelSpecManager.whitelist="{'gds','ir','bash'}"` filters `python3` out exactly as `allowed_kernelspecs` does, emitting only `KernelSpecManager.whitelist is deprecated in jupyter_client 7.0`. So the rename fixed a deprecation warning, not a live defect — the filter was working all along. Worth recording because the opposite was stated confidently here and in `env/README.md`.
+
+**Now observed (2026-09-10):** `/api/kernelspecs` returns `['bash', 'gds', 'ir']`. Lab applies its config file and the filter works. The same server's startup log independently confirms the two-env seam — `JupyterLab extension loaded from /opt/conda/lib/python3.13/site-packages/jupyterlab` — i.e. base, Python 3.13, serves Lab. On the ✅\* marker: that reasoning is from reading the installers, not from observing a running container. Verify with `jupyter kernelspec list` in the built image.
 
 - `install_conda_env.sh:29-30` writes `c.KernelSpecManager.whitelist` — deprecated since jupyter_client 7 (renamed `allowed_kernelspecs`); with the JupyterLab ≥ 4 stack shipped here it at best emits deprecation warnings and may be ignored entirely, which would defeat the intended kernel filtering. Verify against the running image and switch to `allowed_kernelspecs`.
 - `env/Dockerfile:74`: `cd $NB_HOME` — `NB_HOME` is not defined anywhere (the jupyter stacks define `HOME`/`NB_USER`). It expands empty, and `cd` with no argument happens to go to `$HOME`, so it works by accident.
@@ -540,11 +564,10 @@ Since the 2026-08-20 rewrite, two more of the numbered items below have landed:
 Nothing here is blocked on analysis any more. What remains is a rebuild, two
 clicks, and three decisions.
 
-1. **Rebuild both images** *(maintainer)* to clear the ✅\* on 1.4 and 1.5.
-   `make build` proves the trimmed spec builds and that `pip install` of an
-   sdist still finds a compiler; `make build_agent` proves the harnesses and
-   LSPs still launch without the NodeSource layer. Expect the `gds` image
-   ~364 MB smaller.
+1. **No asterisks left.** Every finding marked done has had its stated gate
+   met, or the gate corrected and then met. What follows is decisions and two
+   defect issues.
+
 2. **4.2b** — one manual `Run workflow` on `image_build.yml`. If it goes
    green, adding `schedule:` is a two-line follow-up. It has never executed.
 3. **The two runtime defects**, both found only by interrogating a running
@@ -572,7 +595,9 @@ clicks, and three decisions.
 
 ### Outstanding validation debt
 
-**Both architectures are now verified. 2026-09-08: `make build` and `make test` green on arm64 and amd64**, covering everything merged through #125 — the first successful build *and* test since the audit opened. arm64 logs were read in-session (all three check notebooks executed clean); amd64 was run and reported green by the maintainer, logs not inspected here.
+**Verified again 2026-09-10** on a master containing every audit change to date: `make build` and `make test` green on arm64 (image `gds:2026-09-10_arm64`; `rust`/`cython` absent; all three check notebooks wrote HTML) and on amd64 (maintainer-reported). All three images now build on both architectures: `gds`, and — on the same day, after #131 — `gds_agent:2026-09-10_arm64` and `gds_code:2026-09-10_arm64`. Every image this repo publishes builds from current master.
+
+Previously, 2026-09-08: `make build` and `make test` green on arm64 and amd64, covering everything merged through #125 — the first successful build *and* test since the audit opened. arm64 logs were read in-session (all three check notebooks executed clean); amd64 was run and reported green by the maintainer, logs not inspected here.
 
 `make build_code` and `make build_agent` also ran green on 2026-09-08 (maintainer-reported), which covers the `SHELL … pipefail` additions to both frontend Dockerfiles from 4.2's lint triage — every image this repo publishes now builds.
 

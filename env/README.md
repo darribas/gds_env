@@ -104,9 +104,18 @@ picker. Remove any of them and users get a `python3` kernel that runs base —
 Python 3.13 with none of the geospatial stack — which looks like a broken
 image rather than a wrong choice.
 
-`allowed_kernelspecs` was called `whitelist` until audit 2.10. That name has
-been dead since jupyter_client 7, so for a long time the filter silently did
-nothing.
+`allowed_kernelspecs` was called `whitelist` until audit 2.10. Contrary to
+what that finding assumed, the old name was **never silently ignored** — on
+jupyter_client 8.9.1 it still filters correctly and merely warns
+`KernelSpecManager.whitelist is deprecated in jupyter_client 7.0`. Verified by
+passing each name explicitly; both drop `python3` from the list. The rename
+was still right, since deprecated traits do eventually go, but it fixed a
+warning rather than a live bug.
+
+Note `jupyter kernelspec list` will **not** show you this filtering. That CLI
+reads `jupyter_config.py`, not `jupyter_lab_config.py`, so it lists what is on
+disk — including `python3`. To see what the Lab picker offers, ask the running
+server: `curl -s localhost:8888/api/kernelspecs`.
 
 ## Deliberate duplication
 
@@ -132,13 +141,20 @@ Three things exist in both environments. None is an accident:
   `Removed /opt/conda/envs/gds/share/jupyter/kernels/python3` — the *gds*
   one. Base's `python3` kernelspec survives at
   `/opt/conda/share/jupyter/kernels/python3` and is masked by
-  `allowed_kernelspecs`, not deleted. That is fragile: the mask is doing the
-  work the removal was meant to do.
+  `allowed_kernelspecs`, not deleted. **Verified 2026-09-10** that the mask
+  works — `/api/kernelspecs` on a running server returns exactly
+  `['bash', 'gds', 'ir']` — but it is doing the work the removal was meant to
+  do, so deleting the config line would expose a kernel, not just a warning.
 - **Two JupyterLabs.** base has 4.6.2 and serves; gds has 4.6.3 and does not.
   Nothing in the gds env depends on `jupyterlab` — it is there because
   `env/gds.yml` lists it explicitly. It is also the reason a bare
   `command -v jupyter` finds the *non-serving* Lab. Whether the gds entry
   still earns its place is an open question; see below.
+
+- **`Skipped non-installed server(s): bash-language-server, pyright, …`** in
+  the startup log is expected here. `jupyter_lsp` probes for language servers
+  and finds none, because the LSPs are installed in `gds_agent`, not in this
+  image. Alarming-looking, harmless.
 
 ## Open questions
 
