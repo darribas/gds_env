@@ -21,7 +21,7 @@
 | 1.1 | ✅ | 2.1 | ✅ | 3.1 | ✅ | 4.1 | ⛔ |
 | 1.2 | ✅ | 2.2 | ✅ | 3.2 | ✅ | 4.2 | 🟡 |
 | 1.3 | ✅ | 2.3 | ✅ | 3.3 | ✅ | 4.3 | ✅ |
-| 1.4 | ✅* | 2.4 | ✅ | 3.4 | ✅ | 4.4 | 🟡 |
+| 1.4 | ✅ | 2.4 | ✅ | 3.4 | ✅ | 4.4 | 🟡 |
 | 1.5 | ✅* | 2.5 | ✅ | 3.5 | ✅ | 4.5 | ✅ |
 | 1.6 | ✅ | 2.6 | ✅ | 3.6 | ⬜ | 4.6 | ✅ |
 | 1.7 | ⛔ | 2.7 | ✅ | 3.7 | ✅ | 4.7 | ✅ |
@@ -105,9 +105,9 @@ In Docker's overlay filesystem, a layer can only *add* bytes; deleting or modify
 **Proposed fix:** Delete the nine `-dev` entries and the duplicate `libpangocairo-1.0-0`; rebuild and run a DeckTape export as the smoke test (the wrapper already exercises the browser end-to-end).
 **Model:** Haiku 4.5 — a pure list edit with an existing smoke test; this report specifies the exact lines.
 
-### 1.4 Build toolchains left in the runtime image ✅*
+### 1.4 Build toolchains left in the runtime image ✅
 
-**Status: DONE — rebuild UNVERIFIED.** The archaeology this finding demanded was done against the first green build, and **it contradicts two of the three proposed fixes.** PR #131.
+**Status: DONE — rebuild VERIFIED 2026-09-10.** `gds:2026-09-10_arm64` built from the trimmed spec with `rust` and `cython` absent from the build log, and all three check notebooks executed and wrote HTML; the maintainer reports the same on amd64. The archaeology this finding demanded was done against the first green build, and **it contradicts two of the three proposed fixes.** PR #131.
 
 **(b) `rust` and `cython` are gone.** Four independent checks agreed: nothing in the resolved environment depends on either (rust's only dependents are its own `rust`/`rust-std` pair; cython has none); the entire build log contains **zero** `Building wheel for`, `cargo`, `maturin` or `setuptools_rust` lines, so no pip package compiles from source; dry-run solves on **both** platforms drop **exactly three** packages each and add nothing — no substitution, no downgrade, nothing pulled in to replace them:
 
@@ -540,11 +540,17 @@ Since the 2026-08-20 rewrite, two more of the numbered items below have landed:
 Nothing here is blocked on analysis any more. What remains is a rebuild, two
 clicks, and three decisions.
 
-1. **Rebuild both images** *(maintainer)* to clear the ✅\* on 1.4 and 1.5.
-   `make build` proves the trimmed spec builds and that `pip install` of an
-   sdist still finds a compiler; `make build_agent` proves the harnesses and
-   LSPs still launch without the NodeSource layer. Expect the `gds` image
-   ~364 MB smaller.
+1. **Three asterisks left, each needing a specific check** *(maintainer)*.
+   The 2026-09-10 rebuild of `gds` cleared 1.4 but not these, because a build
+   plus `make test` does not exercise what they gate:
+   - **1.5** — `make build_agent`. The agent image has not been rebuilt since
+     #131 removed the NodeSource layer, so nothing has confirmed the harnesses
+     and LSPs still launch without it.
+   - **2.9** — run `make website` *inside* the image. The build proves the
+     gemset installs; it does not prove a site renders.
+   - **2.10** — `jupyter kernelspec list` in the image: expect `gds`, `ir`,
+     `bash` and **not** `python3`. `make test` runs nbconvert, which never
+     touches the kernel picker.
 2. **4.2b** — one manual `Run workflow` on `image_build.yml`. If it goes
    green, adding `schedule:` is a two-line follow-up. It has never executed.
 3. **The two runtime defects**, both found only by interrogating a running
@@ -572,7 +578,9 @@ clicks, and three decisions.
 
 ### Outstanding validation debt
 
-**Both architectures are now verified. 2026-09-08: `make build` and `make test` green on arm64 and amd64**, covering everything merged through #125 — the first successful build *and* test since the audit opened. arm64 logs were read in-session (all three check notebooks executed clean); amd64 was run and reported green by the maintainer, logs not inspected here.
+**Verified again 2026-09-10** on a master containing every audit change to date: `make build` and `make test` green on arm64 (image `gds:2026-09-10_arm64`; `rust`/`cython` absent; all three check notebooks wrote HTML) and on amd64 (maintainer-reported). This covers the **`gds` image only** — `gds_agent` has not been rebuilt since #131.
+
+Previously, 2026-09-08: `make build` and `make test` green on arm64 and amd64, covering everything merged through #125 — the first successful build *and* test since the audit opened. arm64 logs were read in-session (all three check notebooks executed clean); amd64 was run and reported green by the maintainer, logs not inspected here.
 
 `make build_code` and `make build_agent` also ran green on 2026-09-08 (maintainer-reported), which covers the `SHELL … pipefail` additions to both frontend Dockerfiles from 4.2's lint triage — every image this repo publishes now builds.
 
