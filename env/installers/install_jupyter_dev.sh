@@ -16,6 +16,15 @@ jupyter labextension disable "@jupyterlab/apputils-extension:announcements"
 
 mamba install python-graphviz "nodejs>=22"
 
+# NOTE on jupyterlab_myst below: it is currently DORMANT and kept on purpose.
+# 2.7.0 needs @jupyter/ydoc 3.x while the bundled Lab ships 4.x, so its
+# frontend asset does not load (the server extension does). 2.7.0 is the latest
+# upstream, so there is nothing newer to move to and pinning would not help.
+# MyST rendering in the Lab UI is used, and this starts working again by itself
+# on the first rebuild after upstream supports ydoc 4. Tracking: issue #132.
+#
+# Do not move this note into the list below -- a comment inside a
+# backslash-continued command truncates it silently.
 pip install \
          bash_kernel \
          jupyterlab-geojson \

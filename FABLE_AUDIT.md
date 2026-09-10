@@ -6,7 +6,7 @@
 
 ## Scoreboard
 
-**30 of 37 done · 2 partial · 3 open · 2 closed without action**
+**32 of 37 done · 1 partial · 2 open · 2 closed without action**
 
 | | Meaning |
 |---|---|
@@ -21,9 +21,9 @@
 | 1.1 | ✅ | 2.1 | ✅ | 3.1 | ✅ | 4.1 | ⛔ |
 | 1.2 | ✅ | 2.2 | ✅ | 3.2 | ✅ | 4.2 | 🟡 |
 | 1.3 | ✅ | 2.3 | ✅ | 3.3 | ✅ | 4.3 | ✅ |
-| 1.4 | ✅ | 2.4 | ✅ | 3.4 | ✅ | 4.4 | 🟡 |
+| 1.4 | ✅ | 2.4 | ✅ | 3.4 | ✅ | 4.4 | ✅ |
 | 1.5 | ✅ | 2.5 | ✅ | 3.5 | ✅ | 4.5 | ✅ |
-| 1.6 | ✅ | 2.6 | ✅ | 3.6 | ⬜ | 4.6 | ✅ |
+| 1.6 | ✅ | 2.6 | ✅ | 3.6 | ✅ | 4.6 | ✅ |
 | 1.7 | ⛔ | 2.7 | ✅ | 3.7 | ✅ | 4.7 | ✅ |
 | 1.8 | ⬜ | 2.8 | ✅ | 3.8 | ✅ | | |
 | 1.9 | ✅ | 2.9 | ✅ | 3.9 | ⬜ | | |
@@ -31,7 +31,7 @@
 | | | 2.11 | ✅ | | | | |
 | | | 2.12 | ✅ | | | | |
 
-**Remediation history:** PR #103 (audit merged) · #104 (1.2, 1.3, 3.8) · #105 (1.1) · #118 (1.9, 2.2, 2.4, 2.7, 2.8, 2.10 part, 2.11, 2.12, 3.5, 4.3, 4.6, 4.7) · #119 (2.1, 3.2, 4.2a) · #120 (2.5) · #122 (3.1) · #124 (1.6 part, 2.9, 2.10, 3.3) · #125 (3.4, 3.8) · #129 (2.6, 3.7) · #130 (4.2 lint bar) · #131 (1.4, 1.5) · #133 (4.5, 1.6) · `11fe264` (2.3) · `51e44eb` (4.4a).
+**Remediation history:** PR #103 (audit merged) · #104 (1.2, 1.3, 3.8) · #105 (1.1) · #118 (1.9, 2.2, 2.4, 2.7, 2.8, 2.10 part, 2.11, 2.12, 3.5, 4.3, 4.6, 4.7) · #119 (2.1, 3.2, 4.2a) · #120 (2.5) · #122 (3.1) · #124 (1.6 part, 2.9, 2.10, 3.3) · #125 (3.4, 3.8) · #129 (2.6, 3.7) · #130 (4.2 lint bar) · #131 (1.4, 1.5) · #136 (3.6, 4.4b) · #133 (4.5, 1.6) · `11fe264` (2.3) · `51e44eb` (4.4a).
 
 **Standing constraints that override any proposal below:**
 - **No version pinning.** The project tracks latest deliberately. 4.1 is won't-fix; any proposed fix reading "pin X" is void (3.8 was solved without pinning for this reason).
@@ -165,7 +165,7 @@ The agent build log settles the compatibility question the fix asks about: `npm 
 
 ### 1.8 Committed Jekyll build output ⬜
 
-**Status: TODO** — Unchanged: `docs/` (1.3 MB, 24 files) still committed. Blocked on a maintainer-side GitHub Pages settings change.
+**Status: TODO — deferred deliberately, tracked as issue #135 (2026-09-10).** `docs/` (1.3 MB, 24 files) is still committed, and there are now **158 commits titled "Build website"**. The maintainer's call is to leave the working setup alone and migrate in a deliberate window rather than as part of an unrelated change — the sequencing has a public failure mode, since the site 404s if `docs/` is deleted before the Pages source is switched to "GitHub Actions". Issue #135 records the three ordered steps, and draws a line the finding did not: this is about stopping the tree growing *going forward*; purging it from history is a separate decision needing `filter-repo`, which rewrites every SHA and breaks existing clones and forks.
 
 `docs/` (1.3 MB, 24 files) is the built copy of `website/` (380 KB source), committed on every site build by `.github/workflows/build_site.yml`. This is a deliberate GitHub-Pages-from-`docs/` setup, but the modern alternative (`actions/deploy-pages` from a workflow artifact) removes the built tree — and the recurring "Build website" commits — from history entirely.
 
@@ -421,9 +421,11 @@ The 13 scripts in `env/installers/` each hand-roll `apt-get update … install �
 **Proposed fix:** `git rm` the four scripts and change line 15 to `COPY ./installers/*.sh $HOME/scripts/` (which also resolves the ADD half of 2.10).
 **Model:** Haiku 4.5 — deletion plus a one-line glob change, already verified unreferenced.
 
-### 3.6 Overlapping test notebooks ⬜
+### 3.6 Overlapping test notebooks ✅
 
-**Status: TODO** — Unchanged. Blocked on a maintainer decision per notebook (`test_py_stack.ipynb`, `test_courses.ipynb`).
+**Status: DONE — and it had been satisfied for some time without anyone noticing.** The fix offers two branches: document them as manual, or delete them. **2.11's README rewrite (PR #118) already took the first branch** — `env/py/README.md:7` and `env/r/README.md:8` each carry a line describing the notebook as "a longer, exploratory notebook kept for manual runs". Maintainer confirmed 2026-09-10 that this is sufficient and both notebooks stay.
+
+For the record: both were last touched 2024-06-03, and neither is referenced by the Makefile or CI. `test_py_stack.ipynb` is four cells running the *upstream* test suites of geopandas, xarray and sklearn — hours of runtime, and a test of those libraries rather than of this image. That is exactly why it is a manual-only notebook and not part of `make test`.
 
 `env/py/` contains both `check_py_stack.ipynb` (34 cells, import-everything smoke test, used by `make test`) and `test_py_stack.ipynb` (4 cells running the *full upstream test suites* of geopandas/xarray/sklearn — hours of runtime, referenced by nothing in the repo). `env/r/test_courses.ipynb` (32 KB) is similarly unreferenced by Makefile or CI. If they are used manually, say so in the READMEs (2.11); otherwise remove them.
 
@@ -500,7 +502,15 @@ The only working workflow builds the website. The actual product — the image �
 
 ### 4.4 `gdsa` polish (small; the script is otherwise in good shape) 🟡
 
-**Status: PARTIAL** — **(a) DONE** — `_cmd_update` resolves the symlink target before writing, so a symlinked install stays linked (`51e44eb`). **(b) TODO** — the `--with-git-creds` credential-mount change still needs a maintainer decision.
+**Status: DONE** — **(a)** `_cmd_update` resolves the symlink target before writing, so a symlinked install stays linked (`51e44eb`). **(b)** `--with-git-creds` (short form `-git`) implemented, default **off** for `claude`, `opencode` and `copilot` (PR #136).
+
+What the flag gates, as one coherent "git/GitHub credentials" bundle: `~/.ssh` (ro), `~/.config/gh` (rw), and the `GITHUB_TOKEN`/`GH_TOKEN` env vars. Gating the mounts but still forwarding the tokens would have left the same exfiltration surface open, so they move together.
+
+What is deliberately **not** gated: `~/.gitconfig`, which is identity rather than a credential — without it, commits made in the container carry the wrong author; and the harness auth dirs `~/.claude` / `~/.copilot`, which are what make the harness work at all and are useless for pushing to your repos. Copilot CLI keeps its own auth in `~/.copilot`, so it still functions without the GitHub set.
+
+`gdsa shell` is unchanged and keeps the full set: no harness is running, so the untrusted-agent argument does not apply. `_ensure_gh_auth` now no-ops when the creds will not be mounted, since it would otherwise prompt you to authenticate a config the container never sees.
+
+Documented in `gdsa help` as the maintainer asked, which surfaced two pre-existing bugs in that help: `_usage` hardcoded `sed -n '2,15p'`, so **`OPENAI_HOST` had never been shown**, and the header still said `update` pulls from `main` where the code says `master`. Both fixed; `_usage` now prints the header block to its first non-comment line, so it cannot silently truncate again.
 
 - `_cmd_update` (`utils/gdsa:328-339`) writes to `${BASH_SOURCE[0]}` — when installed as the documented symlink, `mv` replaces the *symlink itself* with a plain file, silently detaching the launcher from the repo checkout and breaking the `../frontend_agent/opencode.json` mounts that `SCRIPT_DIR` resolution otherwise provides. Resolve the symlink target before writing (the `_resolve_script_dir` helper already knows how).
 - The `claude`/`copilot` subcommands run with `--dangerously-skip-permissions`/`--allow-all` while bind-mounting `~/.ssh` (ro) and `~/.config/gh` (rw) — i.e. the "container is the sandbox" posture still hands the agent push-capable credentials. That is a documented, deliberate trade-off (SPEC), but the SSH mount is not needed for the harness to *run*; consider making credential mounts opt-in (`--with-git-creds`) so `gdsa claude` on an untrusted repo defaults to no exfiltratable secrets.
@@ -561,24 +571,24 @@ Since the 2026-08-20 rewrite, two more of the numbered items below have landed:
 
 ### Next up
 
-Nothing here is blocked on analysis any more. What remains is a rebuild, two
-clicks, and three decisions.
+The audit is effectively closed. What remains is one workflow run, one deferred
+decision, and three tracked issues.
 
-1. **No asterisks left.** Every finding marked done has had its stated gate
-   met, or the gate corrected and then met. What follows is decisions and two
-   defect issues.
-
-2. **4.2b** — one manual `Run workflow` on `image_build.yml`. If it goes
-   green, adding `schedule:` is a two-line follow-up. It has never executed.
-3. **The two runtime defects**, both found only by interrogating a running
-   image and neither visible to `make test`: **#126** (`proj_create` cannot
-   open the PROJ database during the R check) and **#132**
-   (`jupyterlab-myst` ships but is incompatible with the bundled Lab, so it
-   never loads). #132 needs a keep/drop decision; #126 needs a diagnosis.
-4. **3.9** — the `VERSION` consolidation, deferred until the versioning model
-   is settled (tag-as-version with a date tag, per the 2026-09-01 note).
-5. **3.6 + 1.8 + 4.4b** — all three blocked on a maintainer decision rather
-   than on work; see the section below.
+1. **4.2b** — one manual `Run workflow` on `image_build.yml`. It has never
+   executed. If it goes green, adding `schedule:` is a two-line follow-up, and
+   4.2 closes.
+2. **3.9** — the `VERSION` consolidation, still deferred until the versioning
+   model is settled (tag-as-version with a date tag, per the 2026-09-01 note).
+   The finding's proposed fix assumes the older release-version model, so it
+   may be the wrong fix rather than merely a pending one.
+3. **Tracked as issues, not findings:** #126 (`proj_create` cannot open the
+   PROJ database during the R check — undiagnosed), #132 (`jupyterlab-myst`
+   dormant against the bundled Lab; kept deliberately, recheck when upstream
+   ships `@jupyter/ydoc` 4 support), and #135 (migrate Pages off the committed
+   `docs/` tree).
+4. **Unrelated to the audit, still open:** dependabot #99 (clears a **high**
+   severity `concurrent-ruby` advisory) and #107, plus #115. Both dependabot
+   PRs touch `Gemfile.lock` only, so the no-pinning policy does not block them.
 
 ### Blocked on a maintainer decision
 
