@@ -6,7 +6,7 @@
 
 ## Scoreboard
 
-**32 of 37 done · 1 partial · 2 open · 2 closed without action**
+**33 of 37 done · 0 partial · 2 open · 2 closed without action**
 
 | | Meaning |
 |---|---|
@@ -19,7 +19,7 @@
 | Finding | | Finding | | Finding | | Finding | |
 |---|---|---|---|---|---|---|---|
 | 1.1 | ✅ | 2.1 | ✅ | 3.1 | ✅ | 4.1 | ⛔ |
-| 1.2 | ✅ | 2.2 | ✅ | 3.2 | ✅ | 4.2 | 🟡 |
+| 1.2 | ✅ | 2.2 | ✅ | 3.2 | ✅ | 4.2 | ✅ |
 | 1.3 | ✅ | 2.3 | ✅ | 3.3 | ✅ | 4.3 | ✅ |
 | 1.4 | ✅ | 2.4 | ✅ | 3.4 | ✅ | 4.4 | ✅ |
 | 1.5 | ✅ | 2.5 | ✅ | 3.5 | ✅ | 4.5 | ✅ |
@@ -479,9 +479,11 @@ Unpinned-at-build-time today: Quarto (`latest` from download JSON), Typst (`rele
 **Proposed fix:** Adopt a per-image pinning policy (see plan item 10) and implement it as `<TOOL>_VERSION` variables at the top of each installer, following the GPQ pattern: Quarto and Typst from versioned release URLs, tippecanoe from a release tag, code-server via the installer's `--version` flag. Where feasible add a `sha256sum -c` for the downloaded artifact. Leave the agent image on declared-latest but say so in SPEC.md.
 **Model:** Sonnet 5 — repetitive but each pin needs its current-latest looked up and the build re-verified; a checksum mistake bricks the build.
 
-### 4.2 No CI exercises the Dockerfiles 🟡
+### 4.2 No CI exercises the Dockerfiles ✅
 
-**Status: PARTIAL** — **(a) DONE and verified green.** `lint.yml` runs hadolint over all four Dockerfiles and shellcheck over the installers plus `utils/gdsa`, on every PR. Its first run failed and found real bugs, now fixed: four `curl … | sh|bash` layers reported the *shell's* exit status rather than curl's, so a failed download produced a successful layer and a silently missing tool (DL4006 — same masked-failure class as 3.4); `install_tippecanoe.sh` had no shebang (SC2148); `mkdir -p -m` set the mode on only the deepest directory (SC2174). `.hadolint.yaml` disables the pin-versions rules and DL3006 with pointers to 4.1 rather than silencing them in-line, and shellcheck now runs at `--severity=style`, raised from `warning` in #130 once 3.4 landed: the 27 remaining findings (25 SC2086 quoting notes, one SC2001, one SC1091) were fixed and the bar moved, so the whole class is now blocking rather than advisory. **(b) `image_build.yml` shipped as `workflow_dispatch` only — the monthly schedule proposed below was deliberately NOT set.** A ~16 GB image on a runner starting with ~14 GB free needs the disk-reclaim step to fit at all, and a cold `make build` runs for hours against a 6-hour ceiling; a scheduled job that fails most months trains people to ignore CI. Enable `schedule:` once a manual run proves reliable. Never yet executed. **Reviewed again 2026-09-01 and deliberately left as-is** (#124): enabling the schedule now would put a job that has never run even once on a monthly timer, against the disk and 6-hour constraints its own header documents — the failure mode the header warns about. **Next step is a maintainer action, not a code change:** trigger one manual `Run workflow`; if it goes green, adding `schedule:` is a two-line follow-up.
+**Status: PARTIAL** — **(a) DONE and verified green.** `lint.yml` runs hadolint over all four Dockerfiles and shellcheck over the installers plus `utils/gdsa`, on every PR. Its first run failed and found real bugs, now fixed: four `curl … | sh|bash` layers reported the *shell's* exit status rather than curl's, so a failed download produced a successful layer and a silently missing tool (DL4006 — same masked-failure class as 3.4); `install_tippecanoe.sh` had no shebang (SC2148); `mkdir -p -m` set the mode on only the deepest directory (SC2174). `.hadolint.yaml` disables the pin-versions rules and DL3006 with pointers to 4.1 rather than silencing them in-line, and shellcheck now runs at `--severity=style`, raised from `warning` in #130 once 3.4 landed: the 27 remaining findings (25 SC2086 quoting notes, one SC2001, one SC1091) were fixed and the bar moved, so the whole class is now blocking rather than advisory. **(b) `image_build.yml` shipped as `workflow_dispatch` only — the monthly schedule proposed below was deliberately NOT set.** A ~16 GB image on a runner starting with ~14 GB free needs the disk-reclaim step to fit at all, and a cold `make build` runs for hours against a 6-hour ceiling; a scheduled job that fails most months trains people to ignore CI. **(b) closed by decision, 2026-09-10 — moved out of the audit to issue #137.** `image_build.yml` exists and works as an on-demand workflow; it has still never been executed. The maintainer builds and tests **both architectures locally**, which is strictly stronger coverage than this workflow would give: CI is amd64 only (GitHub offers no free Linux arm64 runner), builds `gds` alone rather than also `gds_code`/`gds_agent`, and runs `make test` only as an optional input. A scheduled build would therefore duplicate weaker coverage at the cost of runner minutes and a plausible recurring red X — the exact failure mode the workflow's own header warns about.
+
+Issue #137 records the disk and time constraints, what would make it worth revisiting (local builds stopping, a contributor without the hardware, release cross-checks), and the cheap sequence if it is: one `run_tests=false` run to get real `df` numbers, then one with tests, then the two-line `schedule:`. Not a gap — a considered no.
 
 The only working workflow builds the website. The actual product — the image — is built and tested exclusively on a maintainer's machine (`docker/build_guide.md`). Even without pushing multi-GB images from CI, two cheap wins: (a) `hadolint` on all four Dockerfiles + `shellcheck` on `env/installers/*.sh` and `utils/gdsa` in a PR workflow (shellcheck would have caught `et -e` and the unquoted `${MOUNTS[@]}`-style pitfalls); (b) an on-demand (`workflow_dispatch`) build of `env/Dockerfile` to catch bit-rot between releases.
 
@@ -571,24 +573,27 @@ Since the 2026-08-20 rewrite, two more of the numbered items below have landed:
 
 ### Next up
 
-The audit is effectively closed. What remains is one workflow run, one deferred
-decision, and three tracked issues.
+**The audit is closed for practical purposes.** Every finding is resolved,
+declined with a reason, or moved to an issue. Two remain open, both deferred
+deliberately rather than pending work:
 
-1. **4.2b** — one manual `Run workflow` on `image_build.yml`. It has never
-   executed. If it goes green, adding `schedule:` is a two-line follow-up, and
-   4.2 closes.
-2. **3.9** — the `VERSION` consolidation, still deferred until the versioning
-   model is settled (tag-as-version with a date tag, per the 2026-09-01 note).
-   The finding's proposed fix assumes the older release-version model, so it
-   may be the wrong fix rather than merely a pending one.
-3. **Tracked as issues, not findings:** #126 (`proj_create` cannot open the
-   PROJ database during the R check — undiagnosed), #132 (`jupyterlab-myst`
-   dormant against the bundled Lab; kept deliberately, recheck when upstream
-   ships `@jupyter/ydoc` 4 support), and #135 (migrate Pages off the committed
-   `docs/` tree).
-4. **Unrelated to the audit, still open:** dependabot #99 (clears a **high**
-   severity `concurrent-ruby` advisory) and #107, plus #115. Both dependabot
-   PRs touch `Gemfile.lock` only, so the no-pinning policy does not block them.
+1. **3.9** — the `VERSION` consolidation, deferred until the versioning model
+   is settled (tag-as-version with a date tag, per the 2026-09-01 note). The
+   proposed fix assumes the older release-version model, so it may be the
+   wrong fix rather than a pending one.
+2. **1.8** — Pages off the committed `docs/` tree. Tracked as **#135**, which
+   sets out the ordered steps and the public failure mode if they land out of
+   order.
+
+**Carried out of the audit as issues:** #126 (`proj_create` cannot open the
+PROJ database during the R check — undiagnosed), #132 (`jupyterlab-myst`
+dormant against the bundled Lab; kept on purpose, recheck when upstream ships
+`@jupyter/ydoc` 4 support), #135 (Pages migration), #137 (whether to schedule
+`image_build.yml`).
+
+**Unrelated to the audit, still open:** dependabot #99 (clears a **high**
+severity `concurrent-ruby` advisory) and #107, plus #115. Both dependabot PRs
+touch `Gemfile.lock` only, so the no-pinning policy does not block them.
 
 ### Blocked on a maintainer decision
 
