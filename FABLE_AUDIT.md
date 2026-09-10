@@ -27,7 +27,7 @@
 | 1.7 | ⛔ | 2.7 | ✅ | 3.7 | ✅ | 4.7 | ✅ |
 | 1.8 | ⬜ | 2.8 | ✅ | 3.8 | ✅ | | |
 | 1.9 | ✅ | 2.9 | ✅* | 3.9 | ⬜ | | |
-| | | 2.10 | ✅* | | | | |
+| | | 2.10 | ✅ | | | | |
 | | | 2.11 | ✅ | | | | |
 | | | 2.12 | ✅ | | | | |
 
@@ -292,13 +292,13 @@ If SPEC.md is meant to be a living document, reconcile it; if it was a one-off d
 **Proposed fix:** Reduce `install_jekyll.sh` to the toolchain the repo actually uses: `gem install bundler jekyll -v '~> 4.3'` plus `just-the-docs` (matching the root `Gemfile`), dropping `github-pages` and — unless a course site still needs it — `jekyll-scholar`. Verify with `make website` run *inside* the image.
 **Model:** Sonnet 5 — needs a check of what user-facing course workflows rely on (`jekyll-scholar` may be intentional for teaching sites) before deleting, plus an in-image build test.
 
-### 2.10 Deprecated/undefined names in the Jupyter setup ✅*
+### 2.10 Deprecated/undefined names in the Jupyter setup ✅
 
-**Status: DONE — filtering behaviour UNVERIFIED** — `cd $NB_HOME` gone (`9632985`); all five `ADD` directives now `COPY` (PR #118); and `c.KernelSpecManager.whitelist` is now `allowed_kernelspecs`, the name jupyter_client 7 renamed it to (PR #124). The deferral was about risk, and that risk turned out to be absent: the allowlist is `{'gds', 'ir', 'bash'}`, which is exactly the three kernels the image installs — `gds` (ipykernel), `ir` (IRkernel), `bash` (bash_kernel) — with `python3` explicitly removed on the next line. So if the rename makes filtering start working where the old name was ignored, no kernel disappears.
+**Status: DONE — filtering behaviour VERIFIED 2026-09-10** — `/api/kernelspecs` on a running Lab server returns exactly `['bash', 'gds', 'ir']`, so Lab does apply `~/.jupyter/jupyter_lab_config.py` and `allowed_kernelspecs` filters as intended. Note `jupyter kernelspec list` cannot show this: it is a jupyter_client CLI reading `jupyter_config.py`, so it lists `python3` from disk regardless. — `cd $NB_HOME` gone (`9632985`); all five `ADD` directives now `COPY` (PR #118); and `c.KernelSpecManager.whitelist` is now `allowed_kernelspecs`, the name jupyter_client 7 renamed it to (PR #124). The deferral was about risk, and that risk turned out to be absent: the allowlist is `{'gds', 'ir', 'bash'}`, which is exactly the three kernels the image installs — `gds` (ipykernel), `ir` (IRkernel), `bash` (bash_kernel) — with `python3` explicitly removed on the next line. So if the rename makes filtering start working where the old name was ignored, no kernel disappears.
 
 **Correction, 2026-09-10.** That reasoning rested on the finding's premise that `whitelist` was ignored. It was not. Tested directly on jupyter_client 8.9.1: passing `--KernelSpecManager.whitelist="{'gds','ir','bash'}"` filters `python3` out exactly as `allowed_kernelspecs` does, emitting only `KernelSpecManager.whitelist is deprecated in jupyter_client 7.0`. So the rename fixed a deprecation warning, not a live defect — the filter was working all along. Worth recording because the opposite was stated confidently here and in `env/README.md`.
 
-**Still not observed:** whether JupyterLab actually applies `~/.jupyter/jupyter_lab_config.py`. `jupyter kernelspec list` cannot answer this — it is a jupyter_client CLI reading `jupyter_config.py`, so it lists what is on disk (`python3` included) regardless of Lab's config. The remaining check is the Lab API: `curl -s localhost:8888/api/kernelspecs` against a running server. On the ✅\* marker: that reasoning is from reading the installers, not from observing a running container. Verify with `jupyter kernelspec list` in the built image.
+**Now observed (2026-09-10):** `/api/kernelspecs` returns `['bash', 'gds', 'ir']`. Lab applies its config file and the filter works. The same server's startup log independently confirms the two-env seam — `JupyterLab extension loaded from /opt/conda/lib/python3.13/site-packages/jupyterlab` — i.e. base, Python 3.13, serves Lab. On the ✅\* marker: that reasoning is from reading the installers, not from observing a running container. Verify with `jupyter kernelspec list` in the built image.
 
 - `install_conda_env.sh:29-30` writes `c.KernelSpecManager.whitelist` — deprecated since jupyter_client 7 (renamed `allowed_kernelspecs`); with the JupyterLab ≥ 4 stack shipped here it at best emits deprecation warnings and may be ignored entirely, which would defeat the intended kernel filtering. Verify against the running image and switch to `allowed_kernelspecs`.
 - `env/Dockerfile:74`: `cd $NB_HOME` — `NB_HOME` is not defined anywhere (the jupyter stacks define `HOME`/`NB_USER`). It expands empty, and `cd` with no argument happens to go to `$HOME`, so it works by accident.
@@ -544,14 +544,11 @@ Since the 2026-08-20 rewrite, two more of the numbered items below have landed:
 Nothing here is blocked on analysis any more. What remains is a rebuild, two
 clicks, and three decisions.
 
-1. **Two asterisks left, each needing a specific check** *(maintainer)*, both
-   one-liners against the images already built on 2026-09-10. Neither is
-   exercised by a build or by `make test`:
+1. **One asterisk left** *(maintainer)*, not exercised by a build or by
+   `make test`:
    - **2.9** — run `make website` *inside* the image. The build proves the
      gemset installs; it does not prove a site renders.
-   - **2.10** — `jupyter kernelspec list` in the image: expect `gds`, `ir`,
-     `bash` and **not** `python3`. `make test` runs nbconvert, which never
-     touches the kernel picker.
+
 2. **4.2b** — one manual `Run workflow` on `image_build.yml`. If it goes
    green, adding `schedule:` is a two-line follow-up. It has never executed.
 3. **The two runtime defects**, both found only by interrogating a running

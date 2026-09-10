@@ -141,13 +141,20 @@ Three things exist in both environments. None is an accident:
   `Removed /opt/conda/envs/gds/share/jupyter/kernels/python3` — the *gds*
   one. Base's `python3` kernelspec survives at
   `/opt/conda/share/jupyter/kernels/python3` and is masked by
-  `allowed_kernelspecs`, not deleted. That is fragile: the mask is doing the
-  work the removal was meant to do.
+  `allowed_kernelspecs`, not deleted. **Verified 2026-09-10** that the mask
+  works — `/api/kernelspecs` on a running server returns exactly
+  `['bash', 'gds', 'ir']` — but it is doing the work the removal was meant to
+  do, so deleting the config line would expose a kernel, not just a warning.
 - **Two JupyterLabs.** base has 4.6.2 and serves; gds has 4.6.3 and does not.
   Nothing in the gds env depends on `jupyterlab` — it is there because
   `env/gds.yml` lists it explicitly. It is also the reason a bare
   `command -v jupyter` finds the *non-serving* Lab. Whether the gds entry
   still earns its place is an open question; see below.
+
+- **`Skipped non-installed server(s): bash-language-server, pyright, …`** in
+  the startup log is expected here. `jupyter_lsp` probes for language servers
+  and finds none, because the LSPs are installed in `gds_agent`, not in this
+  image. Alarming-looking, harmless.
 
 ## Open questions
 
