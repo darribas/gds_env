@@ -104,9 +104,18 @@ picker. Remove any of them and users get a `python3` kernel that runs base —
 Python 3.13 with none of the geospatial stack — which looks like a broken
 image rather than a wrong choice.
 
-`allowed_kernelspecs` was called `whitelist` until audit 2.10. That name has
-been dead since jupyter_client 7, so for a long time the filter silently did
-nothing.
+`allowed_kernelspecs` was called `whitelist` until audit 2.10. Contrary to
+what that finding assumed, the old name was **never silently ignored** — on
+jupyter_client 8.9.1 it still filters correctly and merely warns
+`KernelSpecManager.whitelist is deprecated in jupyter_client 7.0`. Verified by
+passing each name explicitly; both drop `python3` from the list. The rename
+was still right, since deprecated traits do eventually go, but it fixed a
+warning rather than a live bug.
+
+Note `jupyter kernelspec list` will **not** show you this filtering. That CLI
+reads `jupyter_config.py`, not `jupyter_lab_config.py`, so it lists what is on
+disk — including `python3`. To see what the Lab picker offers, ask the running
+server: `curl -s localhost:8888/api/kernelspecs`.
 
 ## Deliberate duplication
 
