@@ -25,11 +25,12 @@ pip install \
          jupyterlab_widgets \
          jupyter_leaflet \
          jupytext
-# jupytext is also in the gds env (env/gds.yml). The copy here is deliberate
-# until someone checks it: it sits among the Lab *server* extensions, and
-# jupytext ships one, so the server side may need it in the base env. Confirm
-# with `jupyter labextension list` in a running image before removing (audit
-# 1.6).
+# jupytext is also in env/gds.yml. Both copies are deliberate (audit 1.6):
+# THIS one backs the `jupyterlab-jupytext` extension in the Lab server, which
+# runs from the base env; the gds copy is for notebook code and the CLI.
+# Confirmed in a running image -- `jupyter labextension list` via the serving
+# (base) jupyter reports `jupyterlab-jupytext v1.4.6 enabled OK (python,
+# jupytext)`. Removing this breaks the Lab integration. See env/README.md.
 # Bash kernel
 python -m bash_kernel.install
 # Clean (in-layer: caches purged and permissions fixed in the same RUN as the

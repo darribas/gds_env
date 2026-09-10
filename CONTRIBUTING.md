@@ -18,6 +18,14 @@ Here are a few pointers to effectively get in touch:
 - If you would like to propose new libraries or extension, these are logged and compiled on [issues with the "Stack changes" label](https://github.com/darribas/gds_env/issues?q=is%3Aissue+label%3A%22Stack+changes%22+). Check out the latest one and feel free to join the conversation
 - If you use the `gds_env`, we would love to hear about the context (education, research, industry) and how it goes. This is very rewarding in itself, but it also helps us map how the project is adopted and used, so don't be shy to reach out!
 
+## Before changing the image
+
+The `gds` image runs **two conda environments by design** — base serves
+JupyterLab, `gds` provides the kernels and the terminal toolchain — and which
+one a given process resolves to depends on how it was started. Several past
+bugs live at that seam. If you are touching `env/`, read
+[`env/README.md`](env/README.md) first.
+
 ## How to Contribute
 
 Anyone can contribute to the course repository via [pull requests](https://docs.github.com/en/github/collaborating-with-issues-and-pull-requests/about-pull-requests).

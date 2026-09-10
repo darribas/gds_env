@@ -6,7 +6,7 @@
 
 ## Scoreboard
 
-**28 of 37 done · 3 partial · 4 open · 2 closed without action**
+**30 of 37 done · 2 partial · 3 open · 2 closed without action**
 
 | | Meaning |
 |---|---|
@@ -22,8 +22,8 @@
 | 1.2 | ✅ | 2.2 | ✅ | 3.2 | ✅ | 4.2 | 🟡 |
 | 1.3 | ✅ | 2.3 | ✅ | 3.3 | ✅ | 4.3 | ✅ |
 | 1.4 | ✅* | 2.4 | ✅ | 3.4 | ✅ | 4.4 | 🟡 |
-| 1.5 | ✅* | 2.5 | ✅ | 3.5 | ✅ | 4.5 | ⬜ |
-| 1.6 | 🟡 | 2.6 | ✅ | 3.6 | ⬜ | 4.6 | ✅ |
+| 1.5 | ✅* | 2.5 | ✅ | 3.5 | ✅ | 4.5 | ✅ |
+| 1.6 | ✅ | 2.6 | ✅ | 3.6 | ⬜ | 4.6 | ✅ |
 | 1.7 | ⛔ | 2.7 | ✅ | 3.7 | ✅ | 4.7 | ✅ |
 | 1.8 | ⬜ | 2.8 | ✅ | 3.8 | ✅ | | |
 | 1.9 | ✅ | 2.9 | ✅* | 3.9 | ⬜ | | |
@@ -31,7 +31,7 @@
 | | | 2.11 | ✅ | | | | |
 | | | 2.12 | ✅ | | | | |
 
-**Remediation history:** PR #103 (audit merged) · #104 (1.2, 1.3, 3.8) · #105 (1.1) · #118 (1.9, 2.2, 2.4, 2.7, 2.8, 2.10 part, 2.11, 2.12, 3.5, 4.3, 4.6, 4.7) · #119 (2.1, 3.2, 4.2a) · #120 (2.5) · #122 (3.1) · #124 (1.6 part, 2.9, 2.10, 3.3) · #125 (3.4, 3.8) · #129 (2.6, 3.7) · #130 (4.2 lint bar) · #131 (1.4, 1.5) · `11fe264` (2.3) · `51e44eb` (4.4a).
+**Remediation history:** PR #103 (audit merged) · #104 (1.2, 1.3, 3.8) · #105 (1.1) · #118 (1.9, 2.2, 2.4, 2.7, 2.8, 2.10 part, 2.11, 2.12, 3.5, 4.3, 4.6, 4.7) · #119 (2.1, 3.2, 4.2a) · #120 (2.5) · #122 (3.1) · #124 (1.6 part, 2.9, 2.10, 3.3) · #125 (3.4, 3.8) · #129 (2.6, 3.7) · #130 (4.2 lint bar) · #131 (1.4, 1.5) · #133 (4.5, 1.6) · `11fe264` (2.3) · `51e44eb` (4.4a).
 
 **Standing constraints that override any proposal below:**
 - **No version pinning.** The project tracks latest deliberately. 4.1 is won't-fix; any proposed fix reading "pin X" is void (3.8 was solved without pinning for this reason).
@@ -145,9 +145,9 @@ The agent build log settles the compatibility question the fix asks about: `npm 
 **Proposed fix:** Delete the NodeSource layer from `frontend_agent/Dockerfile` and let the harness `npm install -g` use the conda Node 22 already on PATH (which is what actually resolves today anyway). Verify `claude`, `opencode`, `copilot` and each LSP binary launch in the built image. If a system Node is preferred instead, the conda `nodejs` must come out of `install_jupyter_dev.sh` — one or the other.
 **Model:** Sonnet 5 — the edit is small but PATH/prefix behaviour across root vs `$NB_UID` layers needs checking in the built image, not assumed.
 
-### 1.6 Repeated installs of the same Python packages 🟡
+### 1.6 Repeated installs of the same Python packages ✅
 
-**Status: PARTIAL** — The third install is gone: `frontend_agent/Dockerfile`'s `pip install papermill jupytext` into the gds env is deleted, since `env/gds.yml` already carries both. **Still open by choice:** the base-env `jupytext` in `install_jupyter_dev.sh`. Deciding it needs `jupyter labextension list` in a running image, and no session has had Docker; the entry sits among the Lab *server* extensions and jupytext ships one, so removing it unverified could break the server-side integration. Left in place with an in-file comment saying exactly what to check and why it is still there, so the next reader does not re-open it blind. PR #124.
+**Status: PARTIAL** — The third install is gone: `frontend_agent/Dockerfile`'s `pip install papermill jupytext` into the gds env is deleted, since `env/gds.yml` already carries both. **Now closed.** The check the fix demanded was run in a running image (PR #133): `jupyter labextension list`, via the *serving* jupyter, reports `jupyterlab-jupytext v1.4.6 enabled OK (python, jupytext)`. The base-env copy backs the Lab extension and **stays**; the gds copy serves notebook code and the CLI. Both are deliberate, and the comment in `install_jupyter_dev.sh` now says so instead of asking someone to find out. PR #124 removed the third copy; #133 settled the second.
 
 `papermill` and `jupytext` are in the gds env (`env/gds_amd64.yml:48,35`); `jupytext` is pip-installed *again* into the base env (`install_jupyter_dev.sh:26`); and `frontend_agent/Dockerfile:52` pip-installs `papermill jupytext` into the gds env a third time (a guaranteed no-op or, worse, a version override of the conda install). At minimum drop the frontend_agent layer.
 
@@ -484,9 +484,13 @@ The only working workflow builds the website. The actual product — the image �
 **Proposed fix:** (a) In `_cmd_update`, resolve the real path (reuse the `_resolve_script_dir` walk on the file itself) and write there, keeping the symlink intact; test update over both a symlinked and a plain install. (b) The credential posture is a maintainer decision: if accepted, add a `--with-git-creds` flag (default off for `claude`/`copilot`, unchanged for `shell`) and update SPEC + preflight warnings to match.
 **Model:** Sonnet 5 — careful bash on a security-adjacent path, with behavioural tests; (b) needs the maintainer's call before implementation.
 
-### 4.5 Jupyter base-vs-gds env layering deserves a written explanation ⬜
+### 4.5 Jupyter base-vs-gds env layering deserves a written explanation ✅
 
-**Status: TODO** — Unchanged: no `env/README.md`. The two-env seam is still undocumented.
+**Status: DONE** — `env/README.md` written from a running image, cross-linked from CONTRIBUTING. PR #133.
+
+The finding warned that "getting the seam wrong in writing would canonise a misunderstanding", and the investigation nearly did exactly that. Reasoning from `env/Dockerfile:33` — which prepends `/opt/conda/envs/gds/bin` image-wide — gives the confident, wrong answer that gds serves Lab. **It does not.** `start.sh` sources `before-notebook.d/10activate-conda-env.sh` first, whose single line `eval "$(conda shell.bash hook)"` **activates base**, putting `/opt/conda/bin` ahead of gds; `start-notebook.py` then calls `os.execvp("jupyter", …)` with a bare name. So base serves, gds is the kernel — as the finding said. The maintainer caught the error before it reached the document.
+
+The document records what that costs to check: **three different PATH resolutions in one image** — the server (base, via the hook), an interactive terminal (gds, via `conda activate gds` in `~/.bashrc`), and a non-interactive `docker exec` (gds, via the raw `ENV PATH`, matching neither of the others). It also covers the kernel table with absolute interpreter paths, the three `jupyter_lab_config.py` knobs and what each prevents, the three deliberate duplications (`jupytext`, `nodejs`, and the two compiler toolchains from 1.4/1.5), and two live oddities: `jupyter kernelspec remove` removed the *gds* `python3` kernelspec while base's survives masked by `allowed_kernelspecs`, and the gds env carries a second JupyterLab that nothing depends on and that never serves.
 
 The runtime relies on a subtle arrangement: the Lab *server* and its extensions live in the base conda env (`install_jupyter_dev.sh` runs before the gds env exists), the gds env is a *kernel*, and `env/Dockerfile:26` prepends `/opt/conda/envs/gds/bin` to PATH so terminals resolve gds tools first. It works, but nothing in the repo says this is intentional, and several past bugs (kernel whitelist, default kernel name) live exactly at this seam. A short `env/README.md` section describing the two-env design would protect it from well-meaning "cleanup".
 
@@ -533,11 +537,25 @@ Since the 2026-08-20 rewrite, two more of the numbered items below have landed:
 
 ### Next up
 
-1. **Rebuild both images** *(maintainer)* to clear the ✅\* on 1.4 and 1.5. `make build` proves the trimmed spec builds and that `pip install` of an sdist still finds a compiler; `make build_agent` proves the harnesses and LSPs still launch without the NodeSource layer. Expect the `gds` image ~364 MB smaller.
-2. **4.5 — write down the base-vs-gds env seam.** *(Opus 4.8)* Investigation-heavy, edit-light; the risk is canonising a misunderstanding. A running image now exists to check against, and 1.4 has already mapped part of the seam: nodejs and the compilers sit in both envs for different reasons.
-3. **What is left of the cheap tier**, both blocked on something other than code: **4.2b** needs one manual `Run workflow` on `image_build.yml` — if it goes green, adding `schedule:` is a two-line follow-up. **3.9** needs the versioning model settled first (tag-as-version with a date tag, per the 2026-09-01 note), since a `VERSION` file assumes the older release-version model. **1.6's** remainder needs `jupyter labextension list` in a running image to decide whether the base env still needs `jupytext`.
-4. **1.4 + 1.5 — the remaining size work.** *(Sonnet 5)* Both are evidence-gated: 1.4 needs build-log archaeology on `rust`/`cython` before removal; 1.5 needs the Node PATH resolution observed in the built agent image. Neither is a paper exercise.
-5. **3.6 + 1.8 + 4.4b** — all three blocked on a maintainer decision rather than on work; see the section below.
+Nothing here is blocked on analysis any more. What remains is a rebuild, two
+clicks, and three decisions.
+
+1. **Rebuild both images** *(maintainer)* to clear the ✅\* on 1.4 and 1.5.
+   `make build` proves the trimmed spec builds and that `pip install` of an
+   sdist still finds a compiler; `make build_agent` proves the harnesses and
+   LSPs still launch without the NodeSource layer. Expect the `gds` image
+   ~364 MB smaller.
+2. **4.2b** — one manual `Run workflow` on `image_build.yml`. If it goes
+   green, adding `schedule:` is a two-line follow-up. It has never executed.
+3. **The two runtime defects**, both found only by interrogating a running
+   image and neither visible to `make test`: **#126** (`proj_create` cannot
+   open the PROJ database during the R check) and **#132**
+   (`jupyterlab-myst` ships but is incompatible with the bundled Lab, so it
+   never loads). #132 needs a keep/drop decision; #126 needs a diagnosis.
+4. **3.9** — the `VERSION` consolidation, deferred until the versioning model
+   is settled (tag-as-version with a date tag, per the 2026-09-01 note).
+5. **3.6 + 1.8 + 4.4b** — all three blocked on a maintainer decision rather
+   than on work; see the section below.
 
 ### Blocked on a maintainer decision
 
