@@ -121,10 +121,16 @@ docker; that's the contract.
 
 | Command | What it does |
 |---|---|
-| `gdsa claude [path]` | Claude Code in `path` (default `$PWD`), permissive |
-| `gdsa opencode [path]` | opencode in `path`, Ollama-wired, with keep-alive |
-| `gdsa copilot [path]` | Copilot CLI in `path`, permissive |
-| `gdsa shell [path]` | Interactive bash in `path`. No harness. No credentials mounted. |
+| `gdsa claude [opts] [path]` | Claude Code in `path` (default `$PWD`), permissive |
+| `gdsa opencode [opts] [path]` | opencode in `path`, Ollama-wired, with keep-alive |
+| `gdsa copilot [opts] [path]` | Copilot CLI in `path`, permissive |
+| `gdsa shell [path]` | Interactive bash in `path`. No harness. |
+
+**Options**, for the three agent subcommands:
+
+| Option | Effect |
+|---|---|
+| `--with-git-creds`, `-git` | Mount git/GitHub credentials — `~/.ssh` (ro), `~/.config/gh` (rw), and `GITHUB_TOKEN`/`GH_TOKEN` if set. **Off by default** (audit 4.4b) |
 | `gdsa update` | Replace this launcher with a fresh copy from `master` (preserving a symlinked install) |
 | `gdsa help` | Print usage |
 
@@ -134,15 +140,27 @@ docker; that's the contract.
 |---|---|---|---|
 | `$path` | `/home/jovyan/work` | rw | always |
 | `~/.gitconfig` | same | ro | always (if exists) |
-| `~/.ssh/` | same | ro | always (if exists) |
+| `~/.ssh/` | same | ro | **`--with-git-creds` only** for the agents; always for `shell` |
 | `~/.claude/`, `~/.claude.json` | same | rw | `claude` only |
 | `~/.local/share/opencode/`, `~/.config/opencode/` | same | rw | `opencode` only; `make install_gdsa` / `make build_agent` bootstrap them if missing |
 | `~/.copilot/` | same | rw | `copilot` only |
-| `~/.config/gh/` | same | rw | `claude`, `opencode` and `copilot` — all three shell out to `gh` |
+| `~/.config/gh/` | same | rw | **`--with-git-creds` only** — `claude`, `opencode`, `copilot` |
 
 Per-harness config dirs only mount for the relevant subcommand — running
-`gdsa claude` won't expose your opencode tokens, and `gdsa shell` mounts
-none of the harness creds at all.
+`gdsa claude` won't expose your opencode tokens.
+
+**Credentials are opt-in for the agents.** The harnesses run with
+`--dangerously-skip-permissions` / `--allow-all`, so by default an agent
+pointed at an untrusted repo has no push-capable secret to leak: no SSH key,
+no `gh` config, no token. Pass `--with-git-creds` (or `-git`) when you want it
+to push, open PRs, or use `gh`. `~/.gitconfig` is always mounted — it is
+identity, not a credential, and without it commits made in the container carry
+the wrong author.
+
+`gdsa shell` keeps the full set, since no harness is running and you are the
+one at the keyboard. Note the harness auth dirs themselves (`~/.claude`,
+`~/.copilot`) are **not** gated: they are what makes the harness work at all,
+and are useless for pushing to your repos.
 
 The host config dir still only mounts when it exists. The install step
 now creates it and seeds it from the baked defaults, so the mounted
@@ -155,9 +173,9 @@ what it needs. Forwarded only when set on the host:
 
 | Subcommand | Forwarded from host |
 |---|---|
-| `gdsa claude` | `ANTHROPIC_API_KEY`, `GITHUB_TOKEN`, `GH_TOKEN` |
-| `gdsa copilot` | `GITHUB_TOKEN`, `GH_TOKEN`, `COPILOT_*` |
-| `gdsa opencode` | `OLLAMA_HOST` (resolved, see below), `OPENAI_HOST` (if set) |
+| `gdsa claude` | `ANTHROPIC_API_KEY` — plus `GITHUB_TOKEN`, `GH_TOKEN` with `--with-git-creds` |
+| `gdsa copilot` | `COPILOT_*` — plus `GITHUB_TOKEN`, `GH_TOKEN` with `--with-git-creds` |
+| `gdsa opencode` | `OLLAMA_HOST` (resolved, see below), `OPENAI_HOST` (if set) — plus the two tokens with `--with-git-creds` |
 | `gdsa shell` | nothing |
 
 `gdsa opencode` also sets `GLAMOUR_STYLE` and, when a host config is in play,
