@@ -47,7 +47,15 @@ RUN mkdir -p /etc/apt/keyrings \
 # was shadowed by (audit 1.5).
 
 #--- Agent harnesses + LSPs (system-wide via npm) ---#
+# npm 12 skips dependency install scripts not approved via allow-scripts
+# (npm/rfcs#868), and warns rather than fails. claude-code's postinstall is
+# what swaps its 500-byte bin/claude.exe stub for the native binary, so
+# without the approval the build passes and `claude` only errors at runtime
+# ("claude native binary not installed"). The one other script it blocks
+# here, core-js's funding banner, is harmless and left blocked. Older npm
+# ignores the flag with a warning.
 RUN npm install -g \
+        --allow-scripts=@anthropic-ai/claude-code \
         @anthropic-ai/claude-code \
         @github/copilot \
         bash-language-server \
