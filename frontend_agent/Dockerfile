@@ -47,13 +47,15 @@ RUN mkdir -p /etc/apt/keyrings \
 # was shadowed by (audit 1.5).
 
 #--- Agent harnesses + LSPs (system-wide via npm) ---#
-# npm 12 skips dependency install scripts not approved via allow-scripts
-# (npm/rfcs#868), and warns rather than fails. claude-code's postinstall is
-# what swaps its 500-byte bin/claude.exe stub for the native binary, so
-# without the approval the build passes and `claude` only errors at runtime
-# ("claude native binary not installed"). The one other script it blocks
-# here, core-js's funding banner, is harmless and left blocked. Older npm
-# ignores the flag with a warning.
+# claude-code ships bin/claude as a 500-byte stub; its postinstall swaps in
+# the native binary from an optional per-platform package
+# (@anthropic-ai/claude-code-linux-x64 etc.). Both halves can fail without
+# failing the build: npm silently drops an optional dep it can't install, and
+# npm 12 skips install scripts not approved via allow-scripts (npm/rfcs#868)
+# with only a warning. Either way `claude` then errors at runtime ("claude
+# native binary not installed"), so approve the script (older npm ignores the
+# flag) and run `claude --version` -- the stub exits 1 -- to fail here instead.
+# core-js's postinstall, the one other script npm flags, is a funding banner.
 RUN npm install -g \
         --allow-scripts=@anthropic-ai/claude-code \
         @anthropic-ai/claude-code \
@@ -66,6 +68,7 @@ RUN npm install -g \
         typescript-language-server \
         vscode-langservers-extracted \
         yaml-language-server \
+ && claude --version \
  && npm cache clean --force
 
 #--- R language server (into the existing gds R env) ---#
