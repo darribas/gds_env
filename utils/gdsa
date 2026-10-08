@@ -5,7 +5,7 @@
 #   gdsa claude    [opts] [path]  Run Claude Code CLI in path (default $PWD)
 #   gdsa opencode  [opts] [path]  Run opencode, Ollama-wired with keep-alive
 #   gdsa copilot   [opts] [path]  Run GitHub Copilot CLI in path
-#   gdsa shell     [path]         Interactive bash in path, no harness
+#   gdsa shell     [opts] [path]  Interactive bash in path, no harness
 #   gdsa update                   Replace this launcher with a fresh copy
 #                                 from master
 #   gdsa help                     Print this message
@@ -22,6 +22,11 @@
 #                  ~/.gitconfig is always mounted -- it is identity, not a
 #                  credential. `gdsa shell` always gets the full set, since
 #                  you are the one at the keyboard.
+#   --mount, -m SRC[:DST][:ro|rw]
+#                  Also mount host dir/file SRC (repeatable; also works for
+#                  `gdsa shell`). DST defaults to /home/jovyan/mnt/<basename
+#                  of SRC>; mode defaults to rw. SRC must exist. E.g.
+#                    gdsa claude -m ~/data -m ~/refs:/home/jovyan/refs:ro .
 #
 # Env overrides:
 #   GDSA_IMAGE     Image tag to run (default: gds_agent:latest)
@@ -53,15 +58,55 @@ SCRIPT_DIR="$(_resolve_script_dir)"
 #--- Option parsing -----------------------------------------------------------
 
 # Credentials are opt-in for the agent subcommands (audit 4.4b). Consumes any
-# leading options, then the optional path; sets WITH_GIT_CREDS and AGENT_PATH.
+# leading options, then the optional path; sets WITH_GIT_CREDS, EXTRA_MOUNTS
+# and AGENT_PATH.
 WITH_GIT_CREDS=0
+EXTRA_MOUNTS=()
 AGENT_PATH=""
+
+# Turn a --mount SRC[:DST][:ro|rw] spec into `-v` args on EXTRA_MOUNTS.
+# Colons split fields, so SRC/DST may not contain one (same limit as docker -v).
+_add_extra_mount() {
+  local spec="$1" src dst="" mode="rw" rest
+  [ -n "$spec" ] || _die "--mount needs an argument: SRC[:DST][:ro|rw]"
+  IFS=: read -r src rest <<< "$spec"
+  if [ -n "$rest" ]; then
+    case "$rest" in
+      ro|rw) mode="$rest" ;;
+      *:*)   dst="${rest%%:*}"; mode="${rest#*:}" ;;
+      *)     dst="$rest" ;;
+    esac
+  fi
+  case "$mode" in ro|rw) ;; *) _die "--mount $spec: mode must be ro or rw, got '$mode'" ;; esac
+
+  src="${src/#\~/$HOME}"
+  [ -e "$src" ] || _die "--mount $spec: no such file or directory: $src"
+  # Docker needs an absolute host path; resolve without GNU-only readlink -f.
+  if [ -d "$src" ]; then
+    src="$(cd -P "$src" && pwd)"
+  else
+    src="$(cd -P "$(dirname "$src")" && pwd)/$(basename "$src")"
+  fi
+
+  if [ -z "$dst" ]; then
+    [ "$src" != "/" ] || _die "--mount /: give an explicit DST"
+    dst="${CONTAINER_HOME}/mnt/$(basename "$src")"
+  fi
+  [[ $dst == /* ]] || _die "--mount $spec: DST must be an absolute container path"
+
+  EXTRA_MOUNTS+=(-v "${src}:${dst}:${mode}")
+}
 
 _parse_agent_opts() {
   WITH_GIT_CREDS=0
+  EXTRA_MOUNTS=()
   while [ $# -gt 0 ]; do
     case "$1" in
       --with-git-creds|-git) WITH_GIT_CREDS=1; shift ;;
+      --mount|-m)
+        [ $# -ge 2 ] || _die "$1 needs an argument: SRC[:DST][:ro|rw]"
+        _add_extra_mount "$2"; shift 2 ;;
+      --mount=*) _add_extra_mount "${1#--mount=}"; shift ;;
       --) shift; break ;;
       -*) _die "unknown option: $1 (see 'gdsa help')" ;;
       *) break ;;
@@ -111,8 +156,9 @@ _env_if_set() {
   fi
 }
 
-# Mount the always-on set: gitconfig + ssh, read-only.
+# Mount the always-on set: gitconfig + ssh, read-only, plus any --mount extras.
 _mount_common() {
+  MOUNTS+=(${EXTRA_MOUNTS[@]+"${EXTRA_MOUNTS[@]}"})
   # .gitconfig is identity, not a credential -- always mounted, so commits made
   # in the container carry the right author.
   _mount_if_exists "$HOME/.gitconfig" "${CONTAINER_HOME}/.gitconfig" ro
@@ -403,7 +449,8 @@ _cmd_opencode() {
 }
 
 _cmd_shell() {
-  local path="${1:-$PWD}"
+  _parse_agent_opts "$@"
+  local path="$AGENT_PATH"
   [ -d "$path" ] || _die "not a directory: $path"
 
   _preflight_common

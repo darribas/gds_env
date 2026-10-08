@@ -124,21 +124,35 @@ docker; that's the contract.
 | `gdsa claude [opts] [path]` | Claude Code in `path` (default `$PWD`), permissive |
 | `gdsa opencode [opts] [path]` | opencode in `path`, Ollama-wired, with keep-alive |
 | `gdsa copilot [opts] [path]` | Copilot CLI in `path`, permissive |
-| `gdsa shell [path]` | Interactive bash in `path`. No harness. |
+| `gdsa shell [opts] [path]` | Interactive bash in `path`. No harness. |
+| `gdsa update` | Replace this launcher with a fresh copy from `master` (preserving a symlinked install) |
+| `gdsa help` | Print usage |
 
-**Options**, for the three agent subcommands:
+**Options**, for the three agent subcommands (and `shell`, where noted):
 
 | Option | Effect |
 |---|---|
-| `--with-git-creds`, `-git` | Mount git/GitHub credentials — `~/.ssh` (ro), `~/.config/gh` (rw), and `GITHUB_TOKEN`/`GH_TOKEN` if set. **Off by default** (audit 4.4b) |
-| `gdsa update` | Replace this launcher with a fresh copy from `master` (preserving a symlinked install) |
-| `gdsa help` | Print usage |
+| `--with-git-creds`, `-git` | Mount git/GitHub credentials — `~/.ssh` (ro), `~/.config/gh` (rw), and `GITHUB_TOKEN`/`GH_TOKEN` if set. **Off by default** (audit 4.4b). No-op for `shell`, which always gets them |
+| `--mount`, `-m SRC[:DST][:ro\|rw]` | Also mount host dir/file `SRC`, on top of `path`. Repeatable; works for `shell` too. `DST` defaults to `/home/jovyan/mnt/<basename of SRC>`, mode to `rw`. `SRC` must exist |
+
+For example, to work in the current repo with a data folder alongside it and a
+read-only reference folder:
+
+```bash
+gdsa claude -m ~/data -m ~/refs:/home/jovyan/refs:ro .
+# -> ~/data at /home/jovyan/mnt/data (rw), ~/refs at /home/jovyan/refs (ro)
+```
+
+The default `DST` sits outside `~/work` on purpose: mounting inside the
+bind-mounted `path` would make Docker create empty mount-point dirs in your
+repo. Like `docker -v`, neither `SRC` nor `DST` may contain a `:`.
 
 ### Mounts (per invocation)
 
 | Host | Container | Mode | When |
 |---|---|---|---|
 | `$path` | `/home/jovyan/work` | rw | always |
+| each `--mount SRC[:DST][:mode]` | `DST` (default `/home/jovyan/mnt/<basename>`) | rw unless `:ro` | when passed |
 | `~/.gitconfig` | same | ro | always (if exists) |
 | `~/.ssh/` | same | ro | **`--with-git-creds` only** for the agents; always for `shell` |
 | `~/.claude/`, `~/.claude.json` | same | rw | `claude` only |
