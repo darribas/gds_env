@@ -58,6 +58,7 @@ dependencies:
   - geoalchemy2
   - geocube
   - geopandas>=1
+  - geoparquet-io
   - geopy
   - gpxpy
   - gstools
