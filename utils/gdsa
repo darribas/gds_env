@@ -434,8 +434,11 @@ _cmd_opencode() {
     done
   }
   _keepalive &
-  local keepalive_pid=$!
-  trap 'kill "$keepalive_pid" 2>/dev/null; wait "$keepalive_pid" 2>/dev/null || true' EXIT INT TERM
+  # Global, not local: the EXIT trap fires after this function has returned,
+  # when a local would be gone -- under set -u the trap then died on
+  # "unbound variable" and never killed the loop.
+  KEEPALIVE_PID=$!
+  trap 'kill "$KEEPALIVE_PID" 2>/dev/null; wait "$KEEPALIVE_PID" 2>/dev/null || true' EXIT INT TERM
 
   docker run --rm -it \
     --add-host "${hostname}:${resolved_ip}" \
